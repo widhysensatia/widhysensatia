@@ -117,6 +117,11 @@
     .request-card{position:relative; overflow:hidden}
     .request-card .num{font-size:42px;line-height:1;font-weight:900;letter-spacing:-.06em;color:#d8e1e8;margin-bottom:18px}
     .request-card .badges{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px}
+    .request-outcome{margin-top:15px!important;padding-top:14px;border-top:1px solid var(--line);font-size:12px!important;line-height:1.55}.request-outcome b{display:block;margin-bottom:3px;color:var(--brand);text-transform:uppercase;letter-spacing:.07em;font-size:10px}
+    .confirmation-box{margin-top:22px;padding:26px;border:1px solid #cfe2fb;border-radius:22px;background:linear-gradient(135deg,#edf6ff,#f8fbff);box-shadow:0 10px 28px rgba(55,125,204,.06)}
+    .confirmation-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:18px}.confirmation-head small{display:block;margin-bottom:5px;color:var(--info);font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.11em}.confirmation-head h3{margin:0;font-size:22px;letter-spacing:-.025em}.confirmation-head p{max-width:520px;margin:0;color:var(--muted);font-size:13px}
+    .confirmation-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.confirmation-item{display:flex;align-items:flex-start;gap:10px;padding:14px;border:1px solid rgba(55,125,204,.16);border-radius:14px;background:rgba(255,255,255,.78);color:#475467;font-size:12px;line-height:1.5}.confirmation-item span{display:grid;place-items:center;flex:none;width:23px;height:23px;border-radius:7px;background:var(--info);color:#fff;font-size:10px;font-weight:900}
+    .acceptance{margin-top:18px;background:#f6fbf8;border-color:#cdeee2}.grid-2>.acceptance{margin-top:0}.acceptance h4{color:var(--success)}
     .scope-alert{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:22px 0 6px}
     .alert{border-radius:18px;padding:20px;border:1px solid var(--line);background:#fff}
     .alert strong{display:block;margin-bottom:6px}
@@ -179,12 +184,14 @@
     @media (max-width:1040px){
       .hero-grid,.subgrid,.meeting{grid-template-columns:1fr}
       .grid-4,.priority{grid-template-columns:repeat(2,1fr)}
+      .confirmation-grid{grid-template-columns:repeat(2,1fr)}
       .grid-3{grid-template-columns:1fr 1fr}
       .topbar-inner{align-items:flex-start;flex-direction:column;padding:10px 0}.nav{width:100%}
     }
     @media (max-width:760px){
       .container{width:min(100% - 24px,var(--max))}
-      .hero{padding-top:34px}.hero-card{padding:28px}.hero-grid,.grid-4,.grid-3,.grid-2,.scope-alert,.flow-wrap,.questions,.priority,.next-actions{grid-template-columns:1fr}
+      .hero{padding-top:34px}.hero-card{padding:28px}.hero-grid,.grid-4,.grid-3,.grid-2,.scope-alert,.flow-wrap,.questions,.priority,.next-actions,.confirmation-grid{grid-template-columns:1fr}
+      .confirmation-box{padding:20px}.confirmation-head{align-items:flex-start;flex-direction:column}
       .section-head,.detail-top{align-items:flex-start;flex-direction:column}
       h1{font-size:38px}.section-head h2{font-size:26px}.detail{padding:22px}
       .mini-table,.decision-table{display:block;overflow:auto;white-space:nowrap}
@@ -232,10 +239,10 @@
         <aside class="hero-side">
           <div class="side-card">
             <h3>Status Assessment</h3>
-            <p>Semua request secara umum feasible, tetapi beberapa business rule wajib dikonfirmasi sebelum dibuat menjadi scope development.</p>
+            <p>Tiga usulan improvement feasible untuk dilanjutkan ke discovery. Kondisi WEB ID sudah terkonfirmasi dan tidak memerlukan development baru.</p>
             <div class="status-row">
-              <span class="badge success"><span class="dot"></span>3 Doable</span>
-              <span class="badge info"><span class="dot"></span>1 Investigate</span>
+              <span class="badge success"><span class="dot"></span>3 Feasible</span>
+              <span class="badge info"><span class="dot"></span>1 Confirmed</span>
             </div>
           </div>
           <div class="side-card">
@@ -257,26 +264,45 @@
             <div class="num">01</div>
             <h3>NET 30 Credit Control</h3>
             <p>Blokir Convert Quote → Order jika customer memiliki invoice overdue dengan outstanding balance.</p>
+            <p class="request-outcome"><b>Expected outcome</b>Pemeriksaan piutang lebih konsisten dan order berisiko tidak terlepas tanpa kontrol.</p>
             <div class="badges"><span class="badge success">Doable</span><span class="badge warn">Meeting Required</span></div>
           </article>
           <article class="card request-card">
             <div class="num">02</div>
             <h3>Automatic Invoice Delivery</h3>
             <p>Kirim invoice elektronik dan faktur pajak otomatis ke customer dengan log, retry, dan resend.</p>
+            <p class="request-outcome"><b>Expected outcome</b>Pengiriman dokumen lebih cepat, tidak bergantung pada proses manual, dan dapat diaudit.</p>
             <div class="badges"><span class="badge success">Doable</span><span class="badge warn">Meeting Required</span></div>
           </article>
           <article class="card request-card">
             <div class="num">03</div>
             <h3>Warehouse PO Tracking</h3>
             <p>Gunakan tracker sebagai operational source of truth; Slack difokuskan untuk exception, urgent, atau summary.</p>
+            <p class="request-outcome"><b>Expected outcome</b>Logistics mendapat visibility yang jelas tanpa membuat channel Slack terlalu bising.</p>
             <div class="badges"><span class="badge success">Doable</span><span class="badge violet">Short Discovery</span></div>
           </article>
           <article class="card request-card">
             <div class="num">04</div>
             <h3>WEB ID Bali E-Commerce</h3>
-            <p>Verifikasi mapping website order number → websales → WEB ID yang tampil di StockWizz.</p>
-            <div class="badges"><span class="badge info">Investigate</span><span class="badge info">Internal Check</span></div>
+            <p>Order website sudah menggunakan jalur <b>websales</b> dan WEB ID mengikuti ID transaksi dari website.</p>
+            <p class="request-outcome"><b>Expected outcome</b>Order website dan StockWizz dapat dicocokkan secara konsisten tanpa perubahan sistem.</p>
+            <div class="badges"><span class="badge success">Confirmed</span><span class="badge info">No Development</span></div>
           </article>
+        </div>
+
+        <div class="confirmation-box">
+          <div class="confirmation-head">
+            <div><small>Requester validation</small><h3>Yang perlu dikonfirmasi oleh Putu Mei</h3></div>
+            <p>Konfirmasi ini diperlukan agar tiga usulan improvement dapat diterjemahkan menjadi scope development yang tepat.</p>
+          </div>
+          <div class="confirmation-grid">
+            <div class="confirmation-item"><span>01</span><div><b>Aturan overdue</b><br>Definisi credit hold dan outstanding minimum.</div></div>
+            <div class="confirmation-item"><span>02</span><div><b>Grace period & override</b><br>Toleransi waktu, role, dan alasan override.</div></div>
+            <div class="confirmation-item"><span>03</span><div><b>Trigger pengiriman</b><br>Kapan invoice siap dikirim dan siapa penerimanya.</div></div>
+            <div class="confirmation-item"><span>04</span><div><b>Faktur Pajak</b><br>Sumber file dan aturan jika attachment belum tersedia.</div></div>
+            <div class="confirmation-item"><span>05</span><div><b>Tracker & Slack</b><br>Status, SLA, event urgent, dan jadwal summary.</div></div>
+            <div class="confirmation-item"><span>06</span><div><b>Current state WEB ID</b><br>Konfirmasi bahwa penjelasan alur saat ini sudah dipahami.</div></div>
+          </div>
         </div>
 
       </div>
@@ -322,6 +348,8 @@ AND due_date &lt; validation_date
             </tbody>
           </table>
 
+          <div class="panel acceptance"><h4>Acceptance Criteria</h4><ul class="list"><li>PO customer ditahan ketika terdapat invoice overdue dengan outstanding balance sesuai rule yang disetujui.</li><li>Nomor invoice penyebab credit hold ditampilkan kepada Logistic Manager.</li><li>Override hanya tersedia untuk role yang berwenang dan alasan wajib dicatat.</li><li>Percobaan convert, hasil validasi, dan override tersimpan dalam audit log.</li></ul></div>
+
           <div class="grid-2" style="margin-top:18px">
             <div class="panel danger"><h4>Risks</h4><ul class="list"><li>Order valid ikut terblokir jika payment/outstanding belum ter-update.</li><li>Partial payment, credit note, dispute, refund, atau special agreement dapat menjadi false positive.</li><li>Hard block tanpa override dapat mengganggu fulfillment.</li><li>Frontend dan backend harus memakai rule yang sama.</li></ul></div>
             <div class="panel info"><h4>Need Meeting</h4><p>Ya. Ini bukan hanya technical rule — ini credit-control policy yang membutuhkan validasi Accounting dan pihak yang punya kewenangan menentukan exception.</p></div>
@@ -360,6 +388,7 @@ AND due_date &lt; validation_date
             </div>
             <div class="panel info"><h4>Recommended Controls</h4><ul class="list"><li>Status Pending / Sent / Failed / Retrying.</li><li>Timestamp, recipient, document reference, provider response, retry count.</li><li>Manual Resend untuk authorized Accounting user.</li><li>Action-required jika email kosong/invalid.</li><li>Idempotency agar event yang sama tidak mengirim email duplikat.</li></ul></div>
           </div>
+          <div class="panel acceptance"><h4>Acceptance Criteria</h4><ul class="list"><li>Email dipicu hanya ketika invoice sudah berstatus siap dikirim.</li><li>Invoice, Faktur Pajak, penerima, dan subject mengikuti rule yang disetujui Accounting.</li><li>Status Sent, Failed, Retrying, dan Manual Resend tercatat serta terlihat oleh user berwenang.</li><li>Retry tidak menghasilkan email duplikat untuk event yang sama.</li></ul></div>
           <div class="panel warn" style="margin-top:18px"><h4>Future Option — e-Faktur Integration</h4><p>Integrasi provider seperti OnlinePajak/Mekari dapat dievaluasi di tahap berikutnya jika Faktur Pajak masih dibuat di sistem eksternal. Ini bukan MVP dan harus melalui assessment API, compliance, biaya, data ownership, dan workflow Accounting.</p></div>
           <h4 style="margin:24px 0 8px">Pertanyaan untuk Accounting / Requester</h4>
           <div class="questions">
@@ -389,6 +418,7 @@ AND due_date &lt; validation_date
             <div class="panel"><h4>Contoh Slack Event</h4><ul class="list"><li>Urgent / Rush Order mulai diproses atau tertahan.</li><li>Stock shortage / SKU missing saat picking.</li><li>PO melewati SLA dan belum diproses.</li><li>Scheduled summary, misalnya pukul 12:00 dan 17:00.</li></ul></div>
             <div class="panel info"><h4>Need Discovery</h4><p>Short discovery dengan Warehouse/Logistics diperlukan untuk menentukan event yang benar-benar penting, target channel, dan volume normal supaya Slack tidak berubah menjadi notification spam.</p></div>
           </div>
+          <div class="panel acceptance"><h4>Acceptance Criteria</h4><ul class="list"><li>Tracker menampilkan status PO, user, timestamp, dan history perubahan.</li><li>Logistics dapat menemukan PO yang pending, sedang diproses, siap dikirim, atau melewati SLA.</li><li>Slack hanya mengirim urgent event, exception, anomaly, atau scheduled summary yang disepakati.</li><li>Kegagalan proses atau notifikasi dapat dilihat dan ditindaklanjuti.</li></ul></div>
           <h4 style="margin:24px 0 8px">Pertanyaan untuk Warehouse / Logistics</h4>
           <div class="questions">
             <div class="q">Apa arti tepat “PO sudah di tracker”?</div>
@@ -405,8 +435,8 @@ AND due_date &lt; validation_date
     <section id="r4" class="section">
       <div class="container">
         <article class="detail">
-          <div class="detail-top"><div><div class="detail-kicker">Request 04</div><h3>WEB ID Bali E-Commerce</h3><p class="lead">Mengonfirmasi apakah WEB ID yang terlihat di StockWizz Bali E-Commerce benar-benar mengikuti website order number.</p></div><span class="badge info"><span class="dot"></span>Investigate First</span></div>
-          <div class="panel info"><h4>Current Assessment</h4><p>Arsitektur e-commerce sudah memiliki jalur <b>websales</b> yang terpisah dari retail/shop sales. Namun exact field mapping tetap harus dibuktikan dari code/data sebelum disampaikan sebagai “sudah confirmed”.</p></div>
+          <div class="detail-top"><div><div class="detail-kicker">Request 04</div><h3>WEB ID Bali E-Commerce</h3><p class="lead">Mendokumentasikan bahwa WEB ID pada StockWizz Bali E-Commerce sudah mengikuti ID transaksi dari website.</p></div><span class="badge success"><span class="dot"></span>Confirmed</span></div>
+          <div class="panel success"><h4>Current State</h4><p>Order website sudah memiliki jalur <b>websales</b> sendiri dan tidak lagi menggunakan nomor transaksi retail/shop sales. WEB ID yang masuk ke StockWizz dipetakan dari ID transaksi website sehingga pencocokan data menjadi lebih konsisten.</p></div>
           <div class="code">Website order number
 ↓
 Website → StockWizz ingestion / API
@@ -417,8 +447,8 @@ Bali E-Commerce UI
 ↓
 WEB ID displayed to user</div>
           <div class="grid-2" style="margin-top:18px">
-            <div class="panel"><h4>Verification Checklist</h4><ul class="list"><li>Identify website order ID field.</li><li>Identify mapped field in websales.</li><li>Identify field yang dipakai UI sebagai WEB ID.</li><li>Compare beberapa recent production orders end-to-end.</li><li>Cek apakah legacy/manual path masih dapat menghasilkan ID berbeda.</li></ul></div>
-            <div class="panel warn"><h4>Communication Guardrail</h4><p>Jangan memberi jawaban final “sudah sama” sebelum mapping website → websales → UI diverifikasi. Bisa jadi hasil akhirnya memang sudah benar dan tidak membutuhkan development.</p></div>
+            <div class="panel acceptance"><h4>Acceptance Criteria</h4><ul class="list"><li>WEB ID di StockWizz sama dengan reference ID pada order website.</li><li>Order website tercatat melalui jalur <b>websales</b>.</li><li>Tim dapat mencocokkan satu sample order dari website sampai tampilan StockWizz.</li><li>Perbedaan ID diperlakukan sebagai exception untuk investigasi.</li></ul></div>
+            <div class="panel info"><h4>Kesimpulan untuk Requester</h4><p>Tidak diperlukan development untuk mengubah format WEB ID saat ini. IT cukup menyimpan satu contoh mapping end-to-end sebagai bukti referensi dan memantau jika ditemukan exception.</p></div>
           </div>
         </article>
       </div>
@@ -430,7 +460,7 @@ WEB ID displayed to user</div>
         <div class="priority">
           <div class="priority-card p0"><span class="badge danger">P0</span><strong>NET 30 Rule Definition</strong><p>Dampak langsung ke financial control dan order release. Gate: Accounting rule + source data + override policy.</p></div>
           <div class="priority-card p1"><span class="badge warn">P1</span><strong>Automatic Invoice Delivery</strong><p>Efisiensi manual tinggi. Gate: invoice lifecycle, Faktur Pajak source, email service, recipient.</p></div>
-          <div class="priority-card p1b"><span class="badge info">P1</span><strong>WEB ID Verification</strong><p>Quick internal investigation; bisa selesai tanpa development jika current mapping sudah benar.</p></div>
+          <div class="priority-card p1b"><span class="badge success">Confirmed</span><strong>WEB ID Documentation</strong><p>Tidak membutuhkan development. Simpan satu contoh mapping end-to-end sebagai referensi operasional.</p></div>
           <div class="priority-card p2"><span class="badge violet">P2</span><strong>Tracker + Slack Model</strong><p>Operational visibility improvement. Gate: event, SLA, target channel, notification policy.</p></div>
         </div>
       </div>
@@ -441,7 +471,7 @@ WEB ID displayed to user</div>
         <div class="section-head"><div><small>Discovery</small><h2>Meeting yang Disarankan</h2></div><p>Meeting ini bertujuan menutup gap requirement dan menetapkan business rule — bukan menyetujui coding di tempat.</p></div>
         <div class="meeting">
           <div class="meeting-card"><div class="eyebrow">Recommended</div><h3>45–60 menit dengan Putu Mei / Accounting</h3><p>Libatkan Warehouse/Logistics hanya untuk bagian tracker. Hasil meeting menjadi input untuk memecah work menjadi Jira implementation tickets yang jelas.</p></div>
-          <div class="agenda"><ol><li>Confirm objective dan pain point masing-masing request.</li><li>Walkthrough current Quote → Order → Fulfillment → Invoice.</li><li>Confirm source of truth customer outstanding / due date.</li><li>Define credit hold, override, grace period, exception.</li><li>Walkthrough current Invoice & Faktur Pajak delivery.</li><li>Define trigger, recipient, attachment, resend, failure handling.</li><li>Clarify PO Tracker event dan Slack need.</li><li>Review hasil internal verification WEB ID.</li><li>Agree priority dan next action.</li></ol></div>
+          <div class="agenda"><ol><li>Confirm objective dan pain point masing-masing request.</li><li>Walkthrough current Quote → Order → Fulfillment → Invoice.</li><li>Confirm source of truth customer outstanding / due date.</li><li>Define credit hold, override, grace period, exception.</li><li>Walkthrough current Invoice & Faktur Pajak delivery.</li><li>Define trigger, recipient, attachment, resend, failure handling.</li><li>Clarify PO Tracker event dan Slack need.</li><li>Sampaikan current state WEB ID yang sudah terkonfirmasi.</li><li>Agree priority dan next action.</li></ol></div>
         </div>
       </div>
     </section>
@@ -458,7 +488,7 @@ WEB ID displayed to user</div>
             <tr><td>Invoice email trigger & recipient</td><td>Accounting</td><td><span class="badge warn">Open</span></td></tr>
             <tr><td>Faktur Pajak source / attachment flow</td><td>Accounting</td><td><span class="badge warn">Open</span></td></tr>
             <tr><td>Slack event / channel / summary frequency</td><td>Warehouse / Logistics</td><td><span class="badge warn">Open</span></td></tr>
-            <tr><td>WEB ID exact mapping</td><td>IT</td><td><span class="badge info">Verify Internally</span></td></tr>
+            <tr><td>WEB ID mengikuti website melalui websales</td><td>IT</td><td><span class="badge success">Confirmed</span></td></tr>
           </tbody>
         </table>
       </div>
@@ -483,10 +513,11 @@ WEB ID displayed to user</div>
           <div class="action"><span class="check"></span><span>Trace customer invoice / outstanding / due-date data model.</span></div>
           <div class="action"><span class="check"></span><span>Verify StockWizz email service dan invoice PDF flow.</span></div>
           <div class="action"><span class="check"></span><span>Document current Faktur Pajak workflow.</span></div>
-          <div class="action"><span class="check"></span><span>Verify WEB ID mapping end-to-end.</span></div>
+          <div class="action"><span class="check"></span><span>Simpan satu contoh mapping WEB ID end-to-end sebagai referensi.</span></div>
           <div class="action"><span class="check"></span><span>Confirm PO Tracker event dengan Warehouse / Logistics.</span></div>
           <div class="action"><span class="check"></span><span>Setelah discovery, split approved work menjadi Jira implementation tickets.</span></div>
         </div>
+        <div class="alert info" style="margin-top:18px"><strong>Approval Gate</strong>Dokumen dapat diteruskan menjadi implementation scope setelah requester dan process owner mengonfirmasi business rule serta acceptance criteria untuk NET 30, invoice delivery, dan tracker.</div>
       </div>
     </section>
   </main>

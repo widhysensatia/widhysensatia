@@ -23,7 +23,7 @@ export const documents: KnowledgeDocument[] = [
     title: "StockWizz Order-to-Cash & Fulfillment Automation",
     shortTitle: "StockWizz Order-to-Cash Automation",
     summary:
-      "Assessment request Putu Mei untuk credit control NET 30, invoice delivery, warehouse tracking, dan verifikasi WEB ID.",
+      "Proposal request Putu Mei untuk credit control NET 30, invoice delivery, warehouse tracking, dan current state WEB ID.",
     category: "StockWiz",
     type: "Proposal",
     updated: "2026-09-14",
