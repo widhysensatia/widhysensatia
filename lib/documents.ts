@@ -20,15 +20,16 @@ export type KnowledgeDocument = {
 export const documents: KnowledgeDocument[] = [
   {
     slug: "stockwizz-putu-mei-assessment",
-    title: "Proposal Optimasi & Otomatisasi Sistem StockWizz",
-    shortTitle: "Proposal Optimasi & Otomatisasi StockWizz",
+    title:
+      "StockWizz — Customer Order, Credit Control & Fulfillment Automation Assessment",
+    shortTitle: "Customer Order & Fulfillment Assessment",
     summary:
-      "Proposal untuk mengurangi pekerjaan manual, meningkatkan akurasi data piutang, dan mempermudah pelacakan pesanan Gudang serta Logistik.",
+      "Assessment request Putu Mei untuk credit control NET 30, invoice delivery, warehouse tracking, dan verifikasi WEB ID.",
     category: "StockWiz",
-    type: "Proposal",
+    type: "Assessment",
     updated: "2026-09-14",
     updatedLabel: "14 Sep 2026",
-    tags: ["Kontrol Kredit", "Otomatisasi Pesanan", "Putu Mei"],
+    tags: ["Credit Control", "Order Automation", "Putu Mei"],
     accent: "blue",
   },
   {

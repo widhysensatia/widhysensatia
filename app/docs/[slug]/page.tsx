@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { OriginalPageRuntime } from "@/components/original-page-runtime";
 import { documents, getDocument } from "@/lib/documents";
-import { getDocumentContent } from "@/lib/document-content";
-import { NativeDocument } from "@/components/native-document";
+import { getOriginalPage } from "@/lib/original-pages";
 
 type PageProps = { params: Promise<{ slug: string }> };
 
@@ -22,9 +22,23 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function DocumentPage({ params }: PageProps) {
   const { slug } = await params;
   const document = getDocument(slug);
-  const content = getDocumentContent(slug);
-  
-  if (!document || !content) notFound();
+  const originalPage = getOriginalPage(slug);
+  if (!document || !originalPage) notFound();
 
-  return <NativeDocument document={document} content={content} />;
+  return (
+    <>
+      <style dangerouslySetInnerHTML={{ __html: originalPage.styles }} />
+      <div
+        data-original-document={slug}
+        style={{ display: "contents" }}
+        dangerouslySetInnerHTML={{ __html: originalPage.body }}
+      />
+      <OriginalPageRuntime
+        bodyAttributes={originalPage.bodyAttributes}
+        htmlAttributes={originalPage.htmlAttributes}
+        scripts={originalPage.scripts}
+        slug={slug}
+      />
+    </>
+  );
 }
