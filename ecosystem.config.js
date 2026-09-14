@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: "sensatia-knowledge-hub",
+      name: "widhysensatia",
       script: "npm",
       args: "run start",
       env: {
