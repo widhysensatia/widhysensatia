@@ -1,0 +1,1085 @@
+{
+  "slug": "stockwiz-option-3-implementation-blueprint",
+  "sourceTitle": "Blueprint Opsi 3 — Implementasi StockWiz Next per Modul",
+  "sections": [
+    {
+      "id": "keputusan",
+      "number": "01",
+      "title": "Keputusan implementasi",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Opsi 3 tidak menunggu seluruh ERP selesai. Satu vertical slice diselesaikan, digunakan pada scope terbatas, distabilkan, lalu diperluas."
+        },
+        {
+          "type": "paragraph",
+          "text": "Operating decision"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Bangun platform baru; aktifkan per modul dan per scope."
+        },
+        {
+          "type": "paragraph",
+          "text": "Legacy tetap menjadi sumber data untuk domain yang belum pindah. Setelah sebuah domain cutover, hanya StockWiz Next yang boleh menulis data domain tersebut dan legacy wajib mengaksesnya melalui API/read model."
+        },
+        {
+          "type": "note",
+          "text": "Per Modul Bukan big-bang"
+        },
+        {
+          "type": "note",
+          "text": "1 modul Satu sumber kebenaran Tidak ada dual-write bebas pada domain yang sama. 4 mode Shadow → pilot → live → retired Status transisi terlihat dan dapat diaudit. 4–6 bln Nilai produksi pertama Jika fondasi dan domain owner tersedia. 0 Cutover tanpa rollback Semua aktivasi memiliki switch dan runbook."
+        }
+      ]
+    },
+    {
+      "id": "prinsip",
+      "number": "02",
+      "title": "Prinsip dan non-goals",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Prinsip ini menjadi pagar agar transformasi tidak berubah menjadi rewrite tanpa akhir."
+        },
+        {
+          "type": "paragraph",
+          "text": "UI, API, aturan bisnis, database, permission, audit, jobs, monitoring, dan test selesai bersama."
+        },
+        {
+          "type": "paragraph",
+          "text": "Setiap field dan domain memiliki satu writer resmi pada satu waktu."
+        },
+        {
+          "type": "paragraph",
+          "text": "Saldo, status, jumlah dokumen, dan nilai dibandingkan mesin, bukan hanya pemeriksaan manual."
+        },
+        {
+          "type": "paragraph",
+          "text": "Adapter menjaga legacy tetap bekerja tanpa membocorkan model lama ke domain baru."
+        },
+        {
+          "type": "paragraph",
+          "text": "Cutover tidak dilakukan sebelum prosedur kembali dan recovery point diuji."
+        },
+        {
+          "type": "paragraph",
+          "text": "Koreksi melalui reversal/adjustment; bukan mengedit transaksi historis."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Yang termasuk tujuan"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Inventory, manufacturing, QC, procurement, commercial, finance, lalu HR/CRM.",
+            "PostgreSQL sebagai canonical transactional store.",
+            "Frontend baru mengambil alih route per workflow.",
+            "Auditability dan traceability lot sejak fondasi."
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Yang bukan tujuan fase awal"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Menyalin seluruh fitur legacy sebelum ada pengguna.",
+            "Memigrasikan semua history menjadi ledger yang dianggap benar.",
+            "Microservices, Kafka, Kubernetes, atau data warehouse besar sejak hari pertama.",
+            "Mengubah semua proses bisnis sekaligus."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "operasi",
+      "number": "03",
+      "title": "Model operasi dua sistem",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Selama transisi, kedua sistem hidup berdampingan. Gateway menentukan route dan anti-corruption layer menerjemahkan kontrak tanpa dual-write langsung."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "StockWiz Legacy"
+        },
+        {
+          "type": "paragraph",
+          "text": "React/Umi, Express, MongoDB. Tetap menangani domain lama dan tidak boleh menulis domain yang telah cutover."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Gateway + Adapter + Outbox"
+        },
+        {
+          "type": "paragraph",
+          "text": "Identitas tunggal, feature flag, routing, mapping ID, signed event, deduplication, sync read model, dan reconciliation."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "StockWiz Next"
+        },
+        {
+          "type": "paragraph",
+          "text": "React modern, TypeScript backend, PostgreSQL, worker, canonical domain model, audit, metrics, dan alert."
+        },
+        {
+          "type": "table",
+          "headers": [
+            "Domain",
+            "Fase awal",
+            "Setelah inventory live",
+            "Akses legacy",
+            "Status"
+          ],
+          "rows": [
+            [
+              "Identity & user",
+              "Identity existing",
+              "OIDC existing + policy baru",
+              "Token yang sama",
+              "Bridge"
+            ],
+            [
+              "Item master",
+              "MongoDB",
+              "MongoDB melalui adapter sementara",
+              "Direct read dibatasi",
+              "Transisi"
+            ],
+            [
+              "Saldo & movement stok",
+              "MongoDB",
+              "PostgreSQL",
+              "Inventory API/read model",
+              "Cutover"
+            ],
+            [
+              "Warehouse transfer",
+              "Legacy",
+              "StockWiz Next",
+              "Read-only link/redirect",
+              "Pilot"
+            ],
+            [
+              "Sales order",
+              "MongoDB",
+              "MongoDB",
+              "Minta reservation via API baru",
+              "Legacy"
+            ],
+            [
+              "Purchase order",
+              "MongoDB",
+              "MongoDB",
+              "Goods receipt via API baru",
+              "Legacy"
+            ],
+            [
+              "Manufacturing & QC",
+              "Legacy/parsial",
+              "Tahap berikutnya",
+              "Issue/receipt via API baru",
+              "Roadmap"
+            ],
+            [
+              "Finance & HR",
+              "Legacy",
+              "Fase lanjutan",
+              "Event/read model",
+              "Roadmap"
+            ]
+          ]
+        },
+        {
+          "type": "note",
+          "text": "Aturan emas: setelah inventory cutover, controller legacy tidak boleh lagi melakukan $inc ke saldo stok. Sales, purchasing, dan produksi lama harus memanggil Inventory API baru."
+        }
+      ]
+    },
+    {
+      "id": "arsitektur",
+      "number": "04",
+      "title": "Arsitektur target",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Modular monolith menjaga transaksi lintas inventory–procurement–manufacturing tetap sederhana sambil mempertahankan batas domain yang dapat dipisahkan nanti."
+        },
+        {
+          "type": "paragraph",
+          "text": "React 19 + TypeScript + Vite · route per modul · feature flag · responsive warehouse UI"
+        },
+        {
+          "type": "paragraph",
+          "text": "NestJS + Fastify · OpenAPI · Zod · rate limit · idempotency · error contract"
+        },
+        {
+          "type": "paragraph",
+          "text": "Use cases · command/query handlers · transaction boundary · approval orchestration"
+        },
+        {
+          "type": "paragraph",
+          "text": "Inventory · procurement · manufacturing · quality · commercial · finance · people"
+        },
+        {
+          "type": "paragraph",
+          "text": "PostgreSQL 18 · Drizzle/node-postgres · SQL migration · outbox · partitioned history"
+        },
+        {
+          "type": "paragraph",
+          "text": "BullMQ + Redis · webhook · email · export · sync · retry/dead-letter"
+        },
+        {
+          "type": "paragraph",
+          "text": "Legacy adapter · marketplace adapter · payment · shipping · accounting export"
+        },
+        {
+          "type": "paragraph",
+          "text": "OpenTelemetry · Pino · Sentry · metrics · audit trail · reconciliation dashboard"
+        }
+      ]
+    },
+    {
+      "id": "modul",
+      "number": "05",
+      "title": "Batas modul dan urutan aktivasi",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Batas berikut adalah ownership kode dan data. Modul lain berinteraksi melalui use case/API/event, bukan mengubah tabel secara langsung."
+        },
+        {
+          "type": "note",
+          "text": "Platform Organization, site, identity, RBAC, scope, approval, audit, configuration. Fondasi"
+        },
+        {
+          "type": "note",
+          "text": "Master Data Item, UOM, category, party, supplier, warehouse, location, currency. Fondasi"
+        },
+        {
+          "type": "note",
+          "text": "Inventory Lot, status, movement, balance, reservation, stocktake, transfer. Pilot 1"
+        },
+        {
+          "type": "note",
+          "text": "Procurement PR, RFQ, PO, goods receipt, supplier return, three-way match. Fase 2"
+        },
+        {
+          "type": "note",
+          "text": "Manufacturing Formula/BOM, routing, order, issue, output, yield, scrap, rework. Fase 3"
+        },
+        {
+          "type": "note",
+          "text": "Quality Specification, sampling, inspection, quarantine, release, COA, CAPA. Fase 3"
+        },
+        {
+          "type": "note",
+          "text": "Commercial Party, price, sales order, promotion, fulfillment, return, payment. Fase 4"
+        },
+        {
+          "type": "note",
+          "text": "Finance COA, journal, AP/AR, costing, valuation, tax, period close. Fase 5"
+        },
+        {
+          "type": "note",
+          "text": "People Employee, attendance, leave, shift, payroll, training, privacy. Fase 6"
+        },
+        {
+          "type": "note",
+          "text": "CRM & Marketing Consent, segment, campaign, loyalty, voucher, attribution. Fase 6"
+        },
+        {
+          "type": "note",
+          "text": "Integration Legacy, marketplace, payment, shipping, webhooks, import/export. Lintas fase"
+        },
+        {
+          "type": "note",
+          "text": "Reporting Read model, KPI, operational report, reconciliation, audit export. Lintas fase"
+        }
+      ]
+    },
+    {
+      "id": "repo",
+      "number": "06",
+      "title": "Struktur repository dan kode",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Satu monorepo memudahkan kontrak dan deployment awal, tetapi setiap domain tetap memiliki batas dependency yang diuji."
+        },
+        {
+          "type": "code",
+          "text": "stockwiz-next/ ├── apps/ │ ├── web/ # React UI per route/module │ ├── api/ # NestJS HTTP entry point │ └── worker/ # Queue consumers & scheduled work ├── packages/ │ ├── contracts/ # OpenAPI schema, DTO & generated client │ ├── design-system/ # Komponen, token, accessibility │ ├── observability/ # Log, tracing, metrics, redaction │ └── test-fixtures/ # Factory & deterministic test data ├── modules/ │ ├── platform/ │ ├── master-data/ │ ├── inventory/ │ │ ├── domain/ # Entity, value object, invariant │ │ ├── application/ # Use case, command, query │ │ ├── infrastructure/ # Repository, event, adapter │ │ └── presentation/ # Controller & request mapping │ ├── procurement/ │ ├── manufacturing/ │ ├── quality/ │ ├── commercial/ │ └── finance/ ├── database/ │ ├── migrations/ # Reviewed SQL; forward-only │ ├── seeds/ # Minimal reference data │ └── reconciliation/ # Queries & expected invariants ├── integrations/ │ ├── legacy/ │ ├── marketplace/ │ └── payment/ └── docs/adr/ # Architecture Decision Records"
+        },
+        {
+          "type": "note",
+          "text": "Dependency rule: presentation → application → domain. Domain tidak mengimpor framework, MongoDB, HTTP client, queue, atau UI. Akses lintas modul melalui public application interface/event."
+        }
+      ]
+    },
+    {
+      "id": "data",
+      "number": "07",
+      "title": "Pabrik migrasi MongoDB → PostgreSQL",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Migrasi adalah pipeline yang dapat diulang, menghasilkan laporan error, dan dapat direkonsiliasi—bukan script sekali jalan."
+        },
+        {
+          "type": "note",
+          "text": "01 Profile Tipe, null, duplicate, orphan, volume, status. 02 Extract Snapshot konsisten ke staging raw. 03 Normalize ID, email, date, money, UOM, currency. 04 Map Legacy ID → canonical UUID. 05 Load Master, active docs, opening balance, history. 06 Reconcile Count, hash, amount, saldo, exception."
+        },
+        {
+          "type": "note",
+          "text": "70 collection lokal perlu diklasifikasi: migrate, archive, merge, atau retire. 1.576 shopstock dengan item reference orphan. 126 grup barcode duplikat setelah normalisasi. 16.226 grup email duplikat setelah trim + lowercase. 172.844 stockhistory remaining negatif. 446 stockhistory memakai ObjectId; mayoritas memakai string. 0 schema validator pada database lokal. 0 custom unique index yang ditemukan."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Urutan load"
+        },
+        {
+          "type": "list",
+          "ordered": true,
+          "items": [
+            "Reference: currency, UOM, country, status.",
+            "Organization, site, warehouse, location.",
+            "Party, employee, supplier, customer.",
+            "Item, identifier, price, supplier relation.",
+            "Lot dan opening balance terverifikasi.",
+            "Dokumen aktif dan dependency-nya.",
+            "History ke partition/legacy read model."
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Kebijakan exception"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Record invalid masuk quarantine, tidak dibuang.",
+            "Mapping manual menyimpan actor dan alasan.",
+            "Duplicate merge memiliki survivor dan alias ID.",
+            "History lama tidak otomatis menjadi ledger resmi.",
+            "Setiap batch memiliki checksum dan migration run ID.",
+            "Production cutover memakai snapshot final + delta."
+          ]
+        },
+        {
+          "type": "note",
+          "text": "Keputusan saldo: tetapkan opening balance dari stocktake/rekonsiliasi pada tanggal cutover. History lama tersedia sebagai arsip read-only, tetapi tidak digunakan untuk menghitung saldo baru bila integritasnya belum terbukti."
+        }
+      ]
+    },
+    {
+      "id": "pilot",
+      "number": "08",
+      "title": "Pilot pertama: warehouse transfer",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Transfer gudang menyentuh ledger, reservation, approval, lot, in-transit, permission, barcode, audit, dan rekonsiliasi—cukup luas untuk membuktikan fondasi."
+        },
+        {
+          "type": "note",
+          "text": "Create Draft + lines Approve Policy + limit Reserve Atomic allocation Dispatch Transfer out In transit Custody tracked Receive Lot + quantity Reconcile Variance resolved"
+        },
+        {
+          "type": "paragraph",
+          "text": "Reservation gagal secara atomic ketika available stock tidak cukup."
+        },
+        {
+          "type": "paragraph",
+          "text": "Idempotency key mengembalikan hasil pertama tanpa movement tambahan."
+        },
+        {
+          "type": "paragraph",
+          "text": "Transfer out dan in-transit/receipt seimbang pada satu dokumen."
+        },
+        {
+          "type": "paragraph",
+          "text": "Lot sumber, tujuan, expiry, status, dan actor dapat ditelusuri."
+        },
+        {
+          "type": "paragraph",
+          "text": "Koreksi menggunakan reversal dan dokumen adjustment baru."
+        },
+        {
+          "type": "paragraph",
+          "text": "User hanya dapat mengirim/menerima warehouse dalam scope-nya."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Scope pilot"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Satu pasangan warehouse.",
+            "Kelompok item non-kritis tetapi representatif.",
+            "5–15 key user terlatih.",
+            "Transaksi baru setelah tanggal aktivasi.",
+            "Jam support dan escalation owner jelas."
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Acceptance pilot"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "100% movement memiliki source document.",
+            "Selisih ledger vs balance = 0.",
+            "Tidak ada duplicate movement.",
+            "Critical E2E dan failure-path lulus.",
+            "Rollback rehearsal berhasil.",
+            "Domain owner menandatangani UAT."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fase",
+      "number": "09",
+      "title": "Fase delivery dan exit criteria",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Fase selesai karena bukti, bukan karena tanggal. Modul berikutnya tidak boleh mengorbankan stabilitas modul yang baru live."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Lindungi legacy"
+        },
+        {
+          "type": "paragraph",
+          "text": "Tutup endpoint P0, proteksi overselling/double-submit, backup drill, runtime support, log dan alert."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Platform foundation"
+        },
+        {
+          "type": "paragraph",
+          "text": "Repository, CI/CD, PostgreSQL, identity bridge, RBAC, master data minimum, outbox, worker, observability, migration registry."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Inventory shadow & pilot"
+        },
+        {
+          "type": "paragraph",
+          "text": "Ledger dan transfer berjalan shadow, lalu pilot pada satu scope dengan reconciliation dan rollback."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Procurement, manufacturing, quality"
+        },
+        {
+          "type": "paragraph",
+          "text": "Goods receipt masuk inventory baru; lanjut lot/QC, formula/BOM, production issue/output, yield, scrap, rework."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Commercial & finance"
+        },
+        {
+          "type": "paragraph",
+          "text": "Unified party/order/fulfillment, payment, COGS, valuation, GL/AP/AR, tax, dan period close."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "People, CRM, analytics, decommission"
+        },
+        {
+          "type": "paragraph",
+          "text": "HR dan marketing dimigrasikan sesuai prioritas; route, job, collection, dan integrasi legacy dipensiunkan terkontrol."
+        }
+      ]
+    },
+    {
+      "id": "quality",
+      "number": "10",
+      "title": "Quality gates dan strategi test",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Testing berpusat pada invariant bisnis dan kegagalan parsial, bukan mengejar persentase coverage tanpa konteks."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Pull request"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Lint + typecheck",
+            "Unit/domain test",
+            "Migration static check",
+            "Secret/dependency scan",
+            "Module-boundary check"
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Integration"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "PostgreSQL/Redis nyata",
+            "Transaction rollback",
+            "Unique/FK/check constraint",
+            "Outbox + retry + dedup",
+            "Contract compatibility"
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Business E2E"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Happy path",
+            "Insufficient stock",
+            "Double click/retry",
+            "Partial receive",
+            "Permission denied"
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Migration rehearsal"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Repeatable batch",
+            "Count/checksum",
+            "Orphan/duplicate report",
+            "Balance reconciliation",
+            "Runtime measured"
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Release candidate"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Load test target flow",
+            "Security review",
+            "Backup/restore",
+            "Alert exercise",
+            "Rollback rehearsal"
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Business acceptance"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Key user UAT",
+            "SOP & training",
+            "Support roster",
+            "KPI baseline",
+            "Go/no-go sign-off"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "security",
+      "number": "11",
+      "title": "Security, permission, dan audit",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Security menjadi kemampuan platform dan diterapkan konsisten ke semua modul, bukan middleware opsional per route."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Identity & session"
+        },
+        {
+          "type": "paragraph",
+          "text": "OIDC Authorization Code + PKCE, short-lived access token, secure httpOnly cookie/BFF bila sesuai, refresh rotation, logout dan session revocation."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "RBAC + scope"
+        },
+        {
+          "type": "paragraph",
+          "text": "Permission per action ditambah scope organization, plant, warehouse, shop, department, legal entity, dan approval limit."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Audit event"
+        },
+        {
+          "type": "paragraph",
+          "text": "Actor, timestamp UTC, action, entity, before/after yang ter-redact, reason, source IP/device context, correlation ID, dan source document."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Data protection"
+        },
+        {
+          "type": "paragraph",
+          "text": "Encryption in transit/at rest, secrets manager, PII classification, log redaction, retention, field-level access, dan controlled export."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Integration security"
+        },
+        {
+          "type": "paragraph",
+          "text": "Signed webhook, timestamp/nonce, allowlist bila perlu, least-privilege credential, rotation, rate limit, replay protection, dan inbox dedup."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Pipeline security"
+        },
+        {
+          "type": "paragraph",
+          "text": "Gitleaks, SAST, dependency/container scan, SBOM, patch cadence, exception dengan owner/expiry, dan scheduled DAST."
+        }
+      ]
+    },
+    {
+      "id": "delivery",
+      "number": "12",
+      "title": "Deployment, observability, dan rollback",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Release kecil dan dapat dikembalikan lebih penting daripada deployment canggih. Database compatibility menentukan strategi rollback."
+        },
+        {
+          "type": "note",
+          "text": "Build once Immutable image + SBOM + provenance. Test environment Migration + integration + E2E. Canary scope Feature flag user/warehouse/item. Observe Error, latency, queue, balance, adoption. Expand / rollback Decision berdasarkan SLO dan reconciliation."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Minimum dashboard"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "API latency/error per route dan module.",
+            "Database pool, slow query, lock, deadlock.",
+            "Queue age, retry, failure, dead-letter.",
+            "Outbox pending dan integration lag.",
+            "Ledger–balance variance.",
+            "Legacy–Next reconciliation variance."
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Rollback pattern"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Expand/contract database migration.",
+            "Backward-compatible API satu versi.",
+            "Feature flag mematikan entry point baru.",
+            "Queue consumer dapat dipause.",
+            "Posted data tidak dihapus; kompensasi/reversal.",
+            "Runbook dan decision owner tersedia."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tim",
+      "number": "13",
+      "title": "Tim dan governance",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Keputusan domain tidak boleh hanya dibuat developer. Setiap stream memiliki accountable business owner."
+        },
+        {
+          "type": "paragraph",
+          "text": "Budget, prioritas lintas departemen, penyelesaian konflik, dan keputusan go/no-go besar."
+        },
+        {
+          "type": "paragraph",
+          "text": "Outcome, backlog, scope, dependency, acceptance, serta komunikasi roadmap."
+        },
+        {
+          "type": "paragraph",
+          "text": "Gudang, produksi, QC, procurement, sales, finance menentukan rule dan UAT."
+        },
+        {
+          "type": "paragraph",
+          "text": "Boundary, transaction model, ADR, code review, reliability, dan technical risk."
+        },
+        {
+          "type": "paragraph",
+          "text": "Vertical slice, tests, migration, instrumentation, runbook, dan support."
+        },
+        {
+          "type": "paragraph",
+          "text": "Profiling, mapping, cleansing rule, reconciliation, exception, dan sign-off report."
+        },
+        {
+          "type": "paragraph",
+          "text": "Scenario, UAT, SOP, regression, device test, dan operational readiness."
+        },
+        {
+          "type": "paragraph",
+          "text": "Threat model, CI/CD, secrets, observability, backup, incident, dan compliance."
+        },
+        {
+          "type": "note",
+          "text": "Cadence: weekly domain refinement, biweekly demo, monthly architecture/data council, dan go/no-go meeting pada setiap decision gate. ADR wajib untuk perubahan source of truth, transaction boundary, dan integration contract."
+        }
+      ]
+    },
+    {
+      "id": "estimasi",
+      "number": "14",
+      "title": "Estimasi kapasitas dan waktu",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Estimasi dikalibrasi setelah discovery. Menambah orang tidak otomatis mempercepat bila domain ownership dan fondasi belum matang."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Developer"
+        },
+        {
+          "type": "paragraph",
+          "text": "Satu stream lambat, bus factor tinggi, stabilisasi dan platform saling berebut kapasitas. ERP lengkap berpotensi lebih dari tiga tahun."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Engineer inti"
+        },
+        {
+          "type": "paragraph",
+          "text": "Rekomendasi minimum: 2 backend/data, 2 full-stack/frontend, 1 platform/quality shared, dipimpin tech lead. Vertical slice awal 4–6 bulan."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Dua stream"
+        },
+        {
+          "type": "paragraph",
+          "text": "Efektif setelah boundary dan delivery platform stabil. Dapat menjalankan inventory/manufacturing dan commercial secara paralel."
+        },
+        {
+          "type": "note",
+          "text": "Selain engineer: satu product owner penuh waktu, 3–5 domain owner part-time, dan key users pilot. Tanpa keterlibatan mereka, risiko membangun proses yang salah lebih besar daripada risiko teknis."
+        }
+      ]
+    },
+    {
+      "id": "risiko",
+      "number": "15",
+      "title": "Risk register utama",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Risiko dicatat bersama trigger, mitigasi, owner, dan tanggal review—bukan hanya daftar kekhawatiran."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Dua writer pada stok"
+        },
+        {
+          "type": "paragraph",
+          "text": "Mitigasi: ownership matrix, block direct legacy write, inventory API, database permission, reconciliation dan alert variance."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Data legacy tidak dapat dipercaya"
+        },
+        {
+          "type": "paragraph",
+          "text": "Mitigasi: staging, quarantine, stocktake, opening balance, mapping registry, rehearsal dan sign-off."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Scope terus bertambah"
+        },
+        {
+          "type": "paragraph",
+          "text": "Mitigasi: outcome kuartal, non-goals, WIP limit, decision gate, dan sponsor menyelesaikan konflik prioritas."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Rule tersembunyi hilang"
+        },
+        {
+          "type": "paragraph",
+          "text": "Mitigasi: observasi user, characterization test, audit traffic, shadow run, UAT dan parallel verification."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Integrasi menggandakan transaksi"
+        },
+        {
+          "type": "paragraph",
+          "text": "Mitigasi: idempotency, inbox/outbox, unique event key, retry policy, dead-letter dan replay tooling."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Operasional menolak sistem baru"
+        },
+        {
+          "type": "paragraph",
+          "text": "Mitigasi: key-user design, pilot kecil, SOP, training, hypercare, feedback loop, dan ukur waktu proses."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Overengineering platform"
+        },
+        {
+          "type": "paragraph",
+          "text": "Mitigasi: modular monolith, managed service seperlunya, no Kafka/Kubernetes/Temporal tanpa bukti kebutuhan."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Legacy berubah selama migrasi"
+        },
+        {
+          "type": "paragraph",
+          "text": "Mitigasi: change control, contract test, shared roadmap, freeze window, dan backward compatibility."
+        }
+      ]
+    },
+    {
+      "id": "hari90",
+      "number": "16",
+      "title": "Backlog 90 hari pertama",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Hasil 90 hari bukan ERP selesai, tetapi risiko legacy turun dan satu vertical slice terbukti end-to-end di environment production-like."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Decide & baseline"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Tunjuk sponsor, PO, domain owner, tech lead.",
+            "Setujui scope/non-goals dan ownership matrix.",
+            "Dokumentasikan stock invariant dan transfer flow.",
+            "Selesaikan security P0 paling kritis.",
+            "Baseline data, performa, incident, dan KPI.",
+            "ADR stack, database, ID, money, time, event."
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Build foundation"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Monorepo, CI/CD, environments, secrets.",
+            "PostgreSQL migration framework.",
+            "Identity bridge, RBAC + warehouse scope.",
+            "OpenAPI, error format, idempotency.",
+            "Outbox, worker, observability.",
+            "Master data dan migration registry."
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Prove transfer slice"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Create/approve/reserve/dispatch/receive.",
+            "Ledger, balance, lot/status, audit.",
+            "Legacy adapter dan shadow mode.",
+            "Integration/E2E/failure tests.",
+            "Reconciliation dashboard.",
+            "Demo, UAT plan, dan pilot go/no-go."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cutover",
+      "number": "17",
+      "title": "Checklist cutover dan decommission",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Cutover memindahkan ownership, bukan hanya URL. Decommission dilakukan setelah masa observasi dan kewajiban audit terpenuhi."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Sebelum cutover modul"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Source-of-truth matrix disetujui.",
+            "Migration rehearsal selesai dalam window.",
+            "Count, amount, balance, dan checksum cocok.",
+            "Open exception memiliki owner dan keputusan.",
+            "Critical E2E, load, security, restore lulus.",
+            "Feature flag, rollback, dan runbook diuji.",
+            "User, SOP, training, support roster siap.",
+            "Go/no-go ditandatangani bisnis dan teknologi."
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Sebelum legacy dimatikan"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Tidak ada writer atau job aktif ke domain lama.",
+            "Semua consumer menggunakan API/read model baru.",
+            "Integration dependency inventory lengkap.",
+            "Data retention dan legal hold disetujui.",
+            "Historical lookup tersedia.",
+            "Credential, queue, cron, endpoint dicabut.",
+            "Final backup dan restore instruction tersimpan.",
+            "Observasi stabil dan rollback window berakhir."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "kpi",
+      "number": "18",
+      "title": "KPI dan definition of success",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Transformasi berhasil bila operasi dan integritas data membaik, bukan karena persentase kode legacy yang ditulis ulang."
+        },
+        {
+          "type": "note",
+          "text": "Inventory variance Selisih ledger vs balance dan hasil stocktake; target ditetapkan per kategori."
+        },
+        {
+          "type": "note",
+          "text": "Duplicate movement Target nol untuk transaksi dengan idempotency key yang sama."
+        },
+        {
+          "type": "note",
+          "text": "Traceability time Waktu menelusuri bahan baku → batch → shipment/Customer."
+        },
+        {
+          "type": "note",
+          "text": "Posting latency Waktu transaksi diterima sampai saldo dan read model konsisten."
+        },
+        {
+          "type": "note",
+          "text": "Critical error rate Error pada receive, transfer, production issue, shipment, close."
+        },
+        {
+          "type": "note",
+          "text": "Manual correction Jumlah adjustment dan intervensi data di luar workflow resmi."
+        },
+        {
+          "type": "note",
+          "text": "User cycle time Waktu menyelesaikan workflow dibanding baseline legacy."
+        },
+        {
+          "type": "note",
+          "text": "Legacy retirement Route, job, collection, dan integration yang sudah tidak memiliki writer."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Langkah keputusan berikutnya"
+        },
+        {
+          "type": "paragraph",
+          "text": "Setujui warehouse transfer sebagai pilot, tunjuk accountable owners, bekukan invariant stok, dan jalankan fase 0 serta discovery fondasi. Pembangunan modul kedua hanya dimulai setelah pilot menunjukkan saldo konsisten, user dapat bekerja, incident terkendali, dan pola delivery dapat diulang."
+        }
+      ]
+    }
+  ]
+}

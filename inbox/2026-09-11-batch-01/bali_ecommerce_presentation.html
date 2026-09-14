@@ -1,0 +1,596 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Sensatia E-Commerce — Fulfillment & Stock Strategy</title>
+<style>
+  :root{
+    --ink:#18332c;
+    --muted:#667a73;
+    --line:#dbe5df;
+    --paper:#fbfcfa;
+    --panel:#ffffff;
+    --soft:#f3f7f4;
+    --sage:#8fb5a4;
+    --sage-2:#c9ddd4;
+    --green:#2f6c58;
+    --green-2:#1f5747;
+    --mint:#dff0e9;
+    --amber:#c18a2f;
+    --amber-soft:#fff2d7;
+    --red:#a85046;
+    --red-soft:#fae9e6;
+    --blue:#4d7392;
+    --blue-soft:#e8f0f6;
+    --shadow:0 18px 55px rgba(27,54,45,.10);
+    --radius:24px;
+    --font: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--paper);color:var(--ink);font-family:var(--font)}
+  button{font:inherit}
+  .app{height:100%;position:relative;isolation:isolate;background:
+      radial-gradient(circle at 12% 10%, rgba(143,181,164,.16), transparent 32%),
+      radial-gradient(circle at 92% 86%, rgba(201,221,212,.26), transparent 30%),
+      var(--paper)}
+  .app::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.24;background-image:linear-gradient(rgba(47,108,88,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(47,108,88,.035) 1px,transparent 1px);background-size:44px 44px;z-index:-1}
+  .topbar{position:absolute;top:0;left:0;right:0;height:62px;padding:10px 22px;display:flex;align-items:center;justify-content:space-between;z-index:30;pointer-events:none}
+  .brand{display:flex;align-items:center;gap:10px;pointer-events:auto}
+  .brand-mark{width:35px;height:35px;border-radius:12px;background:linear-gradient(145deg,var(--green),#6d9b88);box-shadow:0 9px 20px rgba(47,108,88,.25);display:grid;place-items:center;position:relative;overflow:hidden}
+  .brand-mark::before{content:"";width:16px;height:23px;border:2px solid white;border-left:0;border-bottom:0;border-radius:100% 10% 100% 10%;transform:rotate(-35deg);opacity:.95}
+  .brand-title{font-weight:760;letter-spacing:-.02em;font-size:14px}.brand-sub{font-size:11px;color:var(--muted);margin-top:1px}
+  .toolbar{display:flex;gap:7px;pointer-events:auto}
+  .tool{border:1px solid var(--line);background:rgba(255,255,255,.88);backdrop-filter:blur(12px);color:var(--ink);width:36px;height:36px;border-radius:11px;cursor:pointer;display:grid;place-items:center;transition:.2s ease;box-shadow:0 5px 14px rgba(27,54,45,.05)}
+  .tool:hover{transform:translateY(-2px);border-color:var(--sage);background:white}.tool svg{width:17px;height:17px}
+  .progress{position:absolute;top:0;left:0;right:0;height:4px;background:rgba(47,108,88,.08);z-index:50}.progress>i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--green),#8db39f);transition:width .55s cubic-bezier(.2,.75,.2,1)}
+  .slides{height:100%;position:relative}
+  .slide{position:absolute;inset:0;padding:76px clamp(28px,5vw,86px) 72px;opacity:0;visibility:hidden;transform:translateX(3.5%);transition:opacity .42s ease,transform .52s cubic-bezier(.2,.75,.2,1),visibility .52s;overflow:auto;scrollbar-width:thin}
+  .slide.prev{transform:translateX(-3.5%)}
+  .slide.active{opacity:1;visibility:visible;transform:none;z-index:2}
+  .slide-inner{width:min(1450px,100%);min-height:calc(100vh - 148px);margin:0 auto;display:flex;flex-direction:column;justify-content:center;position:relative}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.13em;color:var(--green);margin-bottom:13px}
+  .eyebrow::before{content:"";width:24px;height:2px;background:var(--green);border-radius:2px}
+  h1,h2,h3,p{margin-top:0}
+  h1{font-size:clamp(42px,5.4vw,78px);line-height:1.03;letter-spacing:-.055em;margin-bottom:20px;max-width:1100px;font-weight:800}
+  h2{font-size:clamp(32px,3.8vw,57px);line-height:1.08;letter-spacing:-.045em;margin-bottom:15px;font-weight:790;max-width:1180px}
+  h3{font-size:clamp(18px,1.45vw,24px);line-height:1.2;letter-spacing:-.025em;margin-bottom:8px}
+  .lead{font-size:clamp(18px,1.6vw,25px);line-height:1.48;color:#48635a;max-width:1020px;margin-bottom:28px}
+  .small{font-size:13px;color:var(--muted);line-height:1.5}
+  .source{display:inline-flex;align-items:center;gap:7px;padding:6px 10px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.8);font-size:11px;color:var(--muted);font-weight:650}
+  .source::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--sage)}
+  .tag{display:inline-flex;align-items:center;padding:5px 9px;border-radius:999px;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;background:var(--mint);color:var(--green-2)}
+  .tag.warn{background:var(--amber-soft);color:#885d18}.tag.risk{background:var(--red-soft);color:#824039}.tag.info{background:var(--blue-soft);color:#365d7a}
+  .grid{display:grid;gap:16px}.grid-2{grid-template-columns:repeat(2,minmax(0,1fr))}.grid-3{grid-template-columns:repeat(3,minmax(0,1fr))}.grid-4{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .card{position:relative;background:rgba(255,255,255,.94);border:1px solid var(--line);border-radius:var(--radius);padding:21px;box-shadow:0 8px 26px rgba(27,54,45,.05);min-width:0}
+  .card.clickable{cursor:pointer;transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease;background:linear-gradient(180deg,#fff,#fcfdfc)}
+  .card.clickable:hover{transform:translateY(-5px);border-color:#aecbbe;box-shadow:var(--shadow)}
+  .card.clickable::after{content:"Klik untuk detail";display:block;margin-top:14px;font-size:10px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--green);opacity:.75}
+  .metric{font-size:clamp(34px,3.7vw,60px);font-weight:820;letter-spacing:-.055em;line-height:1;color:var(--green-2)}
+  .metric.red{color:var(--red)}.metric.amber{color:var(--amber)}
+  .metric-label{margin-top:8px;font-size:13px;color:var(--muted);line-height:1.4}
+  .hero-layout{display:grid;grid-template-columns:1.3fr .7fr;gap:36px;align-items:center}
+  .hero-orbit{min-height:420px;display:grid;place-items:center;position:relative}
+  .orbit-core{width:180px;height:180px;border-radius:50%;background:linear-gradient(145deg,var(--green-2),#6f9d88);color:white;display:grid;place-items:center;text-align:center;box-shadow:0 24px 70px rgba(47,108,88,.28);z-index:3;padding:24px}
+  .orbit-core strong{font-size:26px;letter-spacing:-.04em}.orbit-core span{font-size:12px;opacity:.82;line-height:1.4}
+  .orbit{position:absolute;border:1px dashed #b8cec4;border-radius:50%;animation:spin 28s linear infinite}.o1{width:320px;height:320px}.o2{width:420px;height:420px;animation-direction:reverse;animation-duration:42s}
+  .orbit-node{position:absolute;width:108px;padding:12px;border-radius:17px;border:1px solid var(--line);background:white;box-shadow:0 10px 26px rgba(27,54,45,.08);font-size:11px;line-height:1.25;font-weight:750;text-align:center;z-index:4}
+  .n1{top:18px;right:31px}.n2{right:-10px;bottom:64px}.n3{left:-4px;bottom:74px}.n4{left:22px;top:38px}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .flow{display:flex;align-items:stretch;gap:10px;flex-wrap:wrap}.flow-step{flex:1;min-width:150px;padding:16px 15px;background:white;border:1px solid var(--line);border-radius:18px;position:relative}.flow-step:not(:last-child)::after{content:"→";position:absolute;right:-17px;top:50%;transform:translateY(-50%);color:var(--sage);font-size:20px;font-weight:800;z-index:2}.flow-step b{display:block;font-size:13px;margin-bottom:6px}.flow-step span{display:block;font-size:11px;line-height:1.45;color:var(--muted)}
+  .flow-step.bad{border-color:#e9c6c1;background:#fffafa}.flow-step.good{border-color:#bdd8cc;background:#fbfefc}
+  .compare{display:grid;grid-template-columns:1fr auto 1fr;gap:18px;align-items:center}.vs{width:56px;height:56px;border-radius:50%;display:grid;place-items:center;background:var(--ink);color:white;font-weight:800;font-size:13px;box-shadow:0 12px 28px rgba(24,51,44,.18)}
+  .balance-box{padding:22px;border-radius:22px;border:1px solid var(--line);background:white}.balance-line{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}.balance-line:last-child{margin-bottom:0}.balance-line b{font-size:13px}.balance-line span{font-size:12px;color:var(--muted)}
+  .bar{height:12px;background:#edf2ef;border-radius:999px;overflow:hidden;margin-top:7px}.bar>i{height:100%;display:block;width:0;border-radius:999px;background:linear-gradient(90deg,var(--green),#85ac99);transition:width 1s cubic-bezier(.2,.8,.2,1)}
+  .bar.amber>i{background:linear-gradient(90deg,#b47e28,#deb465)}.bar.blue>i{background:linear-gradient(90deg,#4d7392,#91afc5)}.bar.red>i{background:linear-gradient(90deg,#a85046,#d7938b)}
+  .donut-wrap{display:grid;grid-template-columns:200px 1fr;gap:22px;align-items:center}.donut{--p:50;--c:var(--green);width:175px;aspect-ratio:1;border-radius:50%;background:conic-gradient(var(--c) calc(var(--p)*1%),#e9efeb 0);display:grid;place-items:center;position:relative;transform:scale(.85);opacity:.2;transition:transform .7s ease,opacity .7s ease}.active .donut{transform:scale(1);opacity:1}.donut::before{content:"";width:116px;height:116px;background:white;border-radius:50%;position:absolute}.donut strong{position:relative;font-size:30px;letter-spacing:-.05em}.donut span{position:relative;display:block;text-align:center;font-size:10px;color:var(--muted);margin-top:3px}
+  .legend{display:flex;gap:9px;flex-wrap:wrap}.legend span{font-size:11px;color:var(--muted);display:flex;align-items:center;gap:6px}.dot{width:9px;height:9px;border-radius:3px;background:var(--green)}.dot.soft{background:#dbe6e1}.dot.amber{background:var(--amber)}.dot.blue{background:var(--blue)}
+  .route{display:grid;grid-template-columns:1fr 80px 1fr;align-items:center;gap:16px}.route-node{padding:20px;border:1px solid var(--line);background:white;border-radius:22px;min-height:130px}.route-arrow{text-align:center;color:var(--green);font-size:34px;font-weight:800}.route-node strong{font-size:21px;letter-spacing:-.035em}.route-node p{font-size:12px;line-height:1.45;color:var(--muted);margin:7px 0 0}.route-node.primary{border-color:#a7c9ba;background:linear-gradient(180deg,#fbfefc,#f3faf6)}
+  .channel-table{width:100%;border-collapse:separate;border-spacing:0 8px;font-size:12px}.channel-table th{font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);text-align:left;padding:0 12px 4px}.channel-table td{padding:13px 12px;background:white;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}.channel-table td:first-child{border-left:1px solid var(--line);border-radius:14px 0 0 14px;font-weight:750}.channel-table td:last-child{border-right:1px solid var(--line);border-radius:0 14px 14px 0}.yes{color:var(--green-2);font-weight:800}.no{color:#98a59f}.fallback{color:var(--amber);font-weight:750}
+  .risk-matrix{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}.risk-card{padding:16px;border:1px solid var(--line);background:white;border-radius:18px}.risk-card .risk-top{display:flex;align-items:center;justify-content:space-between;gap:8px}.risk-card p{font-size:11px;line-height:1.45;color:var(--muted);margin:8px 0 0}.sev{font-size:9px;padding:4px 7px;border-radius:999px;text-transform:uppercase;letter-spacing:.08em;font-weight:850}.sev.high{background:var(--red-soft);color:var(--red)}.sev.med{background:var(--amber-soft);color:#8a641f}.sev.low{background:var(--mint);color:var(--green)}
+  .timeline{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;position:relative}.timeline::before{content:"";position:absolute;left:8%;right:8%;top:23px;height:2px;background:#d8e5df;z-index:0}.phase{position:relative;z-index:1}.phase-dot{width:46px;height:46px;border-radius:15px;background:white;border:1px solid var(--line);display:grid;place-items:center;font-size:11px;font-weight:850;color:var(--green);margin-bottom:14px;box-shadow:0 8px 20px rgba(27,54,45,.06)}.phase.active-phase .phase-dot{background:var(--green);color:white;border-color:var(--green)}.phase h3{font-size:15px;margin-bottom:7px}.phase p{font-size:11px;line-height:1.45;color:var(--muted)}
+  .decision{display:flex;gap:15px;align-items:flex-start;padding:18px;border-radius:20px;background:white;border:1px solid var(--line)}.decision .num{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;background:var(--mint);color:var(--green);font-weight:850;font-size:12px;flex:0 0 auto}.decision b{font-size:13px}.decision p{font-size:11px;line-height:1.45;color:var(--muted);margin:5px 0 0}
+  .bottom-nav{position:absolute;left:22px;right:22px;bottom:15px;display:flex;align-items:center;justify-content:space-between;z-index:30;pointer-events:none}.slide-count{font-size:11px;color:var(--muted);font-weight:700;letter-spacing:.06em}.nav-buttons{display:flex;gap:8px;pointer-events:auto}.nav-btn{width:39px;height:39px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.9);backdrop-filter:blur(12px);cursor:pointer;color:var(--ink);display:grid;place-items:center;transition:.2s ease}.nav-btn:hover{transform:translateY(-2px);border-color:var(--sage)}.nav-btn:disabled{opacity:.35;cursor:default;transform:none}
+  .hint{position:absolute;right:0;bottom:-43px;font-size:10px;color:#8a9893}
+  .detail-backdrop{position:absolute;inset:0;background:rgba(18,41,34,.18);backdrop-filter:blur(5px);z-index:80;opacity:0;visibility:hidden;transition:.25s}.detail-backdrop.open{opacity:1;visibility:visible}
+  .detail-panel{position:absolute;right:0;top:0;bottom:0;width:min(560px,92vw);background:#fff;z-index:90;box-shadow:-30px 0 80px rgba(24,51,44,.16);padding:30px;transform:translateX(105%);transition:transform .42s cubic-bezier(.2,.8,.2,1);overflow:auto}.detail-panel.open{transform:none}.detail-close{float:right;width:36px;height:36px;border-radius:11px;border:1px solid var(--line);background:white;cursor:pointer;font-size:18px}.detail-kicker{font-size:10px;text-transform:uppercase;letter-spacing:.11em;font-weight:850;color:var(--green);margin-top:46px}.detail-panel h3{font-size:30px;margin:8px 0 12px}.detail-panel p,.detail-panel li{font-size:14px;line-height:1.65;color:#526b62}.detail-panel ul{padding-left:19px}.detail-panel .detail-callout{padding:15px 16px;border-radius:16px;background:var(--soft);border-left:3px solid var(--green);margin:17px 0;font-size:13px;line-height:1.55;color:#38564c}
+  .overview{position:absolute;inset:0;z-index:70;background:rgba(247,250,248,.96);backdrop-filter:blur(16px);padding:76px clamp(24px,4vw,68px) 40px;overflow:auto;opacity:0;visibility:hidden;transform:scale(.985);transition:.25s}.overview.open{opacity:1;visibility:visible;transform:none}.overview-grid{width:min(1400px,100%);margin:0 auto;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.overview-card{border:1px solid var(--line);background:white;border-radius:18px;padding:16px;cursor:pointer;transition:.2s}.overview-card:hover{transform:translateY(-4px);border-color:var(--sage);box-shadow:0 12px 30px rgba(27,54,45,.08)}.overview-card .idx{font-size:10px;color:var(--green);font-weight:850}.overview-card b{display:block;font-size:14px;margin:7px 0 4px}.overview-card span{font-size:11px;color:var(--muted);line-height:1.4}
+  .reveal{opacity:0;transform:translateY(18px)}.active .reveal{animation:rise .6s cubic-bezier(.2,.75,.2,1) forwards;animation-delay:calc(var(--d,0)*90ms)}@keyframes rise{to{opacity:1;transform:none}}
+  .pulse{position:relative}.active .pulse::before{content:"";position:absolute;inset:-5px;border:1px solid rgba(47,108,88,.25);border-radius:inherit;animation:pulse 1.7s ease-out 1}@keyframes pulse{0%{transform:scale(.98);opacity:0}35%{opacity:1}100%{transform:scale(1.04);opacity:0}}
+  .chart-row{display:grid;grid-template-columns:170px 1fr 70px;gap:12px;align-items:center;margin:10px 0}.chart-row label{font-size:12px;font-weight:700}.chart-row em{font-style:normal;text-align:right;font-size:12px;font-weight:800;color:var(--ink)}
+  .callout{border-radius:20px;border:1px solid #c7ddd3;background:linear-gradient(135deg,#f4fbf7,#fff);padding:18px 20px;font-size:13px;line-height:1.55;color:#35564a}.callout strong{color:var(--green-2)}
+  .quote{font-size:clamp(24px,2.6vw,41px);line-height:1.25;letter-spacing:-.035em;font-weight:720;max-width:1100px}.quote mark{background:linear-gradient(transparent 62%,#dcefe6 0);color:inherit;padding:0 .07em}
+  .key{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line);border-bottom-width:2px;border-radius:7px;padding:2px 6px;background:white;font-size:9px;color:var(--muted)}
+  @media(max-width:980px){
+    .slide{padding-left:24px;padding-right:24px}.hero-layout,.grid-4,.grid-3,.risk-matrix{grid-template-columns:1fr 1fr}.grid-2{grid-template-columns:1fr}.hero-orbit{min-height:320px}.o2{width:340px;height:340px}.o1{width:260px;height:260px}.orbit-core{width:145px;height:145px}.orbit-node{width:95px}.overview-grid{grid-template-columns:repeat(2,1fr)}.timeline{grid-template-columns:1fr}.timeline::before{display:none}.route{grid-template-columns:1fr}.route-arrow{transform:rotate(90deg)}.donut-wrap{grid-template-columns:150px 1fr}.donut{width:145px}.compare{grid-template-columns:1fr}.vs{margin:auto}.flow-step:not(:last-child)::after{display:none}
+  }
+  @media(max-width:640px){
+    .brand-sub{display:none}.topbar{padding-left:14px;padding-right:14px}.slide{padding:68px 16px 68px}.slide-inner{justify-content:flex-start;min-height:auto}.grid-3,.grid-4,.risk-matrix,.hero-layout{grid-template-columns:1fr}.hero-orbit{display:none}.lead{font-size:17px}.overview-grid{grid-template-columns:1fr}.bottom-nav{left:14px;right:14px}.hint{display:none}.chart-row{grid-template-columns:110px 1fr 55px}.donut-wrap{grid-template-columns:1fr;justify-items:center}.detail-panel{padding:22px}.channel-table{font-size:10px}.source{font-size:9px}
+  }
+  @media print{body{overflow:visible}.topbar,.bottom-nav,.progress,.detail-panel,.detail-backdrop,.overview{display:none!important}.slides{height:auto}.slide{position:relative;visibility:visible;opacity:1;transform:none;page-break-after:always;min-height:100vh}.reveal{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+  <div class="progress"><i id="progressBar"></i></div>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true"></div>
+      <div><div class="brand-title">Sensatia E-Commerce</div><div class="brand-sub">Fulfillment & Stock Strategy · 11 Sep 2026</div></div>
+    </div>
+    <div class="toolbar">
+      <button class="tool" id="overviewBtn" title="Overview (O)" aria-label="Overview"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></button>
+      <button class="tool" id="fullBtn" title="Fullscreen (F)" aria-label="Fullscreen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H3v5M16 3h5v5M8 21H3v-5M16 21h5v-5"/></svg></button>
+    </div>
+  </header>
+
+  <main class="slides" id="slides">
+    <!-- 01 -->
+    <section class="slide active" data-title="Opening" data-sub="Jubelio → Website /id → Marketplace">
+      <div class="slide-inner">
+        <div class="hero-layout">
+          <div>
+            <div class="eyebrow reveal" style="--d:0">E-Commerce Fulfillment Strategy</div>
+            <h1 class="reveal" style="--d:1">Perbaiki stock movement dulu. Lalu sederhanakan fulfillment Bali × Jakarta.</h1>
+            <p class="lead reveal" style="--d:2">Alur keputusan: <b>Jubelio Integration</b> → <b>Website `/id` ke Jakarta</b> → <b>Marketplace non-Shopee ke Jakarta</b>, sementara <b>Shopee tetap Bali + Jakarta</b>.</p>
+            <div class="legend reveal" style="--d:3">
+              <span><i class="dot"></i> Confirmed / hard data</span><span><i class="dot amber"></i> Proposal / pilot</span><span><i class="dot blue"></i> System design</span>
+            </div>
+          </div>
+          <div class="hero-orbit reveal" style="--d:3">
+            <div class="orbit o2"></div><div class="orbit o1"></div>
+            <div class="orbit-core"><div><strong>1 Pool</strong><br><span>movement-first<br>location-aware</span></div></div>
+            <button class="orbit-node n1" data-detail="jubelio">Jubelio<br>Integration</button>
+            <button class="orbit-node n2" data-detail="market">Marketplace<br>Routing</button>
+            <button class="orbit-node n3" data-detail="website">Website `/id`<br>Routing</button>
+            <button class="orbit-node n4" data-detail="network">Bali × Jakarta<br>Network</button>
+          </div>
+        </div>
+        <div class="hint">Navigasi: <span class="key">←</span> <span class="key">→</span> · <span class="key">Space</span> · <span class="key">O</span> overview · klik card untuk detail</div>
+      </div>
+    </section>
+
+    <!-- 02 -->
+    <section class="slide" data-title="Why Now" data-sub="Tiga problem saling terkait">
+      <div class="slide-inner">
+        <div class="eyebrow reveal" style="--d:0">01 · Why Now</div>
+        <h2 class="reveal" style="--d:1">Tiga problem berbeda terlihat seperti satu masalah “stock”.</h2>
+        <p class="lead reveal" style="--d:2">Kita perlu memisahkan integration bug, physical capacity, dan routing complexity sebelum membuat perubahan besar.</p>
+        <div class="grid grid-3">
+          <div class="card clickable reveal" style="--d:3" data-detail="absolute"><span class="tag risk">Integration</span><h3 style="margin-top:13px">Absolute sync salah</h3><p class="small">Production test membuktikan API ter-trigger, tetapi Jubelio di-overwrite dengan final StockWizz balance.</p></div>
+          <div class="card clickable reveal" style="--d:4" data-detail="space"><span class="tag warn">Capacity</span><h3 style="margin-top:13px">SECM sangat terbatas</h3><p class="small">Stockroom Padang Galak dan Bali E-Commerce berbagi ruang; SECM hanya mendapat sekitar 2 baris rak kecil.</p></div>
+          <div class="card clickable reveal" style="--d:5" data-detail="routing"><span class="tag info">Routing</span><h3 style="margin-top:13px">Terlalu banyak sync points</h3><p class="small">Semua marketplace dual-WH menambah stock allocation, warehouse routing, reconciliation, dan exception handling.</p></div>
+        </div>
+        <div class="callout reveal" style="--d:6;margin-top:16px"><strong>Prinsip deck ini:</strong> jangan menyelesaikan OOS dengan satu asumsi. Kita benahi source-of-truth terlebih dahulu, lalu menyederhanakan network berdasarkan demand dan capacity.</div>
+      </div>
+    </section>
+
+    <!-- 03 -->
+    <section class="slide" data-title="Jubelio — Current Model" data-sub="Shared pool + 80% exposure">
+      <div class="slide-inner">
+        <div class="eyebrow reveal" style="--d:0">02 · Jubelio Integration</div>
+        <h2 class="reveal" style="--d:1">Bali menyimpan satu stok fisik. 80% adalah exposure rule, bukan ownership stock.</h2>
+        <p class="lead reveal" style="--d:2">Tidak ada rak fisik 80/20. StockWizz melihat 100% refill, sedangkan marketplace hanya menerima sebagian movement melalui Jubelio.</p>
+        <div class="flow reveal" style="--d:3">
+          <div class="flow-step"><b>Stockroom / DC</b><span>physical stock tersedia untuk replenishment</span></div>
+          <div class="flow-step"><b>SECM Bali</b><span>1 shared physical pool</span></div>
+          <div class="flow-step good"><b>StockWizz</b><span>+100% refill movement</span></div>
+          <div class="flow-step good"><b>Jubelio</b><span>+80% movement exposure</span></div>
+          <div class="flow-step"><b>Marketplace</b><span>sellable stock per channel allocation</span></div>
+        </div>
+        <div class="grid grid-3" style="margin-top:18px">
+          <div class="card reveal" style="--d:4"><div class="metric">100%</div><div class="metric-label">Refill masuk ke physical/shared balance StockWizz.</div></div>
+          <div class="card reveal pulse" style="--d:5"><div class="metric">80%</div><div class="metric-label">Current operational exposure dari refill movement ke Jubelio Bali.</div></div>
+          <div class="card clickable reveal" style="--d:6" data-detail="twenty"><div class="metric amber">≠ 20%</div><div class="metric-label">Website tidak dikunci hanya ke “sisa 20%”. Web tetap memakai shared pool.</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 04 -->
+    <section class="slide" data-title="Jubelio — Production Test" data-sub="SECM1041 membuktikan logic salah">
+      <div class="slide-inner">
+        <div class="eyebrow reveal" style="--d:0">03 · Production Evidence</div>
+        <h2 class="reveal" style="--d:1">Connectivity berhasil. Quantity logic-nya yang gagal.</h2>
+        <div class="compare reveal" style="--d:2">
+          <div class="balance-box">
+            <span class="tag info">StockWizz</span>
+            <div class="metric" style="margin-top:14px">32 → 38</div>
+            <p class="small" style="margin:9px 0 0">Refill <b>+6</b> untuk PO <b>SECM1041</b>, SKU <b>PHH-0500</b>. Perhitungan internal PASS.</p>
+          </div>
+          <div class="vs">VS</div>
+          <div class="balance-box" style="border-color:#e7c5c0;background:#fffafa">
+            <span class="tag risk">Jubelio actual</span>
+            <div class="metric red" style="margin-top:14px">1 → 38</div>
+            <p class="small" style="margin:9px 0 0">Seharusnya adjustment berbasis movement. Absolute balance menghapus existing buffer/allocation.</p>
+          </div>
+        </div>
+        <div class="grid grid-3" style="margin-top:18px">
+          <div class="card reveal" style="--d:3"><span class="tag">PASS</span><h3 style="margin-top:12px">API trigger</h3><p class="small">Refill berhasil memanggil Stock Adjustment API.</p></div>
+          <div class="card reveal" style="--d:4"><span class="tag">PASS</span><h3 style="margin-top:12px">StockWizz refill</h3><p class="small">32 + 6 = 38 sesuai movement.</p></div>
+          <div class="card clickable reveal" style="--d:5" data-detail="danger"><span class="tag risk">FAIL</span><h3 style="margin-top:12px">Delta + buffer</h3><p class="small">Jubelio menerima final balance, bukan tambahan movement.</p></div>
+        </div>
+        <div class="source reveal" style="--d:6;margin-top:14px">Production test · 11 Sep 2026</div>
+      </div>
+    </section>
+
+    <!-- 05 -->
+    <section class="slide" data-title="Jubelio — Target Architecture" data-sub="Delta inbound + transaction outbound">
+      <div class="slide-inner">
+        <div class="eyebrow reveal" style="--d:0">04 · Fix Before Scale</div>
+        <h2 class="reveal" style="--d:1">Movement-first, location-aware, lalu reconciliation setelah dua arah stabil.</h2>
+        <p class="lead reveal" style="--d:2">Saldo StockWizz dan Jubelio tidak boleh dipaksa sama selama transaction return path belum real-time dan intentional allocation masih berlaku.</p>
+        <div class="grid grid-3">
+          <div class="card clickable reveal" style="--d:3" data-detail="phase1"><span class="tag">P0</span><h3 style="margin-top:12px">Inbound delta</h3><p class="small">Refill → generate delta → apply allocation % → Jubelio Stock Adjustment. Idempotent, logged, retry-safe.</p></div>
+          <div class="card clickable reveal" style="--d:4" data-detail="phase2"><span class="tag info">P1/P2</span><h3 style="margin-top:12px">Transaction return</h3><p class="small">Marketplace sale → Jubelio transaction → resolve fulfillment warehouse → deduct StockWizz.</p></div>
+          <div class="card clickable reveal" style="--d:5" data-detail="reconcile"><span class="tag warn">Later</span><h3 style="margin-top:12px">Reconciliation</h3><p class="small">Bandingkan expected movement vs actual movement; jangan sekadar equalize final balances.</p></div>
+        </div>
+        <div class="flow reveal" style="--d:6;margin-top:18px">
+          <div class="flow-step good"><b>Refill +10</b><span>StockWizz +10</span></div>
+          <div class="flow-step good"><b>Allocation 80%</b><span>Jubelio +8</span></div>
+          <div class="flow-step"><b>Marketplace sale -3</b><span>Jubelio transaction</span></div>
+          <div class="flow-step good"><b>Return path</b><span>StockWizz -3 pada location benar</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 06 -->
+    <section class="slide" data-title="Physical Network" data-sub="Bali supply anchor, Jakarta capacity">
+      <div class="slide-inner">
+        <div class="eyebrow reveal" style="--d:0">05 · Physical Reality</div>
+        <h2 class="reveal" style="--d:1">Bali dekat dengan sumber produksi, tetapi SECM bukan warehouse besar.</h2>
+        <p class="lead reveal" style="--d:2">Constraint sebenarnya: Jasri adalah pabrik; Padang Galak stockroom berbagi ruangan dengan SECM; Bali E-Commerce hanya mendapat ±2 baris rak. Jakarta punya storage/manpower lebih memungkinkan untuk domestic execution.</p>
+        <div class="route reveal" style="--d:3">
+          <div class="route-node clickable" data-detail="jasri"><span class="tag">Supply anchor</span><br><strong>Jasri · Karangasem</strong><p>Factory / production source. Posisi strategis Bali tetap penting untuk supply control.</p></div>
+          <div class="route-arrow">→</div>
+          <div class="route-node clickable" data-detail="padanggalak"><span class="tag warn">Constraint</span><br><strong>Padang Galak + SECM</strong><p>Stockroom/DC dan Bali E-Commerce berbagi ruang. SECM hanya sekitar dua baris rak kecil.</p></div>
+        </div>
+        <div class="route reveal" style="--d:4;margin-top:13px">
+          <div class="route-node"><span class="tag info">Transfer</span><br><strong>Bali supply</strong><p>Replenishment / transfer perlu direncanakan berdasarkan demand dan lead time.</p></div>
+          <div class="route-arrow">→</div>
+          <div class="route-node primary clickable" data-detail="jakarta"><span class="tag">Execution hub</span><br><strong>Jakarta · JECM</strong><p>Lebih cocok menampung domestic volume karena capacity, manpower, dan instant logistics lebih memungkinkan.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 07 -->
+    <section class="slide" data-title="Website /id — Hard Data" data-sub="Domestic demand condong ke Jawa">
+      <div class="slide-inner">
+        <div class="eyebrow reveal" style="--d:0">06 · Website `/id` Evidence</div>
+        <h2 class="reveal" style="--d:1">Hard data mendukung pemindahan fulfillment website lokal ke Jakarta.</h2>
+        <div class="grid grid-2">
+          <div class="card reveal" style="--d:2">
+            <h3>Website order mix · Jan 2025–sekarang</h3>
+            <div class="donut-wrap">
+              <div class="donut" style="--p:55.28"><div><strong>55.28%</strong><span>Domestic `/id`</span></div></div>
+              <div><div class="legend"><span><i class="dot"></i> Domestic 55.28%</span><span><i class="dot soft"></i> International 44.72%</span></div><p class="small" style="margin-top:14px">Lebih dari separuh website workload adalah domestic.</p></div>
+            </div>
+          </div>
+          <div class="card reveal" style="--d:3">
+            <h3>Tujuan domestic `/id`</h3>
+            <div class="chart-row"><label>Jabodetabek + Jawa</label><div class="bar"><i data-w="50.2%"></i></div><em>50.2%</em></div>
+            <div class="chart-row"><label>Bali</label><div class="bar amber"><i data-w="25.1%"></i></div><em>25.1%</em></div>
+            <div class="chart-row"><label>Others</label><div class="bar blue"><i data-w="24.7%"></i></div><em>24.7%</em></div>
+            <p class="small">1,277 order domestic menuju Jabodetabek/Jawa; 640 menuju Bali.</p>
+          </div>
+        </div>
+        <div class="grid grid-3" style="margin-top:14px">
+          <div class="card reveal" style="--d:4"><div class="metric">3.46</div><div class="metric-label">Average items per Website order.</div></div>
+          <div class="card reveal" style="--d:5"><div class="metric">2.33</div><div class="metric-label">Average items per Marketplace order.</div></div>
+          <div class="card clickable reveal" style="--d:6" data-detail="basket"><div class="metric amber">+48.5%</div><div class="metric-label">Website basket size lebih besar; pick-pack workload per box lebih berat.</div></div>
+        </div>
+        <div class="source reveal" style="--d:7;margin-top:12px">Local database · Jan 2025–11 Sep 2026</div>
+      </div>
+    </section>
+
+    <!-- 08 -->
+    <section class="slide" data-title="Website /id — Proposal" data-sub="Jakarta domestic, Bali regional">
+      <div class="slide-inner">
+        <div class="eyebrow reveal" style="--d:0">07 · Website Routing Proposal</div>
+        <h2 class="reveal" style="--d:1">Website `/id` → Jakarta. Regional / international → Bali.</h2>
+        <p class="lead reveal" style="--d:2">Ini memisahkan “siapa yang mengendalikan supply” dari “siapa yang mengerjakan fulfillment”. Bali tetap strategic supply anchor.</p>
+        <div class="grid grid-2">
+          <div class="route-node primary reveal" style="--d:3"><span class="tag">JECM</span><br><strong>sensatia.com/id → Jakarta</strong><p>Domestic fulfillment, capacity lebih besar, manpower lebih memungkinkan, destination demand banyak menuju Jawa.</p><button class="card clickable" style="width:100%;margin-top:14px;text-align:left" data-detail="webbenefit"><h3>Manfaat & feasibility</h3><p class="small">Klik untuk detail pilot, KPI dan guardrail.</p></button></div>
+          <div class="route-node reveal" style="--d:4"><span class="tag info">SECM</span><br><strong>Regional / international → Bali</strong><p>Tetap di Bali karena flow regional membutuhkan surat jalan dan masih workable secara operasional.</p><button class="card clickable" style="width:100%;margin-top:14px;text-align:left" data-detail="webrisk"><h3>Risiko & fallback</h3><p class="small">OOS Jakarta, reroute policy, returns, warehouse ledger.</p></button></div>
+        </div>
+        <div class="grid grid-3" style="margin-top:14px">
+          <div class="card reveal" style="--d:5"><span class="tag">Benefit</span><h3 style="margin-top:11px">SECM space relief</h3><p class="small">Domestic web stock/workload tidak lagi bersaing penuh dengan marketplace dan regional web di rak kecil.</p></div>
+          <div class="card reveal" style="--d:6"><span class="tag">Benefit</span><h3 style="margin-top:11px">Domestic execution</h3><p class="small">Jakarta lebih dekat ke mayoritas domestic destination dan lebih mendukung instant logistics.</p></div>
+          <div class="card reveal" style="--d:7"><span class="tag warn">Validate</span><h3 style="margin-top:11px">Cost & SLA</h3><p class="small">Expected improvement harus dibuktikan dengan actual ongkir, lead time, SLA dan cancellation saat pilot.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 09 -->
+    <section class="slide" data-title="Marketplace — Hard Data" data-sub="Shopee dominan">
+      <div class="slide-inner">
+        <div class="eyebrow reveal" style="--d:0">08 · Marketplace Evidence</div>
+        <h2 class="reveal" style="--d:1">Shopee cukup besar untuk justify multi-WH. Channel lain jauh lebih kecil.</h2>
+        <div class="grid grid-2">
+          <div class="card reveal" style="--d:2">
+            <h3>Marketplace volume · database sejak 2025</h3>
+            <div class="chart-row"><label>Shopee</label><div class="bar"><i data-w="80.4%"></i></div><em>80.4%</em></div>
+            <div class="chart-row"><label>Tokopedia</label><div class="bar blue"><i data-w="15.7%"></i></div><em>15.7%</em></div>
+            <div class="chart-row"><label>TikTok</label><div class="bar amber"><i data-w="2.9%"></i></div><em>2.9%</em></div>
+            <div class="chart-row"><label>Lazada + Blibli</label><div class="bar red"><i data-w="1%"></i></div><em>&lt;1%</em></div>
+          </div>
+          <div class="grid">
+            <div class="card clickable reveal" style="--d:3" data-detail="shopee"><span class="tag">Shopee</span><div class="metric" style="margin-top:12px">141,313</div><div class="metric-label">orders sejak 2025 · 80.4% dari marketplace volume.</div></div>
+            <div class="card reveal" style="--d:4"><span class="tag info">Cross-check Maxime</span><div class="metric" style="margin-top:12px">77.85%</div><div class="metric-label">orders Jan–Aug 2026; 68.46% GMV. Periode berbeda, arah kesimpulan sama.</div></div>
+          </div>
+        </div>
+        <div class="source reveal" style="--d:5;margin-top:12px">Database Jan 2025–sekarang + Maxime proposal Jan–Aug 2026</div>
+      </div>
+    </section>
+
+    <!-- 10 -->
+    <section class="slide" data-title="Marketplace — Proposal" data-sub="Non-Shopee Jakarta, Shopee dual-node">
+      <div class="slide-inner">
+        <div class="eyebrow reveal" style="--d:0">09 · Marketplace Routing Proposal</div>
+        <h2 class="reveal" style="--d:1">Marketplace non-Shopee → Jakarta. Shopee tetap Bali + Jakarta.</h2>
+        <div class="grid grid-2">
+          <div class="card reveal" style="--d:2">
+            <table class="channel-table">
+              <thead><tr><th>Channel</th><th>Bali</th><th>Jakarta</th><th>Mode</th></tr></thead>
+              <tbody>
+                <tr><td>Shopee</td><td class="yes">✓ Primary</td><td class="yes">✓ Primary</td><td>Dual-node</td></tr>
+                <tr><td>Tokopedia</td><td class="fallback">Fallback</td><td class="yes">✓ Primary</td><td>Jakarta-first</td></tr>
+                <tr><td>TikTok</td><td class="fallback">Fallback</td><td class="yes">✓ Primary</td><td>Jakarta-first</td></tr>
+                <tr><td>Lazada</td><td class="no">—</td><td class="yes">✓ Primary</td><td>Single-node</td></tr>
+                <tr><td>Blibli</td><td class="no">—</td><td class="yes">✓ Primary</td><td>Single-node</td></tr>
+                <tr><td>Website `/id`</td><td class="no">—</td><td class="yes">✓ Primary</td><td>Jakarta</td></tr>
+                <tr><td>Regional Web</td><td class="yes">✓ Primary</td><td class="no">—</td><td>Bali</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="grid">
+            <div class="card clickable reveal" style="--d:3" data-detail="marketbenefit"><span class="tag">Why</span><h3 style="margin-top:12px">Kurangi fragmentation & sync points</h3><p class="small">Channel kecil tidak harus menjaga stock/routing dua warehouse bila volume tidak justify complexity.</p></div>
+            <div class="card clickable reveal" style="--d:4" data-detail="marketdoable"><span class="tag info">Doable</span><h3 style="margin-top:12px">Operationally kuat, technically conditional</h3><p class="small">Butuh deterministic warehouse routing, deduction, return/cancel, replenishment dan fallback policy.</p></div>
+            <div class="card clickable reveal" style="--d:5" data-detail="marketpilot"><span class="tag warn">Rollout</span><h3 style="margin-top:12px">Jangan cutover semua sekaligus</h3><p class="small">Pilot satu non-Shopee channel dulu, ukur hasil, lalu scale.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 11 -->
+    <section class="slide" data-title="TikTok Lesson" data-sub="Balance vs availability trade-off">
+      <div class="slide-inner">
+        <div class="eyebrow reveal" style="--d:0">10 · Routing Lesson Learned</div>
+        <h2 class="reveal" style="--d:1">TikTok sudah membuktikan: routing lebih balance belum tentu availability lebih baik.</h2>
+        <div class="grid grid-2">
+          <div class="card reveal" style="--d:2">
+            <h3>Sebelum regional coverage</h3>
+            <div class="metric red">±97%</div><div class="metric-label">order cenderung fulfill dari Bali.</div>
+            <div class="bar red" style="margin-top:18px"><i data-w="97%"></i></div>
+          </div>
+          <div class="card reveal" style="--d:3">
+            <h3>5-day test · 63 orders</h3>
+            <div class="grid grid-2" style="gap:10px"><div><div class="metric">54%</div><div class="metric-label">Bali</div></div><div><div class="metric">46%</div><div class="metric-label">Jakarta</div></div></div>
+            <div style="display:flex;gap:5px;margin-top:18px;height:12px"><div style="width:54%;background:var(--green);border-radius:999px 0 0 999px"></div><div style="width:46%;background:#9db9ac;border-radius:0 999px 999px 0"></div></div>
+          </div>
+        </div>
+        <div class="callout reveal" style="--d:4;margin-top:16px"><strong>Trade-off:</strong> ketika Jakarta OOS tetapi Bali masih punya stock, regional coverage membuat customer Jakarta tidak otomatis dapat membeli stock Bali. Balance membaik, tetapi cross-region fallback hilang.</div>
+        <div class="grid grid-2" style="margin-top:14px">
+          <div class="card clickable reveal" style="--d:5" data-detail="fallback"><span class="tag risk">Risk</span><h3 style="margin-top:11px">No automatic fallback</h3><p class="small">Ini harus menjadi design decision eksplisit, bukan asumsi.</p></div>
+          <div class="card reveal" style="--d:6"><span class="tag warn">Stock snapshot · 8 Sep</span><h3 style="margin-top:11px">54 Bali vs 112 Jakarta SKU &lt;10</h3><p class="small">Jakarta capacity lebih besar tidak berarti availability otomatis lebih sehat. Replenishment harus ikut berubah.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 12 -->
+    <section class="slide" data-title="Risk & Feasibility" data-sub="Simplify with guardrails">
+      <div class="slide-inner">
+        <div class="eyebrow reveal" style="--d:0">11 · Risk Register</div>
+        <h2 class="reveal" style="--d:1">Doable? Ya. Tetapi simplifikasi routing memindahkan beberapa risiko ke Jakarta.</h2>
+        <p class="lead reveal" style="--d:2">Tujuannya bukan menghilangkan kompleksitas; tujuannya memusatkan kompleksitas di tempat yang lebih mampu mengelolanya.</p>
+        <div class="risk-matrix">
+          <div class="risk-card clickable reveal" style="--d:3" data-detail="spof"><div class="risk-top"><b>Jakarta single point</b><span class="sev high">High</span></div><p>Non-Shopee bisa terdampak bersamaan jika JECM bermasalah.</p></div>
+          <div class="risk-card clickable reveal" style="--d:4" data-detail="replenish"><div class="risk-top"><b>Replenishment lead time</b><span class="sev high">High</span></div><p>Supply source di Bali; Jakarta perlu MIN/TARGET & safety stock.</p></div>
+          <div class="risk-card clickable reveal" style="--d:5" data-detail="wrongwh"><div class="risk-top"><b>Wrong WH deduction</b><span class="sev high">High</span></div><p>Order harus deduct StockWizz pada fulfillment warehouse yang benar.</p></div>
+          <div class="risk-card reveal" style="--d:6"><div class="risk-top"><b>Shopee dual-node</b><span class="sev med">Medium</span></div><p>Complexity tetap ada, tetapi justified oleh 77–80% share order.</p></div>
+          <div class="risk-card reveal" style="--d:7"><div class="risk-top"><b>Return / cancel</b><span class="sev med">Medium</span></div><p>Restock harus kembali ke ledger/location yang benar.</p></div>
+          <div class="risk-card reveal" style="--d:8"><div class="risk-top"><b>Campaign surge</b><span class="sev med">Medium</span></div><p>Jakarta demand akan naik; capacity plan harus melihat campaign uplift.</p></div>
+        </div>
+        <div class="grid grid-2" style="margin-top:15px">
+          <div class="card reveal"><span class="tag">Assessment</span><h3 style="margin-top:11px">Operational feasibility · 8/10</h3><p class="small">Network logic dan demand distribution mendukung Jakarta-first.</p></div>
+          <div class="card reveal"><span class="tag info">Assessment</span><h3 style="margin-top:11px">Technical readiness · 6/10</h3><p class="small">Masih conditional sampai location mapping, outbound deduction, exception handling dan reconciliation siap.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 13 -->
+    <section class="slide" data-title="Target Operating Model" data-sub="Supply control ≠ fulfillment execution">
+      <div class="slide-inner">
+        <div class="eyebrow reveal" style="--d:0">12 · Target Operating Model</div>
+        <h2 class="reveal" style="--d:1">Bali tetap supply/control anchor. Jakarta menjadi domestic execution hub.</h2>
+        <div class="grid grid-2">
+          <div class="card reveal" style="--d:2"><span class="tag">Bali</span><h3 style="margin-top:12px">Supply & selective fulfillment</h3><p class="small">Factory Jasri, supply control, SECM shared pool, Shopee Bali, regional/international web.</p></div>
+          <div class="card reveal" style="--d:3"><span class="tag info">Jakarta</span><h3 style="margin-top:12px">Domestic execution</h3><p class="small">Website `/id`, non-Shopee marketplace primary, Shopee Jakarta, higher domestic safety stock.</p></div>
+        </div>
+        <div class="grid grid-4" style="margin-top:14px">
+          <div class="card clickable reveal" style="--d:4" data-detail="ownership"><h3>E-Commerce</h3><p class="small">Demand, forecast, campaign, critical SKU.</p></div>
+          <div class="card reveal" style="--d:5"><h3>Stock Control</h3><p class="small">Allocation Bali/Jakarta, replenishment timing.</p></div>
+          <div class="card reveal" style="--d:6"><h3>Warehouse</h3><p class="small">Physical accuracy, receive, transfer, inventory records.</p></div>
+          <div class="card reveal" style="--d:7"><h3>Fulfillment</h3><p class="small">Routing, pick, pack, dispatch sesuai SLA.</p></div>
+          <div class="card reveal" style="--d:8"><h3>Production</h3><p class="small">Supply availability berdasarkan demand.</p></div>
+          <div class="card reveal" style="--d:9"><h3>SCM / Ops</h3><p class="small">Cross-team coordination.</p></div>
+          <div class="card reveal" style="--d:10"><h3>IT / System</h3><p class="small">Warehouse/SKU mapping, stock sync, routing config, audit.</p></div>
+          <div class="card reveal" style="--d:11"><h3>Top 50 SKU</h3><p class="small">Demand + campaign → review → allocation → replenish.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 14 -->
+    <section class="slide" data-title="Roadmap" data-sub="Fix integration, pilot routing, scale">
+      <div class="slide-inner">
+        <div class="eyebrow reveal" style="--d:0">13 · Roadmap</div>
+        <h2 class="reveal" style="--d:1">Urutan kerja yang mengurangi risiko tanpa over-engineering.</h2>
+        <div class="timeline reveal" style="--d:2">
+          <div class="phase active-phase"><div class="phase-dot">P0</div><h3>Fix inbound delta</h3><p>Stop absolute sync. Idempotency, logging, safe retry, CSV fallback.</p></div>
+          <div class="phase"><div class="phase-dot">P1</div><h3>Formalize allocation</h3><p>80% Bali rule, rounding, location config, acceptance criteria.</p></div>
+          <div class="phase"><div class="phase-dot">P1</div><h3>Pilot `/id` → JKT</h3><p>Routing, ATP, stock deduction, SLA/cost baseline, fallback.</p></div>
+          <div class="phase"><div class="phase-dot">P2</div><h3>Pilot non-Shopee</h3><p>Start one channel Jakarta-first, compare before/after.</p></div>
+          <div class="phase"><div class="phase-dot">P2/3</div><h3>Outbound + reconcile</h3><p>Jubelio transaction → StockWizz, then movement reconciliation.</p></div>
+        </div>
+        <div class="grid grid-3" style="margin-top:24px">
+          <div class="card reveal" style="--d:3"><div class="metric">↓</div><div class="metric-label">Stock mismatch / OOS exception.</div></div>
+          <div class="card reveal" style="--d:4"><div class="metric">↑</div><div class="metric-label">Dispatch SLA & fulfillment readiness.</div></div>
+          <div class="card reveal" style="--d:5"><div class="metric">↓</div><div class="metric-label">Manual update & duplicated routing complexity.</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 15 -->
+    <section class="slide" data-title="Pilot Scorecard" data-sub="Measure result, not feeling">
+      <div class="slide-inner">
+        <div class="eyebrow reveal" style="--d:0">14 · Pilot Success Metrics</div>
+        <h2 class="reveal" style="--d:1">Split `/id` dan marketplace harus dibuktikan dengan result.</h2>
+        <div class="grid grid-3">
+          <div class="decision reveal" style="--d:2"><div class="num">01</div><div><b>Stock accuracy</b><p>Mismatch StockWizz ↔ expected movement; failed adjustments; duplicate deductions.</p></div></div>
+          <div class="decision reveal" style="--d:3"><div class="num">02</div><div><b>Availability</b><p>Active OOS, low-stock SKU, cancellation because OOS, cross-location exception.</p></div></div>
+          <div class="decision reveal" style="--d:4"><div class="num">03</div><div><b>Fulfillment SLA</b><p>Pick-pack lead time, late dispatch, fast dispatch, instant delivery performance.</p></div></div>
+          <div class="decision reveal" style="--d:5"><div class="num">04</div><div><b>Workload</b><p>Order/item throughput per team and actual SECM space relief.</p></div></div>
+          <div class="decision reveal" style="--d:6"><div class="num">05</div><div><b>Logistics</b><p>Actual shipping cost and delivery lead time for `/id` after Jakarta pilot.</p></div></div>
+          <div class="decision reveal" style="--d:7"><div class="num">06</div><div><b>Replenishment</b><p>Jasri/Bali → Jakarta lead time, MIN/TARGET hit rate, emergency transfer frequency.</p></div></div>
+        </div>
+        <div class="quote reveal" style="--d:8;margin-top:24px">“Yang sudah green cukup monitor. Fokus management attention ke <mark>exception → root cause → action → result</mark>.”</div>
+      </div>
+    </section>
+
+    <!-- 16 -->
+    <section class="slide" data-title="Recommendation" data-sub="Selective fulfillment network">
+      <div class="slide-inner">
+        <div class="eyebrow reveal" style="--d:0">15 · Recommendation</div>
+        <h2 class="reveal" style="--d:1">Target yang disarankan: simpler routing, stronger stock movement, clearer ownership.</h2>
+        <div class="grid grid-3">
+          <div class="card reveal pulse" style="--d:2"><span class="tag">1</span><h3 style="margin-top:12px">Jubelio first</h3><p class="small">Fix delta-based inbound dan outbound transaction loop sebelum auto-reconciliation.</p></div>
+          <div class="card reveal pulse" style="--d:3"><span class="tag">2</span><h3 style="margin-top:12px">Website `/id` → Jakarta</h3><p class="small">Domestic execution pindah ke JECM; regional/international tetap Bali.</p></div>
+          <div class="card reveal pulse" style="--d:4"><span class="tag">3</span><h3 style="margin-top:12px">Selective marketplace routing</h3><p class="small">Shopee dual-node; non-Shopee Jakarta-first, dengan fallback policy eksplisit.</p></div>
+        </div>
+        <div class="callout reveal" style="--d:5;margin-top:18px"><strong>Bali tidak kehilangan kontrol.</strong> Factory dan supply anchor tetap di Bali. Yang dipindahkan adalah execution workload yang lebih cocok ditangani Jakarta.</div>
+        <div class="grid grid-2" style="margin-top:14px">
+          <div class="card clickable reveal" style="--d:6" data-detail="decisions"><span class="tag warn">Open decisions</span><h3 style="margin-top:12px">Masih perlu diputuskan sebelum scale</h3><p class="small">Fallback `/id`, actual replenishment lead time, safety stock JECM, rounding allocation, return/cancel path.</p></div>
+          <div class="card reveal" style="--d:7"><span class="tag">Next</span><h3 style="margin-top:12px">Controlled pilot → measure → scale</h3><p class="small">Jangan full cutover sekaligus. Validasi satu flow, lalu perluas hanya jika KPI membaik.</p></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="bottom-nav">
+    <div class="slide-count"><span id="currentNum">01</span> / <span id="totalNum">16</span> · <span id="currentTitle">Opening</span></div>
+    <div class="nav-buttons"><button class="nav-btn" id="prevBtn" aria-label="Previous">←</button><button class="nav-btn" id="nextBtn" aria-label="Next">→</button></div>
+  </div>
+
+  <div class="detail-backdrop" id="detailBackdrop"></div>
+  <aside class="detail-panel" id="detailPanel" aria-hidden="true">
+    <button class="detail-close" id="detailClose" aria-label="Close">×</button>
+    <div class="detail-kicker" id="detailKicker">Detail</div>
+    <h3 id="detailTitle">Detail</h3>
+    <div id="detailBody"></div>
+  </aside>
+
+  <section class="overview" id="overview" aria-hidden="true">
+    <div style="width:min(1400px,100%);margin:0 auto 18px;display:flex;align-items:end;justify-content:space-between;gap:16px"><div><div class="eyebrow">Deck Overview</div><h2 style="margin:0">Pilih slide</h2></div><button class="tool" id="overviewClose">×</button></div>
+    <div class="overview-grid" id="overviewGrid"></div>
+  </section>
+</div>
+<script>
+(() => {
+  const slides = [...document.querySelectorAll('.slide')];
+  const total = slides.length;
+  const progressBar = document.getElementById('progressBar');
+  const currentNum = document.getElementById('currentNum');
+  const totalNum = document.getElementById('totalNum');
+  const currentTitle = document.getElementById('currentTitle');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const overview = document.getElementById('overview');
+  const overviewGrid = document.getElementById('overviewGrid');
+  const detailPanel = document.getElementById('detailPanel');
+  const detailBackdrop = document.getElementById('detailBackdrop');
+  const detailTitle = document.getElementById('detailTitle');
+  const detailBody = document.getElementById('detailBody');
+  const detailKicker = document.getElementById('detailKicker');
+  let index = 0;
+  let touchX = 0;
+
+  const details = {
+    jubelio:{k:'Integration',t:'Jubelio integration harus dibenahi dulu',b:`<p>Production test menunjukkan connectivity sudah bekerja. Problem utamanya adalah <b>quantity semantics</b>: current API mengirim final StockWizz balance sebagai absolute Jubelio stock.</p><div class="detail-callout">Direction: movement-based Stock Adjustment + allocation rule + transaction return path.</div><ul><li>Inbound refill: delta, bukan final balance.</li><li>Audit log + idempotency + retry-safe.</li><li>Outbound marketplace transaction harus deduct location StockWizz yang benar.</li></ul>`},
+    market:{k:'Marketplace',t:'Selective multi-warehouse',b:`<p>Shopee mempunyai volume yang cukup besar untuk justify dual-node. Channel lain jauh lebih kecil sehingga multi-WH menambah stock fragmentation dan sync points yang tidak sebanding.</p><div class="detail-callout"><b>Target:</b> Shopee Bali + Jakarta; non-Shopee Jakarta-first.</div>`},
+    website:{k:'Website',t:'`/id` → Jakarta',b:`<p>Database lokal menunjukkan 55.28% website order adalah domestic dan 50.2% domestic destination menuju Jabodetabek/Jawa.</p><div class="detail-callout">Regional/international tetap Bali karena operational requirement surat jalan; local \`/id\` menjadi kandidat kuat untuk JECM.</div>`},
+    network:{k:'Network',t:'Bali controls supply, Jakarta executes domestic',b:`<p>Factory berada di Jasri. Bali tetap strategic supply anchor. Namun SECM di Padang Galak berbagi ruang dengan stockroom dan hanya mendapat sekitar dua baris rak kecil.</p><p>Jakarta lebih sesuai untuk menyerap domestic execution workload karena storage, manpower dan instant logistics lebih memungkinkan.</p>`},
+    absolute:{k:'Root cause',t:'Absolute sync menghapus buffer',b:`<p>Ketika StockWizz 32 direfill +6 menjadi 38, Jubelio yang awalnya 1 berubah langsung menjadi 38. Ini membuktikan final balance di-push, bukan movement.</p><ul><li>Existing marketplace allocation hilang.</li><li>Stock yang sudah terjual tetapi belum kembali ke StockWizz dapat ter-expose lagi.</li><li>Overselling risk meningkat.</li></ul>`},
+    space:{k:'Physical constraint',t:'SECM bukan warehouse besar',b:`<p>Padang Galak Stockroom/DC dan Bali E-Commerce berada dalam satu ruang. Bali E-Commerce hanya mendapat kurang lebih dua baris rak kecil.</p><p>Problem ini membuat setiap tambahan channel dan stock buffer langsung berdampak pada ruang kerja, picking, packing, dan replenishment frequency.</p>`},
+    routing:{k:'Complexity',t:'Multi-WH menambah titik kegagalan',b:`<p>Setiap kombinasi platform × warehouse menambah requirement untuk allocation, stock sync, order routing, warehouse deduction, returns, cancellation dan reconciliation.</p><div class="detail-callout">Simplifikasi paling bernilai pada channel dengan volume kecil. Shopee tetap pengecualian karena share order sangat besar.</div>`},
+    twenty:{k:'Clarification',t:'20% bukan stock milik website',b:`<p>80% hanya aturan exposure movement ke Jubelio. Sisa yang tidak diekspos tidak berarti dipisahkan secara fisik atau dikunci eksklusif untuk website.</p><p>Website masih memakai shared Bali physical pool sesuai actual availability.</p>`},
+    danger:{k:'Production risk',t:'Kenapa 1 → 38 berbahaya?',b:`<p>StockWizz belum aman dianggap live sellable marketplace stock karena transaction Jubelio → StockWizz belum near-real-time.</p><div class="detail-callout">Menaikkan Jubelio ke final StockWizz balance dapat membuka kembali barang yang sebenarnya sudah terjual.</div>`},
+    phase1:{k:'P0',t:'Inbound delta requirements',b:`<ul><li>Quantity = refill delta.</li><li>Allocation configurable per E-Commerce location.</li><li>Idempotency per refill reference.</li><li>Log SKU, qty, allocation, response, timestamp.</li><li>Retry tanpa duplicate adjustment.</li><li>Delta CSV tetap fallback sampai automation stabil.</li></ul>`},
+    phase2:{k:'Outbound',t:'Jubelio Transaction → StockWizz',b:`<ul><li>Resolve Bali/Jakarta fulfillment source.</li><li>Map SKU dan handle missing mapping.</li><li>Deduct correct StockWizz warehouse.</li><li>Save external order/transaction ID.</li><li>Handle cancellation, return, refund, correction, partial fulfillment dan replacement.</li></ul>`},
+    reconcile:{k:'Reconciliation',t:'Jangan memaksa final balances sama',b:`<p>Reconciliation sebaiknya movement-based: expected movement dibanding actual movement, dengan intentional allocation tetap dihormati.</p><p>Absolute equality hanya aman kalau seluruh inbound, outbound, reservation dan exception sudah sinkron sebagai satu source-of-truth.</p>`},
+    jasri:{k:'Supply',t:'Jasri adalah production source',b:`<p>Karena factory berada di Karangasem, Bali tetap mempunyai supply-chain advantage dan seharusnya mempertahankan visibility/control terhadap production availability dan transfer planning.</p>`},
+    padanggalak:{k:'Bali',t:'Padang Galak + SECM = constrained execution',b:`<p>SECM cocok dipertahankan untuk workflow yang memang perlu Bali: Shopee Bali, regional/international web, dan support/fallback tertentu.</p><p>Tidak ideal memaksa seluruh domestic workload masuk ke ruang kecil yang sama.</p>`},
+    jakarta:{k:'Jakarta',t:'JECM sebagai domestic execution hub',b:`<p>Proposal memanfaatkan capacity Jakarta untuk website \`/id\`, non-Shopee marketplace dan Shopee Jakarta.</p><div class="detail-callout">Konsekuensi: Jakarta harus memiliki replenishment policy lebih proaktif karena supply source tetap di Bali.</div>`},
+    basket:{k:'Workload',t:'Website order lebih berat diproses',b:`<p>Average Website basket = 3.46 item/order, sedangkan Marketplace = 2.33.</p><p>Artinya Website membawa sekitar 48.5% lebih banyak item per box. Ini indikasi workload pick-pack per order yang lebih tinggi, walaupun actual labor minutes tetap perlu diukur saat pilot.</p>`},
+    webbenefit:{k:'Website pilot',t:'Manfaat `/id` → Jakarta',b:`<ul><li>Mengurangi tekanan space SECM.</li><li>Memindahkan heavier basket workload ke node berkapasitas lebih besar.</li><li>Lebih dekat ke 50.2% domestic destination yang menuju Jabodetabek/Jawa.</li><li>Membuka peluang SLA dan ongkir yang lebih baik — harus divalidasi dengan actual pilot.</li></ul><div class="detail-callout">Operationally very doable, jika JECM stock source dan replenishment siap.</div>`},
+    webrisk:{k:'Website risk',t:'Guardrail `/id` → Jakarta',b:`<ul><li>Jika Jakarta OOS, tentukan apakah reroute ke Bali, backorder atau show OOS.</li><li>Return/cancel harus restock ke location benar.</li><li>Website ATP harus location-aware; jangan baca satu global stock.</li><li>Transfer Bali → Jakarta perlu lead-time dan safety-stock policy.</li></ul>`},
+    shopee:{k:'Commercial evidence',t:'Kenapa Shopee tetap dua warehouse?',b:`<p>Database sejak 2025: 141,313 Shopee orders atau 80.4% marketplace volume.</p><p>Proposal Maxime Jan–Aug 2026 juga menunjukkan 77.85% orders dan 68.46% GMV. Dua periode berbeda, tetapi keduanya mengkonfirmasi dominasi Shopee.</p><div class="detail-callout">Karena impact komersialnya besar, kompleksitas dual-node Shopee masih justified.</div>`},
+    marketbenefit:{k:'Benefits',t:'Manfaat non-Shopee Jakarta-first',b:`<ul><li>Stock pooling channel kecil lebih kuat.</li><li>Mengurangi duplicate allocation Bali/Jakarta.</li><li>Routing dan sync points lebih sedikit.</li><li>SECM lebih fokus pada Shopee Bali + regional web.</li><li>Jakarta lebih cocok untuk instant-delivery execution.</li></ul>`},
+    marketdoable:{k:'Feasibility',t:'Doable, tetapi technical cutover harus controlled',b:`<p>Secara operasional idenya kuat. Dari sisi sistem, cutover baru aman jika:</p><ul><li>Seller Center/Jubelio warehouse routing deterministic.</li><li>StockWizz deduction location-aware.</li><li>Cancel/return/replacement flow jelas.</li><li>Fallback tidak bergantung pada asumsi cross-region.</li><li>Jakarta replenishment MIN/TARGET disiapkan.</li></ul>`},
+    marketpilot:{k:'Rollout',t:'Pilot satu channel dulu',b:`<p>Jangan pindahkan TikTok, Tokopedia, Lazada, Blibli sekaligus.</p><ol><li>Ambil baseline OOS, dispatch, cancellation, volume, location.</li><li>Pilih satu non-Shopee channel.</li><li>Set Jakarta primary.</li><li>Monitor beberapa cycle/campaign.</li><li>Scale hanya jika stock accuracy & SLA membaik.</li></ol>`},
+    fallback:{k:'Lesson learned',t:'Cross-region fallback tidak otomatis',b:`<p>TikTok 5-day regional routing test berhasil mengubah distribution dari sekitar 97% Bali menjadi 54% Bali / 46% Jakarta.</p><p>Trade-off: ketika Jakarta OOS dan Bali masih punya stock, customer Jakarta tidak otomatis dapat menggunakan Bali stock.</p><div class="detail-callout">Karena itu fallback harus didesain per platform, bukan diasumsikan tersedia.</div>`},
+    spof:{k:'Risk control',t:'Jakarta single point untuk non-Shopee',b:`<p>Mitigasi: capability Bali tetap dipertahankan sebagai emergency fallback bila platform mendukung, dokumentasikan failover criteria, dan jangan matikan operational knowledge Bali.</p>`},
+    replenish:{k:'Risk control',t:'Jakarta harus memiliki safety stock lebih matang',b:`<p>Memindahkan lebih banyak channel ke Jakarta tanpa mengubah replenishment hanya memindahkan OOS dari Bali ke Jakarta.</p><p>Butuh demand velocity, transfer lead time, safety stock, campaign uplift, MIN/TARGET per SKU/location.</p>`},
+    wrongwh:{k:'System risk',t:'Order harus deduct warehouse yang benar',b:`<p>Setiap marketplace/web order harus membawa atau dapat di-resolve ke fulfillment warehouse. Deduction salah location akan membuat satu node terlihat berlebih dan node lain terlihat habis.</p>`},
+    ownership:{k:'Governance',t:'Clear ownership menjaga flow tetap sehat',b:`<ul><li>E-Commerce: demand & campaign visibility.</li><li>Stock Control: allocation dan replenishment timing.</li><li>Warehouse: physical accuracy.</li><li>Fulfillment: route, pick, pack, dispatch.</li><li>Production: supply availability.</li><li>SCM/Ops: koordinasi end-to-end.</li><li>IT/System: mapping, sync, audit & routing configuration.</li></ul>`},
+    decisions:{k:'Open decisions',t:'Hal yang masih perlu diputuskan',b:`<ul><li>Rounding rule allocation percentage.</li><li>Official Bali allocation setelah \`/id\` pindah.</li><li>Fallback \`/id\` saat JECM OOS.</li><li>Actual Bali → Jakarta replenishment lead time.</li><li>Safety stock / days-of-cover per location.</li><li>Return/cancel/replacement rules.</li><li>Platform-specific cross-region capability.</li></ul>`}
+  };
+
+  function pad(n){return String(n).padStart(2,'0')}
+  function setSlide(next, instant=false){
+    next = Math.max(0, Math.min(total-1, next));
+    if(next===index && !instant) return;
+    const old=index;
+    slides.forEach((s,i)=>{s.classList.remove('active','prev'); if(i<next)s.classList.add('prev')});
+    index=next;
+    slides[index].classList.add('active');
+    slides[index].scrollTop=0;
+    currentNum.textContent=pad(index+1); currentTitle.textContent=slides[index].dataset.title; totalNum.textContent=pad(total);
+    progressBar.style.width=((index+1)/total*100)+'%';
+    prevBtn.disabled=index===0; nextBtn.disabled=index===total-1;
+    animateBars(slides[index]);
+    history.replaceState(null,'','#slide-'+(index+1));
+  }
+  function animateBars(slide){
+    slide.querySelectorAll('.bar > i').forEach(el=>{el.style.width='0';requestAnimationFrame(()=>setTimeout(()=>el.style.width=el.dataset.w||'0%',180))});
+  }
+  function openDetail(id){
+    const d=details[id]; if(!d)return;
+    detailKicker.textContent=d.k; detailTitle.textContent=d.t; detailBody.innerHTML=d.b;
+    detailPanel.classList.add('open');detailBackdrop.classList.add('open');detailPanel.setAttribute('aria-hidden','false');
+  }
+  function closeDetail(){detailPanel.classList.remove('open');detailBackdrop.classList.remove('open');detailPanel.setAttribute('aria-hidden','true')}
+  function toggleOverview(force){
+    const open=force ?? !overview.classList.contains('open'); overview.classList.toggle('open',open);overview.setAttribute('aria-hidden',String(!open));
+  }
+  slides.forEach((s,i)=>{
+    const c=document.createElement('button');c.className='overview-card';c.innerHTML=`<span class="idx">${pad(i+1)}</span><b>${s.dataset.title}</b><span>${s.dataset.sub||''}</span>`;c.onclick=()=>{setSlide(i);toggleOverview(false)};overviewGrid.appendChild(c)
+  });
+  document.addEventListener('click',e=>{const t=e.target.closest('[data-detail]');if(t)openDetail(t.dataset.detail)});
+  document.getElementById('detailClose').onclick=closeDetail; detailBackdrop.onclick=closeDetail;
+  prevBtn.onclick=()=>setSlide(index-1);nextBtn.onclick=()=>setSlide(index+1);
+  document.getElementById('overviewBtn').onclick=()=>toggleOverview();document.getElementById('overviewClose').onclick=()=>toggleOverview(false);
+  document.getElementById('fullBtn').onclick=()=>{if(!document.fullscreenElement)document.documentElement.requestFullscreen?.();else document.exitFullscreen?.()};
+  document.addEventListener('keydown',e=>{
+    if(detailPanel.classList.contains('open')){if(e.key==='Escape')closeDetail();return}
+    if(overview.classList.contains('open')){if(e.key==='Escape'||e.key.toLowerCase()==='o')toggleOverview(false);return}
+    if(['ArrowRight','ArrowDown','PageDown',' '].includes(e.key)){e.preventDefault();setSlide(index+1)}
+    else if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){e.preventDefault();setSlide(index-1)}
+    else if(e.key==='Home')setSlide(0);else if(e.key==='End')setSlide(total-1);else if(e.key.toLowerCase()==='o')toggleOverview();else if(e.key.toLowerCase()==='f')document.getElementById('fullBtn').click();
+  });
+  document.addEventListener('touchstart',e=>touchX=e.changedTouches[0].screenX,{passive:true});
+  document.addEventListener('touchend',e=>{const dx=e.changedTouches[0].screenX-touchX;if(Math.abs(dx)>70){dx<0?setSlide(index+1):setSlide(index-1)}},{passive:true});
+  const hash=location.hash.match(/slide-(\d+)/); if(hash)index=Math.min(total-1,Math.max(0,+hash[1]-1));
+  setSlide(index,true);setTimeout(()=>animateBars(slides[index]),80);
+})();
+</script>
+</body>
+</html>

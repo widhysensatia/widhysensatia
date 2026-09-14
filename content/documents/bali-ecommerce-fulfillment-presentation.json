@@ -1,0 +1,875 @@
+{
+  "slug": "bali-ecommerce-fulfillment-presentation",
+  "sourceTitle": "Sensatia E-Commerce — Fulfillment & Stock Strategy",
+  "sections": [
+    {
+      "id": "perbaiki-stock-movement-dulu-lalu-sederhanakan-fulfillment-bali-jakarta",
+      "number": "01",
+      "title": "Perbaiki stock movement dulu. Lalu sederhanakan fulfillment Bali × Jakarta.",
+      "blocks": [
+        {
+          "type": "note",
+          "text": "E-Commerce Fulfillment Strategy"
+        },
+        {
+          "type": "paragraph",
+          "text": "Alur keputusan: Jubelio Integration → Website `/id` ke Jakarta → Marketplace non-Shopee ke Jakarta , sementara Shopee tetap Bali + Jakarta ."
+        },
+        {
+          "type": "note",
+          "text": "Confirmed / hard data Proposal / pilot System design"
+        },
+        {
+          "type": "note",
+          "text": "1 Pool movement-first location-aware"
+        },
+        {
+          "type": "note",
+          "text": "Navigasi: ← → · Space · O overview · klik card untuk detail"
+        }
+      ]
+    },
+    {
+      "id": "tiga-problem-berbeda-terlihat-seperti-satu-masalah-stock",
+      "number": "02",
+      "title": "Tiga problem berbeda terlihat seperti satu masalah “stock”.",
+      "blocks": [
+        {
+          "type": "note",
+          "text": "01 · Why Now"
+        },
+        {
+          "type": "paragraph",
+          "text": "Kita perlu memisahkan integration bug, physical capacity, dan routing complexity sebelum membuat perubahan besar."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Absolute sync salah"
+        },
+        {
+          "type": "paragraph",
+          "text": "Production test membuktikan API ter-trigger, tetapi Jubelio di-overwrite dengan final StockWizz balance."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "SECM sangat terbatas"
+        },
+        {
+          "type": "paragraph",
+          "text": "Stockroom Padang Galak dan Bali E-Commerce berbagi ruang; SECM hanya mendapat sekitar 2 baris rak kecil."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Terlalu banyak sync points"
+        },
+        {
+          "type": "paragraph",
+          "text": "Semua marketplace dual-WH menambah stock allocation, warehouse routing, reconciliation, dan exception handling."
+        },
+        {
+          "type": "note",
+          "text": "Prinsip deck ini: jangan menyelesaikan OOS dengan satu asumsi. Kita benahi source-of-truth terlebih dahulu, lalu menyederhanakan network berdasarkan demand dan capacity."
+        }
+      ]
+    },
+    {
+      "id": "bali-menyimpan-satu-stok-fisik-80-adalah-exposure-rule-bukan-ownership-s",
+      "number": "03",
+      "title": "Bali menyimpan satu stok fisik. 80% adalah exposure rule, bukan ownership stock.",
+      "blocks": [
+        {
+          "type": "note",
+          "text": "02 · Jubelio Integration"
+        },
+        {
+          "type": "paragraph",
+          "text": "Tidak ada rak fisik 80/20. StockWizz melihat 100% refill, sedangkan marketplace hanya menerima sebagian movement melalui Jubelio."
+        },
+        {
+          "type": "note",
+          "text": "Stockroom / DC physical stock tersedia untuk replenishment SECM Bali 1 shared physical pool StockWizz +100% refill movement Jubelio +80% movement exposure Marketplace sellable stock per channel allocation"
+        },
+        {
+          "type": "note",
+          "text": "100% Refill masuk ke physical/shared balance StockWizz. 80% Current operational exposure dari refill movement ke Jubelio Bali. ≠ 20% Website tidak dikunci hanya ke “sisa 20%”. Web tetap memakai shared pool."
+        }
+      ]
+    },
+    {
+      "id": "connectivity-berhasil-quantity-logic-nya-yang-gagal",
+      "number": "04",
+      "title": "Connectivity berhasil. Quantity logic-nya yang gagal.",
+      "blocks": [
+        {
+          "type": "note",
+          "text": "03 · Production Evidence"
+        },
+        {
+          "type": "note",
+          "text": "32 → 38"
+        },
+        {
+          "type": "paragraph",
+          "text": "Refill +6 untuk PO SECM1041 , SKU PHH-0500 . Perhitungan internal PASS."
+        },
+        {
+          "type": "note",
+          "text": "1 → 38"
+        },
+        {
+          "type": "paragraph",
+          "text": "Seharusnya adjustment berbasis movement. Absolute balance menghapus existing buffer/allocation."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "API trigger"
+        },
+        {
+          "type": "paragraph",
+          "text": "Refill berhasil memanggil Stock Adjustment API."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "StockWizz refill"
+        },
+        {
+          "type": "paragraph",
+          "text": "32 + 6 = 38 sesuai movement."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Delta + buffer"
+        },
+        {
+          "type": "paragraph",
+          "text": "Jubelio menerima final balance, bukan tambahan movement."
+        },
+        {
+          "type": "note",
+          "text": "Production test · 11 Sep 2026"
+        }
+      ]
+    },
+    {
+      "id": "movement-first-location-aware-lalu-reconciliation-setelah-dua-arah-stabi",
+      "number": "05",
+      "title": "Movement-first, location-aware, lalu reconciliation setelah dua arah stabil.",
+      "blocks": [
+        {
+          "type": "note",
+          "text": "04 · Fix Before Scale"
+        },
+        {
+          "type": "paragraph",
+          "text": "Saldo StockWizz dan Jubelio tidak boleh dipaksa sama selama transaction return path belum real-time dan intentional allocation masih berlaku."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Inbound delta"
+        },
+        {
+          "type": "paragraph",
+          "text": "Refill → generate delta → apply allocation % → Jubelio Stock Adjustment. Idempotent, logged, retry-safe."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Transaction return"
+        },
+        {
+          "type": "paragraph",
+          "text": "Marketplace sale → Jubelio transaction → resolve fulfillment warehouse → deduct StockWizz."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Reconciliation"
+        },
+        {
+          "type": "paragraph",
+          "text": "Bandingkan expected movement vs actual movement; jangan sekadar equalize final balances."
+        },
+        {
+          "type": "note",
+          "text": "Refill +10 StockWizz +10 Allocation 80% Jubelio +8 Marketplace sale -3 Jubelio transaction Return path StockWizz -3 pada location benar"
+        }
+      ]
+    },
+    {
+      "id": "bali-dekat-dengan-sumber-produksi-tetapi-secm-bukan-warehouse-besar",
+      "number": "06",
+      "title": "Bali dekat dengan sumber produksi, tetapi SECM bukan warehouse besar.",
+      "blocks": [
+        {
+          "type": "note",
+          "text": "05 · Physical Reality"
+        },
+        {
+          "type": "paragraph",
+          "text": "Constraint sebenarnya: Jasri adalah pabrik; Padang Galak stockroom berbagi ruangan dengan SECM; Bali E-Commerce hanya mendapat ±2 baris rak. Jakarta punya storage/manpower lebih memungkinkan untuk domestic execution."
+        },
+        {
+          "type": "paragraph",
+          "text": "Factory / production source. Posisi strategis Bali tetap penting untuk supply control."
+        },
+        {
+          "type": "paragraph",
+          "text": "Stockroom/DC dan Bali E-Commerce berbagi ruang. SECM hanya sekitar dua baris rak kecil."
+        },
+        {
+          "type": "paragraph",
+          "text": "Replenishment / transfer perlu direncanakan berdasarkan demand dan lead time."
+        },
+        {
+          "type": "paragraph",
+          "text": "Lebih cocok menampung domestic volume karena capacity, manpower, dan instant logistics lebih memungkinkan."
+        }
+      ]
+    },
+    {
+      "id": "hard-data-mendukung-pemindahan-fulfillment-website-lokal-ke-jakarta",
+      "number": "07",
+      "title": "Hard data mendukung pemindahan fulfillment website lokal ke Jakarta.",
+      "blocks": [
+        {
+          "type": "note",
+          "text": "06 · Website `/id` Evidence"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Website order mix · Jan 2025–sekarang"
+        },
+        {
+          "type": "note",
+          "text": "55.28% Domestic `/id`"
+        },
+        {
+          "type": "note",
+          "text": "Domestic 55.28% International 44.72%"
+        },
+        {
+          "type": "paragraph",
+          "text": "Lebih dari separuh website workload adalah domestic."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Tujuan domestic `/id`"
+        },
+        {
+          "type": "note",
+          "text": "Jabodetabek + Jawa 50.2%"
+        },
+        {
+          "type": "note",
+          "text": "Bali 25.1%"
+        },
+        {
+          "type": "note",
+          "text": "Others 24.7%"
+        },
+        {
+          "type": "paragraph",
+          "text": "1,277 order domestic menuju Jabodetabek/Jawa; 640 menuju Bali."
+        },
+        {
+          "type": "note",
+          "text": "3.46 Average items per Website order. 2.33 Average items per Marketplace order. +48.5% Website basket size lebih besar; pick-pack workload per box lebih berat."
+        },
+        {
+          "type": "note",
+          "text": "Local database · Jan 2025–11 Sep 2026"
+        }
+      ]
+    },
+    {
+      "id": "website-id-jakarta-regional-international-bali",
+      "number": "08",
+      "title": "Website `/id` → Jakarta. Regional / international → Bali.",
+      "blocks": [
+        {
+          "type": "note",
+          "text": "07 · Website Routing Proposal"
+        },
+        {
+          "type": "paragraph",
+          "text": "Ini memisahkan “siapa yang mengendalikan supply” dari “siapa yang mengerjakan fulfillment”. Bali tetap strategic supply anchor."
+        },
+        {
+          "type": "paragraph",
+          "text": "Domestic fulfillment, capacity lebih besar, manpower lebih memungkinkan, destination demand banyak menuju Jawa."
+        },
+        {
+          "type": "paragraph",
+          "text": "Tetap di Bali karena flow regional membutuhkan surat jalan dan masih workable secara operasional."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "SECM space relief"
+        },
+        {
+          "type": "paragraph",
+          "text": "Domestic web stock/workload tidak lagi bersaing penuh dengan marketplace dan regional web di rak kecil."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Domestic execution"
+        },
+        {
+          "type": "paragraph",
+          "text": "Jakarta lebih dekat ke mayoritas domestic destination dan lebih mendukung instant logistics."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Cost & SLA"
+        },
+        {
+          "type": "paragraph",
+          "text": "Expected improvement harus dibuktikan dengan actual ongkir, lead time, SLA dan cancellation saat pilot."
+        }
+      ]
+    },
+    {
+      "id": "shopee-cukup-besar-untuk-justify-multi-wh-channel-lain-jauh-lebih-kecil",
+      "number": "09",
+      "title": "Shopee cukup besar untuk justify multi-WH. Channel lain jauh lebih kecil.",
+      "blocks": [
+        {
+          "type": "note",
+          "text": "08 · Marketplace Evidence"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Marketplace volume · database sejak 2025"
+        },
+        {
+          "type": "note",
+          "text": "Shopee 80.4%"
+        },
+        {
+          "type": "note",
+          "text": "Tokopedia 15.7%"
+        },
+        {
+          "type": "note",
+          "text": "TikTok 2.9%"
+        },
+        {
+          "type": "note",
+          "text": "Lazada + Blibli <1%"
+        },
+        {
+          "type": "note",
+          "text": "Shopee 141,313 orders sejak 2025 · 80.4% dari marketplace volume. Cross-check Maxime 77.85% orders Jan–Aug 2026; 68.46% GMV. Periode berbeda, arah kesimpulan sama."
+        },
+        {
+          "type": "note",
+          "text": "Database Jan 2025–sekarang + Maxime proposal Jan–Aug 2026"
+        }
+      ]
+    },
+    {
+      "id": "marketplace-non-shopee-jakarta-shopee-tetap-bali-jakarta",
+      "number": "10",
+      "title": "Marketplace non-Shopee → Jakarta. Shopee tetap Bali + Jakarta.",
+      "blocks": [
+        {
+          "type": "note",
+          "text": "09 · Marketplace Routing Proposal"
+        },
+        {
+          "type": "table",
+          "headers": [
+            "Channel",
+            "Bali",
+            "Jakarta",
+            "Mode"
+          ],
+          "rows": [
+            [
+              "Shopee",
+              "✓ Primary",
+              "✓ Primary",
+              "Dual-node"
+            ],
+            [
+              "Tokopedia",
+              "Fallback",
+              "✓ Primary",
+              "Jakarta-first"
+            ],
+            [
+              "TikTok",
+              "Fallback",
+              "✓ Primary",
+              "Jakarta-first"
+            ],
+            [
+              "Lazada",
+              "—",
+              "✓ Primary",
+              "Single-node"
+            ],
+            [
+              "Blibli",
+              "—",
+              "✓ Primary",
+              "Single-node"
+            ],
+            [
+              "Website `/id`",
+              "—",
+              "✓ Primary",
+              "Jakarta"
+            ],
+            [
+              "Regional Web",
+              "✓ Primary",
+              "—",
+              "Bali"
+            ]
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Kurangi fragmentation & sync points"
+        },
+        {
+          "type": "paragraph",
+          "text": "Channel kecil tidak harus menjaga stock/routing dua warehouse bila volume tidak justify complexity."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Operationally kuat, technically conditional"
+        },
+        {
+          "type": "paragraph",
+          "text": "Butuh deterministic warehouse routing, deduction, return/cancel, replenishment dan fallback policy."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Jangan cutover semua sekaligus"
+        },
+        {
+          "type": "paragraph",
+          "text": "Pilot satu non-Shopee channel dulu, ukur hasil, lalu scale."
+        }
+      ]
+    },
+    {
+      "id": "tiktok-sudah-membuktikan-routing-lebih-balance-belum-tentu-availability-",
+      "number": "11",
+      "title": "TikTok sudah membuktikan: routing lebih balance belum tentu availability lebih baik.",
+      "blocks": [
+        {
+          "type": "note",
+          "text": "10 · Routing Lesson Learned"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Sebelum regional coverage"
+        },
+        {
+          "type": "note",
+          "text": "±97%"
+        },
+        {
+          "type": "note",
+          "text": "order cenderung fulfill dari Bali."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "5-day test · 63 orders"
+        },
+        {
+          "type": "note",
+          "text": "54% Bali 46% Jakarta"
+        },
+        {
+          "type": "note",
+          "text": "Trade-off: ketika Jakarta OOS tetapi Bali masih punya stock, regional coverage membuat customer Jakarta tidak otomatis dapat membeli stock Bali. Balance membaik, tetapi cross-region fallback hilang."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "No automatic fallback"
+        },
+        {
+          "type": "paragraph",
+          "text": "Ini harus menjadi design decision eksplisit, bukan asumsi."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "54 Bali vs 112 Jakarta SKU <10"
+        },
+        {
+          "type": "paragraph",
+          "text": "Jakarta capacity lebih besar tidak berarti availability otomatis lebih sehat. Replenishment harus ikut berubah."
+        }
+      ]
+    },
+    {
+      "id": "doable-ya-tetapi-simplifikasi-routing-memindahkan-beberapa-risiko-ke-jak",
+      "number": "12",
+      "title": "Doable? Ya. Tetapi simplifikasi routing memindahkan beberapa risiko ke Jakarta.",
+      "blocks": [
+        {
+          "type": "note",
+          "text": "11 · Risk Register"
+        },
+        {
+          "type": "paragraph",
+          "text": "Tujuannya bukan menghilangkan kompleksitas; tujuannya memusatkan kompleksitas di tempat yang lebih mampu mengelolanya."
+        },
+        {
+          "type": "note",
+          "text": "Jakarta single point High"
+        },
+        {
+          "type": "paragraph",
+          "text": "Non-Shopee bisa terdampak bersamaan jika JECM bermasalah."
+        },
+        {
+          "type": "note",
+          "text": "Replenishment lead time High"
+        },
+        {
+          "type": "paragraph",
+          "text": "Supply source di Bali; Jakarta perlu MIN/TARGET & safety stock."
+        },
+        {
+          "type": "note",
+          "text": "Wrong WH deduction High"
+        },
+        {
+          "type": "paragraph",
+          "text": "Order harus deduct StockWizz pada fulfillment warehouse yang benar."
+        },
+        {
+          "type": "note",
+          "text": "Shopee dual-node Medium"
+        },
+        {
+          "type": "paragraph",
+          "text": "Complexity tetap ada, tetapi justified oleh 77–80% share order."
+        },
+        {
+          "type": "note",
+          "text": "Return / cancel Medium"
+        },
+        {
+          "type": "paragraph",
+          "text": "Restock harus kembali ke ledger/location yang benar."
+        },
+        {
+          "type": "note",
+          "text": "Campaign surge Medium"
+        },
+        {
+          "type": "paragraph",
+          "text": "Jakarta demand akan naik; capacity plan harus melihat campaign uplift."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Operational feasibility · 8/10"
+        },
+        {
+          "type": "paragraph",
+          "text": "Network logic dan demand distribution mendukung Jakarta-first."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Technical readiness · 6/10"
+        },
+        {
+          "type": "paragraph",
+          "text": "Masih conditional sampai location mapping, outbound deduction, exception handling dan reconciliation siap."
+        }
+      ]
+    },
+    {
+      "id": "bali-tetap-supply-control-anchor-jakarta-menjadi-domestic-execution-hub",
+      "number": "13",
+      "title": "Bali tetap supply/control anchor. Jakarta menjadi domestic execution hub.",
+      "blocks": [
+        {
+          "type": "note",
+          "text": "12 · Target Operating Model"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Supply & selective fulfillment"
+        },
+        {
+          "type": "paragraph",
+          "text": "Factory Jasri, supply control, SECM shared pool, Shopee Bali, regional/international web."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Domestic execution"
+        },
+        {
+          "type": "paragraph",
+          "text": "Website `/id`, non-Shopee marketplace primary, Shopee Jakarta, higher domestic safety stock."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "E-Commerce"
+        },
+        {
+          "type": "paragraph",
+          "text": "Demand, forecast, campaign, critical SKU."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Stock Control"
+        },
+        {
+          "type": "paragraph",
+          "text": "Allocation Bali/Jakarta, replenishment timing."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Warehouse"
+        },
+        {
+          "type": "paragraph",
+          "text": "Physical accuracy, receive, transfer, inventory records."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Fulfillment"
+        },
+        {
+          "type": "paragraph",
+          "text": "Routing, pick, pack, dispatch sesuai SLA."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Production"
+        },
+        {
+          "type": "paragraph",
+          "text": "Supply availability berdasarkan demand."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "SCM / Ops"
+        },
+        {
+          "type": "paragraph",
+          "text": "Cross-team coordination."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "IT / System"
+        },
+        {
+          "type": "paragraph",
+          "text": "Warehouse/SKU mapping, stock sync, routing config, audit."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Top 50 SKU"
+        },
+        {
+          "type": "paragraph",
+          "text": "Demand + campaign → review → allocation → replenish."
+        }
+      ]
+    },
+    {
+      "id": "urutan-kerja-yang-mengurangi-risiko-tanpa-over-engineering",
+      "number": "14",
+      "title": "Urutan kerja yang mengurangi risiko tanpa over-engineering.",
+      "blocks": [
+        {
+          "type": "note",
+          "text": "13 · Roadmap"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Fix inbound delta"
+        },
+        {
+          "type": "paragraph",
+          "text": "Stop absolute sync. Idempotency, logging, safe retry, CSV fallback."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Formalize allocation"
+        },
+        {
+          "type": "paragraph",
+          "text": "80% Bali rule, rounding, location config, acceptance criteria."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Pilot `/id` → JKT"
+        },
+        {
+          "type": "paragraph",
+          "text": "Routing, ATP, stock deduction, SLA/cost baseline, fallback."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Pilot non-Shopee"
+        },
+        {
+          "type": "paragraph",
+          "text": "Start one channel Jakarta-first, compare before/after."
+        },
+        {
+          "type": "note",
+          "text": "P2/3"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Outbound + reconcile"
+        },
+        {
+          "type": "paragraph",
+          "text": "Jubelio transaction → StockWizz, then movement reconciliation."
+        },
+        {
+          "type": "note",
+          "text": "↓ Stock mismatch / OOS exception. ↑ Dispatch SLA & fulfillment readiness. ↓ Manual update & duplicated routing complexity."
+        }
+      ]
+    },
+    {
+      "id": "split-id-dan-marketplace-harus-dibuktikan-dengan-result",
+      "number": "15",
+      "title": "Split `/id` dan marketplace harus dibuktikan dengan result.",
+      "blocks": [
+        {
+          "type": "note",
+          "text": "14 · Pilot Success Metrics"
+        },
+        {
+          "type": "paragraph",
+          "text": "Mismatch StockWizz ↔ expected movement; failed adjustments; duplicate deductions."
+        },
+        {
+          "type": "paragraph",
+          "text": "Active OOS, low-stock SKU, cancellation because OOS, cross-location exception."
+        },
+        {
+          "type": "paragraph",
+          "text": "Pick-pack lead time, late dispatch, fast dispatch, instant delivery performance."
+        },
+        {
+          "type": "paragraph",
+          "text": "Order/item throughput per team and actual SECM space relief."
+        },
+        {
+          "type": "paragraph",
+          "text": "Actual shipping cost and delivery lead time for `/id` after Jakarta pilot."
+        },
+        {
+          "type": "paragraph",
+          "text": "Jasri/Bali → Jakarta lead time, MIN/TARGET hit rate, emergency transfer frequency."
+        },
+        {
+          "type": "note",
+          "text": "“Yang sudah green cukup monitor. Fokus management attention ke exception → root cause → action → result .”"
+        }
+      ]
+    },
+    {
+      "id": "target-yang-disarankan-simpler-routing-stronger-stock-movement-clearer-o",
+      "number": "16",
+      "title": "Target yang disarankan: simpler routing, stronger stock movement, clearer ownership.",
+      "blocks": [
+        {
+          "type": "note",
+          "text": "15 · Recommendation"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Jubelio first"
+        },
+        {
+          "type": "paragraph",
+          "text": "Fix delta-based inbound dan outbound transaction loop sebelum auto-reconciliation."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Website `/id` → Jakarta"
+        },
+        {
+          "type": "paragraph",
+          "text": "Domestic execution pindah ke JECM; regional/international tetap Bali."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Selective marketplace routing"
+        },
+        {
+          "type": "paragraph",
+          "text": "Shopee dual-node; non-Shopee Jakarta-first, dengan fallback policy eksplisit."
+        },
+        {
+          "type": "note",
+          "text": "Bali tidak kehilangan kontrol. Factory dan supply anchor tetap di Bali. Yang dipindahkan adalah execution workload yang lebih cocok ditangani Jakarta."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Masih perlu diputuskan sebelum scale"
+        },
+        {
+          "type": "paragraph",
+          "text": "Fallback `/id`, actual replenishment lead time, safety stock JECM, rounding allocation, return/cancel path."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Controlled pilot → measure → scale"
+        },
+        {
+          "type": "paragraph",
+          "text": "Jangan full cutover sekaligus. Validasi satu flow, lalu perluas hanya jika KPI membaik."
+        }
+      ]
+    }
+  ]
+}

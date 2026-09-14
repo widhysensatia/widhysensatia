@@ -1,0 +1,1258 @@
+{
+  "slug": "stockwiz-comprehensive-system-audit",
+  "sourceTitle": "Master Audit Sistem — Sensatia StockWiz",
+  "sections": [
+    {
+      "id": "ringkasan",
+      "number": "01",
+      "title": "Ringkasan eksekutif",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "StockWiz memiliki nilai bisnis dan cakupan luas, tetapi fondasinya belum aman untuk diperluas menjadi ERP penuh tanpa stabilisasi serius."
+        },
+        {
+          "type": "paragraph",
+          "text": "Kesimpulan audit"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Risiko terbesar bukan tampilan lama—melainkan integritas transaksi, kontrol akses, dan sumber kebenaran data."
+        },
+        {
+          "type": "paragraph",
+          "text": "Sistem dapat terus dipakai dengan pengendalian darurat, tetapi ekspansi manufacturing, quality, finance, HR, sales, dan marketing akan memperbesar risiko bila model stok, security, transaction boundary, dan governance data tidak dibenahi terlebih dahulu."
+        },
+        {
+          "type": "note",
+          "text": "Tinggi Risiko sistemik"
+        },
+        {
+          "type": "note",
+          "text": "70 Koleksi MongoDB Tanpa schema validator pada snapshot lokal. ~556 Deklarasi route API Permukaan API luas dengan kontrol tidak seragam. 565 Operasi write terdeteksi Tanpa penggunaan session/transaction MongoDB. 219K Baris source 196 file backend, 368 legacy, 283 frontend modern."
+        },
+        {
+          "type": "note",
+          "text": "Rekomendasi: lakukan emergency stabilization sekarang, lalu jalankan evolutionary rebuild per modul. Jangan memperluas fitur ERP kritis di atas pola transaksi dan permission saat ini."
+        }
+      ]
+    },
+    {
+      "id": "cakupan",
+      "number": "02",
+      "title": "Cakupan dan metode audit",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Audit menggabungkan pemeriksaan statis repository dan profiling read-only database lokal stockwiz ."
+        },
+        {
+          "type": "paragraph",
+          "text": "Route, authentication, authorization, database write, cron, Socket.IO, upload, logging, integrasi dan struktur helper."
+        },
+        {
+          "type": "paragraph",
+          "text": "Legacy React/Umi/AntD dan frontend modern React/Vite/TypeScript, termasuk build, tests, routing dan deployment aktual."
+        },
+        {
+          "type": "paragraph",
+          "text": "Collection, volume, type consistency, validator, unique index, duplicate, orphan reference, dan saldo negatif."
+        },
+        {
+          "type": "paragraph",
+          "text": "Runtime image, frontend yang dibangun, workflow sandbox, quality gate, dependency dan deployment pattern."
+        },
+        {
+          "type": "paragraph",
+          "text": "Inventory, procurement, manufacturing, QC, commercial, finance, CRM/marketing, dan HR."
+        },
+        {
+          "type": "paragraph",
+          "text": "Tidak mengubah source aplikasi, database bisnis, credential, integrasi eksternal, atau environment production."
+        }
+      ]
+    },
+    {
+      "id": "lanskap",
+      "number": "03",
+      "title": "Lanskap arsitektur saat ini",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Sistem berkembang organik dari stock management menjadi kumpulan proses lintas channel dan departemen."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Frontend legacy"
+        },
+        {
+          "type": "paragraph",
+          "text": "React 16, Umi 2, Ant Design 3, DVA. Docker masih membangun aplikasi ini."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Express monolith"
+        },
+        {
+          "type": "paragraph",
+          "text": "API, auth, business rules, DB access, uploads, Socket.IO, cron, sync, email, report, dan maintenance bercampur."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "MongoDB + Redis"
+        },
+        {
+          "type": "paragraph",
+          "text": "70 collection, embedded documents, denormalized balances, referensi campuran, history besar, tanpa validator lokal."
+        },
+        {
+          "type": "paragraph",
+          "text": "React 19/Vite/TypeScript tersedia, tetapi image production tetap menyalin hasil build browser/ ."
+        },
+        {
+          "type": "paragraph",
+          "text": "Transaction boundary, domain service, repository, validation, dan permission tidak memiliki pola tunggal."
+        },
+        {
+          "type": "paragraph",
+          "text": "Cron, migrasi, repair, sync, dan reminder banyak dipicu endpoint pada proses web."
+        }
+      ]
+    },
+    {
+      "id": "temuan",
+      "number": "04",
+      "title": "Semua temuan prioritas",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Gunakan filter untuk meninjau masalah kritis, tinggi, menengah, atau peningkatan tata kelola."
+        },
+        {
+          "type": "note",
+          "text": "0 temuan ditampilkan"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Endpoint AI analytics tidak memiliki autentikasi"
+        },
+        {
+          "type": "paragraph",
+          "text": "Route dapat memanggil agent yang membaca schema/aggregation database dan mengonsumsi biaya model tanpa middleware autentikasi."
+        },
+        {
+          "type": "note",
+          "text": "Dampak Eksposur data, query mahal, abuse dan biaya eksternal. Tindakan Disable sampai auth, allowlist collection/pipeline, rate limit, budget, timeout dan audit tersedia."
+        },
+        {
+          "type": "note",
+          "text": "server/routes/ai.js TODO: Add auth middleware"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "User dapat mengubah role dirinya sendiri"
+        },
+        {
+          "type": "paragraph",
+          "text": "Endpoint sementara menerima array userGroups dari user terautentikasi dan menulisnya ke record user sendiri tanpa admin policy."
+        },
+        {
+          "type": "note",
+          "text": "Dampak Privilege escalation dan akses lintas fungsi bisnis. Tindakan Hapus endpoint atau lindungi dengan admin action + approval + audit immutable."
+        },
+        {
+          "type": "note",
+          "text": "server/routes/login.js /updateUserRoles"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Mass member-point reminder dapat diproses tanpa guard"
+        },
+        {
+          "type": "paragraph",
+          "text": "Endpoint produksi untuk memproses seluruh member point yang akan kedaluwarsa tidak memasang authentication atau token check."
+        },
+        {
+          "type": "note",
+          "text": "Dampak Email massal, biaya, reputasi, dan kemungkinan duplikasi komunikasi. Tindakan Tutup endpoint publik; gunakan durable scheduler dengan service identity, idempotency dan send ledger."
+        },
+        {
+          "type": "note",
+          "text": "server/routes/web.js memberpointsreminder/process-expiring"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Otorisasi HR dipengaruhi query parameter"
+        },
+        {
+          "type": "paragraph",
+          "text": "Perilaku administratif untuk menolak leave yang sudah approved dipilih melalui ?isHrAdmin=true , bukan policy terverifikasi."
+        },
+        {
+          "type": "note",
+          "text": "Dampak Manipulasi record HR dan pelanggaran segregation of duties. Tindakan Gunakan permission backend + department/legal-entity scope + audit reason."
+        },
+        {
+          "type": "note",
+          "text": "server/helpers/hr/leave.js isHrAdmin"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Checkout dapat membuat stok negatif"
+        },
+        {
+          "type": "paragraph",
+          "text": "Bulk update mengurangi quantity dengan $inc , menggunakan upsert, dan tidak memberi syarat bahwa saldo harus cukup."
+        },
+        {
+          "type": "note",
+          "text": "Dampak Overselling, zombie balance, dan ketidaksesuaian POS vs gudang. Tindakan Atomic conditional update/reservation, no upsert, transaction, idempotency dan failure response."
+        },
+        {
+          "type": "note",
+          "text": "server/helpers/shop/shopSales.js $inc quantity upsert: true"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Write bisnis lintas collection tidak atomic"
+        },
+        {
+          "type": "paragraph",
+          "text": "Ditemukan ratusan operasi write, tetapi tidak ada penggunaan startSession atau withTransaction ."
+        },
+        {
+          "type": "note",
+          "text": "Dampak Sale tersimpan tetapi stok/history/points gagal, atau sebaliknya. Tindakan Tentukan transaction boundary; gunakan transaction + outbox untuk side effect eksternal."
+        },
+        {
+          "type": "note",
+          "text": "565 operasi write 0 transaction API"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Banyak sumber kebenaran stok"
+        },
+        {
+          "type": "paragraph",
+          "text": "Saldo dan history tersebar di item.quantity , shopstock , warehousestock , stockhistory , shopstockhistory , serta web stock."
+        },
+        {
+          "type": "note",
+          "text": "Dampak Rekonsiliasi sulit dan modul berbeda dapat menampilkan saldo berbeda. Tindakan Canonical immutable movement ledger + balance projection + reservation + status stock."
+        },
+        {
+          "type": "note",
+          "text": "1.777 shopstock negatif 548 warehousestock negatif"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Token dapat muncul di URL/body dan cookie dapat dibaca JavaScript"
+        },
+        {
+          "type": "paragraph",
+          "text": "Auth menerima token dari cookie, query dan body. Access token cookie berumur 14 hari dan httpOnly:false ."
+        },
+        {
+          "type": "note",
+          "text": "Dampak Kebocoran melalui log/history/referrer dan peningkatan dampak XSS. Tindakan Hilangkan query/body token, short-lived access, secure httpOnly session/BFF, rotation dan revocation."
+        },
+        {
+          "type": "note",
+          "text": "server/auth0/index.js server/auth0/routes.js 14 days"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Socket production memiliki default allow"
+        },
+        {
+          "type": "paragraph",
+          "text": "Origin yang tidak cocok tetap diizinkan pada jalur default dan allowRequest selalu mengembalikan true."
+        },
+        {
+          "type": "note",
+          "text": "Dampak Koneksi lintas origin tak terduga dan risiko akses context shop. Tindakan Explicit allowlist, fail closed, verify token dan authorize room/shop server-side."
+        },
+        {
+          "type": "note",
+          "text": "server/swsale.io/socketio.js Default: allow allowRequest: true"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Tidak ada schema validator dan custom unique index lokal"
+        },
+        {
+          "type": "paragraph",
+          "text": "Database menerima bentuk dokumen fleksibel tanpa enforcement untuk field kritis dan identitas bisnis."
+        },
+        {
+          "type": "note",
+          "text": "Dampak Tipe campuran, duplicate, null tak terduga, dan query tidak konsisten. Tindakan Tambah validation bertahap, unique index setelah cleansing, dan migration registry."
+        },
+        {
+          "type": "note",
+          "text": "70 collections 0 validators 0 custom unique indexes"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Referensi data orphan dan tipe ID campuran"
+        },
+        {
+          "type": "paragraph",
+          "text": "Relasi antar collection tidak dipaksa database. stockhistory._item_id hampir seluruhnya string tetapi sebagian ObjectId."
+        },
+        {
+          "type": "note",
+          "text": "Dampak Join/report kehilangan record dan cleanup berisiko. Tindakan Canonical ID, mapping registry, orphan quarantine dan referential integrity."
+        },
+        {
+          "type": "note",
+          "text": "1.576 orphan shopstock 23 orphan warehouse stock 446 ObjectId history"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Barcode dan identitas customer tidak unik"
+        },
+        {
+          "type": "paragraph",
+          "text": "Normalisasi trim/lowercase memperlihatkan duplicate identity yang jauh lebih besar daripada exact match."
+        },
+        {
+          "type": "note",
+          "text": "Dampak Item salah scan, customer terpecah, loyalty dan consent salah. Tindakan Survivorship rule, alias table, scoped uniqueness dan merge audit."
+        },
+        {
+          "type": "note",
+          "text": "126 grup barcode 16.226 grup email normalized"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Perhitungan uang menggunakan floating-point JavaScript"
+        },
+        {
+          "type": "paragraph",
+          "text": "Harga, diskon, pajak, cost dan total memakai campuran int/double/string serta banyak parse/round/format."
+        },
+        {
+          "type": "note",
+          "text": "Dampak Rounding drift, selisih invoice/COGS dan kesulitan closing. Tindakan Money value object, integer minor-unit atau decimal, currency-aware rounding dan invariant tests."
+        },
+        {
+          "type": "note",
+          "text": "165 parseFloat 123 toFixed 93 Math.round"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Generator nomor sale memiliki race window"
+        },
+        {
+          "type": "paragraph",
+          "text": "Counter di-increment lalu dibaca dengan operasi terpisah; concurrent request dapat menerima observasi yang tidak sesuai ekspektasi."
+        },
+        {
+          "type": "note",
+          "text": "Dampak Nomor lompat/ambigu dan recovery transaksi sulit. Tindakan Atomic find-and-increment returning value + unique business key."
+        },
+        {
+          "type": "note",
+          "text": "server/helpers/shop/shopSales.js updateOne → findOne"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Upload tidak memiliki kebijakan seragam"
+        },
+        {
+          "type": "paragraph",
+          "text": "Beberapa Multer configuration hanya menetapkan storage/destination tanpa size limit, MIME verification, extension policy, atau scanning."
+        },
+        {
+          "type": "note",
+          "text": "Dampak Resource exhaustion, file berbahaya, dan penyimpanan tak terkendali. Tindakan Central upload service, presigned storage, limit, file signature check, antivirus dan retention."
+        },
+        {
+          "type": "note",
+          "text": "8 konfigurasi multer helpers/gcloudStorage.js routes/b2bRequestOrders.js"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Job kritis dan maintenance dipicu melalui web process"
+        },
+        {
+          "type": "paragraph",
+          "text": "Reminder, sync, migration, repair dan cleanup diekspos sebagai GET cron endpoint atau berjalan background dari request."
+        },
+        {
+          "type": "note",
+          "text": "Dampak Timeout, duplicate execution, hilang saat restart, dan auth token cron tersebar. Tindakan Durable queue/scheduler, job identity, lease/lock, progress, retry, dead-letter dan run history."
+        },
+        {
+          "type": "note",
+          "text": "server/routes/cronjobs.js migration/repair via GET"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Backend tanpa test suite formal"
+        },
+        {
+          "type": "paragraph",
+          "text": "Tidak ditemukan unit/integration test backend yang sebanding dengan luas route dan write bisnis."
+        },
+        {
+          "type": "note",
+          "text": "Dampak Refactor berisiko dan regression baru diketahui oleh operasi. Tindakan Characterization test, domain test, integration DB nyata, contract test dan critical E2E."
+        },
+        {
+          "type": "note",
+          "text": "196 file backend ~556 route declarations"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "CI sandbox langsung deploy tanpa quality gate"
+        },
+        {
+          "type": "paragraph",
+          "text": "Workflow checkout dan deploy tidak menjalankan lint, test, typecheck, build verification, migration check, atau security scan."
+        },
+        {
+          "type": "note",
+          "text": "Dampak Commit rusak atau rentan dapat langsung mencapai environment. Tindakan Build once, gated pipeline, artifact immutability, SBOM, migration rehearsal dan approval policy."
+        },
+        {
+          "type": "note",
+          "text": ".github/workflows/porter_stockwiz_app_sandbox.yml deploy-only"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Frontend legacy dan runtime build sudah tua"
+        },
+        {
+          "type": "paragraph",
+          "text": "Production masih dibangun dengan Node 16 untuk React 16/Umi 2/AntD 3, sedangkan backend image memakai Node 18.18.1."
+        },
+        {
+          "type": "note",
+          "text": "Dampak Dependency rentan, build rapuh, sulit direkrut/dirawat, dan runtime sudah EOL. Tindakan Stabilkan dependency lalu migrasikan route ke frontend modern per workflow."
+        },
+        {
+          "type": "note",
+          "text": "Dockerfile browser/package.json Node 16 + Node 18"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Frontend modern belum menjadi jalur production"
+        },
+        {
+          "type": "paragraph",
+          "text": "React 19/Vite/TypeScript sudah tersedia, tetapi Docker tetap membangun browser/ . Typecheck/test belum seluruhnya hijau saat audit awal."
+        },
+        {
+          "type": "note",
+          "text": "Dampak Dua implementasi berkembang tanpa cutover strategy dan biaya pemeliharaan ganda. Tindakan Route ownership, parity matrix, quality gate dan cutover per vertical slice."
+        },
+        {
+          "type": "note",
+          "text": "frontend/ Dockerfile legacy is production build"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Sales, customer, dan stock terfragmentasi per channel"
+        },
+        {
+          "type": "paragraph",
+          "text": "Shop, web, partnership dan PO memiliki collection/model sendiri; customer identity dan order lifecycle tidak kanonik."
+        },
+        {
+          "type": "note",
+          "text": "Dampak Omnichannel report, return, loyalty, promotion dan fulfillment sulit konsisten. Tindakan Canonical party, sales order, fulfillment, payment dan channel metadata."
+        },
+        {
+          "type": "note",
+          "text": "shopsales/websales/posales/pasales customers/pocustomers/pacustomers"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "File besar mencampur banyak tanggung jawab"
+        },
+        {
+          "type": "paragraph",
+          "text": "Helper menangani parsing request, validation, rule, DB, email, Slack, logging, formatting dan recovery dalam satu alur."
+        },
+        {
+          "type": "note",
+          "text": "Dampak Perubahan lokal memiliki blast radius besar dan sulit diuji terisolasi. Tindakan Modular boundary, use case, domain service, repository, adapter dan dependency rule."
+        },
+        {
+          "type": "note",
+          "text": "helpers/shop/shopSales.js helpers/cronjobs/syncWebDb.js helpers/reports/stock.js"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Object ID bisnis di-hardcode dalam source"
+        },
+        {
+          "type": "paragraph",
+          "text": "Settings, site blacklist, voucher dan shop ID tertentu ditanam langsung di helper/cron."
+        },
+        {
+          "type": "note",
+          "text": "Dampak Environment coupling, salah target dan deploy antar tenant/site berbahaya. Tindakan Typed configuration/reference key, startup validation dan admin-managed settings."
+        },
+        {
+          "type": "note",
+          "text": "helpers/settings.js helpers/cronjobs/shopStockAlert.js helpers/shop/shopReports.js"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "API tidak memiliki versioning dan contract governance menyeluruh"
+        },
+        {
+          "type": "paragraph",
+          "text": "Response, error, pagination, validation dan deprecation tidak mengikuti satu standar lintas ratusan endpoint."
+        },
+        {
+          "type": "note",
+          "text": "Dampak Frontend dan integrasi mudah rusak saat perubahan. Tindakan OpenAPI, version policy, error envelope, contract test dan sunset header."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Model dokumen sangat lebar dan embedded history berlebihan"
+        },
+        {
+          "type": "paragraph",
+          "text": "Item mencampur master, harga, website, translation, supplier, stok, lokasi dan history; transaksi menyimpan item array."
+        },
+        {
+          "type": "note",
+          "text": "Dampak Update contention, payload besar, schema drift dan reporting rumit. Tindakan Pisahkan bounded context/tabel; gunakan snapshot hanya untuk kebutuhan audit yang jelas."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Query/report berpotensi membaca dataset besar di jalur request"
+        },
+        {
+          "type": "paragraph",
+          "text": "History jutaan record dan aggregation/report berada dalam backend operasional yang sama."
+        },
+        {
+          "type": "note",
+          "text": "Dampak Latency spike, memory pressure dan gangguan transaksi. Tindakan Index audit, explain budget, pagination, async export, read model/replica dan partitioning."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Logging berpotensi membawa PII dan detail transaksi"
+        },
+        {
+          "type": "paragraph",
+          "text": "Email customer/employee, item, points, file name dan data workflow muncul pada berbagai log dan alert."
+        },
+        {
+          "type": "note",
+          "text": "Dampak Eksposur data melalui log, Slack, export dan retention tak terkendali. Tindakan Data classification, structured redaction, least-data alert, access policy dan retention."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Timezone dan date semantics tidak terstandar"
+        },
+        {
+          "type": "paragraph",
+          "text": "Server image menetapkan Asia/Jakarta, operasi bisnis lintas region memakai Moment, string date dan Date campuran."
+        },
+        {
+          "type": "note",
+          "text": "Dampak Batas hari, expiry, attendance, reminder dan closing dapat bergeser. Tindakan UTC storage, explicit business timezone per site, date-only type dan test DST/boundary."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Strategi archival dan retention belum menjadi platform policy"
+        },
+        {
+          "type": "paragraph",
+          "text": "History besar, legacy collection, export dan log berkembang tanpa lifecycle data yang seragam."
+        },
+        {
+          "type": "note",
+          "text": "Dampak Biaya, backup lambat, query berat dan risiko privasi. Tindakan Retention matrix, partition, cold archive, legal hold, restore test dan deletion audit."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Observability belum terhubung ke invariant bisnis"
+        },
+        {
+          "type": "paragraph",
+          "text": "Logging dan Sentry tersedia, tetapi tidak tampak satu dashboard untuk variance stok, outbox lag, duplicate, dead-letter, atau job age."
+        },
+        {
+          "type": "note",
+          "text": "Dampak Kegagalan diketahui setelah user atau finance melihat selisih. Tindakan Correlation ID, OpenTelemetry, business metrics, reconciliation alert dan SLO."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Dokumentasi aturan bisnis tidak sebanding dengan umur sistem"
+        },
+        {
+          "type": "paragraph",
+          "text": "Banyak rule hidup di helper, komentar, hardcode dan pengetahuan user."
+        },
+        {
+          "type": "note",
+          "text": "Dampak Onboarding lambat dan rewrite dapat kehilangan perilaku penting. Tindakan Domain glossary, rule catalog, ADR, event catalog, process map dan ownership."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Accessibility dan design consistency belum menjadi quality gate"
+        },
+        {
+          "type": "paragraph",
+          "text": "Dua generasi frontend dan komponen berbeda meningkatkan variasi interaksi, keyboard support dan visual feedback."
+        },
+        {
+          "type": "note",
+          "text": "Dampak Kesalahan operasional dan training lebih sulit. Tindakan Design system, accessibility test, device matrix dan user-flow benchmark."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Feature ownership dan retirement tidak eksplisit"
+        },
+        {
+          "type": "paragraph",
+          "text": "Route, cron, collection dan helper lama dapat tetap hidup setelah pengganti tersedia."
+        },
+        {
+          "type": "note",
+          "text": "Dampak Dead code, duplicate process dan attack surface terus bertambah. Tindakan Owner + expiry untuk feature flag, deprecation register dan decommission checklist."
+        }
+      ]
+    },
+    {
+      "id": "keamanan",
+      "number": "05",
+      "title": "Audit keamanan dan akses",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Temuan keamanan menunjukkan pola: autentikasi ada, tetapi authorization dan boundary enforcement belum konsisten."
+        },
+        {
+          "type": "table",
+          "headers": [
+            "Area",
+            "Kondisi",
+            "Risiko",
+            "Kontrol minimum"
+          ],
+          "rows": [
+            [
+              "Authentication",
+              "Auth0/OIDC tersedia; token diterima dari beberapa channel.",
+              "Kritis",
+              "Authorization header atau secure session tunggal; stop token di URL/body."
+            ],
+            [
+              "Authorization",
+              "Middleware dan helper berbeda; self-role serta query HR ditemukan.",
+              "Kritis",
+              "Central policy, action permission, scope, approval limit, deny-by-default."
+            ],
+            [
+              "Cookie/session",
+              "Access cookie readable JS, umur panjang.",
+              "Kritis",
+              "httpOnly, secure, short-lived, rotation, revocation, CSRF design."
+            ],
+            [
+              "AI/data query",
+              "Agent dapat membangun Mongo aggregation tanpa auth route.",
+              "Kritis",
+              "Disable, read replica, query DSL allowlist, budget/timeout, audit."
+            ],
+            [
+              "Socket",
+              "Origin production fail-open; request allowed.",
+              "Kritis",
+              "Exact origin allowlist, token verification, server-derived scope."
+            ],
+            [
+              "Uploads",
+              "Policy berbeda per helper; sebagian tanpa limit/filter.",
+              "Tinggi",
+              "Central policy, object storage, signature validation, malware scan."
+            ],
+            [
+              "Secrets/config",
+              "Hardcoded business IDs dan cron token pattern.",
+              "Tinggi",
+              "Secret manager, typed config, rotation, startup validation."
+            ],
+            [
+              "Audit/PII",
+              "Log dan Slack membawa detail customer/employee.",
+              "Tinggi",
+              "Redaction, data classification, retention, controlled export."
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "stok",
+      "number": "06",
+      "title": "Audit stok dan transaksi",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Stock adalah risiko bisnis paling mendesak karena satu checkout dapat menyentuh sale, balance, history, customer dan loyalty tanpa atomic boundary."
+        },
+        {
+          "type": "note",
+          "text": "01 Request diulang Tidak ada idempotency key global. 02 Sale number Counter increment dan read terpisah. 03 Saldo dikurangi Tanpa condition quantity cukup; upsert true. 04 History ditulis Parallel write tanpa transaction. 05 Points/customer Dapat gagal tetapi sale tetap selesai."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Invariant yang belum dijamin"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Available stock tidak pernah negatif tanpa policy.",
+            "Satu source document menghasilkan movement tepat sekali.",
+            "Ledger total sama dengan balance projection.",
+            "Transfer out sama dengan in-transit/receipt + variance.",
+            "Lot, expiry, status dan custody dapat ditelusuri.",
+            "Posted transaction tidak diedit/hapus langsung."
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Model kontrol yang dibutuhkan"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Canonical inventory movement ledger.",
+            "Balance + reservation dalam transaction yang sama.",
+            "Atomic conditional update/row lock.",
+            "Idempotency table dan unique source key.",
+            "Reversal/adjustment workflow dengan reason.",
+            "Reconciliation job dan variance dashboard."
+          ]
+        },
+        {
+          "type": "note",
+          "text": "Prioritas operasional: sebelum fitur stok baru, hentikan upsert saat pengurangan, tambahkan precondition saldo, idempotency checkout, transaction boundary, dan alert jika balance/history tidak cocok."
+        }
+      ]
+    },
+    {
+      "id": "database",
+      "number": "07",
+      "title": "Database dan kualitas data",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Angka berikut berasal dari database lokal aktif saat audit. Production harus diprofilkan terpisah."
+        },
+        {
+          "type": "note",
+          "text": "3,68 jt Shop stock history History terbesar; perlu index/partition/archive strategy. 1,95 jt Shop sales Embedded item lines dan tipe monetary campuran. 1,87 jt Stock history 172.844 remaining negatif. 307K Attendance Data HR sensitif memerlukan privacy boundary. 226K Customers Identity/consent/loyalty bercampur dan duplicate normalized. 1.576 Orphan shopstock Item reference tidak menemukan master item. 126 Duplicate barcode Grup setelah trim dan lowercase. 16.226 Duplicate email Grup setelah trim dan lowercase; perlu survivorship rule."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Indikator integritas"
+        },
+        {
+          "type": "note",
+          "text": "Negative shopstock 1.777"
+        },
+        {
+          "type": "note",
+          "text": "Negative warehouse 548"
+        },
+        {
+          "type": "note",
+          "text": "Negative history 172.844"
+        },
+        {
+          "type": "note",
+          "text": "Orphan references 1.599"
+        },
+        {
+          "type": "note",
+          "text": "Schema validators 0 / 70"
+        },
+        {
+          "type": "note",
+          "text": "Interpretasi: data dapat dimigrasikan ke PostgreSQL, tetapi tidak melalui copy 1:1. Dibutuhkan staging, normalization, ID mapping, quarantine, deduplication, opening balance terverifikasi, dan reconciliation."
+        }
+      ]
+    },
+    {
+      "id": "backend",
+      "number": "08",
+      "title": "Backend dan API",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Backend berhasil menampung banyak kebutuhan bisnis, tetapi pola ekspansi membuat boundary dan reliability tidak lagi jelas."
+        },
+        {
+          "type": "paragraph",
+          "text": "~556 deklarasi route di satu aplikasi meningkatkan peluang auth/validation tertinggal."
+        },
+        {
+          "type": "paragraph",
+          "text": "Request parsing, DB write, notification dan rule berjalan di helper yang sama."
+        },
+        {
+          "type": "paragraph",
+          "text": "Express-validator, manual parsing, defaults dan implicit coercion digunakan bersama."
+        },
+        {
+          "type": "paragraph",
+          "text": "Status code, response shape, logging dan retryability tidak memiliki kontrak universal."
+        },
+        {
+          "type": "paragraph",
+          "text": "Email/Slack/sync dapat terjadi sebelum/selepas write tanpa outbox dan exactly-once effect."
+        },
+        {
+          "type": "paragraph",
+          "text": "AI dapat membuka MongoClient sendiri; lifecycle dan read-only boundary perlu dipusatkan."
+        },
+        {
+          "type": "paragraph",
+          "text": "ID shop/site/settings/voucher di-hardcode dan sulit divalidasi lintas environment."
+        },
+        {
+          "type": "paragraph",
+          "text": "Repair/migration endpoint berada di aplikasi yang sama dengan transaksi user."
+        },
+        {
+          "type": "paragraph",
+          "text": "Express 4.17, dependency lama dan Node 18 meningkatkan upgrade/security burden."
+        }
+      ]
+    },
+    {
+      "id": "frontend",
+      "number": "09",
+      "title": "Frontend legacy dan modern",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Masalah frontend bukan hanya versi lama, tetapi tidak adanya strategi ownership route yang memindahkan workflow lengkap."
+        },
+        {
+          "type": "table",
+          "headers": [
+            "Area",
+            "Legacy browser/",
+            "Modern frontend/",
+            "Risiko/keputusan"
+          ],
+          "rows": [
+            [
+              "Core",
+              "React 16, Umi 2, AntD 3, DVA",
+              "React 19, Vite, TypeScript, TanStack, Radix",
+              "Legacy sulit dirawat; modern menjadi tujuan."
+            ],
+            [
+              "Production build",
+              "Aktif",
+              "Belum aktif",
+              "Docker masih build legacy."
+            ],
+            [
+              "Testing",
+              "Test runner/config bermasalah saat audit awal",
+              "Vitest + Playwright tersedia; belum seluruh test/typecheck hijau saat audit awal",
+              "Quality gate wajib sebelum cutover route."
+            ],
+            [
+              "State/data",
+              "DVA/legacy patterns",
+              "TanStack + Zustand",
+              "Server state harus tetap di Query, bukan local store."
+            ],
+            [
+              "Migrasi",
+              "Route existing",
+              "Feature/parity sedang berkembang",
+              "Pindahkan vertical slice, bukan halaman kosmetik."
+            ],
+            [
+              "Retirement",
+              "Belum ada expiry per route",
+              "Belum menjadi writer utama",
+              "Buat route ownership/parity/decommission registry."
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "delivery",
+      "number": "10",
+      "title": "Testing, CI/CD, dan supply chain software",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Delivery saat ini belum memberikan bukti otomatis yang sebanding dengan risiko transaksi ERP."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Kekurangan"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Backend tidak memiliki formal test suite memadai.",
+            "Legacy Jest/Umi bermasalah saat audit awal.",
+            "Modern frontend masih memiliki failure/type error saat audit awal.",
+            "Sandbox workflow langsung deploy.",
+            "Tidak ada migration compatibility gate.",
+            "Tidak ada dependency/container/SBOM gate terlihat.",
+            "Backup/restore dan rollback tidak menjadi release evidence."
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Target minimum pipeline"
+        },
+        {
+          "type": "list",
+          "ordered": true,
+          "items": [
+            "Lint + TypeScript strict.",
+            "Unit/domain tests.",
+            "Integration tests dengan PostgreSQL/Mongo/Redis nyata.",
+            "Critical business E2E.",
+            "Migration static + rehearsal.",
+            "SAST, secret, dependency, image scan dan SBOM.",
+            "Build immutable artifact sekali.",
+            "Canary + metrics + controlled rollback."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "operasional",
+      "number": "11",
+      "title": "Operasional, performa, dan reliability",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Kegagalan bisnis perlu terlihat sebelum menjadi selisih stok, email ganda, atau closing manual."
+        },
+        {
+          "type": "paragraph",
+          "text": "Cron via HTTP dan in-memory timer tidak memberikan lease, history, replay dan dead-letter universal."
+        },
+        {
+          "type": "paragraph",
+          "text": "Belum ada target eksplisit untuk posting stock, sync lag, checkout, reconciliation dan recovery."
+        },
+        {
+          "type": "paragraph",
+          "text": "Beberapa repair/reconcile helper ada, tetapi belum menjadi satu control dashboard dan exception workflow."
+        },
+        {
+          "type": "paragraph",
+          "text": "Report/aggregation berkompetisi dengan transaksi jika index/read path tidak dibatasi."
+        },
+        {
+          "type": "paragraph",
+          "text": "Kesiapan recovery perlu bukti RPO/RTO dan uji periodik per data store."
+        },
+        {
+          "type": "paragraph",
+          "text": "Socket scaling ada, tetapi origin/auth/room ownership tetap harus fail-closed."
+        },
+        {
+          "type": "note",
+          "text": "Dashboard minimum: error/latency API, DB pool/slow query/lock, queue age/failure, outbox lag, integration retry, duplicate key, inventory variance, job last-success, dan backup last-verified."
+        }
+      ]
+    },
+    {
+      "id": "erp",
+      "number": "12",
+      "title": "Gap menuju ERP manufaktur skincare",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Cakupan fitur sudah luas, tetapi kedalaman kontrol ERP dan manufaktur masih belum cukup untuk menjadi system of record perusahaan."
+        },
+        {
+          "type": "paragraph",
+          "text": "Belum satu ledger kanonik dengan reservation, in-transit, quarantine, damaged, rejected dan expired."
+        },
+        {
+          "type": "paragraph",
+          "text": "Batch genealogy, expiry, recall, sample retention dan end-to-end trace belum menjadi domain inti."
+        },
+        {
+          "type": "paragraph",
+          "text": "Linked item belum setara formula versioning, effective date, alternate material dan approval."
+        },
+        {
+          "type": "paragraph",
+          "text": "Production order, routing, work center, issue/return, yield, scrap, rework dan MRP belum utuh."
+        },
+        {
+          "type": "paragraph",
+          "text": "Specification, sampling, incoming/in-process/final QC, COA, deviation dan CAPA belum matang."
+        },
+        {
+          "type": "paragraph",
+          "text": "PR, RFQ, PO, goods receipt, QC release, supplier invoice dan three-way match belum satu lifecycle."
+        },
+        {
+          "type": "paragraph",
+          "text": "Belum ada double-entry GL, AP/AR, subledger, valuation, COGS, landed cost dan controlled close."
+        },
+        {
+          "type": "paragraph",
+          "text": "Customer/order/fulfillment/payment/return masih terfragmentasi per channel."
+        },
+        {
+          "type": "paragraph",
+          "text": "Unified party, consent history, segment, campaign, attribution dan loyalty ledger perlu disatukan."
+        },
+        {
+          "type": "paragraph",
+          "text": "Attendance/leave ada; organization, payroll, overtime, training, performance dan privacy boundary perlu dilengkapi."
+        },
+        {
+          "type": "paragraph",
+          "text": "Owner, approval, effective date, duplicate rule dan change audit belum menjadi workflow lintas domain."
+        },
+        {
+          "type": "paragraph",
+          "text": "Segregation of duties, approval limit, period lock, reversal dan audit evidence belum konsisten."
+        }
+      ]
+    },
+    {
+      "id": "rantai",
+      "number": "13",
+      "title": "Rantai risiko sistemik",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Temuan saling memperkuat. Satu kegagalan teknis dapat berubah menjadi masalah operasional dan finansial."
+        },
+        {
+          "type": "note",
+          "text": "AKAR Rule tersebar Helper besar, schema fleksibel, hardcode, auth tidak seragam. KEJADIAN Partial write Sale, stock, history, points dan email tidak atomic. DATA Drift Negative balance, orphan, duplicate, mixed ID. OPERASI Repair manual Cron fix, export, Slack alert dan koreksi ad hoc. BISNIS Keputusan salah Stock, COGS, sales, loyalty, QC dan laporan tak sepenuhnya dapat dipercaya."
+        }
+      ]
+    },
+    {
+      "id": "roadmap",
+      "number": "14",
+      "title": "Roadmap perbaikan berdasarkan risiko",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Urutan mengutamakan pencegahan insiden dan pembentukan bukti, baru kemudian transformasi modul."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Tutup P0 dan pasang guardrail"
+        },
+        {
+          "type": "paragraph",
+          "text": "Disable/protect AI dan mass job, hapus self-role/query HR, fail-close socket, stop token URL, upload limits, checkout idempotency dan conditional stock decrement."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Transaction, test, dan visibility"
+        },
+        {
+          "type": "paragraph",
+          "text": "Tentukan transaction boundary checkout, outbox, backend characterization/integration test, reconciliation dashboard, CI gates, backup/restore drill, PII redaction dan config cleanup."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "StockWiz Next foundation"
+        },
+        {
+          "type": "paragraph",
+          "text": "PostgreSQL, modular monolith, identity bridge, RBAC scope, master data minimum, migration registry, observability, worker dan warehouse-transfer vertical slice."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Inventory, procurement, manufacturing, quality"
+        },
+        {
+          "type": "paragraph",
+          "text": "Canonical ledger, lot/status, goods receipt, QC, BOM/formula, production issue/output, yield, scrap, rework dan traceability."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Unified order dan financial control"
+        },
+        {
+          "type": "paragraph",
+          "text": "Party/customer, sales order, fulfillment, payment, returns, GL/AP/AR, valuation, COGS, tax dan close."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "HR/CRM/marketing dan decommission"
+        },
+        {
+          "type": "paragraph",
+          "text": "Migrasikan domain lanjutan sesuai nilai; matikan route, cron, writer, collection dan credential legacy setelah exit criteria terpenuhi."
+        }
+      ]
+    },
+    {
+      "id": "keputusan",
+      "number": "15",
+      "title": "Keputusan yang diperlukan",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Sebagian kelemahan tidak dapat diselesaikan hanya dengan refactor; dibutuhkan keputusan ownership bisnis dan toleransi risiko."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Siapa pemilik saldo stok?"
+        },
+        {
+          "type": "paragraph",
+          "text": "Tetapkan satu domain dan satu writer; semua channel lain wajib melalui contract."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Apakah P0 menghentikan feature work?"
+        },
+        {
+          "type": "paragraph",
+          "text": "Rekomendasi: ya, untuk area terkait sampai guardrail terpasang."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Opsi transformasi"
+        },
+        {
+          "type": "paragraph",
+          "text": "Pilih evolutionary rebuild per modul; hindari big-bang rewrite."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Domain pilot"
+        },
+        {
+          "type": "paragraph",
+          "text": "Warehouse transfer untuk membuktikan ledger, transaction, permission, audit dan rollback."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Data historis"
+        },
+        {
+          "type": "paragraph",
+          "text": "Bedakan opening balance terverifikasi dari legacy history read-only."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Accountability"
+        },
+        {
+          "type": "paragraph",
+          "text": "Tunjuk sponsor, product owner, domain owner, tech lead dan data lead."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Kesimpulan akhir"
+        },
+        {
+          "type": "paragraph",
+          "text": "StockWiz layak dipertahankan sebagai sumber pengetahuan bisnis, tetapi fondasi saat ini tidak boleh diperluas tanpa pengamanan. Tutup risiko P0, jadikan integritas stok dan authorization sebagai program pertama, lalu bangun StockWiz Next secara bertahap dengan PostgreSQL dan ownership data yang tegas."
+        }
+      ]
+    },
+    {
+      "id": "batasan",
+      "number": "16",
+      "title": "Batasan dan tingkat keyakinan",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Laporan ini komprehensif terhadap artefak yang tersedia, tetapi bukan penetration test atau audit compliance formal."
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Temuan kode berasal dari working tree lokal pada 6 September 2026; perubahan setelah waktu audit dapat mengubah hasil.",
+            "Statistik data berasal dari database lokal stockwiz , bukan snapshot production.",
+            "Tidak dilakukan active exploitation, load test production, network/cloud/IAM review, secret validation, atau third-party configuration audit.",
+            "Jumlah route/write berasal dari pencarian statis dan digunakan sebagai indikator kompleksitas, bukan inventory API formal.",
+            "Audit tidak mengubah source aplikasi atau database bisnis.",
+            "Temuan harus dikonfirmasi melalui threat modeling, production data profiling, query explain, user observation, dan restore rehearsal sebelum program remediation besar."
+          ]
+        }
+      ]
+    }
+  ]
+}

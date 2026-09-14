@@ -1,0 +1,1437 @@
+{
+  "slug": "stockwiz-erp-business-process-module-blueprint",
+  "sourceTitle": "Blueprint Proses Bisnis & Modul ERP — Sensatia StockWiz",
+  "sections": [
+    {
+      "id": "ringkasan",
+      "number": "01",
+      "title": "Ringkasan eksekutif",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Blueprint ini menjawab “ERP apa yang perlu dibangun?” sebelum tim memutuskan tabel, API, atau layar."
+        },
+        {
+          "type": "paragraph",
+          "text": "Arah desain bisnis"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Satu aliran bisnis, satu sumber kebenaran per domain, dan jejak lengkap dari bahan baku hingga penjualan."
+        },
+        {
+          "type": "paragraph",
+          "text": "StockWiz Next bukan kumpulan menu departemen. Ia harus menghubungkan permintaan, pembelian, penerimaan, QC, produksi, gudang, penjualan, keuangan, customer, dan tenaga kerja melalui dokumen serta event yang konsisten."
+        },
+        {
+          "type": "note",
+          "text": "9 value streams end-to-end"
+        },
+        {
+          "type": "note",
+          "text": "13 domain utama Dengan accountable business owner. 1 inventory ledger Semua channel memakai sumber yang sama. 100% lot traceability Bahan → batch → shipment/customer. 4 wave implementasi Foundation, supply chain, commercial, corporate."
+        },
+        {
+          "type": "note",
+          "text": "Keputusan penting: jangan menyalin struktur menu dan collection legacy menjadi desain baru. Validasi blueprint ini melalui workshop dengan warehouse, procurement, production, QC/QA, sales, finance, HR, dan manajemen."
+        }
+      ]
+    },
+    {
+      "id": "prinsip",
+      "number": "02",
+      "title": "Prinsip desain ERP",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Prinsip ini menjadi pagar saat kebutuhan baru muncul dan mencegah setiap departemen membangun sumber datanya sendiri."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Satu system of record"
+        },
+        {
+          "type": "paragraph",
+          "text": "Setiap entitas dan saldo hanya memiliki satu pemilik. Modul lain membaca melalui contract atau read model."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Dokumen menggerakkan ledger"
+        },
+        {
+          "type": "paragraph",
+          "text": "Stok, uang, dan status tidak diubah manual tanpa source document, actor, reason, dan approval."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Lot-first manufacturing"
+        },
+        {
+          "type": "paragraph",
+          "text": "Lot, expiry, status kualitas, formula version, material genealogy, dan custody adalah bagian inti desain."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Maker-checker"
+        },
+        {
+          "type": "paragraph",
+          "text": "Pembuat, approver, receiver, QC releaser, payer, dan reconciler dipisahkan sesuai nilai serta risiko."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Modular dan bertahap"
+        },
+        {
+          "type": "paragraph",
+          "text": "Setiap vertical slice memberi nilai dan dapat digunakan tanpa menunggu seluruh ERP selesai."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Audit dan KPI by design"
+        },
+        {
+          "type": "paragraph",
+          "text": "Setiap perubahan penting menghasilkan audit event dan metrik proses, bukan hanya log teknis."
+        }
+      ]
+    },
+    {
+      "id": "organisasi",
+      "number": "03",
+      "title": "Model organisasi & fasilitas",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Scope data, approval, costing, dan laporan mengikuti struktur perusahaan. Struktur ini wajib disepakati sebelum role dan transaksi dibuat."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Legal Entity"
+        },
+        {
+          "type": "paragraph",
+          "text": "Company, currency, fiscal calendar, tax registration, chart of accounts, dan statutory reporting."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Plant & Site"
+        },
+        {
+          "type": "paragraph",
+          "text": "Pabrik, kantor, retail/shop, distribution center, lab, dan channel digital dengan timezone serta operating calendar."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Warehouse & Location"
+        },
+        {
+          "type": "paragraph",
+          "text": "Zone, bin, staging, receiving, quarantine, sampling, production, finished goods, damaged, dan dispatch."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Cost center & profit center"
+        },
+        {
+          "type": "paragraph",
+          "text": "Departemen, plant, channel, brand, dan project untuk budget, actual cost, margin, serta accountability."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Work center & resource"
+        },
+        {
+          "type": "paragraph",
+          "text": "Mixing vessel, filling line, packaging line, lab equipment, capacity, shift, calendar, dan maintenance status."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Sales organization & channel"
+        },
+        {
+          "type": "paragraph",
+          "text": "Retail, e-commerce, wholesale, distributor, partnership, territory, price list, customer segment, dan salesperson."
+        },
+        {
+          "type": "note",
+          "text": "Scope rule: user tidak otomatis melihat semua data karena memiliki role. Akses selalu merupakan kombinasi permission + legal entity + plant/site + warehouse/shop + department + approval limit."
+        }
+      ]
+    },
+    {
+      "id": "domain",
+      "number": "04",
+      "title": "Peta domain ERP StockWiz",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Tiga belas domain saling terhubung melalui dokumen dan event; bukan melalui write langsung ke tabel/domain lain."
+        }
+      ]
+    },
+    {
+      "id": "master",
+      "number": "05",
+      "title": "Master data sebagai fondasi",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Transaksi hanya akan konsisten jika master data memiliki definisi, owner, lifecycle, dan uniqueness yang jelas."
+        },
+        {
+          "type": "table",
+          "headers": [
+            "Master",
+            "Isi utama",
+            "Owner bisnis",
+            "Kontrol wajib",
+            "Dipakai oleh"
+          ],
+          "rows": [
+            [
+              "Item & SKU",
+              "Raw, packaging, bulk, semi-finished, finished goods, sample, spare part; base UOM, conversion, barcode, shelf life, storage.",
+              "Master Data + R&D/Supply Chain",
+              "Unique SKU/barcode; effective date; status draft/active/blocked/discontinued.",
+              "Procurement, inventory, production, sales, finance"
+            ],
+            [
+              "Formula & BOM",
+              "Version, ingredient %, packaging BOM, expected yield, loss tolerance, alternate material, effective date.",
+              "R&D + Production + QA",
+              "Approval/versioning; sum/quantity invariant; no edit after effective use.",
+              "MRP, production, quality, costing"
+            ],
+            [
+              "Routing & work center",
+              "Operation sequence, setup/run time, labor/machine resource, capacity, QC checkpoint.",
+              "Production Engineering",
+              "Approved version; capacity calendar; effective period.",
+              "Planning, shop floor, maintenance, costing"
+            ],
+            [
+              "Specification & QC plan",
+              "Test parameter, method, min/max, sampling plan, COA rule, disposition.",
+              "QA/QC",
+              "Version/effective date; controlled method; e-signature where required.",
+              "Receiving, production, release, complaint"
+            ],
+            [
+              "Party",
+              "Supplier, customer, distributor, employee-related party, addresses, contacts, tax, bank, consent.",
+              "Procurement/CRM/Finance",
+              "Normalized identity; duplicate/merge; sensitive access; approval bank change.",
+              "PO, sales, payment, CRM, reporting"
+            ],
+            [
+              "Organization & location",
+              "Legal entity, plant, shop, warehouse, zone/bin, cost/profit center, channel.",
+              "Finance + Operations",
+              "Hierarchy, effective period, timezone, status, scope mapping.",
+              "Semua modul"
+            ],
+            [
+              "Price, promotion & tax",
+              "Price list, customer/channel segment, currency, tax code, discount/promo eligibility.",
+              "Commercial + Finance",
+              "Approval, effective date, stacking rule, rounding, audit.",
+              "Quote, order, invoice, margin"
+            ],
+            [
+              "Employee, skill & role",
+              "Employment, department, position, manager, skill/certification, work schedule.",
+              "HR",
+              "PII scope, effective dating, joiner/mover/leaver workflow.",
+              "Attendance, approval, production authorization"
+            ],
+            [
+              "Asset & spare part",
+              "Equipment hierarchy, serial, location, criticality, maintenance plan, meter.",
+              "Engineering/Maintenance",
+              "Unique asset; commissioning/retirement; calibration status.",
+              "Maintenance, production capacity, quality"
+            ]
+          ]
+        },
+        {
+          "type": "note",
+          "text": "Golden-record workflow: request → duplicate check → enrich → review → approve → publish → monitor usage → change/new version → retire. ObjectId database tidak boleh menjadi identitas bisnis lintas sistem; gunakan stable business key dan mapping registry."
+        }
+      ]
+    },
+    {
+      "id": "procure",
+      "number": "06",
+      "title": "Procure-to-Pay",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Menghubungkan kebutuhan bahan dengan supplier, penerimaan, QC, hutang, dan pembayaran tanpa kehilangan tiga-way match."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Alur pembelian bahan dan jasa"
+        },
+        {
+          "type": "paragraph",
+          "text": "Dimulai dari kebutuhan yang disetujui dan berakhir pada liability serta payment yang direkonsiliasi."
+        },
+        {
+          "type": "note",
+          "text": "01 Purchase requisition Item/service, quantity, need date, cost center, budget. 02 RFQ & comparison Supplier quotes, price, lead time, MOQ, terms, quality. 03 Purchase order Approved commitment, version, schedule, tax, currency. 04 ASN & receiving Delivery, GRN, quantity, supplier lot, damage, documents. 05 Quarantine & QC Sample, inspect, release/reject, COA verification. 06 Supplier invoice PO–receipt–invoice three-way match dan variance. 07 Payment Due date, approval, bank control, settlement, journal."
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "PR: draft → submitted → approved/rejected → sourced",
+            "PO: draft → approved → sent → partial → received → closed/cancelled",
+            "GRN: received → quarantine → accepted/rejected"
+          ]
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Approval limit dan budget check",
+            "Supplier block/qualification",
+            "Over/under receipt tolerance",
+            "Price/quantity/tax variance workflow",
+            "Perubahan bank supplier dual approval"
+          ]
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "PR-to-PO cycle time",
+            "On-time/in-full supplier",
+            "Purchase price variance",
+            "QC rejection rate",
+            "Invoice match exception dan days payable"
+          ]
+        },
+        {
+          "type": "note",
+          "text": "Integrasi: MRP membuat planned requisition, Procurement mengubahnya menjadi PO, Warehouse membuat GRN, QC menentukan stock status, Inventory mem-post movement, dan Finance membuat accrual/AP—tanpa modul menulis data satu sama lain secara langsung."
+        }
+      ]
+    },
+    {
+      "id": "inventory",
+      "number": "07",
+      "title": "Inventory-to-Fulfillment",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Inventory menjadi shared operational ledger untuk bahan, bulk, WIP, finished goods, sample, dan spare part pada semua lokasi."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Alur inventory dan warehouse"
+        },
+        {
+          "type": "paragraph",
+          "text": "Semua perpindahan memiliki source document, lot/status, from/to location, quantity/UOM, actor, dan posting time."
+        },
+        {
+          "type": "note",
+          "text": "01 Receive GRN/return/production output ke receiving atau quarantine. 02 Inspect/status Available, quarantine, rejected, damaged, expired. 03 Putaway Directed destination by zone/bin, compatibility, capacity. 04 Reserve ATP/FEFO allocation untuk sales atau production. 05 Pick & move Scan item/lot/bin, staging, transfer, custody. 06 Issue/ship Consume ke produksi atau dispatch ke customer/shop. 07 Count/reconcile Cycle count, variance approval, reversal, audit."
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Legal entity, site, warehouse, zone/bin",
+            "Item, variant, lot, serial bila perlu",
+            "Status, ownership, reservation, in-transit",
+            "Base UOM dan conversion snapshot"
+          ]
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Available tidak negatif tanpa policy",
+            "FEFO untuk expiry-controlled item",
+            "Posted movement immutable",
+            "Transfer out = transit + receipt + variance",
+            "Ledger = balance projection"
+          ]
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Inventory accuracy dan variance age",
+            "Stockout/overstock",
+            "Expired/near-expiry value",
+            "Pick accuracy dan order cycle time",
+            "Dock-to-stock dan space utilization"
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Inventory movement"
+        },
+        {
+          "type": "paragraph",
+          "text": "Append-only ledger dengan unique source key, movement type, lot/status, cost reference, dan reversal link."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Balance & reservation"
+        },
+        {
+          "type": "paragraph",
+          "text": "Projection per dimension, di-update dalam transaction yang sama dan dapat dibangun ulang dari ledger."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Reconciliation case"
+        },
+        {
+          "type": "paragraph",
+          "text": "Variance otomatis menjadi exception case dengan severity, evidence, owner, SLA, resolution, dan approval."
+        }
+      ]
+    },
+    {
+      "id": "planning",
+      "number": "08",
+      "title": "Demand, MPS, MRP & capacity planning",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Perencanaan menerjemahkan forecast dan order menjadi keputusan produksi serta pembelian yang realistis."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Plan-to-Supply"
+        },
+        {
+          "type": "paragraph",
+          "text": "Planning recommendation tidak otomatis menjadi transaksi tanpa review, freeze fence, dan owner."
+        },
+        {
+          "type": "note",
+          "text": "01 Demand signal Forecast, confirmed order, promotion, launch, safety stock. 02 Net demand On-hand, reserved, open supply, lead time, expiry. 03 MPS Finished goods plan by week/site and planning fence. 04 MRP explosion Formula/BOM version, yield, scrap, lot size, MOQ. 05 Capacity check Work center, shift, maintenance, labor/skill, bottleneck. 06 Planner action Create/expedite/postpone/cancel planned orders."
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Forecast version dan consensus approval",
+            "Promotion uplift dan launch scenario",
+            "Lead time serta MOQ supplier",
+            "Safety stock/service-level policy"
+          ]
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Shortage dan projected stockout",
+            "Capacity overload",
+            "Late supply dan material expiry risk",
+            "Reschedule in/out dan excess supply"
+          ]
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Forecast accuracy/bias",
+            "Plan adherence",
+            "Service level/fill rate",
+            "Schedule stability",
+            "Inventory days dan write-off risk"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "manufacturing",
+      "number": "09",
+      "title": "Plan-to-Produce",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Manufacturing dirancang untuk batch skincare: formula berversi, weighing, mixing, bulk, filling, packing, yield, dan electronic batch record."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Alur produksi batch"
+        },
+        {
+          "type": "paragraph",
+          "text": "Hanya material berstatus released, lot valid, dan formula efektif yang boleh digunakan."
+        },
+        {
+          "type": "note",
+          "text": "01 Production order Item, batch size, formula/routing version, due date. 02 Material staging FEFO allocation, pick list, issue reservation. 03 Weighing Scan material/lot, target/tolerance, scale/operator. 04 Mixing/process Equipment, parameter, time, temperature, in-process checks. 05 Bulk output Actual yield, bulk lot, sample, quarantine, loss. 06 Fill & pack Packaging issue, line clearance, FG lot, reconciliation. 07 Close order Variance, scrap/rework, labor/machine, cost, approval."
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Formula/routing/spec version snapshot",
+            "Operator, equipment, timestamp, parameter",
+            "Material lot genealogy dan actual quantity",
+            "Deviation, hold, e-signature, attachment"
+          ]
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Line clearance dan equipment status",
+            "Weighing tolerance + second verification",
+            "No expired/quarantine material",
+            "Yield/loss tolerance dan variance reason",
+            "Backflush hanya untuk item yang diizinkan"
+          ]
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Schedule adherence dan cycle time",
+            "Yield, material variance, scrap/rework",
+            "Right-first-time batch",
+            "OEE/downtime bila data cukup",
+            "Cost per batch/unit"
+          ]
+        },
+        {
+          "type": "note",
+          "text": "Genealogy minimum: setiap finished-goods lot harus dapat ditelusuri ke bulk lot, semua raw/packaging lots, formula/specification version, production order, work center, operator, QC results, dan shipment/customer yang menerimanya."
+        }
+      ]
+    },
+    {
+      "id": "quality",
+      "number": "10",
+      "title": "Quality, batch release & recall",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "QC melakukan pengujian; QA memegang disposition dan sistem mutu. Status kualitas langsung mengendalikan apakah stok boleh dipakai atau dijual."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Quality lifecycle"
+        },
+        {
+          "type": "paragraph",
+          "text": "Dari inspection lot sampai release, deviation, CAPA, complaint, dan recall."
+        },
+        {
+          "type": "note",
+          "text": "01 Inspection lot Dibuat dari receipt, production stage/output, atau complaint. 02 Sample Sampling plan, chain of custody, sample label, retention. 03 Test result Parameter, method, instrument, analyst, result, attachment. 04 Review Specification comparison, OOS/OOT, second review. 05 Disposition Release, reject, conditional, rework, return, destroy. 06 CAPA Investigation, root cause, action, effectiveness check."
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Specification dan test method version",
+            "COA incoming/finished goods",
+            "Deviation, OOS/OOT, non-conformance",
+            "CAPA, change control, training evidence"
+          ]
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "QC result tidak sama dengan QA disposition",
+            "Released status hanya oleh authorized QA",
+            "Result correction memiliki reason/audit",
+            "Expired calibration dapat memblokir result"
+          ]
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "First-pass release dan release lead time",
+            "Supplier/production defect rate",
+            "OOS/OOT dan repeat test",
+            "CAPA overdue/effectiveness",
+            "Complaint rate by product/lot"
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Batch-to-Recall"
+        },
+        {
+          "type": "paragraph",
+          "text": "Recall dapat melakukan trace backward dan forward dalam hitungan menit, bukan pencarian manual lintas collection."
+        },
+        {
+          "type": "note",
+          "text": "01 Signal Complaint, test, authority, supplier, trend. 02 Assess Severity, scope, risk, decision authority. 03 Hold Block affected lot/location/order immediately. 04 Trace backward FG → bulk → raw/packaging lot → supplier. 05 Trace forward Lot → transfer → shipment → shop/customer. 06 Execute Notify, return, segregate, reconcile, destroy/rework. 07 Close & CAPA Effectiveness, quantity reconciliation, authority report."
+        }
+      ]
+    },
+    {
+      "id": "commercial",
+      "number": "11",
+      "title": "Order-to-Cash, CRM & marketing",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Retail, e-commerce, wholesale, distributor, dan partnership menggunakan lifecycle order yang sama dengan metadata channel—bukan model transaksi terpisah."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Order-to-Cash"
+        },
+        {
+          "type": "paragraph",
+          "text": "Dari customer/order sampai fulfillment, invoice, payment, return, dan margin."
+        },
+        {
+          "type": "note",
+          "text": "01 Customer/quote Identity, segment, price list, tax, credit, consent. 02 Sales order Channel, item, promotion, promise date, source reference. 03 ATP & reserve Available-to-promise, allocation, FEFO, backorder policy. 04 Pick-pack-ship Lot scan, packing, carrier, proof, delivery status. 05 Invoice/payment Tax, payment allocation, settlement, gateway reconciliation. 06 Return/refund RMA, reason, inspection, disposition, credit/refund."
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Price/promo effective date dan stacking",
+            "Discount/credit approval limit",
+            "Unique channel order/idempotency",
+            "Allocation fairness dan oversell protection"
+          ]
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Golden identity dan household/company relation",
+            "Order, return, complaint, loyalty timeline",
+            "Consent/purpose/channel preferences",
+            "Merge/audit dan right-to-access controls"
+          ]
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Conversion, AOV, gross margin, return rate",
+            "Order cycle time dan fill rate",
+            "Payment reconciliation exception",
+            "Repeat purchase, retention, loyalty liability"
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Growth dengan data yang berizin dan terukur"
+        },
+        {
+          "type": "heading",
+          "level": 4,
+          "text": "Capabilities"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Segment/audience versioning",
+            "Campaign, journey, offer, coupon/promo",
+            "Loyalty earn/burn/expiry ledger",
+            "Lead/account/contact untuk B2B",
+            "Customer service case dan complaint link"
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 4,
+          "text": "Controls"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Consent, purpose, suppression, frequency cap",
+            "Unique send/offer redemption key",
+            "Promotion eligibility dan budget",
+            "PII export restriction dan retention",
+            "Maker-checker untuk mass campaign"
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 4,
+          "text": "Measures"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Incremental revenue, not vanity clicks",
+            "Campaign cost dan contribution margin",
+            "Unsubscribe/complaint/deliverability",
+            "Loyalty liability dan breakage",
+            "Case resolution dan customer satisfaction"
+          ]
+        },
+        {
+          "type": "note",
+          "text": "Integrasi Order, product, price/promo, availability, fulfillment, payment, consent, customer service, dan finance. Larangan Campaign tidak boleh membaca customer dump atau mengirim mass message tanpa consent, approval, idempotency, dan send ledger."
+        }
+      ]
+    },
+    {
+      "id": "finance",
+      "number": "12",
+      "title": "Record-to-Report, finance & costing",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Finance menerima subledger event dari procurement, inventory, manufacturing, sales, payment, payroll, dan assets; bukan menghitung ulang transaksi dari laporan manual."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Record-to-Report"
+        },
+        {
+          "type": "paragraph",
+          "text": "Setiap journal memiliki source, accounting date, dimension, rule version, dan reconciliation status."
+        },
+        {
+          "type": "note",
+          "text": "01 Subledger event Receipt, invoice, issue, output, shipment, payment, payroll. 02 Accounting rule Account mapping, dimension, currency, tax, valuation. 03 Journal Balanced debit/credit, source reference, posting period. 04 Reconcile AP/AR/bank/inventory/COGS/payroll vs GL. 05 Close Cutoff, accrual, valuation, adjustment, lock period. 06 Report P&L, balance sheet, cash flow, margin, audit pack."
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Chart of accounts dan financial dimensions",
+            "GL, AP, AR, bank/cash, tax, fixed assets",
+            "Budget/commitment dan expense",
+            "Multi-currency dan exchange difference"
+          ]
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Valuation method per policy/entity",
+            "Standard/actual material, labor, overhead",
+            "Purchase price/material/yield variance",
+            "COGS saat fulfillment dan return reversal"
+          ]
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Subledger-to-GL difference = 0",
+            "Close checklist/owner/evidence",
+            "Days to close, DSO, DPO, cash forecast",
+            "Margin by SKU/channel/customer"
+          ]
+        },
+        {
+          "type": "note",
+          "text": "Boundary: desain accounting rule, tax, valuation, currency rounding, dan period close wajib disetujui Finance serta advisor pajak/audit yang relevan. ERP tidak boleh “membetulkan” uang dengan floating-point atau jurnal tanpa source."
+        }
+      ]
+    },
+    {
+      "id": "people",
+      "number": "13",
+      "title": "Hire-to-Retire & workforce",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "HR adalah domain ber-PII tinggi. Data personal, performance, kesehatan/leave, payroll, dan akses sistem dipisahkan berdasarkan purpose."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Employee lifecycle"
+        },
+        {
+          "type": "paragraph",
+          "text": "Effective-dated record menghubungkan organization, schedule, skill, approval, payroll input, dan system access."
+        },
+        {
+          "type": "note",
+          "text": "01 Position/request Headcount, job, grade, budget, approval. 02 Hire/onboard Employee, contract, documents, orientation, access. 03 Time & leave Schedule, attendance, overtime, leave, correction. 04 Develop Skill, training, certification, performance, succession. 05 Payroll input Approved time, allowance/deduction, effective change. 06 Move/offboard Transfer/promotion, final clearance, access revoke, archive."
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Field-level purpose-based access",
+            "Manager scope dan HR scope server-side",
+            "Masked export dan retention/legal hold",
+            "No HR privilege from query/body"
+          ]
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Shift/roster dan capacity planning",
+            "Skill/certification untuk operation/QC",
+            "Training validity dan authorization",
+            "Labor time untuk production costing"
+          ]
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Attendance/overtime accuracy",
+            "Leave approval cycle time",
+            "Training/certification compliance",
+            "Turnover, vacancy, time-to-fill"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "assets",
+      "number": "14",
+      "title": "Asset, maintenance & calibration",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Ketersediaan mesin, kebersihan, maintenance, dan kalibrasi memengaruhi capacity plan serta validitas produksi/QC."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Maintain-to-Reliability"
+        },
+        {
+          "type": "heading",
+          "level": 4,
+          "text": "Capabilities"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Asset hierarchy dan criticality",
+            "Preventive/predictive maintenance plan",
+            "Work request/order, priority, permit",
+            "Spare part reservation/issue",
+            "Meter, downtime, failure code, service history",
+            "Calibration plan/result/certificate"
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 4,
+          "text": "Integration"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Work center availability ke planning",
+            "Equipment status/block ke production",
+            "Calibration validity ke QC result",
+            "Spare part ke inventory/procurement",
+            "Labor/service/capitalization ke finance"
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 4,
+          "text": "Controls & KPI"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Authorized release after maintenance",
+            "Overdue critical PM/calibration alert",
+            "MTBF, MTTR, planned vs reactive work",
+            "Downtime, maintenance compliance, cost",
+            "Repeat failure dan spare stockout"
+          ]
+        },
+        {
+          "type": "note",
+          "text": "Minimum lebih awal Asset/work-center registry, availability, sanitation/line-clearance evidence, dan calibration validity dibutuhkan sebelum manufacturing digital penuh. Later depth Mobile maintenance, condition monitoring, IoT, predictive model hanya setelah master dan failure data berkualitas."
+        }
+      ]
+    },
+    {
+      "id": "workflow",
+      "number": "15",
+      "title": "Dokumen transaksi, status & event",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Dokumen adalah unit niat dan approval; ledger adalah hasil posting; event memberi tahu domain lain setelah commit."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Pola status dokumen"
+        },
+        {
+          "type": "note",
+          "text": "Draft Dapat diedit pembuat Submitted Siap direview Approved Komitmen resmi In execution Partial/progress Posted Ledger terbentuk Closed Selesai & reconcile Reversed Koreksi via dokumen baru"
+        },
+        {
+          "type": "note",
+          "text": "Aturan: tidak semua dokumen memakai semua status. Transition harus eksplisit, role/scope diperiksa server-side, posted document immutable, dan cancel/reverse selalu menyimpan reason serta reference."
+        },
+        {
+          "type": "paragraph",
+          "text": "Mengelola kebutuhan, sourcing, commitment, perubahan, dan approval."
+        },
+        {
+          "type": "paragraph",
+          "text": "Menghubungkan receipt, quarantine, test, release/reject, dan supplier performance."
+        },
+        {
+          "type": "paragraph",
+          "text": "Memindahkan/menahan/koreksi stock dengan ledger dan approval."
+        },
+        {
+          "type": "paragraph",
+          "text": "Formula/routing snapshot, issue, process, output, yield, scrap, close."
+        },
+        {
+          "type": "paragraph",
+          "text": "Harga, ATP, fulfillment, return, dan channel source reference."
+        },
+        {
+          "type": "paragraph",
+          "text": "Subledger, settlement, balanced posting, close, dan audit."
+        },
+        {
+          "type": "paragraph",
+          "text": "Investigation, disposition, corrective action, effectiveness, trace."
+        },
+        {
+          "type": "paragraph",
+          "text": "Approved time, competency, effective-dated employee lifecycle."
+        },
+        {
+          "type": "paragraph",
+          "text": "Asset work, parts/labor, downtime, release, and certificate."
+        }
+      ]
+    },
+    {
+      "id": "kontrol",
+      "number": "16",
+      "title": "Kontrol lintas modul & segregation of duties",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Kontrol platform menghindari setiap modul membuat mekanisme approval, audit, numbering, file, dan permission sendiri."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "RBAC + scope + limit"
+        },
+        {
+          "type": "paragraph",
+          "text": "Permission action ditambah organization/site/warehouse/department scope dan amount/quantity approval limit."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Approval engine"
+        },
+        {
+          "type": "paragraph",
+          "text": "Rule berversi, maker-checker, delegation ber-expiry, escalation, SLA, reason, dan evidence."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Immutable audit event"
+        },
+        {
+          "type": "paragraph",
+          "text": "Actor, time, action, entity, before/after ter-redact, reason, source, correlation, device/IP context."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Idempotency & outbox"
+        },
+        {
+          "type": "paragraph",
+          "text": "Unique operation key, transaction boundary, durable event, retry/backoff, dedup, dead-letter, replay."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Contract & inbox"
+        },
+        {
+          "type": "paragraph",
+          "text": "Versioned API/event, signed webhook, incoming dedup, mapping, reconciliation, rate budget, circuit breaker."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "File & e-signature"
+        },
+        {
+          "type": "paragraph",
+          "text": "Private object storage, scan, retention, version, checksum, authorized download, signature evidence."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Konflik tugas yang harus dicegah"
+        },
+        {
+          "type": "paragraph",
+          "text": "Membuat supplier/PO dan menyetujui PO atau mengubah rekening serta membayar."
+        },
+        {
+          "type": "paragraph",
+          "text": "Membuat transfer, menerima transfer sendiri, lalu menyetujui variance."
+        },
+        {
+          "type": "paragraph",
+          "text": "Melakukan test, mengubah result, dan merilis lot tanpa reviewer."
+        },
+        {
+          "type": "paragraph",
+          "text": "Mengeluarkan material, melaporkan output, dan menyetujui yield variance."
+        },
+        {
+          "type": "paragraph",
+          "text": "Mengubah price/discount, membuat order, dan menyetujui refund sendiri."
+        },
+        {
+          "type": "paragraph",
+          "text": "Membuat vendor, invoice, payment, dan bank reconciliation."
+        },
+        {
+          "type": "paragraph",
+          "text": "Mengubah role/employee sendiri atau menyetujui leave/overtime miliknya."
+        },
+        {
+          "type": "paragraph",
+          "text": "Developer production mengubah data dan menghapus audit/log tanpa kontrol."
+        }
+      ]
+    },
+    {
+      "id": "matrix",
+      "number": "17",
+      "title": "Capability matrix & gap StockWiz",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Matriks ini menghubungkan kemampuan yang dibutuhkan, kondisi saat ini berdasarkan audit, target minimum, dependency, dan wave."
+        },
+        {
+          "type": "note",
+          "text": "24 capability ditampilkan"
+        },
+        {
+          "type": "table",
+          "headers": [
+            "Domain / capability",
+            "Kondisi StockWiz sekarang",
+            "Target minimum",
+            "Dependency utama",
+            "Wave"
+          ],
+          "rows": [
+            [
+              "Identity & scoped authorization",
+              "Auth tersedia; authorization tidak konsisten dan beberapa privilege berasal dari request.",
+              "Deny-by-default action permission + organization/site/warehouse/department scope + audit.",
+              "Organization master, role matrix",
+              "W1 · P0"
+            ],
+            [
+              "Canonical item & UOM",
+              "Item lebar, barcode duplicate, tipe dan ownership bercampur.",
+              "Golden SKU, variant, UOM conversion, barcode uniqueness, lifecycle/version.",
+              "Data cleansing, owner",
+              "W1"
+            ],
+            [
+              "Inventory movement ledger",
+              "Banyak balance/history source dan transaksi tidak atomic.",
+              "Append-only ledger, source key, balance projection, reservation, reconciliation.",
+              "Item/location/lot, transaction",
+              "W1 · P0"
+            ],
+            [
+              "Lot, expiry & stock status",
+              "Belum menjadi dimensi kanonik end-to-end.",
+              "Lot genealogy, FEFO, available/reserved/transit/quarantine/rejected/expired.",
+              "Inventory ledger, QC disposition",
+              "W1"
+            ],
+            [
+              "Audit, workflow & idempotency",
+              "Pola berbeda per route; retry dan approval tidak seragam.",
+              "Platform shared approval, audit event, idempotency, numbering, outbox.",
+              "Identity, transaction, event",
+              "W1 · P0"
+            ],
+            [
+              "Data migration registry",
+              "ID mixed, orphan, duplicate, tanpa validator lokal.",
+              "Canonical mapping, staging, quarantine, repeatable batches, reconciliation.",
+              "Data owner, profiling",
+              "W1"
+            ],
+            [
+              "Purchase requisition & sourcing",
+              "Proses procurement belum menjadi lifecycle terintegrasi penuh.",
+              "PR, budget/approval, RFQ, comparison, supplier selection, audit.",
+              "Item, supplier, organization",
+              "W2"
+            ],
+            [
+              "PO, receiving & three-way match",
+              "Receipt/QC/invoice belum satu chain kanonik.",
+              "PO version, ASN/GRN, tolerance, quarantine, match PO–receipt–invoice.",
+              "Procurement, inventory, QC, AP",
+              "W2"
+            ],
+            [
+              "Supplier quality & performance",
+              "Data supplier tersebar dalam item/transaksi.",
+              "Qualification, certificate, defect, OTIF, lead time, scorecard, block.",
+              "Party, receiving, QC",
+              "W2"
+            ],
+            [
+              "Demand planning & MPS",
+              "Signal sales/channel terfragmentasi; planning belum kanonik.",
+              "Forecast version, consensus, promotion uplift, MPS, planning fence.",
+              "Unified demand, item, calendar",
+              "W2"
+            ],
+            [
+              "MRP & capacity",
+              "Linked item belum setara BOM/formula/routing version.",
+              "Explosion by effective formula, yield/scrap, lead time, MOQ, capacity.",
+              "Formula/BOM, inventory, work center",
+              "W2"
+            ],
+            [
+              "Formula/BOM governance",
+              "Belum ada lifecycle version/effectivity/approval yang utuh.",
+              "Formula and packaging BOM versions, alternate, approval, effective date.",
+              "R&D, QA, production",
+              "W2"
+            ],
+            [
+              "Electronic batch record",
+              "Produksi belum menyatukan material genealogy dan process evidence.",
+              "Order, weighing, parameters, lots, equipment, yield, deviation, signature.",
+              "Formula, inventory, QC, workforce",
+              "W2"
+            ],
+            [
+              "Quality inspection & release",
+              "QC/QA depth belum menjadi control point universal.",
+              "Inspection lot, sampling, result, OOS, disposition, COA, hold/release.",
+              "Specification, lot/status, identity",
+              "W2"
+            ],
+            [
+              "Recall & CAPA",
+              "Trace bahan–batch–shipment/customer belum satu jalur.",
+              "Backward/forward trace, hold, reconciliation, communication, CAPA.",
+              "Genealogy, sales delivery, complaint",
+              "W2"
+            ],
+            [
+              "Canonical party/customer",
+              "Customer terpisah per channel dan duplicate normalized besar.",
+              "Golden identity, alias/merge, consent, relationship, customer 360.",
+              "Data cleansing, privacy policy",
+              "W3"
+            ],
+            [
+              "Unified sales order",
+              "Shop/web/PO/partnership memakai collection/lifecycle berbeda.",
+              "Canonical order with channel metadata, ATP, allocation, fulfillment, return.",
+              "Party, product, inventory, price",
+              "W3"
+            ],
+            [
+              "Price, promotion & loyalty",
+              "Rule tersebar, money float, customer/points dapat partial write.",
+              "Versioned price/promo, Money type, earn/burn ledger, consent/send control.",
+              "Finance rules, customer, outbox",
+              "W3"
+            ],
+            [
+              "AP/AR, payment & bank",
+              "Finance belum menjadi subledger terintegrasi lengkap.",
+              "Invoice, settlement, gateway/bank reconcile, due aging, approval.",
+              "Party, PO/receipt, order/delivery",
+              "W3"
+            ],
+            [
+              "Inventory valuation & COGS",
+              "Cost/price bertipe campuran dan channel terfragmentasi.",
+              "Policy-based valuation, production cost, variance, COGS and reversal.",
+              "Ledger, money, manufacturing, GL",
+              "W3"
+            ],
+            [
+              "GL & period close",
+              "Belum ada satu accounting event/subledger control menyeluruh.",
+              "Balanced journals, dimensions, period lock, subledger reconciliation, close.",
+              "All financial events",
+              "W3"
+            ],
+            [
+              "HR core, time & leave",
+              "Attendance besar; HR authorization pernah bergantung request flag.",
+              "Effective employee, schedule/time/leave, scoped approval, payroll inputs.",
+              "Organization, privacy, identity",
+              "W4"
+            ],
+            [
+              "Training & competency",
+              "Skill/certification belum mengendalikan operasi produksi/QC.",
+              "Role skill matrix, training validity, authorization to operate/release.",
+              "Employee, work center, QA",
+              "W4"
+            ],
+            [
+              "Asset maintenance & calibration",
+              "Belum menjadi lifecycle yang memengaruhi capacity/quality.",
+              "Asset hierarchy, PM/work order, downtime, spare, calibration, status.",
+              "Work center, inventory, procurement",
+              "W4"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "roadmap",
+      "number": "18",
+      "title": "Roadmap modul & keputusan manajemen",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Wave mengikuti dependency bisnis. Timeline adalah rentang perencanaan dan dikalibrasi setelah discovery, kapasitas tim, serta kesiapan data."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Stabilkan sistem existing"
+        },
+        {
+          "type": "paragraph",
+          "text": "Tutup P0, lindungi stock transaction, pasang test/CI/observability, profile data, dan tetapkan domain owner."
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Exit: security P0 tertutup, transaksi kritis idempotent/atomic, variance terlihat."
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Foundation & inventory pilot"
+        },
+        {
+          "type": "paragraph",
+          "text": "Organization, item/UOM, identity/RBAC, workflow/audit, PostgreSQL foundation, inventory ledger, lot/status, transfer pilot."
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Exit: satu warehouse flow live, ledger=balance, source-of-truth ownership jelas."
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Procurement, planning, manufacturing & quality"
+        },
+        {
+          "type": "paragraph",
+          "text": "PR/PO/GRN, supplier quality, formula/BOM/routing, MRP, production order/batch record, QC release, genealogy, recall."
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Exit: bahan baku → finished lot sepenuhnya traceable dan inventory status dikendalikan QA."
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Commercial & finance"
+        },
+        {
+          "type": "paragraph",
+          "text": "Party/customer, unified order/fulfillment/returns, pricing/promotion/loyalty, AP/AR, payment, valuation, costing, GL, close."
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Exit: order-to-cash dan procure-to-pay reconcile; subledger cocok dengan GL."
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "People, assets, analytics & decommission"
+        },
+        {
+          "type": "paragraph",
+          "text": "HR/workforce, competency, maintenance/calibration, governed analytics; legacy route/job/collection dipensiunkan."
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Exit: legacy read-only/archive, control dan KPI lintas domain beroperasi."
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Keputusan yang harus ditandatangani"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Inventory ownership"
+        },
+        {
+          "type": "paragraph",
+          "text": "Siapa pemilik balance, movement, reservation, lot, dan adjustment lintas channel?"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Organization model"
+        },
+        {
+          "type": "paragraph",
+          "text": "Legal entity, plant, warehouse, shop, channel, cost/profit center, timezone."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Quality authority"
+        },
+        {
+          "type": "paragraph",
+          "text": "Pemisahan QC result, QA disposition, deviation, rework, destruction, dan recall."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Formula governance"
+        },
+        {
+          "type": "paragraph",
+          "text": "Owner formula/BOM/spec, version approval, effective date, alternate, dan change control."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Financial policies"
+        },
+        {
+          "type": "paragraph",
+          "text": "Currency/rounding, valuation, costing, tax, accounting date, dimensions, dan closing."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Commercial model"
+        },
+        {
+          "type": "paragraph",
+          "text": "Satu order/customer lifecycle dengan channel metadata, price/promo, return, dan loyalty."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Privacy & retention"
+        },
+        {
+          "type": "paragraph",
+          "text": "Data classification, consent, PII scope, archive, legal hold, deletion, dan historical access."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Build vs integrate"
+        },
+        {
+          "type": "paragraph",
+          "text": "Fungsi mana inti StockWiz dan mana yang lebih tepat memakai layanan khusus melalui integration contract?"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Accountability"
+        },
+        {
+          "type": "paragraph",
+          "text": "Sponsor, product owner, domain owners, data owner, tech lead, control owner, dan KPI owner."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Langkah berikutnya"
+        },
+        {
+          "type": "paragraph",
+          "text": "Jalankan workshop per value stream, validasi proses normal dan exception, tetapkan owner serta invariant, lalu pilih warehouse transfer sebagai vertical slice pertama. Blueprint ini menjadi business north star; implementation blueprint Opsi 3 menjelaskan cara memindahkan ownership modul secara bertahap."
+        }
+      ]
+    }
+  ]
+}

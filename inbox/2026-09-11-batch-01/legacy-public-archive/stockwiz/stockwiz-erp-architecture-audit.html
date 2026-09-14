@@ -1,0 +1,678 @@
+<!doctype html>
+<html lang="id" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Audit arsitektur, data, keamanan, dan kesiapan ERP Sensatia StockWiz.">
+  <title>Audit Arsitektur &amp; Kesiapan ERP — Sensatia StockWiz</title>
+  <style>
+    :root {
+      --ink: #17241f;
+      --muted: #63716b;
+      --paper: #f4f1e8;
+      --surface: #fffdf7;
+      --surface-2: #e8ede7;
+      --line: #d7ddd5;
+      --forest: #174d3a;
+      --forest-2: #24634b;
+      --sage: #9ab39e;
+      --gold: #c99b3f;
+      --red: #b94a3d;
+      --orange: #ca6d2d;
+      --blue: #2c6187;
+      --shadow: 0 18px 60px rgba(23, 50, 39, .10);
+    }
+
+    [data-theme="dark"] {
+      --ink: #e7eee9;
+      --muted: #aab8b1;
+      --paper: #101713;
+      --surface: #17211c;
+      --surface-2: #202e27;
+      --line: #33433a;
+      --forest: #8fc9a9;
+      --forest-2: #a9dabd;
+      --sage: #799b84;
+      --gold: #e1b65b;
+      --red: #e07b6f;
+      --orange: #e1945f;
+      --blue: #7eb1d5;
+      --shadow: 0 18px 60px rgba(0, 0, 0, .24);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 15px;
+      line-height: 1.65;
+    }
+
+    button, input { font: inherit; }
+    a { color: inherit; }
+    code {
+      padding: .12rem .35rem;
+      border: 1px solid var(--line);
+      border-radius: 5px;
+      background: var(--surface-2);
+      font: .88em ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+
+    .topbar {
+      position: sticky;
+      z-index: 20;
+      top: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 58px;
+      padding: 0 4vw;
+      color: #f8fbf8;
+      background: rgba(16, 53, 40, .96);
+      border-bottom: 1px solid rgba(255,255,255,.12);
+      backdrop-filter: blur(14px);
+    }
+
+    .brand { display: flex; align-items: center; gap: 11px; font-weight: 760; letter-spacing: -.02em; }
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 29px;
+      height: 29px;
+      border: 1px solid rgba(255,255,255,.5);
+      border-radius: 50%;
+      color: #f0cf87;
+      font-family: Georgia, serif;
+      font-size: 13px;
+    }
+
+    .actions { display: flex; gap: 8px; }
+    .icon-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      min-height: 36px;
+      padding: 7px 11px;
+      color: inherit;
+      background: transparent;
+      border: 1px solid rgba(255,255,255,.22);
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .icon-btn:hover { background: rgba(255,255,255,.08); }
+    .icon-btn svg { width: 16px; height: 16px; }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 82px 6vw 70px;
+      color: #f8fbf8;
+      background: #123e2f;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -130px;
+      bottom: -250px;
+      width: 520px;
+      height: 520px;
+      border: 1px solid rgba(240, 207, 135, .30);
+      border-radius: 50%;
+      box-shadow: 0 0 0 55px rgba(240,207,135,.03), 0 0 0 110px rgba(240,207,135,.025);
+    }
+    .hero-inner { position: relative; z-index: 1; max-width: 1180px; margin: 0 auto; }
+    .eyebrow {
+      margin: 0 0 16px;
+      color: #efd99f;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+    }
+    h1, h2, h3 { margin-top: 0; line-height: 1.16; }
+    h1 {
+      max-width: 850px;
+      margin-bottom: 20px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(2.4rem, 6vw, 5.3rem);
+      font-weight: 500;
+      letter-spacing: -.055em;
+    }
+    .hero-lead { max-width: 760px; margin: 0; color: #d8e3dd; font-size: clamp(1rem, 2vw, 1.24rem); }
+    .hero-meta { display: flex; flex-wrap: wrap; gap: 20px; margin-top: 34px; color: #bfd0c7; font-size: 13px; }
+    .hero-meta span { display: inline-flex; align-items: center; gap: 8px; }
+    .dot { width: 6px; height: 6px; border-radius: 50%; background: #e5bd64; }
+
+    .layout { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 44px; max-width: 1280px; margin: 0 auto; padding: 46px 4vw 90px; }
+    .toc { position: sticky; top: 82px; align-self: start; }
+    .toc-title { margin-bottom: 12px; color: var(--muted); font-size: 11px; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
+    .toc a { display: block; padding: 7px 10px; color: var(--muted); border-left: 2px solid var(--line); text-decoration: none; font-size: 13px; }
+    .toc a:hover, .toc a.active { color: var(--forest); border-left-color: var(--forest); background: color-mix(in srgb, var(--surface) 60%, transparent); }
+
+    main { min-width: 0; }
+    section { scroll-margin-top: 82px; margin-bottom: 68px; }
+    .section-head { display: grid; grid-template-columns: 42px minmax(0, 1fr); gap: 16px; margin-bottom: 24px; }
+    .section-no { color: var(--gold); font: 700 13px ui-monospace, monospace; padding-top: 7px; }
+    h2 { margin-bottom: 7px; font-family: Georgia, serif; font-size: clamp(1.8rem, 4vw, 2.7rem); font-weight: 500; letter-spacing: -.035em; }
+    .section-intro { max-width: 800px; margin: 0; color: var(--muted); }
+    h3 { margin-bottom: 10px; font-size: 1.05rem; }
+
+    .verdict {
+      padding: 28px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-left: 5px solid var(--orange);
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+    }
+    .verdict strong { display: block; margin-bottom: 8px; color: var(--orange); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; }
+    .verdict p { margin: 0; font-family: Georgia, serif; font-size: clamp(1.18rem, 2.2vw, 1.55rem); line-height: 1.45; }
+
+    .metric-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 22px 0; }
+    .metric { min-height: 140px; padding: 20px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
+    .metric-value { display: block; margin-bottom: 6px; color: var(--forest); font-family: Georgia, serif; font-size: 2rem; line-height: 1; }
+    .metric-label { display: block; font-weight: 760; }
+    .metric-note { display: block; margin-top: 7px; color: var(--muted); font-size: 12px; line-height: 1.4; }
+
+    .system-map { display: grid; grid-template-columns: 1fr 42px 1.15fr 42px 1fr; align-items: stretch; margin-top: 22px; }
+    .system-card { padding: 20px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
+    .system-card small { color: var(--muted); text-transform: uppercase; letter-spacing: .08em; }
+    .system-card ul { margin: 12px 0 0; padding-left: 18px; }
+    .arrow { display: grid; place-items: center; color: var(--sage); font-size: 20px; }
+
+    .toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 18px; }
+    .filter-btn {
+      padding: 7px 12px;
+      color: var(--muted);
+      background: transparent;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      cursor: pointer;
+    }
+    .filter-btn:hover, .filter-btn.active { color: #fff; background: var(--forest-2); border-color: var(--forest-2); }
+    .filter-hint { margin-left: auto; color: var(--muted); font-size: 12px; }
+
+    .finding-list { display: grid; gap: 12px; }
+    .finding {
+      display: grid;
+      grid-template-columns: 54px minmax(0, 1fr);
+      gap: 18px;
+      padding: 22px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      transition: transform .16s ease, opacity .16s ease;
+    }
+    .finding:hover { transform: translateY(-2px); }
+    .finding.hidden { display: none; }
+    .severity {
+      display: grid;
+      place-items: center;
+      align-self: start;
+      width: 46px;
+      height: 46px;
+      color: #fff;
+      border-radius: 50%;
+      font-weight: 850;
+      font-size: 12px;
+    }
+    .sev-p0 { background: var(--red); }
+    .sev-p1 { background: var(--orange); }
+    .sev-p2 { background: var(--blue); }
+    .finding p { margin: 0; color: var(--muted); }
+    .evidence { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 14px; }
+    .evidence span { padding: 4px 8px; color: var(--muted); background: var(--surface-2); border-radius: 5px; font-size: 11px; }
+
+    .risk-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+    .risk-card { padding: 23px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
+    .risk-card-head { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 12px; }
+    .risk-card-head h3 { margin: 0; }
+    .risk-rank { flex: none; padding: 4px 8px; color: var(--orange); border: 1px solid color-mix(in srgb, var(--orange) 45%, transparent); border-radius: 999px; font-size: 10px; font-weight: 850; letter-spacing: .08em; text-transform: uppercase; }
+    .risk-card p { margin: 0; color: var(--muted); font-size: 13px; }
+    .risk-card ul { margin: 14px 0 0; padding-left: 18px; color: var(--muted); font-size: 12px; }
+
+    .invariant {
+      display: grid;
+      grid-template-columns: 180px minmax(0, 1fr);
+      gap: 20px;
+      align-items: center;
+      margin-top: 16px;
+      padding: 22px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+    }
+    .invariant-formula { color: var(--forest); font-family: Georgia, serif; font-size: 1.35rem; text-align: center; }
+    .invariant p { margin: 0; color: var(--muted); }
+
+    .data-grid { display: grid; grid-template-columns: 1.2fr .8fr; gap: 16px; }
+    .panel { padding: 24px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
+    .bar-row { display: grid; grid-template-columns: 150px 1fr 90px; gap: 10px; align-items: center; margin: 14px 0; font-size: 12px; }
+    .bar-track { height: 8px; overflow: hidden; background: var(--surface-2); border-radius: 10px; }
+    .bar { height: 100%; border-radius: 10px; background: var(--forest-2); }
+    .bar.warn { background: var(--orange); }
+    .bar.danger { background: var(--red); }
+    .bar-value { color: var(--muted); text-align: right; font-variant-numeric: tabular-nums; }
+    .data-note { margin: 18px 0 0; color: var(--muted); font-size: 12px; }
+    .check-list { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+    .check-list li { position: relative; padding-left: 25px; }
+    .check-list li::before { content: "✓"; position: absolute; left: 0; color: var(--forest); font-weight: 900; }
+    .check-list.risk li::before { content: "!"; color: var(--red); }
+
+    .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+    table { width: 100%; border-collapse: collapse; min-width: 740px; }
+    th, td { padding: 14px 16px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
+    th { color: var(--muted); background: var(--surface-2); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
+    tr:last-child td { border-bottom: 0; }
+    .status { display: inline-flex; padding: 4px 8px; border-radius: 999px; font-size: 11px; font-weight: 760; }
+    .status.partial { color: #87520b; background: #f5e2b6; }
+    .status.weak { color: #8f3027; background: #f3d0cc; }
+    .status.base { color: #285b3f; background: #d8eadc; }
+    [data-theme="dark"] .status.partial { color: #f0c977; background: #4c3819; }
+    [data-theme="dark"] .status.weak { color: #ef9b92; background: #4b2926; }
+    [data-theme="dark"] .status.base { color: #a8ddb8; background: #213d2d; }
+
+    .target {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    .target-card { padding: 22px; background: var(--surface); border: 1px solid var(--line); border-top: 3px solid var(--sage); border-radius: 10px; }
+    .target-card .kicker { color: var(--forest); font-size: 11px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+    .target-card p { margin-bottom: 0; color: var(--muted); font-size: 13px; }
+
+    .roadmap { position: relative; margin-left: 15px; padding-left: 33px; border-left: 1px solid var(--line); }
+    .phase { position: relative; margin-bottom: 30px; }
+    .phase::before { content: ""; position: absolute; top: 3px; left: -41px; width: 15px; height: 15px; background: var(--paper); border: 4px solid var(--forest-2); border-radius: 50%; }
+    .phase-label { color: var(--forest); font-size: 11px; font-weight: 850; letter-spacing: .11em; text-transform: uppercase; }
+    .phase h3 { margin: 5px 0 8px; font-family: Georgia, serif; font-size: 1.45rem; font-weight: 500; }
+    .phase p { margin: 0; color: var(--muted); }
+
+    .decision {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 20px;
+      align-items: center;
+      padding: 28px;
+      color: #f7fbf8;
+      background: #174d3a;
+      border-radius: 12px;
+    }
+    .decision h3 { margin-bottom: 6px; font-family: Georgia, serif; font-size: 1.7rem; font-weight: 500; }
+    .decision p { max-width: 720px; margin: 0; color: #cfddd6; }
+    .decision-badge { min-width: 112px; padding: 12px; color: #efd99f; border: 1px solid rgba(239,217,159,.5); border-radius: 8px; text-align: center; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; }
+
+    .appendix { color: var(--muted); font-size: 12px; }
+    .appendix ul { padding-left: 18px; }
+    footer { padding: 30px 4vw; color: #bdccc5; background: #102f25; text-align: center; font-size: 12px; }
+
+    @media (max-width: 980px) {
+      .layout { grid-template-columns: 1fr; }
+      .toc { display: none; }
+      .metric-grid { grid-template-columns: repeat(2, 1fr); }
+      .system-map { grid-template-columns: 1fr; gap: 10px; }
+      .arrow { transform: rotate(90deg); }
+      .target, .risk-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 680px) {
+      .hero { padding: 58px 6vw 50px; }
+      .label-print { display: none; }
+      .metric-grid, .data-grid, .target, .risk-grid, .invariant { grid-template-columns: 1fr; }
+      .invariant-formula { text-align: left; }
+      .finding { grid-template-columns: 1fr; }
+      .severity { width: 40px; height: 40px; }
+      .bar-row { grid-template-columns: 110px 1fr 72px; }
+      .filter-hint { width: 100%; margin-left: 0; }
+      .decision { grid-template-columns: 1fr; }
+      .decision-badge { justify-self: start; }
+    }
+
+    @media print {
+      :root { --paper: #fff; --surface: #fff; --surface-2: #f2f4f2; --ink: #111; --muted: #555; --line: #d6d6d6; }
+      body { font-size: 11px; }
+      .topbar, .toc, .toolbar { display: none !important; }
+      .hero { padding: 48px 42px; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+      .layout { display: block; max-width: none; padding: 32px 42px; }
+      section { margin-bottom: 38px; break-inside: auto; }
+      .finding, .panel, .metric, .target-card, .verdict, .decision { break-inside: avoid; box-shadow: none; }
+      .finding:hover { transform: none; }
+      .metric-grid { grid-template-columns: repeat(4, 1fr); }
+      .target { grid-template-columns: repeat(3, 1fr); }
+      .decision { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+      footer { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark">S</span><span>Sensatia StockWiz · Audit ERP</span></div>
+    <div class="actions">
+      <button class="icon-btn" id="themeToggle" type="button" aria-label="Ubah tema">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z"/></svg>
+        <span>Tema</span>
+      </button>
+      <button class="icon-btn" type="button" onclick="window.print()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/></svg>
+        <span class="label-print">Cetak / PDF</span>
+      </button>
+    </div>
+  </header>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <p class="eyebrow">Audit Teknologi &amp; Transformasi Bisnis</p>
+      <h1>Dari Stock Management menuju ERP manufaktur yang utuh.</h1>
+      <p class="hero-lead">Penilaian arsitektur, integritas data, keamanan, kesiapan operasional, dan arah transformasi Sensatia StockWiz untuk mendukung pabrik skincare dari bahan baku hingga sales, marketing, dan HR.</p>
+      <div class="hero-meta">
+        <span><i class="dot"></i> 5 September 2026</span>
+        <span><i class="dot"></i> Audit read-only</span>
+        <span><i class="dot"></i> Backend · Frontend legacy · Frontend baru · MongoDB</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="layout">
+    <nav class="toc" aria-label="Daftar isi">
+      <div class="toc-title">Isi laporan</div>
+      <a href="#ringkasan">Ringkasan eksekutif</a>
+      <a href="#lanskap">Lanskap sistem</a>
+      <a href="#temuan">Temuan prioritas</a>
+      <a href="#lanjutan">Audit lanjutan</a>
+      <a href="#stok">Audit stok mendalam</a>
+      <a href="#data">Kondisi data</a>
+      <a href="#kesiapan">Kesiapan ERP</a>
+      <a href="#target">Arsitektur target</a>
+      <a href="#roadmap">Roadmap transformasi</a>
+      <a href="#keputusan">Rekomendasi keputusan</a>
+      <a href="#metode">Metode &amp; batasan</a>
+    </nav>
+
+    <main>
+      <section id="ringkasan">
+        <div class="section-head">
+          <div class="section-no">01</div>
+          <div><h2>Ringkasan eksekutif</h2><p class="section-intro">StockWiz telah menjadi sistem operasi bisnis yang bernilai. Tantangannya sekarang adalah mengubah pertumbuhan organik menjadi platform ERP yang terkendali.</p></div>
+        </div>
+        <div class="verdict">
+          <strong>Kesimpulan utama</strong>
+          <p>Proyek ini layak diteruskan, tetapi belum aman dijadikan fondasi ERP penuh tanpa stabilisasi data, transaksi bisnis, otorisasi, dan batas domain backend terlebih dahulu.</p>
+        </div>
+        <div class="metric-grid" aria-label="Metrik utama audit">
+          <article class="metric"><span class="metric-value">70</span><span class="metric-label">Koleksi MongoDB</span><span class="metric-note">Data operasional lintas stock, sales, customer, web, PO, dan HR.</span></article>
+          <article class="metric"><span class="metric-value">531</span><span class="metric-label">Endpoint terpetakan</span><span class="metric-note">API luas, dengan pola kontrak dan otorisasi yang belum seragam.</span></article>
+          <article class="metric"><span class="metric-value">0</span><span class="metric-label">Transaction flow</span><span class="metric-note">Tidak ditemukan penggunaan MongoDB session/transaction.</span></article>
+          <article class="metric"><span class="metric-value">213K</span><span class="metric-label">Baris source tree</span><span class="metric-note">Termasuk source aplikasi dan beberapa source hasil generate.</span></article>
+        </div>
+        <div class="decision">
+          <div><h3>Strategi yang disarankan: modernisasi bertahap</h3><p>Pertahankan pengetahuan bisnis dan operasi yang sudah berjalan. Bangun fondasi baru sebagai modular monolith, lalu migrasikan satu alur bisnis utuh pada satu waktu. Hindari rewrite besar sekaligus.</p></div>
+          <div class="decision-badge">Strangler<br>Pattern</div>
+        </div>
+      </section>
+
+      <section id="lanskap">
+        <div class="section-head">
+          <div class="section-no">02</div>
+          <div><h2>Lanskap sistem saat ini</h2><p class="section-intro">Arsitektur awalnya sederhana, lalu berkembang mengikuti kebutuhan setiap channel dan departemen.</p></div>
+        </div>
+        <div class="system-map" aria-label="Peta sistem">
+          <article class="system-card"><small>Antarmuka</small><h3>Dua frontend</h3><ul><li>Legacy: React 16, Umi 2, Ant Design 3, DVA</li><li>Baru: React 19, Vite, TypeScript</li><li>Production masih membangun legacy</li></ul></article>
+          <div class="arrow" aria-hidden="true">→</div>
+          <article class="system-card"><small>Aplikasi</small><h3>Express monolith</h3><ul><li>Route dan helper mengakses MongoDB langsung</li><li>Business rule, laporan, email, dan integrasi bercampur</li><li>Redis, Socket.IO, Auth0, marketplace, SendGrid</li></ul></article>
+          <div class="arrow" aria-hidden="true">→</div>
+          <article class="system-card"><small>Data</small><h3>MongoDB organik</h3><ul><li>70 koleksi tanpa schema validator</li><li>Model terpisah per channel</li><li>Beberapa saldo dan ledger berjalan paralel</li></ul></article>
+        </div>
+      </section>
+
+      <section id="temuan">
+        <div class="section-head">
+          <div class="section-no">03</div>
+          <div><h2>Temuan berdasarkan prioritas</h2><p class="section-intro">P0 perlu ditangani sebelum memperluas fitur. P1 menjadi fondasi transformasi. P2 meningkatkan daya rawat dan kecepatan pengembangan.</p></div>
+        </div>
+        <div class="toolbar" aria-label="Filter temuan">
+          <button class="filter-btn active" data-filter="all" type="button">Semua</button>
+          <button class="filter-btn" data-filter="p0" type="button">P0 · Kritis</button>
+          <button class="filter-btn" data-filter="p1" type="button">P1 · Tinggi</button>
+          <button class="filter-btn" data-filter="p2" type="button">P2 · Menengah</button>
+          <span class="filter-hint">Pilih prioritas untuk menyaring laporan</span>
+        </div>
+        <div class="finding-list">
+          <article class="finding" data-priority="p0"><div class="severity sev-p0">P0</div><div><h3>Endpoint AI dapat mengakses aggregation database tanpa autentikasi</h3><p>Route AI tidak memakai middleware auth, dapat memicu biaya API, memilih koleksi, dan menjalankan pipeline aggregation. Ini membuka risiko akses data dan resource abuse.</p><div class="evidence"><span>server/routes/ai.js</span><span>server/helpers/ai/mongo_agent.js</span></div></div></article>
+          <article class="finding" data-priority="p0"><div class="severity sev-p0">P0</div><div><h3>User biasa dapat mengubah role miliknya sendiri</h3><p>Endpoint sementara <code>/updateUserRoles</code> hanya mensyaratkan login lalu menerima array role dari request. User authenticated berpotensi memberikan role admin kepada dirinya sendiri.</p><div class="evidence"><span>server/routes/login.js:265</span><span>privilege escalation</span></div></div></article>
+          <article class="finding" data-priority="p0"><div class="severity sev-p0">P0</div><div><h3>Tidak ada transaksi lintas write untuk sales dan inventory</h3><p>Pengurangan stok, penulisan history, voucher, member points, dan sale dilakukan dalam beberapa operasi terpisah. Kegagalan di tengah proses dapat menghasilkan data setengah jadi.</p><div class="evidence"><span>549 pola write</span><span>0 session/transaction</span><span>shopSales.js</span></div></div></article>
+          <article class="finding" data-priority="p0"><div class="severity sev-p0">P0</div><div><h3>Checkout rentan oversell dan duplikasi saat request bersamaan</h3><p>Stock dikurangi dengan <code>$inc</code> tanpa filter saldo minimum, upsert, unique composite index, atau idempotency key. Dua checkout bersamaan dapat menjual saldo yang sama; retry dapat mengurangi stok dua kali.</p><div class="evidence"><span>shopSales.js:743</span><span>tanpa quantity ≥ order</span><span>tanpa idempotency</span></div></div></article>
+          <article class="finding" data-priority="p0"><div class="severity sev-p0">P0</div><div><h3>Nomor retail sale mempunyai race condition</h3><p>Counter dinaikkan lalu dibaca dalam query terpisah. Dua request paralel dapat membaca counter terakhir yang sama dan menghasilkan nomor sale identik apabila tidak dilindungi unique index.</p><div class="evidence"><span>shopSales.js:540</span><span>update lalu findOne</span></div></div></article>
+          <article class="finding" data-priority="p0"><div class="severity sev-p0">P0</div><div><h3>Stock mempunyai beberapa sumber kebenaran</h3><p><code>item.quantity</code>, <code>warehousestock</code>, <code>shopstock</code>, <code>stockhistory</code>, dan <code>shopstockhistory</code> masih hidup berdampingan. Dual-write dan script rekonsiliasi menjadi sinyal drift data.</p><div class="evidence"><span>item.quantity ditandai obsolete</span><span>script fix/reconcile/sync</span></div></div></article>
+          <article class="finding" data-priority="p0"><div class="severity sev-p0">P0</div><div><h3>Proses massal member points dapat dipicu tanpa auth yang dikenali</h3><p>Endpoint pemrosesan reminder kedaluwarsa tidak memakai Auth0 maupun token cron. Endpoint yang mengubah keadaan atau mengirim komunikasi massal harus tertutup dan idempotent.</p><div class="evidence"><span>/web/memberpointsreminder/process-expiring</span></div></div></article>
+
+          <article class="finding" data-priority="p1"><div class="severity sev-p1">P1</div><div><h3>Database tidak mempunyai schema validator</h3><p>MongoDB menerima bentuk dokumen yang berbeda tanpa kontrak database. Relasi historis juga memakai campuran string dan ObjectId sehingga query, index, dan migrasi menjadi rapuh.</p><div class="evidence"><span>0 collection validator</span><span>mixed reference types</span></div></div></article>
+          <article class="finding" data-priority="p1"><div class="severity sev-p1">P1</div><div><h3>Authorization belum granular</h3><p>Mayoritas endpoint hanya memastikan user sudah login. ERP memerlukan permission per aksi, lokasi, warehouse, departemen, legal entity, dan batas nominal approval.</p><div class="evidence"><span>ensureAuthenticated dominan</span><span>admin guard terbatas</span></div></div></article>
+          <article class="finding" data-priority="p1"><div class="severity sev-p1">P1</div><div><h3>Hak HR dapat dipengaruhi parameter dari client</h3><p>Penolakan cuti yang sudah approved mengandalkan <code>?isHrAdmin=true</code>, bukan role server-side. Data dan workflow HR membutuhkan policy HR-admin atau self-access yang tidak dapat dipalsukan client.</p><div class="evidence"><span>leave.js:1401</span><span>client-controlled authorization</span></div></div></article>
+          <article class="finding" data-priority="p1"><div class="severity sev-p1">P1</div><div><h3>Token autentikasi terekspos ke JavaScript dan URL</h3><p>Access token disimpan dalam cookie <code>httpOnly:false</code>, berumur 14 hari, serta diterima melalui query/body. Token berisiko masuk browser history, referrer, proxy log, atau dicuri saat terjadi XSS.</p><div class="evidence"><span>auth0/index.js:639</span><span>query token</span><span>14 hari</span></div></div></article>
+          <article class="finding" data-priority="p1"><div class="severity sev-p1">P1</div><div><h3>Sales dan customer terfragmentasi per channel</h3><p>Retail, web, B2B, partner, dan marketplace memakai koleksi transaksi serta customer berbeda. Laporan omnichannel harus menyatukan struktur yang tidak sama dan identitas customer mudah terduplikasi.</p><div class="evidence"><span>shopsales · websales · posales · pasales</span><span>customers · pocustomers · pacustomers</span></div></div></article>
+          <article class="finding" data-priority="p1"><div class="severity sev-p1">P1</div><div><h3>Business rule penting berada di frontend</h3><p>Frontend legacy menghitung tax, discount, voucher, member points, total, dan stock availability. Backend harus menjadi otoritas dan selalu menghitung ulang nilai transaksi.</p><div class="evidence"><span>CheckoutTable.js ±2.061 baris</span><span>duplikasi checkout</span></div></div></article>
+          <article class="finding" data-priority="p1"><div class="severity sev-p1">P1</div><div><h3>API contract dan validasi input tidak konsisten</h3><p>ID, pagination, response envelope, error, dan HTTP method berbeda antar modul. Banyak object request diteruskan ke database; penggunaan validator formal sangat minim.</p><div class="evidence"><span>delete melalui GET</span><span>cron mutasi melalui GET</span><span>req.body → MongoDB</span></div></div></article>
+          <article class="finding" data-priority="p1"><div class="severity sev-p1">P1</div><div><h3>Tidak ada automated test untuk invariant bisnis inti</h3><p>Belum ada test backend yang membuktikan transfer, sale, refund, receipt, production, voucher, dan points tetap konsisten saat retry atau kegagalan parsial.</p><div class="evidence"><span>500+ endpoint</span><span>backend test suite tidak tersedia</span></div></div></article>
+          <article class="finding" data-priority="p1"><div class="severity sev-p1">P1</div><div><h3>Perhitungan uang memakai floating point umum</h3><p>Tidak ditemukan Decimal128, BigInt, atau standard minor-unit. Terdapat 165 <code>parseFloat</code>, 123 <code>toFixed</code>, dan 93 <code>Math.round</code>. Ini berisiko menciptakan selisih tax, discount, currency conversion, COGS, dan journal.</p><div class="evidence"><span>0 Decimal128</span><span>0 BigInt</span><span>381 operasi pembulatan/parse</span></div></div></article>
+          <article class="finding" data-priority="p1"><div class="severity sev-p1">P1</div><div><h3>Socket realtime belum mengikat user ke shop yang diizinkan</h3><p>Origin production default diizinkan dan shop context berasal dari client. Token diverifikasi, tetapi ownership/permission terhadap room shop belum menjadi guard terpusat.</p><div class="evidence"><span>socketio.js:113</span><span>allowRequest: true</span><span>shop-id dari handshake</span></div></div></article>
+          <article class="finding" data-priority="p1"><div class="severity sev-p1">P1</div><div><h3>Upload file tidak memiliki kebijakan terpusat</h3><p>Sebagian besar Multer upload tidak menetapkan file size limit maupun fileFilter. CSV dibaca penuh ke memory dan nama file asli ikut membentuk temporary filename.</p><div class="evidence"><span>7 konfigurasi Multer</span><span>hanya satu limit eksplisit</span><span>tanpa antivirus scan</span></div></div></article>
+          <article class="finding" data-priority="p1"><div class="severity sev-p1">P1</div><div><h3>Background job berjalan di dalam web request</h3><p>Maintenance, migration, sync, notification, dan pekerjaan massal dipicu melalui endpoint serta proses web. Tidak ditemukan durable queue/worker; retry dan status job sebagian hidup di memory.</p><div class="evidence"><span>tanpa BullMQ/Agenda</span><span>cron GET endpoints</span><span>best-effort dual write</span></div></div></article>
+
+          <article class="finding" data-priority="p2"><div class="severity sev-p2">P2</div><div><h3>File besar dan tanggung jawab bercampur</h3><p>Controller, business rule, query, integrasi, dan formatting laporan sering berada di file yang sama. Beberapa helper mencapai 2.000–3.200 baris.</p><div class="evidence"><span>shopReports.js ±3.263</span><span>shopSales.js ±2.056</span><span>item.js ±2.007</span></div></div></article>
+          <article class="finding" data-priority="p2"><div class="severity sev-p2">P2</div><div><h3>Dua frontend aktif meningkatkan risiko perbedaan perilaku</h3><p>Frontend baru mengejar feature parity sementara Docker production masih membangun legacy. Perubahan dapat diterapkan dua kali dengan hasil berbeda.</p><div class="evidence"><span>browser/</span><span>frontend/</span><span>Dockerfile → browser build</span></div></div></article>
+          <article class="finding" data-priority="p2"><div class="severity sev-p2">P2</div><div><h3>Runtime, lockfile, dan dependency tidak seragam</h3><p>Target backend Node 18, proses lokal Node 22, build legacy Node 16, serta npm dan Yarn lockfile hadir bersamaan. Reproduksibilitas build dan deploy menjadi lemah.</p><div class="evidence"><span>Node 16 / 18 / 22</span><span>package-lock + yarn.lock</span></div></div></article>
+          <article class="finding" data-priority="p2"><div class="severity sev-p2">P2</div><div><h3>Konfigurasi bisnis masih hard-coded</h3><p>Sejumlah shop, warehouse, marketplace, dan item khusus ditentukan dengan ObjectId langsung di kode. Konfigurasi operasional seharusnya menjadi master data yang tervalidasi dan dapat diaudit.</p><div class="evidence"><span>warehouse/shop IDs dalam source</span><span>environment fallback berlapis</span></div></div></article>
+          <article class="finding" data-priority="p2"><div class="severity sev-p2">P2</div><div><h3>PII tersebar ke log, Slack, CSV, email, dan report</h3><p>Email customer/employee dan informasi workflow dicatat atau dikirim dari banyak helper tanpa redaction policy, data classification, retention policy, atau audit akses terpusat.</p><div class="evidence"><span>customer &amp; employee email logs</span><span>Slack alerts</span><span>CSV exports</span></div></div></article>
+          <article class="finding" data-priority="p2"><div class="severity sev-p2">P2</div><div><h3>CI/CD sandbox langsung deploy tanpa quality gate</h3><p>Workflow deployment tidak menjalankan lint, test, typecheck, build verification, dependency audit, atau migration check sebelum deploy.</p><div class="evidence"><span>porter_stockwiz_app_sandbox.yml</span><span>deploy-only workflow</span></div></div></article>
+        </div>
+      </section>
+
+      <section id="lanjutan">
+        <div class="section-head">
+          <div class="section-no">04</div>
+          <div><h2>Audit lanjutan: risiko sistemik</h2><p class="section-intro">Temuan lanjutan menunjukkan pola lintas modul. Risiko tidak berdiri sendiri; satu kelemahan dapat memperbesar dampak kelemahan lainnya.</p></div>
+        </div>
+        <div class="risk-grid">
+          <article class="risk-card"><div class="risk-card-head"><h3>Identity &amp; security</h3><span class="risk-rank">Kritis</span></div><p>Security policy tersebar antara frontend capability, Auth0 middleware, query token, dan helper.</p><ul><li>Self-service role escalation masih tersedia.</li><li>Token dapat dibaca JavaScript dan muncul di URL.</li><li>CSP mengizinkan inline script dan beberapa CDN.</li><li>Body JSON global menerima hingga 50 MB.</li></ul></article>
+          <article class="risk-card"><div class="risk-card-head"><h3>Concurrency &amp; reliability</h3><span class="risk-rank">Kritis</span></div><p>Sistem belum mempunyai contract konsistensi ketika dua transaksi datang bersamaan atau request diulang.</p><ul><li>Counter retail tidak dibaca secara atomic.</li><li>Pengurangan stock tidak memakai conditional update.</li><li>Tidak ada idempotency key.</li><li>Efek samping eksternal tidak memakai durable outbox.</li></ul></article>
+          <article class="risk-card"><div class="risk-card-head"><h3>Financial integrity</h3><span class="risk-rank">Tinggi</span></div><p>Report financial ada, tetapi belum ditopang model accounting dan precision policy yang layak ERP.</p><ul><li>Uang dihitung sebagai JavaScript Number.</li><li>Tidak ada immutable journal dan double entry.</li><li>Cost, tax, dan exchange-rate rounding belum terpusat.</li><li>Tidak ada period lock atau approval posting.</li></ul></article>
+          <article class="risk-card"><div class="risk-card-head"><h3>Privacy &amp; compliance</h3><span class="risk-rank">Tinggi</span></div><p>Data customer dan HR mengalir melalui banyak jalur tanpa classification dan retention policy terpusat.</p><ul><li>PII muncul di log dan Slack alert.</li><li>Export belum mempunyai access tier dan audit download.</li><li>Hak HR tidak selalu HR-admin/self scoped.</li><li>Belum terlihat data retention dan deletion workflow.</li></ul></article>
+          <article class="risk-card"><div class="risk-card-head"><h3>Integration &amp; jobs</h3><span class="risk-rank">Tinggi</span></div><p>Marketplace, email, website sync, dan maintenance bergantung pada endpoint serta proses web yang sama.</p><ul><li>Shared token melindungi banyak job.</li><li>Retry/circuit breaker tidak seragam.</li><li>State pending sebagian hanya berada di memory.</li><li>Deployment ulang dapat kehilangan pekerjaan tertunda.</li></ul></article>
+          <article class="risk-card"><div class="risk-card-head"><h3>Delivery &amp; recovery</h3><span class="risk-rank">Tinggi</span></div><p>Perubahan dapat masuk ke environment tanpa bukti otomatis bahwa workflow ERP tetap benar.</p><ul><li>Backend tidak memiliki test suite formal.</li><li>CI sandbox langsung deploy.</li><li>Belum terlihat RPO/RTO dan restore drill terdokumentasi.</li><li>Migration tidak mempunyai version ledger resmi.</li></ul></article>
+        </div>
+      </section>
+
+      <section id="stok">
+        <div class="section-head">
+          <div class="section-no">05</div>
+          <div><h2>Audit stok mendalam</h2><p class="section-intro">Masalah stok sudah menjadi bagian utama laporan. Bagian ini merangkum kegagalan yang mungkin terjadi dan model kontrol yang dibutuhkan.</p></div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Area</th><th>Kelemahan saat ini</th><th>Risiko operasional</th><th>Kontrol target</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Source of truth</strong></td><td>Saldo hidup di item, shopstock, warehousestock, dan history.</td><td>Saldo berbeda antar halaman dan report.</td><td>Satu immutable movement ledger; saldo menjadi projection.</td></tr>
+              <tr><td><strong>Concurrency</strong></td><td>Stock dikurangi tanpa guard saldo dan tanpa transaction.</td><td>Oversell, negative stock, history tanpa sale.</td><td>Conditional update, transaction, unique key, optimistic version.</td></tr>
+              <tr><td><strong>Retry</strong></td><td>Tidak ada idempotency key untuk checkout, receipt, transfer.</td><td>Double deduction ketika user/network melakukan retry.</td><td>Command ID unik dan result replay untuk request yang sama.</td></tr>
+              <tr><td><strong>Identity</strong></td><td>Referensi historis memakai campuran string/ObjectId.</td><td>Orphan, lookup gagal, index tidak efektif.</td><td>Canonical ID type dan migration compatibility adapter.</td></tr>
+              <tr><td><strong>Stock states</strong></td><td>Satu quantity menanggung terlalu banyak makna.</td><td>Backorder tidak dapat dibedakan dari kesalahan data.</td><td>On-hand, reserved, available, in-transit, quarantine, damaged.</td></tr>
+              <tr><td><strong>Traceability</strong></td><td>Lot/batch dan QC status belum menjadi dimensi ledger inti.</td><td>Recall dan expiry trace sulit dari bahan baku ke customer.</td><td>Item + location + lot + stock status + owner sebagai dimensi.</td></tr>
+              <tr><td><strong>Reconciliation</strong></td><td>Perbaikan banyak dilakukan melalui script/cron khusus.</td><td>Masalah diketahui setelah operasi terdampak.</td><td>Continuous invariant monitor, alert, dan controlled repair workflow.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="invariant">
+          <div class="invariant-formula">Opening + In − Out = Closing</div>
+          <p>Invariant ini harus terbukti per item, lokasi, lot/batch, dan status stock. Setiap movement harus mempunyai reference document, actor, timestamp, reason code, quantity, UOM, dan cost layer yang tidak dapat diubah diam-diam.</p>
+        </div>
+      </section>
+
+      <section id="data">
+        <div class="section-head">
+          <div class="section-no">06</div>
+          <div><h2>Kondisi data lokal</h2><p class="section-intro">Angka berikut berasal dari database lokal <code>stockwiz</code> yang aktif saat audit. Data production perlu diaudit terpisah sebelum keputusan migrasi.</p></div>
+        </div>
+        <div class="data-grid">
+          <article class="panel">
+            <h3>Volume dan anomali utama</h3>
+            <div class="bar-row"><span>Shop stock history</span><div class="bar-track"><div class="bar" style="width:100%"></div></div><span class="bar-value">3.680.033</span></div>
+            <div class="bar-row"><span>Shop sales</span><div class="bar-track"><div class="bar" style="width:53.1%"></div></div><span class="bar-value">1.952.439</span></div>
+            <div class="bar-row"><span>Stock history</span><div class="bar-track"><div class="bar" style="width:50.8%"></div></div><span class="bar-value">1.868.490</span></div>
+            <div class="bar-row"><span>Orphan shopstock</span><div class="bar-track"><div class="bar warn" style="width:61%"></div></div><span class="bar-value">1.576</span></div>
+            <div class="bar-row"><span>Stok toko negatif</span><div class="bar-track"><div class="bar danger" style="width:68%"></div></div><span class="bar-value">1.777</span></div>
+            <div class="bar-row"><span>Stok gudang negatif</span><div class="bar-track"><div class="bar danger" style="width:22%"></div></div><span class="bar-value">548</span></div>
+            <p class="data-note">Panjang bar anomali dibuat relatif untuk keterbacaan, bukan dibandingkan langsung dengan volume history.</p>
+          </article>
+          <article class="panel">
+            <h3>Temuan integritas</h3>
+            <ul class="check-list risk">
+              <li>1.576 shopstock kehilangan referensi item</li>
+              <li>23 warehousestock kehilangan referensi item</li>
+              <li>123 kelompok barcode duplikat</li>
+              <li>49 kelompok email customer duplikat</li>
+              <li>218 stockhistory tanpa warehouse</li>
+              <li>446 stockhistory memakai ObjectId sementara mayoritas memakai string</li>
+              <li>Hampir seluruh customer lama tidak memiliki createdAt</li>
+            </ul>
+            <h3 style="margin-top:24px">Sinyal positif</h3>
+            <ul class="check-list">
+              <li>Tepat satu warehouse ditandai default</li>
+              <li>Tidak ditemukan pasangan duplikat pada saldo item–warehouse</li>
+              <li>Database dan health endpoint lokal responsif</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section id="kesiapan">
+        <div class="section-head">
+          <div class="section-no">07</div>
+          <div><h2>Matriks kesiapan ERP skincare</h2><p class="section-intro">Cakupan fitur sudah luas, tetapi kedalaman kontrol manufaktur, quality, dan finance masih menjadi gap terbesar.</p></div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Domain</th><th>Kondisi saat ini</th><th>Status</th><th>Kapabilitas yang dibutuhkan</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Inventory &amp; warehouse</strong></td><td>Sudah operasional dan multi-location, tetapi beberapa saldo/ledger berjalan paralel.</td><td><span class="status partial">Parsial kuat</span></td><td>Canonical ledger, reservation, in-transit, bin, lot, status stock.</td></tr>
+              <tr><td><strong>Sales &amp; omnichannel</strong></td><td>Retail, web, B2B, partner, marketplace tersedia dalam model terpisah.</td><td><span class="status partial">Parsial kuat</span></td><td>Unified order, fulfillment, payment, customer identity, pricing engine.</td></tr>
+              <tr><td><strong>Procurement</strong></td><td>Purchase dan supplier tersedia, workflow belum lengkap.</td><td><span class="status partial">Parsial</span></td><td>PR, RFQ, PO, goods receipt, supplier invoice, three-way match.</td></tr>
+              <tr><td><strong>Manufacturing</strong></td><td>Ada linked items/BOM sederhana dan work order, belum menjadi model produksi penuh.</td><td><span class="status weak">Lemah</span></td><td>Formula versioning, routing, work center, batch order, yield, scrap, rework, MRP.</td></tr>
+              <tr><td><strong>Quality &amp; traceability</strong></td><td>Belum terlihat sebagai domain inti.</td><td><span class="status weak">Kritis</span></td><td>Incoming QC, COA, quarantine/release, test result, deviation, CAPA, recall.</td></tr>
+              <tr><td><strong>Finance</strong></td><td>Ada report dan payment fields, belum ada double-entry accounting.</td><td><span class="status weak">Kritis</span></td><td>COA, journal, AP/AR, COGS, inventory valuation, landed cost, period close.</td></tr>
+              <tr><td><strong>CRM &amp; marketing</strong></td><td>Customer, voucher, points, newsletter tersedia tetapi tersebar.</td><td><span class="status partial">Parsial</span></td><td>Unified profile, consent, segment, campaign, attribution, promotion rules.</td></tr>
+              <tr><td><strong>HR</strong></td><td>Attendance dan leave tersedia.</td><td><span class="status base">Fondasi</span></td><td>Organization, shift, payroll, overtime, training, performance, privacy control.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="target">
+        <div class="section-head">
+          <div class="section-no">08</div>
+          <div><h2>Arsitektur target yang disarankan</h2><p class="section-intro">Mulai dengan modular monolith. Pemisahan microservice hanya dilakukan ketika batas domain, ownership, dan kebutuhan scaling sudah terbukti.</p></div>
+        </div>
+        <div class="target">
+          <article class="target-card"><span class="kicker">01 · Contract</span><h3>API terstandar</h3><p>Versi API, validation schema, response/error envelope, idempotency key, OpenAPI, dan permission per action.</p></article>
+          <article class="target-card"><span class="kicker">02 · Domain</span><h3>Modular monolith</h3><p>Inventory, warehouse, procurement, manufacturing, order, finance, CRM, marketing, dan HR memiliki batas yang eksplisit.</p></article>
+          <article class="target-card"><span class="kicker">03 · Data</span><h3>Canonical model</h3><p>Satu party/customer, satu order model, satu inventory ledger, referensi konsisten, audit fields, dan schema version.</p></article>
+          <article class="target-card"><span class="kicker">04 · Consistency</span><h3>Transaction &amp; outbox</h3><p>Write inti atomic. Email, webhook, sync marketplace, dan reporting diproses melalui event/outbox yang dapat di-retry.</p></article>
+          <article class="target-card"><span class="kicker">05 · Control</span><h3>RBAC + scope</h3><p>Permission berdasarkan aksi serta scope plant, warehouse, shop, legal entity, department, dan approval limit.</p></article>
+          <article class="target-card"><span class="kicker">06 · Delivery</span><h3>Observability &amp; tests</h3><p>Correlation ID, structured audit log, metrics, reconciliation dashboard, contract test, integration test, dan E2E business flow.</p></article>
+        </div>
+      </section>
+
+      <section id="roadmap">
+        <div class="section-head">
+          <div class="section-no">09</div>
+          <div><h2>Roadmap transformasi</h2><p class="section-intro">Urutan ini menjaga operasi harian tetap berjalan sambil menurunkan risiko secara nyata.</p></div>
+        </div>
+        <div class="roadmap">
+          <article class="phase"><span class="phase-label">Fase 0 · Lindungi</span><h3>Emergency stabilization</h3><p>Tutup endpoint kritis, pasang rate limit, samakan runtime, tetapkan satu lockfile, perbaiki test runner, dan pastikan backup/restore drill.</p></article>
+          <article class="phase"><span class="phase-label">Fase 1 · Ukur</span><h3>Data integrity baseline</h3><p>Bangun rekonsiliasi otomatis, katalog data, definisi stok negatif, pembersihan orphan/duplicate, schema validation bertahap, dan migration registry.</p></article>
+          <article class="phase"><span class="phase-label">Fase 2 · Satukan</span><h3>Canonical inventory domain</h3><p>Perkenalkan immutable movement ledger, saldo projection, reservation, in-transit, lot/status stock, transaction, dan idempotency.</p></article>
+          <article class="phase"><span class="phase-label">Fase 3 · Modularisasi</span><h3>Vertical slice pertama</h3><p>Pilih warehouse transfer sebagai pilot: controller, validation, permission, domain service, repository, event, audit, dan integration test lengkap.</p></article>
+          <article class="phase"><span class="phase-label">Fase 4 · Omnichannel</span><h3>Unified order &amp; customer</h3><p>Satukan customer identity, sales order, fulfillment, payment, invoice, dan channel metadata tanpa memutus integrasi lama.</p></article>
+          <article class="phase"><span class="phase-label">Fase 5 · ERP inti</span><h3>Manufacturing, quality, procurement, finance</h3><p>Bangun lot traceability dan QC terlebih dahulu, lalu formula/BOM, production order, MRP, procurement lengkap, serta double-entry accounting.</p></article>
+          <article class="phase"><span class="phase-label">Fase 6 · Pengalaman</span><h3>Migrasi frontend per modul</h3><p>Frontend baru mengambil alih satu workflow utuh pada satu waktu. Route legacy dimatikan setelah parity, data, dan acceptance test terbukti.</p></article>
+        </div>
+      </section>
+
+      <section id="keputusan">
+        <div class="section-head">
+          <div class="section-no">10</div>
+          <div><h2>Keputusan yang perlu diambil</h2><p class="section-intro">Transformasi akan berhasil bila bisnis dan teknologi menyepakati sumber kebenaran serta ownership proses.</p></div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Keputusan</th><th>Rekomendasi</th><th>Alasan</th></tr></thead>
+            <tbody>
+              <tr><td>Rewrite atau bertahap?</td><td><strong>Bertahap</strong></td><td>Aturan bisnis tersembunyi dan data historis terlalu bernilai untuk big-bang rewrite.</td></tr>
+              <tr><td>Microservices sekarang?</td><td><strong>Belum</strong></td><td>Modular monolith lebih sederhana sambil memperjelas batas domain.</td></tr>
+              <tr><td>Ganti MongoDB sekarang?</td><td><strong>Jangan sebagai langkah pertama</strong></td><td>Benahi model dan kontrak lebih dulu. Evaluasi PostgreSQL/hybrid khusus finance dan proses yang membutuhkan constraint kuat.</td></tr>
+              <tr><td>Prioritas UI atau backend?</td><td><strong>Backend dan data dahulu</strong></td><td>UI baru di atas business rule lama hanya memindahkan tampilan, bukan menurunkan risiko ERP.</td></tr>
+              <tr><td>Modul pilot?</td><td><strong>Warehouse transfer</strong></td><td>Cukup penting untuk membuktikan ledger, transaction, permission, audit, dan idempotency.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="metode" class="appendix">
+        <div class="section-head">
+          <div class="section-no">11</div>
+          <div><h2>Metode dan batasan audit</h2><p class="section-intro">Audit dilakukan tanpa mengubah source code maupun database.</p></div>
+        </div>
+        <div class="panel">
+          <ul>
+            <li>Inspeksi struktur backend, frontend legacy, frontend baru, konfigurasi build, route, helper, dan dokumentasi internal.</li>
+            <li>Pemeriksaan read-only terhadap nama koleksi, jumlah dokumen, index, tipe field, duplicate group, orphan reference, dan saldo negatif pada database lokal.</li>
+            <li>Pemeriksaan sintaks terhadap 196 file JavaScript backend: lulus.</li>
+            <li>Legacy test suite tidak mulai karena konflik konfigurasi Jest/Umi.</li>
+            <li>Frontend baru: 12 dari 14 test file lulus, 37 dari 39 test lulus; typecheck masih memiliki lima error pada kondisi working tree saat audit.</li>
+            <li>Temuan data lokal tidak otomatis menggambarkan database production. Production memerlukan snapshot statistik dan audit index terpisah.</li>
+            <li>Working tree sudah memiliki banyak perubahan sebelum audit; laporan ini tidak mengubah perubahan tersebut.</li>
+          </ul>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <footer>Audit Arsitektur &amp; Kesiapan ERP · Sensatia StockWiz · Dokumen internal</footer>
+
+  <script>
+    const root = document.documentElement;
+    const themeButton = document.getElementById('themeToggle');
+    const savedTheme = localStorage.getItem('stockwiz-audit-theme');
+    if (savedTheme === 'dark') root.dataset.theme = 'dark';
+
+    themeButton.addEventListener('click', () => {
+      const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+      root.dataset.theme = next;
+      localStorage.setItem('stockwiz-audit-theme', next);
+    });
+
+    const filterButtons = document.querySelectorAll('[data-filter]');
+    const findings = document.querySelectorAll('.finding');
+    filterButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        filterButtons.forEach((item) => item.classList.remove('active'));
+        button.classList.add('active');
+        const filter = button.dataset.filter;
+        findings.forEach((finding) => {
+          finding.classList.toggle('hidden', filter !== 'all' && finding.dataset.priority !== filter);
+        });
+      });
+    });
+
+    const sections = [...document.querySelectorAll('main section[id]')];
+    const links = [...document.querySelectorAll('.toc a')];
+    const observer = new IntersectionObserver((entries) => {
+      const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (!visible) return;
+      links.forEach((link) => link.classList.toggle('active', link.getAttribute('href') === `#${visible.target.id}`));
+    }, { rootMargin: '-20% 0px -65%', threshold: [0, .25, .6] });
+    sections.forEach((section) => observer.observe(section));
+  </script>
+</body>
+</html>

@@ -1,0 +1,956 @@
+{
+  "slug": "stockwiz-future-strategy-options",
+  "sourceTitle": "Masa Depan StockWiz — Opsi Strategi & Arsitektur",
+  "sections": [
+    {
+      "id": "ringkasan",
+      "number": "01",
+      "title": "Ringkasan keputusan",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "StockWiz baru perlu dibangun, tetapi tidak dengan cara mematikan legacy lalu menggantinya sekaligus."
+        },
+        {
+          "type": "paragraph",
+          "text": "Rekomendasi utama"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Evolutionary rebuild: StockWiz Next dibangun berdampingan dengan legacy."
+        },
+        {
+          "type": "paragraph",
+          "text": "Stabilkan risiko P0 sekarang, bentuk platform baru sebagai modular monolith, gunakan PostgreSQL untuk transaksi baru, lalu migrasikan satu alur bisnis lengkap pada satu waktu."
+        },
+        {
+          "type": "note",
+          "text": "Opsi C Keputusan yang disarankan"
+        },
+        {
+          "type": "note",
+          "text": "4–6 bln Vertical slice pertama Target realistis menuju produksi dengan tim yang memadai. 18–30 bln Transformasi bermakna Supply chain inti sampai finance, dilakukan bertahap. 4–6 Engineer inti Ditambah product owner dan domain owner aktif. 1 Sumber kebenaran Per domain; khusus stok melalui immutable ledger."
+        }
+      ]
+    },
+    {
+      "id": "mengapa",
+      "number": "02",
+      "title": "Mengapa StockWiz perlu berubah",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Masalah utamanya bukan usia framework, melainkan konsistensi transaksi, struktur domain, dan kemampuan membuktikan bahwa data bisnis benar."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Nilai yang harus dipertahankan"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Aturan bisnis yang terkumpul sejak 2012.",
+            "Data historis dan pola operasi nyata.",
+            "Integrasi toko, gudang, marketplace, dan departemen.",
+            "Pengguna yang sudah memahami alur kerja.",
+            "Operasi harian yang tidak boleh berhenti."
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Beban yang tidak boleh diwariskan"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Banyak sumber kebenaran stok.",
+            "Write lintas collection tanpa transaction.",
+            "Otorisasi yang tidak konsisten.",
+            "Referensi data campuran dan orphan.",
+            "Model customer/order berbeda per channel.",
+            "Job kritis berjalan di dalam web process."
+          ]
+        },
+        {
+          "type": "note",
+          "text": "Prinsip keputusan: kita tidak sedang mengganti teknologi karena ingin terlihat modern. Kita mengganti fondasi agar stok, lot, produksi, QC, costing, finance, dan audit dapat dipercaya."
+        }
+      ]
+    },
+    {
+      "id": "opsi",
+      "number": "03",
+      "title": "Tiga opsi masa depan",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Ketiganya mungkin dilakukan, tetapi memiliki profil biaya, risiko, dan nilai jangka panjang yang sangat berbeda."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Modernisasi legacy"
+        },
+        {
+          "type": "paragraph",
+          "text": "Mempertahankan Express, MongoDB, dan struktur utama. Fokus pada keamanan, transaksi penting, test, modularisasi, serta frontend modern."
+        },
+        {
+          "type": "note",
+          "text": "Kelebihan Hasil awal cepat, perubahan pengguna kecil, investasi awal paling rendah. Kekurangan Model data dan coupling lama tetap membatasi manufaktur, finance, dan kemampuan audit. Cocok jika Perusahaan hanya membutuhkan stabilisasi 1–2 tahun atau kapasitas tim sangat terbatas."
+        },
+        {
+          "type": "note",
+          "text": "Risiko delivery ●●○ Kecepatan awal ●●● Nilai 5 tahun ●○○"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Big-bang rewrite"
+        },
+        {
+          "type": "paragraph",
+          "text": "Membangun seluruh ERP baru dan memigrasikan semua pengguna serta data melalui satu cutover besar."
+        },
+        {
+          "type": "note",
+          "text": "Kelebihan Desain target dapat bersih dan tidak perlu mempertahankan kompatibilitas terlalu lama. Kekurangan Aturan tersembunyi mudah hilang, feedback datang terlambat, cutover sangat berisiko. Cocok jika Sistem lama kecil, proses sederhana, dokumentasi lengkap, dan operasi dapat dihentikan—kondisi yang tidak sesuai dengan StockWiz."
+        },
+        {
+          "type": "note",
+          "text": "Risiko delivery ●●● Kecepatan awal ●○○ Nilai 5 tahun ●●●"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Evolutionary rebuild"
+        },
+        {
+          "type": "paragraph",
+          "text": "Membangun StockWiz Next di samping legacy. Satu vertical slice dipindahkan, diverifikasi, lalu route lama dimatikan."
+        },
+        {
+          "type": "note",
+          "text": "Kelebihan Operasi tetap berjalan, feedback cepat, risiko dapat dibatasi per gudang/proses/modul. Kekurangan Untuk sementara ada dua sistem dan dibutuhkan disiplin mapping, adapter, serta rekonsiliasi. Cocok jika Sistem lama besar, aturan bisnis bernilai, dan perusahaan tidak dapat menerima penghentian operasi."
+        },
+        {
+          "type": "note",
+          "text": "Risiko delivery ●○○ Kecepatan awal ●●○ Nilai 5 tahun ●●●"
+        }
+      ]
+    },
+    {
+      "id": "perbandingan",
+      "number": "04",
+      "title": "Matriks perbandingan",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Penilaian bersifat relatif terhadap kondisi StockWiz saat ini, bukan terhadap proyek greenfield biasa."
+        },
+        {
+          "type": "table",
+          "headers": [
+            "Kriteria",
+            "A · Modernisasi legacy",
+            "B · Big-bang rewrite",
+            "C · Evolutionary rebuild"
+          ],
+          "rows": [
+            [
+              "Kecepatan memberi hasil",
+              "Tinggi pada perbaikan kecil",
+              "Rendah sampai cutover",
+              "Tinggi per vertical slice"
+            ],
+            [
+              "Risiko gangguan operasi",
+              "Sedang",
+              "Sangat tinggi",
+              "Rendah–sedang dan terisolasi"
+            ],
+            [
+              "Menjaga aturan bisnis lama",
+              "Tinggi",
+              "Rendah",
+              "Tinggi melalui migrasi bertahap"
+            ],
+            [
+              "Kualitas fondasi jangka panjang",
+              "Rendah–sedang",
+              "Tinggi bila berhasil",
+              "Tinggi dan tervalidasi"
+            ],
+            [
+              "Kompleksitas masa transisi",
+              "Rendah",
+              "Sedang",
+              "Tinggi karena dua sistem"
+            ],
+            [
+              "Kemampuan berhenti/ubah arah",
+              "Sedang",
+              "Rendah",
+              "Tinggi; investasi per tahap"
+            ],
+            [
+              "Rekomendasi",
+              "Untuk stabilisasi",
+              "Hindari",
+              "Pilihan utama"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "arsitektur",
+      "number": "05",
+      "title": "Arsitektur rekomendasi",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Mulai dengan modular monolith. Microservices baru dipertimbangkan ketika batas domain, ownership, volume, dan kebutuhan scaling sudah terbukti."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "StockWiz Legacy"
+        },
+        {
+          "type": "paragraph",
+          "text": "Frontend Umi/React lama, Express, MongoDB, dan integrasi existing tetap melayani proses yang belum dipindahkan."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Gateway & Anti-corruption Layer"
+        },
+        {
+          "type": "paragraph",
+          "text": "Satu identitas, routing modul, contract mapping, ID mapping, outbox, change capture, dan reconciliation."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "StockWiz Next"
+        },
+        {
+          "type": "paragraph",
+          "text": "React modern, backend TypeScript modular, PostgreSQL, worker, immutable ledger, workflow, dan audit."
+        },
+        {
+          "type": "note",
+          "text": "Platform Identity, organization, RBAC, approval, audit, notification, integration. Supply Chain Master data, procurement, inventory, warehouse, distribution. Manufacturing Formula/BOM, planning, production, lot, yield, scrap, rework. Quality Incoming QC, quarantine, release, COA, deviation, CAPA, recall. Commercial Party/customer, CRM, order, fulfillment, promotion, channel. Finance GL, AP, AR, costing, valuation, landed cost, tax, closing. People Organization, attendance, leave, shift, payroll, training. Insight Operational dashboard, reconciliation, KPI, analytics, export."
+        }
+      ]
+    },
+    {
+      "id": "stack",
+      "number": "06",
+      "title": "Blueprint stack teknologi",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Stack dipilih agar transaksi ERP kuat, tim TypeScript tetap produktif, dan operasi tidak berubah menjadi proyek infrastruktur. Label menunjukkan apa yang dipertahankan, ditambahkan, atau ditunda."
+        },
+        {
+          "type": "paragraph",
+          "text": "React 19 + TypeScript strict + Vite + React Router + TanStack + Radix UI + Tailwind"
+        },
+        {
+          "type": "paragraph",
+          "text": "Node.js 24 LTS + NestJS + Fastify adapter + REST/OpenAPI + Zod boundary validation"
+        },
+        {
+          "type": "paragraph",
+          "text": "Modular monolith, domain services, explicit module boundary, workflow state machine, RBAC + data scope"
+        },
+        {
+          "type": "paragraph",
+          "text": "PostgreSQL 18 + Drizzle/node-postgres + versioned SQL migration + PgBouncer bila diperlukan"
+        },
+        {
+          "type": "paragraph",
+          "text": "Transactional outbox + BullMQ/Redis worker + signed webhook + inbox deduplication"
+        },
+        {
+          "type": "paragraph",
+          "text": "S3-compatible object storage + presigned upload + antivirus scan + metadata di PostgreSQL"
+        },
+        {
+          "type": "paragraph",
+          "text": "OpenTelemetry + Pino + Sentry + Prometheus/Grafana atau backend OTLP terkelola"
+        },
+        {
+          "type": "paragraph",
+          "text": "Read replica/materialized view + Metabase; warehouse/ClickHouse hanya saat volume dan SLA membuktikan kebutuhan"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Keputusan frontend"
+        },
+        {
+          "type": "note",
+          "text": "Pertahankan frontend/ , React, Vite, TypeScript, TanStack Query/Table/Form, Radix, Vitest, dan Playwright. Standarkan Satu form library, satu design system, satu date library, generated API client, error boundary, dan route-level permission. Tambahkan Storybook untuk komponen kritis, MSW untuk mock API, Decimal.js untuk kalkulasi display, dan PWA hanya untuk workflow scanner. Hindari Frontend ketiga, state server di Zustand, offline write bebas, serta business rule stok atau harga di browser."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Keputusan backend & data"
+        },
+        {
+          "type": "note",
+          "text": "Runtime Node 24 LTS. Gunakan satu package manager dan lockfile; rekomendasi pnpm workspace. Framework NestJS memberi struktur modul/guard/DI; Fastify menjadi HTTP adapter. API terdokumentasi melalui OpenAPI. Data access Drizzle + node-postgres dengan SQL eksplisit. Migration harus direview; push dilarang di production. Consistency PostgreSQL transaction, row locking, unique constraint, idempotency table, immutable ledger, dan outbox dalam commit yang sama."
+        },
+        {
+          "type": "note",
+          "text": "Mengapa versi ini: Node 24 berada pada jalur LTS, PostgreSQL 18 masih didukung sampai 2030, dan frontend modern StockWiz sudah menggunakan React 19. Upgrade minor tetap dilakukan rutin; angka versi bukan alasan untuk menunda desain domain."
+        },
+        {
+          "type": "paragraph",
+          "text": "Referensi resmi: Node.js release schedule · PostgreSQL versioning policy · NestJS OpenAPI · Drizzle migrations"
+        }
+      ]
+    },
+    {
+      "id": "tooling",
+      "number": "07",
+      "title": "Plugin, library, dan tooling pendukung",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Daftar ini adalah katalog keputusan, bukan daftar instalasi massal. Mulai dari tier “Wajib awal”, lalu tambahkan tier berikutnya saat use case muncul."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "API & validation"
+        },
+        {
+          "type": "paragraph",
+          "text": "Kontrak request/response konsisten, dokumentasi otomatis, keamanan header, dan pembatasan trafik."
+        },
+        {
+          "type": "note",
+          "text": "@nestjs/swagger zod @fastify/helmet @fastify/cors @fastify/rate-limit"
+        },
+        {
+          "type": "note",
+          "text": "Semua input eksternal divalidasi di boundary; domain tidak menerima object mentah dari request."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Database & migration"
+        },
+        {
+          "type": "paragraph",
+          "text": "Query typed tanpa menyembunyikan SQL, connection pooling, migration versioned, dan test database nyata."
+        },
+        {
+          "type": "note",
+          "text": "drizzle-orm drizzle-kit pg testcontainers pg_stat_statements"
+        },
+        {
+          "type": "note",
+          "text": "Generated migration selalu diperiksa manusia. DDL production dijalankan sebagai job terpisah, bukan saat setiap pod start."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Queue & integration"
+        },
+        {
+          "type": "paragraph",
+          "text": "Email, webhook, marketplace sync, export, dan pekerjaan berat keluar dari web process."
+        },
+        {
+          "type": "note",
+          "text": "bullmq ioredis nanoid jose p-retry"
+        },
+        {
+          "type": "note",
+          "text": "Outbox PostgreSQL tetap menjadi bukti pengiriman; queue boleh diulang tanpa menggandakan transaksi bisnis."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Observability"
+        },
+        {
+          "type": "paragraph",
+          "text": "Trace satu transaksi dari browser, API, database, worker, sampai integrasi eksternal."
+        },
+        {
+          "type": "note",
+          "text": "@opentelemetry/sdk-node @opentelemetry/auto-instrumentations-node pino pino-http @sentry/node"
+        },
+        {
+          "type": "note",
+          "text": "Gunakan OTLP agar backend observability dapat diganti. Redact token, email, HR, dan data customer dari log."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Frontend foundation"
+        },
+        {
+          "type": "paragraph",
+          "text": "Fondasi UI modern sudah cukup. Fokus berikutnya konsistensi, accessibility, dan contract dengan API."
+        },
+        {
+          "type": "note",
+          "text": "@tanstack/react-query @tanstack/react-table @tanstack/react-form @radix-ui/* zustand"
+        },
+        {
+          "type": "note",
+          "text": "Zustand hanya untuk local UI state. Data server tetap dikelola TanStack Query agar cache dan invalidation terkendali."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Frontend quality"
+        },
+        {
+          "type": "paragraph",
+          "text": "Dokumentasi komponen, mock API, accessibility check, serta regression test untuk flow ERP kritis."
+        },
+        {
+          "type": "note",
+          "text": "storybook msw vitest @testing-library/react @playwright/test axe-core"
+        },
+        {
+          "type": "note",
+          "text": "E2E diprioritaskan untuk receive, transfer, stocktake, production issue, shipment, dan period close."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Auth & authorization"
+        },
+        {
+          "type": "paragraph",
+          "text": "Pertahankan OIDC provider saat migrasi; otorisasi action + scope tetap dihitung di backend."
+        },
+        {
+          "type": "note",
+          "text": "jose passport openid-client NestJS Guards policy tables"
+        },
+        {
+          "type": "note",
+          "text": "Jangan menaruh role sebagai query parameter. Scope plant, warehouse, department, dan approval limit berasal dari policy terverifikasi."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "File & document"
+        },
+        {
+          "type": "paragraph",
+          "text": "COA, invoice, label, foto QC, attachment supplier, serta export disimpan dan diproses aman."
+        },
+        {
+          "type": "note",
+          "text": "@aws-sdk/client-s3 sharp file-type ClamAV ExcelJS Playwright PDF"
+        },
+        {
+          "type": "note",
+          "text": "Upload langsung ke object storage dengan presigned URL; API hanya mencatat metadata dan status scan."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Barcode & warehouse"
+        },
+        {
+          "type": "paragraph",
+          "text": "Scanning item/lot/location, label GS1, serta pencetakan printer gudang yang dapat dilacak."
+        },
+        {
+          "type": "note",
+          "text": "@zxing/browser bwip-js GS1 parser ZPL adapter Web Serial*"
+        },
+        {
+          "type": "note",
+          "text": "Scanner keyboard-wedge menjadi baseline. Web Serial hanya dipakai setelah device matrix dan fallback diuji."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Reporting & BI"
+        },
+        {
+          "type": "paragraph",
+          "text": "Dashboard operasional tidak boleh membebani jalur transaksi atau membaca tabel tanpa governance."
+        },
+        {
+          "type": "note",
+          "text": "Metabase materialized views read replica dbt* ClickHouse*"
+        },
+        {
+          "type": "note",
+          "text": "Mulai dari PostgreSQL read model. dbt/warehouse/ClickHouse hanya ketika volume, histori, atau SLA memang menuntutnya."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Security pipeline"
+        },
+        {
+          "type": "paragraph",
+          "text": "Secret, dependency, container, dan pola kode berisiko diperiksa sebelum deployment."
+        },
+        {
+          "type": "note",
+          "text": "Gitleaks Trivy Semgrep Renovate OWASP ZAP* SBOM"
+        },
+        {
+          "type": "note",
+          "text": "High/critical finding memblokir release dengan mekanisme exception yang tercatat, berjangka waktu, dan memiliki owner."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Developer platform"
+        },
+        {
+          "type": "paragraph",
+          "text": "Satu monorepo, build reproducible, environment lokal mudah, dan quality gate konsisten."
+        },
+        {
+          "type": "note",
+          "text": "pnpm workspaces Turborepo TypeScript strict oxlint Docker Compose GitHub/Bitbucket CI"
+        },
+        {
+          "type": "note",
+          "text": "Gunakan satu lockfile. Kubernetes, service mesh, dan platform rumit bukan kebutuhan fase awal."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Long-running workflow"
+        },
+        {
+          "type": "paragraph",
+          "text": "Approval berhari-hari, produksi panjang, kompensasi lintas sistem, dan proses yang harus bertahan setelah restart."
+        },
+        {
+          "type": "note",
+          "text": "Temporal* state machine workflow versioning"
+        },
+        {
+          "type": "note",
+          "text": "Mulai dengan workflow state di PostgreSQL + outbox. Temporal baru layak bila retry/timeout/compensation sudah menjadi beban nyata."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Legacy migration"
+        },
+        {
+          "type": "paragraph",
+          "text": "Mapping ID, data profiling, batch ETL, change capture, dan rekonsiliasi antara MongoDB serta PostgreSQL."
+        },
+        {
+          "type": "note",
+          "text": "migration registry Mongo change streams* Debezium* reconciliation jobs quarantine tables"
+        },
+        {
+          "type": "note",
+          "text": "Pilih mekanisme paling sederhana yang memenuhi latency. CDC penuh tidak perlu bila migrasi batch harian sudah cukup."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Feature delivery"
+        },
+        {
+          "type": "paragraph",
+          "text": "Peluncuran terbatas per warehouse/user tanpa membuat branch hidup terlalu lama."
+        },
+        {
+          "type": "note",
+          "text": "feature flags config schema canary release rollback switch"
+        },
+        {
+          "type": "note",
+          "text": "Flag harus punya owner dan tanggal hapus. Jangan menggunakan flag untuk menyembunyikan skema database yang tidak kompatibel."
+        },
+        {
+          "type": "paragraph",
+          "text": "Validation, OpenAPI, migration, testcontainers, outbox, queue, structured log, tracing, error tracking, security scan, dan feature flags."
+        },
+        {
+          "type": "paragraph",
+          "text": "Temporal, CDC platform, ClickHouse, dbt, Kafka, Kubernetes, dan service mesh setelah metrik menunjukkan kebutuhan."
+        },
+        {
+          "type": "paragraph",
+          "text": "Memasang semua plugin sekaligus, dua library untuk fungsi sama, auto-push schema production, atau menjadikan Redis/queue sumber data bisnis."
+        },
+        {
+          "type": "paragraph",
+          "text": "Catatan: tanda * berarti perlu proof-of-concept/device atau load test. OpenTelemetry JS menyatakan traces dan metrics stabil, sementara logs masih development; karena itu gunakan Pino untuk application log dan korelasikan dengan trace ID. Dokumentasi resmi OpenTelemetry JS · BullMQ retry documentation"
+        }
+      ]
+    },
+    {
+      "id": "database",
+      "number": "08",
+      "title": "Database baru yang lebih rapi",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Jangan menyalin setiap MongoDB collection menjadi tabel dengan nama sama. Desain skema baru harus mengikuti proses bisnis dan invariant."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Entitas inti"
+        },
+        {
+          "type": "note",
+          "text": "organizations sites locations parties items uoms lots inventory_movements inventory_balances reservations sales_orders fulfillments purchase_orders goods_receipts bom_versions production_orders quality_inspections journal_entries journal_lines outbox_events"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Aturan desain wajib"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Foreign key dan tipe ID konsisten.",
+            "Composite unique index sesuai identitas bisnis.",
+            "Check constraint untuk quantity, status, dan nilai.",
+            "numeric/decimal untuk uang dan costing.",
+            "Timestamp UTC; timezone hanya untuk presentasi.",
+            "Data posted bersifat immutable.",
+            "Setiap write penting atomic dan idempotent.",
+            "Actor, source document, reason, dan audit event wajib."
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Satu model stok kanonik"
+        },
+        {
+          "type": "note",
+          "text": "Receive Barang masuk Reserve Alokasi order Issue Barang keluar Transfer Antar lokasi Consume Bahan produksi Produce Hasil produksi Adjust Koreksi terkontrol"
+        },
+        {
+          "type": "note",
+          "text": "Identitas saldo: organization + site + warehouse + location + item + lot + stock status. Status membedakan available, reserved, in-transit, quarantine, rejected, damaged, dan expired."
+        }
+      ]
+    },
+    {
+      "id": "migrasi",
+      "number": "09",
+      "title": "Roadmap migrasi",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Migrasi dilakukan per kemampuan bisnis. Tiap fase harus menghasilkan sistem yang dapat digunakan dan diukur."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Stabilkan dan lindungi legacy"
+        },
+        {
+          "type": "paragraph",
+          "text": "Tutup risiko keamanan dan transaksi yang tidak boleh menunggu platform baru."
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Otorisasi endpoint, rate limit, upload limit.",
+            "Proteksi overselling, idempotency, dan nomor transaksi atomic.",
+            "Backup/restore drill, audit log, alert, dan baseline rekonsiliasi."
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Bangun fondasi StockWiz Next"
+        },
+        {
+          "type": "paragraph",
+          "text": "Identity, organization, RBAC, master data, audit, outbox, API convention, CI/CD, dan migration registry."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Pilot inventory ledger"
+        },
+        {
+          "type": "paragraph",
+          "text": "Warehouse transfer menjadi vertical slice pertama: create, approve, reserve, dispatch, in-transit, receive, dan reconcile."
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Mulai dari satu warehouse atau kelompok item terbatas.",
+            "Saldo lama dan baru dibandingkan otomatis.",
+            "Cutover hanya setelah acceptance criteria terpenuhi."
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Procurement, manufacturing, dan quality"
+        },
+        {
+          "type": "paragraph",
+          "text": "PR/RFQ/PO/receipt, lot traceability, incoming QC, formula/BOM versioning, production order, consumption, yield, scrap, rework, dan batch release."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Commercial dan finance"
+        },
+        {
+          "type": "paragraph",
+          "text": "Unified party/customer, sales order, fulfillment, return, payment allocation, GL/AP/AR, COGS, inventory valuation, tax, dan closing."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Perluasan dan penghentian legacy"
+        },
+        {
+          "type": "paragraph",
+          "text": "HR, CRM, marketing, analytics, serta decommission modul lama setelah data retention, audit, dan rollback plan disetujui."
+        }
+      ]
+    },
+    {
+      "id": "tim",
+      "number": "10",
+      "title": "Tim, waktu, dan cara kerja",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "ERP bukan proyek IT saja. Domain owner harus ikut menetapkan aturan dan menerima hasil setiap vertical slice."
+        },
+        {
+          "type": "paragraph",
+          "text": "Campuran backend, frontend, dan platform. Minimal dua orang kuat pada domain/data backend."
+        },
+        {
+          "type": "paragraph",
+          "text": "Menjaga prioritas lintas departemen dan memastikan scope tidak melebar tanpa keputusan."
+        },
+        {
+          "type": "paragraph",
+          "text": "Gudang, produksi/QC, procurement, sales, dan finance memberikan aturan serta acceptance."
+        },
+        {
+          "type": "table",
+          "headers": [
+            "Kapasitas",
+            "Dampak",
+            "Perkiraan",
+            "Catatan"
+          ],
+          "rows": [
+            [
+              "1–2 developer",
+              "Hanya satu alur pada satu waktu",
+              "3+ tahun",
+              "Risiko ketergantungan individu sangat tinggi."
+            ],
+            [
+              "4–6 engineer",
+              "Tim inti yang seimbang",
+              "18–30 bulan",
+              "Rekomendasi minimum untuk transformasi serius."
+            ],
+            [
+              "8–12 engineer",
+              "Dua stream domain paralel",
+              "12–24 bulan",
+              "Hanya efektif bila architecture governance dan domain ownership sudah matang."
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "risiko",
+      "number": "11",
+      "title": "Risiko transformasi dan kontrolnya",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Evolutionary rebuild menurunkan risiko big-bang, tetapi tetap gagal bila disiplin data dan kepemilikan proses diabaikan."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Dua sumber kebenaran"
+        },
+        {
+          "type": "paragraph",
+          "text": "Tetapkan ownership per field/domain, gunakan outbox/change capture, dan sediakan reconciliation dashboard. Hindari dual-write tanpa mekanisme pemulihan."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Scope ERP terus melebar"
+        },
+        {
+          "type": "paragraph",
+          "text": "Gunakan vertical slice, outcome per kuartal, dan decision gate. Fitur baru tidak masuk bila tidak mendukung target fase aktif."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Aturan bisnis tersembunyi"
+        },
+        {
+          "type": "paragraph",
+          "text": "Observasi user, katalog rule, characterization test, dan parallel run sebelum route lama dimatikan."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Data legacy kotor"
+        },
+        {
+          "type": "paragraph",
+          "text": "Profiling, mapping table, quarantine record, deduplication, rehearsal migration, dan sign-off domain owner."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Microservices terlalu dini"
+        },
+        {
+          "type": "paragraph",
+          "text": "Gunakan modular monolith dan event boundary. Pecah service hanya bila kebutuhan operasionalnya dapat dibuktikan."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "User menolak proses baru"
+        },
+        {
+          "type": "paragraph",
+          "text": "Libatkan key user sejak design, lakukan pilot terbatas, ukur waktu kerja, siapkan training dan support masa cutover."
+        }
+      ]
+    },
+    {
+      "id": "hari90",
+      "number": "12",
+      "title": "Rencana 90 hari pertama",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Sebelum membangun banyak modul, buktikan bahwa tim mampu mengendalikan risiko legacy dan membuat fondasi baru yang dapat diuji."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Putuskan dan ukur"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Tetapkan sponsor, product owner, dan domain owner.",
+            "Setujui Opsi C serta non-goals.",
+            "Bekukan definisi stok dan ownership data.",
+            "Prioritaskan perbaikan keamanan P0.",
+            "Ambil baseline data dan performa."
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Bangun fondasi"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Bootstrap backend dan PostgreSQL.",
+            "Definisikan module boundary dan API convention.",
+            "Siapkan CI/CD, migration, test, observability.",
+            "Bangun identity/RBAC dan master data minimum.",
+            "Rancang ledger dan reconciliation."
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Buktikan vertical slice"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Implementasi transfer gudang happy path.",
+            "Tambahkan approval, idempotency, audit.",
+            "Uji lot/status dan kegagalan parsial.",
+            "Bandingkan saldo dengan legacy.",
+            "Demo ke key user dan putuskan pilot produksi."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "keputusan",
+      "number": "13",
+      "title": "Decision gates",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Investasi dilanjutkan hanya ketika bukti pada fase sebelumnya cukup kuat."
+        },
+        {
+          "type": "paragraph",
+          "text": "Sponsor, product owner, domain owner, scope, budget, dan definisi sukses telah disepakati."
+        },
+        {
+          "type": "paragraph",
+          "text": "Security P0 terkendali, backup teruji, baseline rekonsiliasi tersedia, dan arsitektur fondasi lolos review."
+        },
+        {
+          "type": "paragraph",
+          "text": "Transfer gudang lulus integration/E2E test, saldo cocok, user acceptance selesai, dan rollback teruji."
+        },
+        {
+          "type": "paragraph",
+          "text": "Pilot stabil, KPI membaik, incident terkendali, dan pola migrasi dapat diulang untuk domain berikutnya."
+        },
+        {
+          "type": "paragraph",
+          "text": "Data historis, retention, audit, dependency, dan recovery plan lengkap sebelum modul legacy dimatikan."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Keputusan akhir yang disarankan"
+        },
+        {
+          "type": "paragraph",
+          "text": "Mulai StockWiz Next sebagai modular monolith berbasis TypeScript dan PostgreSQL, pertahankan legacy sebagai sistem transisi, lalu migrasikan warehouse transfer sebagai vertical slice pertama. Jangan memulai full rewrite seluruh ERP dan jangan memecahnya menjadi microservices sejak awal."
+        }
+      ]
+    }
+  ]
+}

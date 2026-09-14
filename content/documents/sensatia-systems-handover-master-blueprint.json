@@ -1,0 +1,1481 @@
+{
+  "slug": "sensatia-systems-handover-master-blueprint",
+  "sourceTitle": "Sensatia Systems Handover — Master Blueprint",
+  "sections": [
+    {
+      "id": "system-handover-yang-benar-benar-lengkap",
+      "number": "01",
+      "title": "System Handover yang benar-benar lengkap.",
+      "blocks": [
+        {
+          "type": "note",
+          "text": "Master Blueprint · Widhy × Colin · September 2026"
+        },
+        {
+          "type": "paragraph",
+          "text": "Bukan cuma source code. Target akhirnya adalah supaya setiap aplikasi, website, CMS, API, database, hosting, domain, monitoring, integration, deployment, recovery dan ownership dapat ditemukan, dipahami dan dijalankan oleh Internal IT."
+        },
+        {
+          "type": "note",
+          "text": "Approach: kita tidak menunggu Colin membuat satu dokumen besar. Kita buat struktur dokumentasinya sendiri, kemudian minta informasi satu per satu, isi evidence-nya, lakukan reverse handover, dan tandai capability sebagai transferred hanya setelah kita bisa menjalankannya sendiri."
+        },
+        {
+          "type": "note",
+          "text": "Target Deliverables"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "One technical map for the Sensatia ecosystem."
+        },
+        {
+          "type": "note",
+          "text": "10 documentation domains 16 structured KT sessions 5 readiness gates 0 plaintext secrets in docs"
+        },
+        {
+          "type": "note",
+          "text": "KNOWN NEED VERIFY ASK COLIN DOCUMENT OUTPUT"
+        }
+      ]
+    },
+    {
+      "id": "scope",
+      "number": "02",
+      "title": "Yang dipindahkan adalah operating knowledge, bukan sekadar file.",
+      "blocks": [
+        {
+          "type": "note",
+          "text": "01 · Handover Scope"
+        },
+        {
+          "type": "paragraph",
+          "text": "Dokumentasi harus bisa menjawab: apa yang ada , bagaimana sistem bekerja , di mana sistem hidup , siapa owner-nya , dan bagaimana recover saat rusak ."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "System Landscape"
+        },
+        {
+          "type": "paragraph",
+          "text": "Semua aplikasi, service, website, repo, database, integration, dan domain harus punya relationship map."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Build & Change"
+        },
+        {
+          "type": "paragraph",
+          "text": "Repo, branch, environment, testing, deployment, migration, release, dan rollback."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Operate & Recover"
+        },
+        {
+          "type": "paragraph",
+          "text": "Logs, monitoring, alerts, backup, restore, data recovery, dan incident runbook."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Ownership & Access"
+        },
+        {
+          "type": "paragraph",
+          "text": "Admin owner, billing owner, access, MFA, credential recovery, dan secret rotation."
+        },
+        {
+          "type": "note",
+          "text": "Security Rule: jangan pernah menaruh password, API key, token, private key, database password, MFA recovery code, atau secret aktual di Jira, Confluence, Slack, atau dokumen ini. Yang didokumentasikan hanya: secret name, purpose, owner, approved secret-store location, rotation procedure, dan recovery path."
+        }
+      ]
+    },
+    {
+      "id": "landscape",
+      "number": "03",
+      "title": "Kita mulai dari peta besar dulu.",
+      "blocks": [
+        {
+          "type": "note",
+          "text": "02 · System Landscape"
+        },
+        {
+          "type": "paragraph",
+          "text": "Detail bisa kita isi bertahap. Yang penting semua sistem, owner, repo, hosting, database, dan dependency masuk dalam satu registry."
+        },
+        {
+          "type": "note",
+          "text": "StockWizz Internal business system untuk inventory, warehouse/DC, retail, purchasing, order, product, dan operational workflow. KNOWN"
+        },
+        {
+          "type": "note",
+          "text": "sensatia.com Customer-facing website / e-commerce dengan locale seperti /id , /en , dan kemungkinan locale lainnya. KNOWN"
+        },
+        {
+          "type": "note",
+          "text": "Website CMS Lokasi exact belum boleh diasumsikan. Harus dikonfirmasi apakah CMS berada di StockWizz, website repo, atau service terpisah. ASK COLIN"
+        },
+        {
+          "type": "note",
+          "text": "StockWizz API Backend/API untuk UI dan external integrations. Route map, runtime, service boundaries dan side-effect endpoint perlu didokumentasikan. VERIFY"
+        },
+        {
+          "type": "note",
+          "text": "Database MongoDB disebut dalam dokumentasi saat ini. Production/sandbox topology, database names, index, backup, restore dan sensitive collections perlu diverifikasi. VERIFY CURRENT"
+        },
+        {
+          "type": "note",
+          "text": "Jubelio Integrasi stock update, SKU mapping, location mapping, retry, recovery dan reconciliation. KNOWN"
+        },
+        {
+          "type": "note",
+          "text": "Payment Stripe muncul pada incident website. Semua provider lain dan current usage perlu diverifikasi. VERIFY LIST"
+        },
+        {
+          "type": "note",
+          "text": "Better Stack Logging / observability sudah digunakan. Sources, retention, useful queries, alerts dan billing owner perlu masuk dokumentasi. IN USE"
+        },
+        {
+          "type": "note",
+          "text": "Sentry Belum boleh dianggap digunakan. Minta Colin confirm: digunakan atau tidak. CONFIRM / N/A"
+        },
+        {
+          "type": "note",
+          "text": "Hosting / Domain Hosting provider, compute resources, registrar, DNS, SSL, CDN, storage, billing dan admin ownership harus dipetakan. ASK COLIN"
+        }
+      ]
+    },
+    {
+      "id": "documentation",
+      "number": "04",
+      "title": "Struktur dokumentasi yang perlu kita bangun.",
+      "blocks": [
+        {
+          "type": "note",
+          "text": "03 · Documentation Blueprint"
+        },
+        {
+          "type": "paragraph",
+          "text": "Confluence menjadi global technical memory. Repository menyimpan implementation-level documentation. Jira tetap fokus ke pekerjaan."
+        },
+        {
+          "type": "note",
+          "text": "00 START HERE IT Systems — Start Here Master index seluruh systems dan documentation. System Portfolio & Ownership Purpose, owner, backup, criticality, support route. Handover Readiness Dashboard Explained → Documented → Access → Practiced → Verified. Current Work Register Feature, bug, PR, branch, SB/prod status, blocker."
+        },
+        {
+          "type": "note",
+          "text": "01 STOCKWIZZ StockWizz — System Overview Purpose, users, critical modules, boundaries. StockWizz — Architecture Map Frontend → API → DB → jobs → integrations. Repository & Code Map Repos, branches, entry points, active vs legacy folders. Module Catalog Inventory, DC, retail, PO, orders, products, CMS if applicable. API Catalog Routes, callers, auth, mutation, side effects. Database & Data Model Collections, relations, indexes, source-of-truth. Jobs / Cron / Worker Trigger, schedule, retry, logs, failure behavior. Business Logic & Legacy Rules dan history yang tidak obvious dari code."
+        },
+        {
+          "type": "note",
+          "text": "02 WEBSITE & CMS sensatia.com — Architecture Repo, framework, runtime, hosting, API dependencies. CMS & Content Flow CMS location, translation, content model, media, publish. Locale / Routing /id, /en, slug mapping, redirect, fallback, canonical. Commerce Flow Product → cart → checkout → payment → order → fulfilment. Payment Integration Provider, webhook, retry, idempotency, order states. Website Release & Rollback SB/staging/prod, cache purge, verification."
+        },
+        {
+          "type": "note",
+          "text": "03 INFRASTRUCTURE Infrastructure Inventory Compute, DB, cache, storage, network, CDN. Environment Map Local, SB, staging?, production. Hosting Topology Resource, region, process, dependencies, billing owner. Domain / DNS / SSL Registry Registrar, records, renewal, CDN, owner. Backup & Restore Schedule, retention, encryption, restore test. Disaster Recovery Failure scenarios, RTO, RPO, recovery order."
+        },
+        {
+          "type": "note",
+          "text": "04 OBSERVABILITY Better Stack Guide Sources, logs, queries, correlation, retention. Sentry Guide / N/A Projects, releases, source maps, alerts—if used. Prometheus / Metrics Exporter, scrape, live metrics, dashboards. Alert Matrix Alert → severity → owner → first check → escalation."
+        },
+        {
+          "type": "note",
+          "text": "05 INTEGRATIONS Integration Registry Data direction, auth, retry, failure, fallback. Jubelio SKU/location mapping, stock sync, retry, reconciliation. Payment Providers Stripe + verify provider lainnya. Marketplace Integrations Shopee, TikTok, Tokopedia, Jubelio boundaries. Authentication Provider Tenant, apps, roles, callbacks, ownership. Email / Notifications Provider, sender, templates, trigger, retry."
+        },
+        {
+          "type": "note",
+          "text": "06 SECURITY & ACCESS Access Matrix Have / Limited / Missing / N/A per service. Credential Ownership Registry Secret name, owner, vault, rotation, recovery. Admin / Billing Ownership Organization owner, subscription, invoice, renewal. Access Recovery / Offboarding Revoke, transfer, lost account, emergency access."
+        },
+        {
+          "type": "note",
+          "text": "07 DEVELOPMENT & RELEASE Development Workflow Branch, PR, review, test, release, hotfix. Deployment Runbook Exact steps, checks, owner, evidence. Rollback Runbook App rollback, DB considerations, last-known-good. Release History Date, change, PR, environment, validation."
+        },
+        {
+          "type": "note",
+          "text": "08 INCIDENTS Incident Response Guide Severity, triage, logs, safe action, escalation. Stock Integrity Runbook Mismatch, duplicate deduction, wrong IN/OUT. Website Checkout Runbook Payment/order/cart/retry issues. Jubelio Sync Runbook Failed SKU, retry, partial sync, manual fallback. Performance Runbook Browser → API → DB → logs → indexes. Post-Incident Notes Facts, root cause, action, prevention, docs update."
+        },
+        {
+          "type": "note",
+          "text": "09 DECISIONS & LEGACY Architecture Decision Records Why, alternatives, trade-off, current validity. Legacy Map Active / Legacy but Used / Deprecated / Unknown. Technical Debt Register Impact, risk, workaround, recommendation. Business Workflow Maps Inventory, production, warehouse, retail, e-commerce."
+        }
+      ]
+    },
+    {
+      "id": "stockwizz",
+      "number": "05",
+      "title": "Apa yang harus kita pahami dari StockWizz.",
+      "blocks": [
+        {
+          "type": "note",
+          "text": "04 · StockWizz Deep Dive"
+        },
+        {
+          "type": "paragraph",
+          "text": "Source code membantu. Tapi kita tetap membutuhkan architecture, operating behavior, business rules, failure modes, dan historical knowledge dari Colin."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Repository & Runtime"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Semua repo yang benar-benar aktif.",
+            "Default / main branch.",
+            "Production branch.",
+            "Frontend/backend entry point.",
+            "Active vs legacy folders.",
+            "Runtime / package constraints.",
+            "Process manager / container / startup."
+          ]
+        },
+        {
+          "type": "note",
+          "text": "ASK COLIN"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Frontend"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Current production frontend.",
+            "Legacy vs newer frontend.",
+            "Routing.",
+            "Auth guard.",
+            "State management.",
+            "API/data fetching pattern.",
+            "Error/loading handling.",
+            "Build output."
+          ]
+        },
+        {
+          "type": "note",
+          "text": "VERIFY CURRENT"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Backend / API"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Route map.",
+            "Middleware.",
+            "Authentication.",
+            "Service boundaries.",
+            "Side-effect endpoints.",
+            "External API calls.",
+            "Timeout / retry behavior.",
+            "Idempotency."
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Database"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Production DB.",
+            "Sandbox DB.",
+            "Critical collections.",
+            "Relationships.",
+            "Indexes.",
+            "Source-of-truth.",
+            "Data correction boundaries.",
+            "Migration / schema changes."
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "CMS?"
+        },
+        {
+          "type": "paragraph",
+          "text": "Ini salah satu pertanyaan pertama yang harus dijawab."
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Apakah CMS memang di StockWizz?",
+            "Module/path?",
+            "API?",
+            "DB collection?",
+            "Translation?",
+            "Media?",
+            "Publish?"
+          ]
+        },
+        {
+          "type": "note",
+          "text": "TOP PRIORITY"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Critical Business Rules"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Inventory IN / OUT.",
+            "Shop vs Warehouse/DC.",
+            "Production/component deduction.",
+            "PO/refill/receive.",
+            "Web order fulfilment.",
+            "Legacy workarounds."
+          ]
+        },
+        {
+          "type": "note",
+          "text": "Target: setelah StockWizz handover cukup matang, kita harus bisa menjawab pertanyaan seperti: “request ini masuk module mana?”, “API mana yang melakukan mutation?”, “data berubah di collection mana?”, “log-nya lihat di mana?”, “aman test di environment mana?”, dan “kalau gagal recover bagaimana?”."
+        }
+      ]
+    },
+    {
+      "id": "website",
+      "number": "06",
+      "title": "Website adalah full business system, bukan cuma frontend.",
+      "blocks": [
+        {
+          "type": "note",
+          "text": "05 · sensatia.com & CMS"
+        },
+        {
+          "type": "paragraph",
+          "text": "Kita harus memahami content, localization, product, cart, checkout, payment, order, StockWizz, dan infrastructure sebagai satu flow."
+        },
+        {
+          "type": "note",
+          "text": "01 · CONTENT CMS Product, page, category, SEO, translation, media. 02 · WEB sensatia.com /id, /en, routing, product, category, account. 03 · CHECKOUT Cart / Checkout Session, shipping, validation, pending order. 04 · PAYMENT Payment Provider Stripe confirmed; verify all current providers. 05 · ORDER StockWizz / Fulfilment Order, stock, packing, shipping."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "CMS — Questions for Colin"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Is the CMS part of StockWizz?",
+            "Or sensatia.com?",
+            "Or a separate service?",
+            "Exact repo/folder?",
+            "Exact CMS URL?",
+            "Content API endpoint?",
+            "DB collections?",
+            "Translation model?",
+            "Product/category/page/SEO storage?",
+            "Media/image storage?",
+            "Publish/unpublish flow?",
+            "Cache/CDN invalidation?",
+            "Content rollback?",
+            "Who can edit/publish?"
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Website Engineering"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Repository / repositories.",
+            "Framework/runtime.",
+            "Production branch.",
+            "SSR / SPA / static / hybrid.",
+            "API host per environment.",
+            "Session / cookie / locale handling.",
+            "Cart persistence.",
+            "Pending order lifecycle.",
+            "Payment webhook.",
+            "Payment retry / idempotency.",
+            "Order creation.",
+            "StockWizz connection.",
+            "Deployment and rollback."
+          ]
+        },
+        {
+          "type": "note",
+          "text": "Important: website documentation harus menjelaskan state dan failure path. Contohnya bukan hanya: “payment menggunakan Stripe”, tapi juga: pending order dibuat kapan, payment decline bagaimana, retry bagaimana, webhook bagaimana, successful charge menghasilkan order apa, dan recovery dilakukan bagaimana."
+        }
+      ]
+    },
+    {
+      "id": "infrastructure",
+      "number": "07",
+      "title": "Semua “di mana sistem ini hidup?” harus punya jawaban.",
+      "blocks": [
+        {
+          "type": "note",
+          "text": "06 · Infrastructure & Tool Registry"
+        },
+        {
+          "type": "table",
+          "headers": [
+            "Asset / Tool",
+            "Yang Harus Didokumentasikan",
+            "Initial Status",
+            "Evidence yang Diminta"
+          ],
+          "rows": [
+            [
+              "GitHub / Repositories",
+              "Organization, repos, branch, access, protection, release flow.",
+              "VERIFY FULL LIST",
+              "Repo URLs + owner/admin + production source."
+            ],
+            [
+              "Hosting / Compute",
+              "Provider, project, app/server/container, region, process, network, billing.",
+              "ASK COLIN",
+              "Console walkthrough + resource inventory."
+            ],
+            [
+              "Domain Registrar",
+              "Registrar, account owner, renewal, recovery, transfer lock.",
+              "ASK COLIN",
+              "Domain list + ownership."
+            ],
+            [
+              "DNS",
+              "Provider, zones, A/AAAA/CNAME/MX/TXT records, subdomains.",
+              "ASK COLIN",
+              "DNS zone overview/export."
+            ],
+            [
+              "SSL / TLS",
+              "Issuer, auto/manual renewal, termination point, expiry alerts.",
+              "ASK COLIN",
+              "Certificate renewal flow."
+            ],
+            [
+              "CDN / Cache",
+              "Provider, origin, rules, purge flow, image optimization.",
+              "CONFIRM / N/A",
+              "Current CDN config or explicit N/A."
+            ],
+            [
+              "MongoDB",
+              "Provider/topology, DB per env, users, backup, restore, indexes.",
+              "VERIFY CURRENT",
+              "Cluster map + restore procedure."
+            ],
+            [
+              "Redis / Cache",
+              "Current use, purpose, persistence, failure behavior.",
+              "VERIFY USE",
+              "Service resource + code reference."
+            ],
+            [
+              "Auth Provider",
+              "Tenant, apps, callbacks, roles, admin owner, billing.",
+              "VERIFY CURRENT",
+              "Application/tenant inventory."
+            ],
+            [
+              "Better Stack",
+              "Sources, apps, logs, retention, dashboards, alerts, query patterns.",
+              "KNOWN IN USE",
+              "Find one StockWizz request + one website error."
+            ],
+            [
+              "Sentry",
+              "Used or not, org, projects, releases, source maps, alerts.",
+              "CONFIRM / N/A",
+              "Project list or explicit “not used”."
+            ],
+            [
+              "Prometheus / Metrics",
+              "Exporter, scrape config, metrics, retention, dashboards, alerts.",
+              "VERIFY",
+              "Current live metrics/config."
+            ],
+            [
+              "Media / Object Storage",
+              "Product images, CMS files, permissions, lifecycle, CDN relation.",
+              "ASK COLIN",
+              "Provider / bucket / path / owner."
+            ],
+            [
+              "Email / Notifications",
+              "Provider, sender domain, templates, trigger, retry, bounce.",
+              "ASK COLIN",
+              "Provider + config/code path."
+            ],
+            [
+              "Backup / DR",
+              "DB, files, config, schedule, retention, restore, last test.",
+              "ASK COLIN",
+              "Backup policy + practical restore test."
+            ]
+          ]
+        },
+        {
+          "type": "note",
+          "text": "Asset Registry Format: Provider → Organization / Account → Resource → Environment → System → Technical Owner → Billing Owner → Access Status → Recovery Path → Documentation → Last Verified."
+        }
+      ]
+    },
+    {
+      "id": "access",
+      "number": "08",
+      "title": "Jangan handover password. Handover ownership dan recovery.",
+      "blocks": [
+        {
+          "type": "note",
+          "text": "07 · Access & Credential Ownership"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Access Matrix"
+        },
+        {
+          "type": "paragraph",
+          "text": "Untuk setiap service:"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Have",
+            "Limited",
+            "Missing",
+            "N/A"
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Credential Registry"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Secret name.",
+            "Purpose.",
+            "Environment.",
+            "Owner.",
+            "Secret-store location.",
+            "Rotation.",
+            "Recovery."
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Ownership"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Admin owner.",
+            "Billing owner.",
+            "Recovery email.",
+            "MFA owner.",
+            "Backup admin.",
+            "Emergency escalation."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "integrations",
+      "number": "09",
+      "title": "Setiap external dependency harus punya failure path.",
+      "blocks": [
+        {
+          "type": "note",
+          "text": "08 · Integration Registry"
+        },
+        {
+          "type": "table",
+          "headers": [
+            "Integration",
+            "Direction",
+            "Data",
+            "Auth",
+            "Failure / Retry",
+            "Manual Fallback"
+          ],
+          "rows": [
+            [
+              "Jubelio",
+              "StockWizz → Jubelio",
+              "SKU, item_id, location, quantity adjustment",
+              "Verify",
+              "Failed-only retry, partial failure, reconciliation",
+              "CSV / manual stock adjustment"
+            ],
+            [
+              "Stripe",
+              "Website ↔ Stripe",
+              "Payment state",
+              "Verify",
+              "Retry, webhook, idempotency",
+              "Refund / checkout again"
+            ],
+            [
+              "Marketplace",
+              "Multiple",
+              "Order, fulfilment, stock",
+              "Verify",
+              "Provider-specific",
+              "Operational process"
+            ],
+            [
+              "Email",
+              "StockWizz / Website → Customer/Internal",
+              "Notifications / transactional email",
+              "Verify",
+              "Retry / bounce",
+              "Manual communication"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "runbooks",
+      "number": "10",
+      "title": "“Kalau ini rusak, apa yang saya cek dulu?”",
+      "blocks": [
+        {
+          "type": "note",
+          "text": "09 · Incident Runbooks"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Stock Integrity"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Wrong IN / OUT.",
+            "Duplicate deduction.",
+            "Stock mismatch.",
+            "Negative stock.",
+            "Reconciliation."
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Website Checkout"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Payment succeeded, order missing.",
+            "Duplicate charge.",
+            "Cart issue.",
+            "Pending order state.",
+            "Payment retry."
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Jubelio Sync"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "SKU not mapped.",
+            "Partial sync.",
+            "Wrong quantity.",
+            "Retry.",
+            "Manual fallback."
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Performance"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Browser timing.",
+            "API response time.",
+            "Database query.",
+            "Index.",
+            "Better Stack."
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Deployment Failure"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Detect issue.",
+            "Stop release.",
+            "Rollback.",
+            "Verify.",
+            "Communicate."
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Database Recovery"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Identify affected records.",
+            "Preserve evidence.",
+            "Backup first.",
+            "Controlled correction.",
+            "Reconcile."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "kt",
+      "number": "11",
+      "title": "Kita minta ke Colin satu per satu.",
+      "blocks": [
+        {
+          "type": "note",
+          "text": "10 · Knowledge Transfer Queue"
+        },
+        {
+          "type": "paragraph",
+          "text": "Jangan kirim puluhan pertanyaan sekaligus. Setiap sesi punya satu fokus dan output yang jelas."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "System Landscape"
+        },
+        {
+          "type": "note",
+          "text": "“Apa saja sistem yang sebenarnya Colin maintain?”"
+        },
+        {
+          "type": "heading",
+          "level": 4,
+          "text": "Ask"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Semua aplikasi/service aktif.",
+            "Semua repo.",
+            "Semua domain.",
+            "Active / legacy / deprecated."
+          ]
+        },
+        {
+          "type": "note",
+          "text": "OUTPUT: System Portfolio + Relationship Diagram."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Repositories & Code Map"
+        },
+        {
+          "type": "note",
+          "text": "Cari semua code yang benar-benar menjalankan production."
+        },
+        {
+          "type": "heading",
+          "level": 4,
+          "text": "Ask"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "StockWizz repo.",
+            "Website repo.",
+            "CMS repo/location.",
+            "Worker/scripts.",
+            "Current branches."
+          ]
+        },
+        {
+          "type": "note",
+          "text": "OUTPUT: Repository & Code Map."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "StockWizz Architecture"
+        },
+        {
+          "type": "note",
+          "text": "Browser sampai DB dan integration."
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Frontend.",
+            "Backend.",
+            "API.",
+            "Cache/session.",
+            "Background jobs."
+          ]
+        },
+        {
+          "type": "note",
+          "text": "OUTPUT: Architecture Diagram."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "sensatia.com & CMS"
+        },
+        {
+          "type": "note",
+          "text": "Jawab: CMS sebenarnya di mana?"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Website repo.",
+            "CMS.",
+            "Content API.",
+            "Translation.",
+            "Media.",
+            "Publish."
+          ]
+        },
+        {
+          "type": "note",
+          "text": "OUTPUT: Website Architecture + CMS Flow."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Database Deep Dive"
+        },
+        {
+          "type": "note",
+          "text": "Source-of-truth dan data safety."
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "DB topology.",
+            "Critical collections.",
+            "Relations.",
+            "Indexes.",
+            "Unsafe manual edits."
+          ]
+        },
+        {
+          "type": "note",
+          "text": "OUTPUT: Data Model + DB Operations Guide."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Environment Map"
+        },
+        {
+          "type": "note",
+          "text": "Local → SB → staging? → production."
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "URLs.",
+            "Hosts.",
+            "Databases.",
+            "Secrets.",
+            "Safe testing boundary."
+          ]
+        },
+        {
+          "type": "note",
+          "text": "OUTPUT: Environment Matrix."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Deploy & Rollback"
+        },
+        {
+          "type": "note",
+          "text": "Widhy melakukan, Colin observe."
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "StockWizz deploy.",
+            "Website deploy.",
+            "Health check.",
+            "Rollback.",
+            "Verification."
+          ]
+        },
+        {
+          "type": "note",
+          "text": "OUTPUT: Deployment Runbook + Reverse Handover."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Hosting & Infrastructure"
+        },
+        {
+          "type": "note",
+          "text": "Semua resource yang menopang production."
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Compute.",
+            "Database.",
+            "Cache.",
+            "Storage.",
+            "Network.",
+            "Billing."
+          ]
+        },
+        {
+          "type": "note",
+          "text": "OUTPUT: Infrastructure Inventory."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Domain / DNS / SSL / CDN"
+        },
+        {
+          "type": "note",
+          "text": "Tidak ada domain kritikal yang hanya diketahui satu orang."
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Registrar.",
+            "DNS.",
+            "Records.",
+            "SSL.",
+            "CDN."
+          ]
+        },
+        {
+          "type": "note",
+          "text": "OUTPUT: Domain / DNS / SSL Registry."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Auth / Access / Secrets"
+        },
+        {
+          "type": "note",
+          "text": "Ownership, bukan share password."
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Identity provider.",
+            "Admin accounts.",
+            "Service accounts.",
+            "Secret store.",
+            "Rotation.",
+            "Recovery."
+          ]
+        },
+        {
+          "type": "note",
+          "text": "OUTPUT: Access Matrix + Credential Registry."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Observability"
+        },
+        {
+          "type": "note",
+          "text": "Dari symptom user ke evidence."
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Better Stack.",
+            "Sentry yes/no.",
+            "Prometheus.",
+            "Alerts.",
+            "Dashboards."
+          ]
+        },
+        {
+          "type": "note",
+          "text": "OUTPUT: Observability Guide."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Cron / Worker / Queue"
+        },
+        {
+          "type": "note",
+          "text": "Hidden background work sering menjadi sumber incident."
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Job list.",
+            "Schedules.",
+            "Trigger.",
+            "Retry.",
+            "Idempotency.",
+            "Logs."
+          ]
+        },
+        {
+          "type": "note",
+          "text": "OUTPUT: Background Job Registry."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Integrations"
+        },
+        {
+          "type": "note",
+          "text": "Setiap external dependency punya failure path."
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Jubelio.",
+            "Payments.",
+            "Marketplace.",
+            "Auth.",
+            "Email.",
+            "Other APIs."
+          ]
+        },
+        {
+          "type": "note",
+          "text": "OUTPUT: Integration Registry."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Backup / Restore / DR"
+        },
+        {
+          "type": "note",
+          "text": "Backup belum cukup kalau restore belum pernah dicoba."
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Backup source.",
+            "Schedule.",
+            "Retention.",
+            "Restore.",
+            "RTO / RPO."
+          ]
+        },
+        {
+          "type": "note",
+          "text": "OUTPUT: Backup & Restore Runbook."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Legacy & Incident Knowledge"
+        },
+        {
+          "type": "note",
+          "text": "Bagian yang tidak tertulis di code."
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Top 10 weird behaviors.",
+            "Recurring incidents.",
+            "Workarounds.",
+            "Things Colin checks first."
+          ]
+        },
+        {
+          "type": "note",
+          "text": "OUTPUT: Legacy Map + Incident Runbooks."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Reverse Handover"
+        },
+        {
+          "type": "note",
+          "text": "Widhy executes, Colin only reviews."
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Deploy SB.",
+            "Diagnose incident.",
+            "Trace API.",
+            "Read DB safely.",
+            "Production release.",
+            "Rollback simulation.",
+            "Restore simulation."
+          ]
+        },
+        {
+          "type": "note",
+          "text": "OUTPUT: Verified Capability Matrix."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "First message to Colin"
+        },
+        {
+          "type": "paragraph",
+          "text": "Mulai ringan. Minta system map dulu."
+        }
+      ]
+    },
+    {
+      "id": "readiness",
+      "number": "12",
+      "title": "“Sudah dijelaskan” belum berarti “sudah transferred”.",
+      "blocks": [
+        {
+          "type": "note",
+          "text": "11 · Handover Readiness"
+        },
+        {
+          "type": "paragraph",
+          "text": "Checklist di bawah akan tersimpan di browser menggunakan localStorage."
+        },
+        {
+          "type": "note",
+          "text": "Overall handover completion 0%"
+        },
+        {
+          "type": "table",
+          "headers": [
+            "Capability",
+            "Explained",
+            "Documented",
+            "Access Ready",
+            "Practiced",
+            "Verified / Owned"
+          ],
+          "rows": [
+            [
+              "Full system landscape",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            [
+              "All production repositories",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            [
+              "StockWizz architecture",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            [
+              "sensatia.com architecture",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            [
+              "Website CMS flow",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            [
+              "Database diagnosis",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            [
+              "Deploy StockWizz Sandbox",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            [
+              "Deploy StockWizz Production",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            [
+              "Deploy sensatia.com",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            [
+              "Rollback release",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            [
+              "Trace Better Stack logs",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            [
+              "Domain / DNS / SSL administration",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            [
+              "Jubelio recovery",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            [
+              "Checkout / payment diagnosis",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            [
+              "Backup restore",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ]
+          ]
+        },
+        {
+          "type": "note",
+          "text": "Definition of Done per capability: Colin explains → kita document → access tersedia dan recoverable → Widhy melakukan sendiri → Colin review → capability menjadi normal Internal IT ownership."
+        }
+      ]
+    },
+    {
+      "id": "starting-order",
+      "number": "13",
+      "title": "Map → Operate → Deep Dive.",
+      "blocks": [
+        {
+          "type": "note",
+          "text": "12 · Recommended Starting Order"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "First"
+        },
+        {
+          "type": "paragraph",
+          "text": "System landscape, repositories, website, dan CMS location."
+        },
+        {
+          "type": "note",
+          "text": "MASTER MAP"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Second"
+        },
+        {
+          "type": "paragraph",
+          "text": "Environments, hosting, deploy, rollback, Better Stack, domain/DNS."
+        },
+        {
+          "type": "note",
+          "text": "OPERATIONS"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Third"
+        },
+        {
+          "type": "paragraph",
+          "text": "Database, backup/restore, integrations, business modules dan incident recovery."
+        },
+        {
+          "type": "note",
+          "text": "DATA + RECOVERY"
+        },
+        {
+          "type": "note",
+          "text": "Prioritas awal: sebelum deep dive seluruh module, pastikan kita tahu: semua sistemnya apa, production code dari repo mana, CMS sebenarnya ada di mana, production hidup di mana, deploy bagaimana, DB di mana, domain/DNS siapa yang pegang, dan error dilihat di mana."
+        }
+      ]
+    },
+    {
+      "id": "where",
+      "number": "14",
+      "title": "Jangan duplikasi semua knowledge di semua tempat.",
+      "blocks": [
+        {
+          "type": "note",
+          "text": "13 · Where Documentation Lives"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Confluence"
+        },
+        {
+          "type": "paragraph",
+          "text": "System map, architecture overview, ownership, workflow, infrastructure, integrations, runbooks, legacy, decisions, KT notes, readiness."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Repository / docs"
+        },
+        {
+          "type": "paragraph",
+          "text": "Local setup, implementation details, API internals, auth implementation, commands, scripts, code-specific ADR."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Jira"
+        },
+        {
+          "type": "paragraph",
+          "text": "Bug, task, owner, priority, blocker, sandbox/production, PR, next action."
+        },
+        {
+          "type": "heading",
+          "level": 4,
+          "text": "Suggested repository docs structure"
+        },
+        {
+          "type": "note",
+          "text": "docs/ ├── README.md ├── ARCHITECTURE.md ├── AUTH.md ├── DEVELOPMENT.md ├── ENVIRONMENTS.md ├── API.md ├── DATABASE.md ├── JOBS.md ├── INTEGRATIONS.md ├── DEPLOYMENT.md ├── TROUBLESHOOTING.md ├── SECURITY-NOTES.md └── adr/ ├── 0001-....md ├── 0002-....md └── ..."
+        },
+        {
+          "type": "heading",
+          "level": 4,
+          "text": "Minimum information on every system page"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Purpose.",
+            "Criticality.",
+            "Business Owner.",
+            "Technical Owner.",
+            "Backup Owner.",
+            "Repository.",
+            "Runtime.",
+            "Production URL.",
+            "Sandbox URL.",
+            "Hosting.",
+            "Database.",
+            "Storage.",
+            "Domain / DNS / SSL.",
+            "Auth.",
+            "Monitoring.",
+            "Integrations.",
+            "Deploy / Rollback.",
+            "Backup / Restore.",
+            "Known Incidents.",
+            "Known Legacy.",
+            "Open Questions.",
+            "Last Verified."
+          ]
+        }
+      ]
+    }
+  ]
+}

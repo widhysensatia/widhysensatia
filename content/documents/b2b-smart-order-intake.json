@@ -1,0 +1,752 @@
+{
+  "slug": "b2b-smart-order-intake",
+  "sourceTitle": "B2B Smart Order Intake — Sensatia Botanicals",
+  "sections": [
+    {
+      "id": "dari-email-customer-menjadi-draft-po-yang-siap-direview",
+      "number": "01",
+      "title": "Dari email customer menjadi Draft PO yang siap direview.",
+      "blocks": [
+        {
+          "type": "note",
+          "text": "B2B • Zoho Mail → StockWizz"
+        },
+        {
+          "type": "paragraph",
+          "text": "Customer tidak harus mengikuti satu template. Sistem membaca email Sales—baik Sales berada di kolom To maupun hanya CC —memahami isi dan attachment, memecah beberapa invoice bila perlu, mencocokkan produk dengan konteks historis, lalu menghasilkan Draft PO yang tetap dikontrol manusia."
+        },
+        {
+          "type": "note",
+          "text": "Zoho Mail sebagai source Multi-PO per email Human approval wajib Request Order Tracker Pilot manual sebelum Zoho integration"
+        },
+        {
+          "type": "note",
+          "text": "REAL B2B INPUT ●"
+        },
+        {
+          "type": "note",
+          "text": "Example incoming order"
+        },
+        {
+          "type": "note",
+          "text": "From purchasing@villagroup.com"
+        },
+        {
+          "type": "note",
+          "text": "To manager@villa-group.com"
+        },
+        {
+          "type": "note",
+          "text": "CC sales@sensatia.com"
+        },
+        {
+          "type": "note",
+          "text": "Subject Order September — Villas"
+        },
+        {
+          "type": "note",
+          "text": "PO Villa Orders.pdf 3 villa • 14 line items • shared delivery"
+        }
+      ]
+    },
+    {
+      "id": "flow",
+      "number": "02",
+      "title": "Satu alur yang mudah dilacak dari inbox sampai PO resmi.",
+      "blocks": [
+        {
+          "type": "note",
+          "text": "End-to-end flow"
+        },
+        {
+          "type": "paragraph",
+          "text": "Semua source—baik email Zoho terintegrasi maupun Pilot manual melalui paste/upload—lebih dulu menjadi Request Order / Order Intake . Transaksi PO baru dibuat setelah ekstraksi, validasi, koreksi dan approval manusia selesai."
+        },
+        {
+          "type": "note",
+          "text": "01 →"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Email masuk"
+        },
+        {
+          "type": "paragraph",
+          "text": "Customer kirim order. Sales bisa menjadi penerima utama atau hanya di-CC."
+        },
+        {
+          "type": "note",
+          "text": "02 →"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Zoho intake"
+        },
+        {
+          "type": "paragraph",
+          "text": "Rule mengarahkan kandidat order ke folder B2B Orders tanpa mengubah kebiasaan customer."
+        },
+        {
+          "type": "note",
+          "text": "03 →"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Order Intake"
+        },
+        {
+          "type": "paragraph",
+          "text": "Simpan From, To, CC, body, attachment, timestamp, Message ID dan Thread ID."
+        },
+        {
+          "type": "note",
+          "text": "04 →"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "AI understanding"
+        },
+        {
+          "type": "paragraph",
+          "text": "Identifikasi customer, PO group, produk, qty, alamat, invoice split dan informasi pendukung."
+        },
+        {
+          "type": "note",
+          "text": "05 →"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Validation"
+        },
+        {
+          "type": "paragraph",
+          "text": "Cocokkan product master, history, duplicate, lifecycle, unit dan business rules."
+        },
+        {
+          "type": "note",
+          "text": "06 →"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Human review"
+        },
+        {
+          "type": "paragraph",
+          "text": "Tim B2B mengecek flag, melihat sumber asli, lalu mengedit jika AI salah."
+        },
+        {
+          "type": "note",
+          "text": "07 ✓"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "StockWizz PO"
+        },
+        {
+          "type": "paragraph",
+          "text": "Hanya draft yang sudah benar dan approved yang menjadi transaksi PO resmi."
+        },
+        {
+          "type": "note",
+          "text": "AI memahami. Sistem memvalidasi. Manusia menyetujui. AI = extract & suggest System = validate & flag Human = edit & approve"
+        }
+      ]
+    },
+    {
+      "id": "pilot",
+      "number": "03",
+      "title": "Mulai cepat lewat Pilot. Integrasikan Zoho setelah alurnya terbukti.",
+      "blocks": [
+        {
+          "type": "note",
+          "text": "Dua jalur intake, satu proses yang sama"
+        },
+        {
+          "type": "paragraph",
+          "text": "Jika integrasi email membutuhkan waktu, tim B2B tetap bisa mendapatkan manfaat lebih awal. Pilot menggunakan input manual ke StockWizz, tetapi hasil akhirnya tetap masuk ke Request Order Tracker dan melewati AI, review, approval, lalu menjadi PO resmi."
+        },
+        {
+          "type": "note",
+          "text": "Keduanya menggunakan Request Order Tracker, AI analysis, validation, human review dan approval yang sama."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Manual Intake di StockWizz"
+        },
+        {
+          "type": "paragraph",
+          "text": "Tim B2B membuka menu Request Order lalu memasukkan sumber order apa adanya. Cocok untuk membuktikan extraction, matching, review dan business flow sebelum koneksi Zoho selesai."
+        },
+        {
+          "type": "note",
+          "text": "Input yang diterima saat pilot Paste Email Copy isi email / forwarded message ke text box. Upload PDF Purchase Order resmi dari hotel, villa atau corporate customer. Upload Image Foto produk, tabel order, attachment gambar. Screenshot Screenshot email atau order table yang diterima tim Sales."
+        },
+        {
+          "type": "note",
+          "text": "1 Buat Request Order Pilih/pastikan customer jika sudah diketahui dan masukkan source. 2 AI Analyze Baca text, PDF, image atau screenshot dan usulkan struktur order. 3 Draft PO + Flags Multi-PO split, product matching, qty, billing, shipping dan confidence. 4 Human Review & Approve Edit bila AI salah. Setelah approve, baru buat PO di StockWizz."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Zoho Mail Integrated Intake"
+        },
+        {
+          "type": "paragraph",
+          "text": "Setelah flow Pilot stabil, proses input manual dapat digantikan oleh integrasi Zoho. Email Sales yang relevan—baik Sales di To atau hanya CC —otomatis dibuat menjadi Request Order tanpa copy-paste."
+        },
+        {
+          "type": "note",
+          "text": "1 Email diterima Zoho Customer dapat memakai format mereka sekarang; tidak ada perubahan workflow eksternal. 2 Order candidate detected Rule / integration mengambil email, header, attachment, Message ID dan Thread ID. 3 Request Order otomatis dibuat Source email tetap tersimpan sebagai evidence dan duplicate key. 4 Pipeline yang sama AI Analyze → Draft PO → Flags → Human Review → Approve → StockWizz PO."
+        },
+        {
+          "type": "paragraph",
+          "text": "Yang berubah hanya cara Request Order dibuat. Analysis, validation, review, tracker dan approval tetap sama sehingga development Pilot tetap reusable saat Zoho diintegrasikan."
+        },
+        {
+          "type": "note",
+          "text": "Request Order Tracker"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Setiap request tetap punya status, owner dan audit trail."
+        },
+        {
+          "type": "paragraph",
+          "text": "Tracker tidak hanya untuk integrated email. Pilot manual juga harus membuat record Request Order supaya tidak ada order yang hilang di chat/email dan tim bisa melihat progress dari intake sampai PO resmi."
+        },
+        {
+          "type": "note",
+          "text": "01 Received Source diterima: email / paste / PDF / image. 02 Analyzing AI membaca source dan membuat struktur. 03 Draft Ready Satu atau beberapa Draft PO tersedia. 04 Needs Review Ada flag atau field yang perlu dikonfirmasi. 05 Approved Tim B2B menyetujui hasil final. 06 PO Created PO resmi berhasil dibuat di StockWizz."
+        }
+      ]
+    },
+    {
+      "id": "email",
+      "number": "04",
+      "title": "Sistem mengikuti cara customer order—bukan sebaliknya.",
+      "blocks": [
+        {
+          "type": "note",
+          "text": "Email reality"
+        },
+        {
+          "type": "paragraph",
+          "text": "Input yang tidak konsisten adalah bagian dari realitas B2B. Klik contoh di bawah untuk melihat bagaimana intake akan menanganinya."
+        },
+        {
+          "type": "note",
+          "text": "Incoming email preview"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Nama produk jelas"
+        },
+        {
+          "type": "code",
+          "text": "Hi Sensatia, Please prepare: • Seastem Marine Barrier Cream 50mL — 12 pcs • Balancing Body Wash 500mL — 6 pcs Thank you."
+        },
+        {
+          "type": "note",
+          "text": "Customer Matched Order split 1 Draft PO Product match High confidence"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Kenali customer"
+        },
+        {
+          "type": "paragraph",
+          "text": "Prioritaskan sender email yang sudah terhubung ke master customer B2B. Domain, signature dan histori dapat menjadi signal tambahan."
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "01 Sender / email contact",
+            "02 Customer group / property hierarchy",
+            "03 Flag jika customer masih ambigu"
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Pisahkan billing dan shipping"
+        },
+        {
+          "type": "paragraph",
+          "text": "Management company dapat meminta invoice per villa tetapi seluruh barang dikirim ke satu receiving point."
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "01 Billing Customer",
+            "02 Invoice grouping",
+            "03 Shared delivery location"
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Jangan anggap email = PO"
+        },
+        {
+          "type": "paragraph",
+          "text": "Email adalah container Order Intake . Dari satu intake bisa lahir satu atau beberapa Draft PO sesuai struktur order yang sebenarnya."
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "01 Satu source email",
+            "02 Banyak draft order",
+            "03 Tetap satu audit trail"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cases",
+      "number": "05",
+      "title": "Contoh nyata menunjukkan kenapa intake harus multimodal dan context-aware.",
+      "blocks": [
+        {
+          "type": "note",
+          "text": "Observed B2B order patterns"
+        },
+        {
+          "type": "note",
+          "text": "Berdasarkan contoh email & PO nyata yang dibagikan tim"
+        },
+        {
+          "type": "paragraph",
+          "text": "Contoh di bawah berasal dari bentuk order yang benar-benar diterima tim. Mereka menunjukkan bahwa product, quantity, customer, variant dan invoice grouping bisa tersebar di email body, quoted thread, gambar maupun PDF."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Gravity Bali — beberapa villa, satu delivery point"
+        },
+        {
+          "type": "paragraph",
+          "text": "Email berisi beberapa section Order as Villa ... , sementara semuanya dikirim ke Gravity Office. Artinya sistem harus memisahkan billing/invoice per villa tanpa kehilangan shared shipping destination."
+        },
+        {
+          "type": "note",
+          "text": "Source Email body System need 1 Request Order → beberapa Draft PO Flag Review jika grouping villa tidak eksplisit"
+        },
+        {
+          "type": "note",
+          "text": "multi-PO shared delivery billing split"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Order berada di tabel / screenshot"
+        },
+        {
+          "type": "paragraph",
+          "text": "Informasi item dan quantity tidak berada dalam teks email yang rapi, tetapi muncul sebagai tabel gambar. Parser perlu memahami struktur row/column, bukan sekadar membaca kalimat."
+        },
+        {
+          "type": "note",
+          "text": "Source Image / screenshot System need Table extraction + product normalization Flag Human review bila cell/angka tidak yakin"
+        },
+        {
+          "type": "note",
+          "text": "image table multimodal"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Order sangat singkat: kode + quantity"
+        },
+        {
+          "type": "paragraph",
+          "text": "Contoh seperti blm001L qty 3 sebenarnya sangat ideal untuk sistem bila SKU valid. Gunakan exact SKU match sebagai signal paling kuat sebelum AI fuzzy matching."
+        },
+        {
+          "type": "note",
+          "text": "Source Forwarded email / plain text System need Exact SKU lookup Flag Hanya jika SKU tidak ditemukan / inactive"
+        },
+        {
+          "type": "note",
+          "text": "SKU deterministic high confidence"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Hotel mengirim Purchase Order resmi"
+        },
+        {
+          "type": "paragraph",
+          "text": "PDF dapat membawa PO Number, order date, delivery date, description, quantity, unit, price dan customer identity. Attachment menjadi evidence utama, sementara email hanya pengantar."
+        },
+        {
+          "type": "note",
+          "text": "Source PDF attachment System need Document extraction + field mapping Flag Description generic / product variant tidak cukup jelas"
+        },
+        {
+          "type": "note",
+          "text": "PDF PO number structured document"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Quantity jelas, variant belum tentu jelas"
+        },
+        {
+          "type": "paragraph",
+          "text": "Order seperti conditioner 20L, body wash 50L, hand wash 40L dan shampoo 20L menyebut volume tetapi belum tentu menyebut fragrance/variant atau SKU kemasan yang tepat."
+        },
+        {
+          "type": "note",
+          "text": "Source Email body System need History context + unit/SKU conversion Flag Human Review Required bila variant tidak eksplisit"
+        },
+        {
+          "type": "note",
+          "text": "liter variant ambiguity history"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Variant diketahui dari foto, qty dari text"
+        },
+        {
+          "type": "paragraph",
+          "text": "Email dapat mengatakan “5 liters of body wash, shampoo and handwash for attached variants”, sementara variant seperti Lemongrass Tart hanya terlihat pada foto jerigen."
+        },
+        {
+          "type": "note",
+          "text": "Source Email text + product photo System need Multimodal reasoning + catalog match Flag Human review karena image-based inference"
+        },
+        {
+          "type": "note",
+          "text": "photo variant recognition human review"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Foto PO fisik dengan tulisan tangan"
+        },
+        {
+          "type": "paragraph",
+          "text": "Customer dapat mengirim foto lembar Purchase Order yang diisi manual. Informasi item berada di tabel yang bercampur dengan tulisan tangan, signature, approval, VAT, subtotal dan field administratif lain."
+        },
+        {
+          "type": "note",
+          "text": "Source Foto dokumen fisik / camera capture System need Document layout understanding + handwriting/OCR + table extraction Evidence Preview foto asli selalu ditampilkan pada review Flag Mandatory Human Review sebelum approval"
+        },
+        {
+          "type": "note",
+          "text": "paper PO handwriting OCR mandatory review"
+        },
+        {
+          "type": "paragraph",
+          "text": "Order dapat terbentuk dari kombinasi sender, current message, attachment, PDF, gambar, tabel, customer history dan product master. Quoted/replied history harus dipisahkan dari current request agar order lama tidak terproses ulang."
+        }
+      ]
+    },
+    {
+      "id": "matching",
+      "number": "06",
+      "title": "Gunakan signal paling kuat dulu. AI masuk ketika data mulai ambigu.",
+      "blocks": [
+        {
+          "type": "note",
+          "text": "Product resolution"
+        },
+        {
+          "type": "paragraph",
+          "text": "Historical order membantu mengikuti cara kerja tim B2B saat ini: ketika nama atau ukuran tidak jelas, mereka melihat pola order customer sebelumnya."
+        },
+        {
+          "type": "note",
+          "text": "Matching priority 1 Exact SKU Deterministic match ke product master. Very High 2 Exact product name Nama + ukuran/variant jelas. High 3 Verified customer alias Istilah customer yang sudah pernah dikoreksi & disetujui. High 4 Previous order history Digunakan sebagai context, tetap ditandai sebagai inference. Contextual 5 Fuzzy / AI match Untuk typo, singkatan, nama yang tidak konsisten. Variable 6 Image recognition Foto kemasan dibandingkan dengan catalog/master image. Review 7 Human confirmation Fallback terakhir jika sistem tidak punya evidence cukup. Required"
+        },
+        {
+          "type": "note",
+          "text": "Multi-PO example"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "1 email → 3 invoice → 1 delivery"
+        },
+        {
+          "type": "note",
+          "text": "Account ABC Villa Management Ship to Central Receiving — Seminyak"
+        },
+        {
+          "type": "note",
+          "text": "Villa A 4 line items Draft PO #1"
+        },
+        {
+          "type": "note",
+          "text": "Villa B 7 line items Draft PO #2"
+        },
+        {
+          "type": "note",
+          "text": "Villa C 3 line items Draft PO #3"
+        },
+        {
+          "type": "paragraph",
+          "text": "Sistem menyimpan hubungan semua draft dengan source email yang sama sehingga perubahan dan audit tetap dapat ditelusuri."
+        }
+      ]
+    },
+    {
+      "id": "review",
+      "number": "07",
+      "title": "Review screen harus membuat kesalahan AI cepat terlihat dan mudah dikoreksi.",
+      "blocks": [
+        {
+          "type": "note",
+          "text": "Human-in-the-loop"
+        },
+        {
+          "type": "paragraph",
+          "text": "Tim B2B tidak perlu mengetik ulang order. Mereka cukup memeriksa field yang sudah dipre-fill, mengedit yang salah, lalu approve."
+        },
+        {
+          "type": "note",
+          "text": "Draft PO Review"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Villa A — Draft Order"
+        },
+        {
+          "type": "note",
+          "text": "Source: purchasing@villagroup.com • 29 Aug 2026 • Shared delivery"
+        },
+        {
+          "type": "note",
+          "text": "2 ready 1 review suggested 1 human review"
+        },
+        {
+          "type": "table",
+          "headers": [
+            "Input customer",
+            "Matched product",
+            "Qty",
+            "Alasan / evidence",
+            "Status"
+          ],
+          "rows": [
+            [
+              "SSMBC50",
+              "Seastem Marine Barrier Cream 50mL",
+              "12 pcs",
+              "Exact SKU dari product master",
+              "Ready"
+            ],
+            [
+              "Body Wash",
+              "Balancing Body Wash 500mL",
+              "6 pcs",
+              "Customer order item ini di 7 dari 8 order terakhir",
+              "Review suggested"
+            ],
+            [
+              "[foto produk]",
+              "Nurturing Body Wash 500mL",
+              "10 pcs",
+              "Visual similarity 64% — tidak cukup untuk auto confirmation",
+              "Human review"
+            ]
+          ]
+        },
+        {
+          "type": "note",
+          "text": "Semua field tetap editable. Correction disimpan sebagai audit trail dan dapat menjadi verified customer alias setelah disetujui."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Informasi eksplisit"
+        },
+        {
+          "type": "paragraph",
+          "text": "Exact SKU atau product data cukup jelas dan seluruh business validation lolos."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Ada inference"
+        },
+        {
+          "type": "paragraph",
+          "text": "Contoh: ukuran dipilih dari order history. Hasil mungkin benar, tetapi user diberi konteks kenapa sistem memilihnya."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Tidak boleh lewat tanpa manusia"
+        },
+        {
+          "type": "paragraph",
+          "text": "Customer ambigu, unit tidak jelas, gambar dipakai, product inactive, split PO meragukan, atau duplicate terdeteksi."
+        }
+      ]
+    },
+    {
+      "id": "controls",
+      "number": "08",
+      "title": "Automation yang aman lebih penting daripada automation yang agresif.",
+      "blocks": [
+        {
+          "type": "note",
+          "text": "Safety & traceability"
+        },
+        {
+          "type": "paragraph",
+          "text": "Order menyentuh stock, invoice dan customer. Karena itu source, correction, duplicate handling dan perubahan setelah PO dibuat harus jelas."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Safeguards utama"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Duplicate prevention. Zoho Message ID, Thread ID dan attachment identity disimpan agar source yang sama tidak membuat order dua kali.",
+            "Source traceability. Draft selalu dapat membuka email dan attachment asal.",
+            "Editable draft. Customer, item, qty, unit, billing entity dan delivery address bisa dikoreksi sebelum approval.",
+            "Correction log. Simpan AI suggestion vs hasil koreksi user.",
+            "No silent changes. Reply/revisi setelah PO dibuat hanya menghasilkan alert, tidak diam-diam mengubah transaksi.",
+            "Request Order Tracker. Setiap source punya record, status, owner dan hubungan ke Draft PO/PO final."
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Kondisi wajib Human Review"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Customer atau billing entity tidak ditemukan dengan yakin.",
+            "Satu email tampak berisi beberapa PO tetapi grouping ambigu.",
+            "Ukuran, unit, carton/box conversion atau quantity tidak jelas.",
+            "Product match bergantung pada image recognition.",
+            "Product inactive, discontinued atau tidak sesuai eligibility.",
+            "Duplicate / possible resubmission terdeteksi.",
+            "Delivery address berbeda signifikan dari pola customer.",
+            "AI hanya bisa menebak melalui previous order history."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "roadmap",
+      "number": "09",
+      "title": "Mulai dari Draft PO yang reliable. Tambah kecerdasan setelah data membuktikan akurasi.",
+      "blocks": [
+        {
+          "type": "note",
+          "text": "Implementation roadmap"
+        },
+        {
+          "type": "paragraph",
+          "text": "Untuk MVP, tidak perlu mengejar full automation. Value terbesar sudah muncul ketika tim B2B tidak perlu mengetik order dari nol."
+        },
+        {
+          "type": "note",
+          "text": "Phase 01 • MVP"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Reliable intake"
+        },
+        {
+          "type": "paragraph",
+          "text": "Bangun fondasi yang aman dan bisa dipakai operasional."
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Pilot manual: paste email, upload PDF/image/screenshot",
+            "Request Order Tracker sebagai backbone",
+            "Zoho integration dapat masuk setelah Pilot stabil",
+            "Email body + PDF + Excel",
+            "Customer identification",
+            "Multi-PO split",
+            "SKU & product name matching",
+            "Draft PO + mandatory human approval"
+          ]
+        },
+        {
+          "type": "note",
+          "text": "Phase 02 • Enrichment"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Understand more formats"
+        },
+        {
+          "type": "paragraph",
+          "text": "Tambahkan context yang paling sering muncul di kasus nyata."
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Zoho Mail integrated intake",
+            "Screenshot & foto produk",
+            "Thread-aware correction",
+            "Verified customer alias",
+            "History-based suggestion",
+            "Better unit / pack handling",
+            "Improved exception flagging"
+          ]
+        },
+        {
+          "type": "note",
+          "text": "Phase 03 • Mature operation"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Exception-only review"
+        },
+        {
+          "type": "paragraph",
+          "text": "Hanya dipertimbangkan jika hasil MVP menunjukkan accuracy dan control yang kuat."
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "High-confidence quick approval",
+            "Auto prioritization of risky drafts",
+            "Customer-specific order behavior",
+            "Performance feedback loop",
+            "Operational SLA dashboard"
+          ]
+        },
+        {
+          "type": "note",
+          "text": "How we know it works Time ↓ Average processing time / order Match ↑ % line item matched automatically Error ↓ User correction rate Accuracy ↑ Product matching accuracy Duplicate ↓ Duplicate PO prevented Manual work ↓ Manual entries avoided"
+        }
+      ]
+    }
+  ]
+}

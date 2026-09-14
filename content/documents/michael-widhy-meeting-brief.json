@@ -1,0 +1,1264 @@
+{
+  "slug": "michael-widhy-meeting-brief",
+  "sourceTitle": "Michael × Widhy — Meeting Brief",
+  "sections": [
+    {
+      "id": "meeting-brief-michael-widhy",
+      "number": "01",
+      "title": "Meeting Brief Michael × Widhy",
+      "blocks": [
+        {
+          "type": "note",
+          "text": "3 September 2026 · Internal IT"
+        },
+        {
+          "type": "paragraph",
+          "text": "Fokus hari ini bukan hanya progress development. Saya ingin memperjelas ownership dan handover StockWizz, memberikan update Jubelio, menjelaskan progress AI Purchase Order dan billing context, serta update Compliance App."
+        },
+        {
+          "type": "note",
+          "text": "Goal meeting: keluar dari meeting dengan ownership, process, handover plan, dan next action yang lebih jelas."
+        },
+        {
+          "type": "note",
+          "text": "Today's agenda"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Main Discussion"
+        },
+        {
+          "type": "note",
+          "text": "1 StockWizz Handover & IT Ownership Masalah nyata, ownership, knowledge, tools, access, current Colin work dan transition plan."
+        },
+        {
+          "type": "note",
+          "text": "2 Jubelio CSV → API, SKU mapping, shop flow vs Warehouse/DC."
+        },
+        {
+          "type": "note",
+          "text": "3 AI Email → Purchase Order Design, testing, OpenAI usage dan billing clarification."
+        },
+        {
+          "type": "note",
+          "text": "4 Compliance App Lombok field test, Makassar hari ini, dan next iteration."
+        }
+      ]
+    },
+    {
+      "id": "handover",
+      "number": "02",
+      "title": "Responsibility sudah datang ke internal IT. Visibility, authority, knowledge, access dan capability belum sepenuhnya ikut berpindah.",
+      "blocks": [
+        {
+          "type": "note",
+          "text": "01 · StockWizz Handover"
+        },
+        {
+          "type": "paragraph",
+          "text": "Ini bukan masalah saya tidak mau mengambil pekerjaan atau Colin masih membantu. Concern saya justru: user sudah melihat internal IT sebagai pihak yang bertanggung jawab, tetapi untuk beberapa critical action saya belum memiliki cukup context atau capability yang terverifikasi untuk menyelesaikannya tanpa Colin."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Apa yang sudah saya lakukan"
+        },
+        {
+          "type": "paragraph",
+          "text": "Berbicara langsung dengan user dan memahami business workflow."
+        },
+        {
+          "type": "paragraph",
+          "text": "Menganalisa requirement, bug dan improvement."
+        },
+        {
+          "type": "paragraph",
+          "text": "API testing, sandbox testing, validation dan integration."
+        },
+        {
+          "type": "paragraph",
+          "text": "Mulai memahami codebase, database dan architecture."
+        },
+        {
+          "type": "paragraph",
+          "text": "Menjadi first contact untuk berbagai StockWizz issue."
+        },
+        {
+          "type": "note",
+          "text": "Requirement Analysis Testing Integration User Support"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Gap yang saya rasakan"
+        },
+        {
+          "type": "paragraph",
+          "text": "Untuk perubahan core, recovery, deployment atau historical behavior tertentu, saya masih bergantung pada Colin."
+        },
+        {
+          "type": "paragraph",
+          "text": "Beberapa perubahan dapat terjadi tanpa saya berada di dalam loop."
+        },
+        {
+          "type": "paragraph",
+          "text": "User menganggap saya dapat bertindak, sementara batas tindakan yang aman belum semuanya jelas dan teruji."
+        },
+        {
+          "type": "note",
+          "text": "“Saya tidak ingin hanya menjadi jembatan antara user dan Colin. Saya perlu dapat menjalankan responsibility yang sekarang sudah datang ke internal IT.”"
+        },
+        {
+          "type": "note",
+          "text": "Evidence A · Accounting Feature"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Fitur sudah digunakan. Saya baru tahu di company meeting."
+        },
+        {
+          "type": "paragraph",
+          "text": "Accounting menyampaikan sebuah fitur sudah dapat digunakan mulai hari tersebut dan sebelumnya sudah didiskusikan dengan “IT”."
+        },
+        {
+          "type": "paragraph",
+          "text": "Saya duduk di sebelah mereka sebagai internal IT, tetapi saya sendiri tidak mengetahui:"
+        },
+        {
+          "type": "paragraph",
+          "text": "• fitur apa yang berubah • requirement-nya apa • siapa requester-nya • apa yang diimplementasikan • kapan deploy • siapa support owner-nya"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Ini bukan masalah ego atau komunikasi kecil"
+        },
+        {
+          "type": "paragraph",
+          "text": "Saya tidak harus mengetahui setiap hal kecil yang dilakukan Colin."
+        },
+        {
+          "type": "paragraph",
+          "text": "Tetapi jika sebuah feature sudah masuk production dan digunakan suatu divisi, internal IT minimal harus mengetahui apa yang berubah dan bagaimana support-nya."
+        },
+        {
+          "type": "note",
+          "text": "Prinsip yang saya usulkan: No invisible production changes. Diskusi langsung antara divisi dan Colin tetap boleh, tetapi request dan perubahan harus visible ke internal IT."
+        },
+        {
+          "type": "note",
+          "text": "Evidence B · E-commerce Jakarta Incident"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "JECM0101 & JECM0102 — restock seharusnya IN, tetapi tercatat OUT."
+        },
+        {
+          "type": "note",
+          "text": "01 · USER Input restock PO Ekspektasi: stock bertambah. 02 · WRONG RESULT Stock menjadi OUT Remaining stock justru berkurang. 03 · IMPACT Stock kosong Beberapa order tidak dapat diproses. 04 · ESCALATION Widhy ditag urgent User berharap IT segera menyelesaikan. 05 · LIMITATION Core recovery masih tergantung Colin Analisa awal bisa dilakukan, action lebih jauh terbatas."
+        },
+        {
+          "type": "note",
+          "text": "Operational risk: gap handover sekarang sudah memiliki dampak langsung terhadap operasi. Ketika issue menghentikan order, kecepatan recovery juga bergantung pada availability Colin."
+        },
+        {
+          "type": "note",
+          "text": "Apa masalah yang sebenarnya?"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Responsibility vs Capability"
+        },
+        {
+          "type": "paragraph",
+          "text": "User sudah memberikan responsibility ke internal IT, tetapi capability belum selalu cukup untuk memenuhi expectation tersebut."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Ownership Ambiguity"
+        },
+        {
+          "type": "paragraph",
+          "text": "Belum cukup eksplisit siapa technical owner, reviewer, first response dan escalation."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Knowledge Dependency"
+        },
+        {
+          "type": "paragraph",
+          "text": "Historical decisions, legacy behavior, workaround dan hidden dependency masih banyak berada di pengalaman Colin."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Change Visibility"
+        },
+        {
+          "type": "paragraph",
+          "text": "Feature atau bugfix dapat bergerak tanpa satu current-work view yang diketahui internal IT."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Access & Tooling"
+        },
+        {
+          "type": "paragraph",
+          "text": "Harus jelas tool apa yang digunakan, untuk apa, siapa owner, dan access apa yang saya perlukan."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Incident Readiness"
+        },
+        {
+          "type": "paragraph",
+          "text": "Logs, first-check, safe action, rollback dan escalation threshold belum semuanya teruji."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Current Work Visibility"
+        },
+        {
+          "type": "paragraph",
+          "text": "Saya perlu mengetahui Colin sedang mengerjakan feature, module, bug, hotfix atau experiment apa."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Progressive Ownership"
+        },
+        {
+          "type": "paragraph",
+          "text": "Tidak realistis menunggu memahami seluruh StockWizz dulu. Ownership harus berpindah per capability/module."
+        },
+        {
+          "type": "note",
+          "text": "Current → Target"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Internal IT sebagai coordinator"
+        },
+        {
+          "type": "note",
+          "text": "1 User report ke Widhy. 2 Widhy analisa. 3 Core change diteruskan ke Colin. 4 Colin implement/recover. 5 Widhy test dan communicate."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Internal IT sebagai technical owner"
+        },
+        {
+          "type": "note",
+          "text": "1 Request visible ke internal IT. 2 Widhy diagnose. 3 Verified task diimplementasikan sendiri. 4 Test, deploy dan monitor. 5 Colin digunakan untuk review atau complex escalation."
+        },
+        {
+          "type": "note",
+          "text": "What I Need From Colin"
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text": "Yang perlu dipindahkan bukan hanya source code. Seluruh operating knowledge harus jelas."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "System Portfolio"
+        },
+        {
+          "type": "paragraph",
+          "text": "Daftar seluruh sistem digital Sensatia dan hubungan antar sistem."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Architecture Map"
+        },
+        {
+          "type": "paragraph",
+          "text": "Frontend → API → services → database → worker → external integrations."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Tech Stack"
+        },
+        {
+          "type": "paragraph",
+          "text": "Framework, runtime, database, cache, auth, packages penting dan version constraint."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Infrastructure Map"
+        },
+        {
+          "type": "paragraph",
+          "text": "DigitalOcean resource, environment, domain, DNS, SSL, storage, network dan backup."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Tool Inventory"
+        },
+        {
+          "type": "paragraph",
+          "text": "GitHub, Better Stack, Auth0, DB tools dan seluruh external tooling."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Access Matrix"
+        },
+        {
+          "type": "paragraph",
+          "text": "Have, Limited, Missing, N/A untuk setiap service."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Database Orientation"
+        },
+        {
+          "type": "paragraph",
+          "text": "Critical collections, relationships, sensitive areas dan safe boundaries."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Deploy & Rollback"
+        },
+        {
+          "type": "paragraph",
+          "text": "Sandbox, production, health check, rollback dan last-known-good."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Logs & Alerts"
+        },
+        {
+          "type": "paragraph",
+          "text": "Lokasi log, alert, common failures dan first-check pattern."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Cron / Worker / Queue"
+        },
+        {
+          "type": "paragraph",
+          "text": "Schedule, trigger, retry, failure behavior dan logs."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Integration Registry"
+        },
+        {
+          "type": "paragraph",
+          "text": "Jubelio, PayPal, Auth0, website, external APIs dan lainnya."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Backup & Restore"
+        },
+        {
+          "type": "paragraph",
+          "text": "Schedule, retention, restore flow dan last tested."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Known Legacy Map"
+        },
+        {
+          "type": "paragraph",
+          "text": "Active, Legacy but Used, Deprecated, Unknown."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Decision Records"
+        },
+        {
+          "type": "paragraph",
+          "text": "Kenapa dibuat seperti ini, alternative, trade-off dan status sekarang."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Runbooks"
+        },
+        {
+          "type": "paragraph",
+          "text": "Symptom → check → logs → safe action → escalate."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Workflow Map"
+        },
+        {
+          "type": "paragraph",
+          "text": "Production, Warehouse, Retail, E-commerce, Accounting dan Finance."
+        },
+        {
+          "type": "note",
+          "text": "StockWizz · Stack to validate with Colin"
+        },
+        {
+          "type": "note",
+          "text": "Frontend React / Umi / Ant Design. Exact versions dan legacy constraint perlu didokumentasikan."
+        },
+        {
+          "type": "note",
+          "text": "Backend Node.js / Express. Service boundaries dan runtime process perlu dipetakan."
+        },
+        {
+          "type": "note",
+          "text": "Database MongoDB. Production / sandbox topology, critical collections, backup dan restore."
+        },
+        {
+          "type": "note",
+          "text": "Session / Cache Redis. Fungsi, dependency, failure behavior."
+        },
+        {
+          "type": "note",
+          "text": "Authentication Auth0. Applications, roles, environment dan ownership."
+        },
+        {
+          "type": "note",
+          "text": "Infrastructure DigitalOcean + Better Stack. Exact resource dan fungsi masing-masing perlu dipetakan."
+        },
+        {
+          "type": "note",
+          "text": "Integrations Jubelio, PayPal, website/e-commerce dan external APIs lain."
+        },
+        {
+          "type": "note",
+          "text": "Need Confirmation Apakah menggunakan: Sentry? Docker? CI/CD? Secrets/Vault? Job scheduler? Queue? CDN? Monitoring lainnya? Jangan diasumsikan — jawaban harus datang dari Colin."
+        },
+        {
+          "type": "note",
+          "text": "Website / Digital System Mapping"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Bukan StockWizz saja"
+        },
+        {
+          "type": "paragraph",
+          "text": "Saya juga perlu mendapatkan pemetaan technical ownership untuk website Sensatia dan sistem lain yang menjadi responsibility IT."
+        },
+        {
+          "type": "note",
+          "text": "Sensatia Digital Systems ├── StockWizz ├── sensatia.com / E-commerce ├── Payment ├── Jubelio ├── Marketplace integrations ├── Compliance App ├── Internal tools └── Shared infrastructure"
+        },
+        {
+          "type": "paragraph",
+          "text": "Untuk setiap system: Purpose · Business Owner · Technical Owner · Backup · Repo · Stack · Hosting · DB · Auth · Monitoring · Integration · Production · Sandbox · Deployment · Criticality · Documentation."
+        },
+        {
+          "type": "note",
+          "text": "Current Colin Work"
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text": "Saya perlu tahu apa yang sedang dikerjakan Colin sekarang — dan statusnya."
+        },
+        {
+          "type": "paragraph",
+          "text": "Tidak cukup mengetahui work saat kebetulan muncul di Slack. Feature, bug, experiment, hotfix, refactor dan integration harus punya satu current view."
+        },
+        {
+          "type": "table",
+          "headers": [
+            "Work / Module",
+            "Type",
+            "Requester",
+            "Owner",
+            "Status",
+            "Environment",
+            "Next / Blocker"
+          ],
+          "rows": [
+            [
+              "Jubelio Stock Sync",
+              "Integration",
+              "IT / E-commerce",
+              "Widhy + Colin",
+              "Testing",
+              "Sandbox",
+              "SKU mapping validation"
+            ],
+            [
+              "Accounting Feature",
+              "Feature",
+              "Accounting",
+              "Need clarity",
+              "Need Handover",
+              "Production?",
+              "Identify exact feature, change dan release"
+            ],
+            [
+              "Jakarta Restock Issue",
+              "Bug / Incident",
+              "E-commerce Jakarta",
+              "Need clarity",
+              "Operational",
+              "Production",
+              "Root cause, recovery, prevention"
+            ],
+            [
+              "PayPal Cart Validation",
+              "Bug",
+              "E-commerce",
+              "Colin",
+              "Need Status",
+              "Sandbox",
+              "Confirm current state"
+            ],
+            [
+              "Other active branches / hotfixes",
+              "All",
+              "Various",
+              "Colin / Widhy",
+              "Need Register",
+              "SB / Prod",
+              "Centralize"
+            ]
+          ]
+        },
+        {
+          "type": "note",
+          "text": "Minimum information per work: module · issue/feature · requester · reason · owner · branch/PR · sandbox status · production status · blocker · next step · target release · last update."
+        },
+        {
+          "type": "note",
+          "text": "Handover Planning"
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text": "Map → Document → Practice → Verify → Shift Ownership."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Alignment"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Michael confirms target ownership",
+            "Role Widhy vs Colin",
+            "Change visibility rule",
+            "Time allocation for handover",
+            "Safe authority boundaries"
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Discovery & Inventory"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "System portfolio",
+            "Tech stack",
+            "Infrastructure",
+            "Tools",
+            "Access",
+            "Current work register"
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Critical Knowledge"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Architecture",
+            "Database",
+            "Deployment",
+            "Rollback",
+            "Logs",
+            "Top incident runbooks"
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Reverse Handover"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Colin explains",
+            "Widhy documents",
+            "Widhy executes",
+            "Colin observes",
+            "Colin corrects",
+            "Capability verified"
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Progressive Ownership"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Verified module → Widhy owns",
+            "High risk → joint ownership",
+            "Unknown legacy → Colin review",
+            "Normal request → internal IT first"
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Maintain"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Change log",
+            "Release history",
+            "Runbook last-tested",
+            "Architecture update",
+            "Periodic readiness review"
+          ]
+        },
+        {
+          "type": "table",
+          "headers": [
+            "Capability",
+            "Explained",
+            "Documented",
+            "Practiced",
+            "Verified"
+          ],
+          "rows": [
+            [
+              "Find application logs",
+              "□",
+              "□",
+              "□",
+              "□"
+            ],
+            [
+              "Deploy StockWizz Sandbox",
+              "□",
+              "□",
+              "□",
+              "□"
+            ],
+            [
+              "Production Release",
+              "□",
+              "□",
+              "□",
+              "□"
+            ],
+            [
+              "Rollback",
+              "□",
+              "□",
+              "□",
+              "□"
+            ],
+            [
+              "MongoDB Diagnosis",
+              "□",
+              "□",
+              "□",
+              "□"
+            ],
+            [
+              "Stock Incident Recovery",
+              "□",
+              "□",
+              "□",
+              "□"
+            ],
+            [
+              "Website Deployment",
+              "□",
+              "□",
+              "□",
+              "□"
+            ],
+            [
+              "Critical Integrations",
+              "□",
+              "□",
+              "□",
+              "□"
+            ],
+            [
+              "Backup Restore",
+              "□",
+              "□",
+              "□",
+              "□"
+            ]
+          ]
+        },
+        {
+          "type": "note",
+          "text": "Definition of Done: handover bukan selesai karena “Colin sudah menjelaskan”. Satu capability dianggap transferred kalau sudah terdokumentasi, saya pernah melakukan, dan hasilnya sudah diverifikasi."
+        }
+      ]
+    },
+    {
+      "id": "tools",
+      "number": "03",
+      "title": "Jira untuk pekerjaan. Confluence untuk knowledge.",
+      "blocks": [
+        {
+          "type": "note",
+          "text": "02 · IT Operating System"
+        },
+        {
+          "type": "paragraph",
+          "text": "Saya sebenarnya sudah mulai menggunakan Jira di awal. Belakangan penggunaannya tidak konsisten karena scope pekerjaan berkembang cukup cepat: StockWizz, Jubelio, support, website, hingga membuat Compliance App. Menurut saya sekarang justru saat yang tepat untuk mengaktifkannya kembali — tetapi dibuat ringan."
+        },
+        {
+          "type": "note",
+          "text": "JIRA"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "“What are we working on?”"
+        },
+        {
+          "type": "paragraph",
+          "text": "Jira digunakan untuk visibility pekerjaan, bukan dokumentasi panjang."
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Feature request",
+            "Bug",
+            "Incident",
+            "Integration",
+            "Current Colin work",
+            "Current Widhy work",
+            "Requester dan owner",
+            "Blocker / decision needed",
+            "Sandbox / production status"
+          ]
+        },
+        {
+          "type": "note",
+          "text": "REQUESTED ANALYSIS DEVELOPMENT SANDBOX USER TEST READY PROD DEPLOYED MONITORING DONE BLOCKED NEED DECISION"
+        },
+        {
+          "type": "note",
+          "text": "CONFLUENCE"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "“How does the system work?”"
+        },
+        {
+          "type": "paragraph",
+          "text": "Confluence menjadi living technical memory perusahaan."
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "System Portfolio",
+            "Architecture",
+            "Tech Stack",
+            "Infrastructure",
+            "Tool Inventory",
+            "Database",
+            "Deployment / Rollback",
+            "Incident Runbooks",
+            "Integration Registry",
+            "Architecture Decisions",
+            "Known Legacy",
+            "Business Workflow"
+          ]
+        },
+        {
+          "type": "note",
+          "text": "Simple rule: Jira = work state. Confluence = system knowledge. GitHub = code & review. Slack = communication. Jangan biarkan Slack menjadi satu-satunya tempat knowledge dan decision hidup."
+        },
+        {
+          "type": "heading",
+          "level": 4,
+          "text": "Suggested Jira Structure"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Epic — StockWizz Handover",
+            "Epic — Jubelio Integration",
+            "Epic — Stock Integrity / Incidents",
+            "Epic — Website / E-commerce",
+            "Epic — Compliance App",
+            "Bug — production problems",
+            "Story / Task — feature or improvement"
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 4,
+          "text": "Suggested Confluence Structure"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "01 · System Portfolio",
+            "02 · StockWizz Architecture",
+            "03 · Website Architecture",
+            "04 · Infrastructure & Tools",
+            "05 · Database & Data Safety",
+            "06 · Deployment & Rollback",
+            "07 · Integrations",
+            "08 · Incident Runbooks",
+            "09 · Architecture Decisions",
+            "10 · Known Legacy / Technical Debt",
+            "11 · Release / Change History"
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 4,
+          "text": "Keep it Lightweight"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Jira ticket tidak perlu panjang.",
+            "Cukup context, owner, status, next action, PR/link.",
+            "Confluence diupdate saat handover atau major change.",
+            "Setelah task selesai, alokasikan beberapa menit untuk status/document update.",
+            "Weekly quick review: active, blocked, need decision."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "jubelio",
+      "number": "04",
+      "title": "CSV sudah memberikan quick win. Sekarang API automation harus menyelesaikan technical sync dan master-data alignment.",
+      "blocks": [
+        {
+          "type": "note",
+          "text": "03 · Jubelio Update"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Current · Delta CSV"
+        },
+        {
+          "type": "paragraph",
+          "text": "StockWizz refill → export delta CSV → upload ke Jubelio."
+        },
+        {
+          "type": "paragraph",
+          "text": "Sudah digunakan dan mengurangi input manual."
+        },
+        {
+          "type": "paragraph",
+          "text": "Tetapi kadang terdapat SKU yang gagal match / tidak ditemukan."
+        },
+        {
+          "type": "paragraph",
+          "text": "SKU tersebut akhirnya ditangani manual oleh user."
+        },
+        {
+          "type": "note",
+          "text": "Working SKU mismatch Manual recovery"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Target · Automatic API"
+        },
+        {
+          "type": "paragraph",
+          "text": "StockWizz event → exact SKU lookup → resolve Jubelio item_id → Stock Adjustment API."
+        },
+        {
+          "type": "paragraph",
+          "text": "Matched item tetap sync."
+        },
+        {
+          "type": "paragraph",
+          "text": "Unmatched item skip + report."
+        },
+        {
+          "type": "paragraph",
+          "text": "Tidak menggunakan fuzzy product-name matching dan tidak auto-create product."
+        },
+        {
+          "type": "note",
+          "text": "How we arrived here"
+        },
+        {
+          "type": "note",
+          "text": "Step 1"
+        },
+        {
+          "type": "paragraph",
+          "text": "Automate flow CSV yang sudah terbukti. Refill StockWizz langsung mengupdate Jubelio."
+        },
+        {
+          "type": "note",
+          "text": "Step 2"
+        },
+        {
+          "type": "paragraph",
+          "text": "StockWizz dan Jubelio mempunyai internal ID berbeda. Jubelio Stock Adjustment API membutuhkan internal item_id. Shared business identifier yang seharusnya dipakai adalah exact SKU/item code."
+        },
+        {
+          "type": "note",
+          "text": "Step 3"
+        },
+        {
+          "type": "paragraph",
+          "text": "Colin ingin menghindari vendor-specific mapping dan berharap shared SKU cukup digunakan langsung. Setelah kita konfirmasi ke Jubelio bahwa Stock Adjustment membutuhkan item_id, resolution/mapping layer memang diperlukan."
+        },
+        {
+          "type": "note",
+          "text": "Step 4"
+        },
+        {
+          "type": "paragraph",
+          "text": "Exact SKU → lookup Jubelio → resolve item_id → stock adjustment. Jadi SKU tetap menjadi business identity StockWizz, sedangkan Jubelio-specific ID tetap berada di integration layer."
+        },
+        {
+          "type": "note",
+          "text": "Step 5"
+        },
+        {
+          "type": "paragraph",
+          "text": "Matched product → sync. Unmatched product → skip + report. StockWizz transaction tetap tersimpan. Tidak auto-create Jubelio product."
+        },
+        {
+          "type": "note",
+          "text": "Operational Reality vs Architecture"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "User masih bekerja melalui Shop / Retail flow"
+        },
+        {
+          "type": "note",
+          "text": "1 Warehouse/E-commerce secara operational masih menggunakan legacy shop-refill flow. 2 CSV dan current testing mengikuti flow yang benar-benar dipakai user. 3 Mengubah workflow user dan API integration sekaligus akan memperbesar scope."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Proper Warehouse / Distribution Center"
+        },
+        {
+          "type": "note",
+          "text": "1 Legacy shops-as-warehouse perlu ditinggalkan. 2 Shared Jubelio logic digunakan oleh shop refill, warehouse refill dan warehouse packing. 3 Migration dilakukan bertahap, bukan big bang."
+        },
+        {
+          "type": "note",
+          "text": "Recommended approach: shared integration function tetap dibuat reusable. Tetapi delivery dibuat kecil: current user flow dulu → stabilkan API → baru migrasikan users ke proper Warehouse/DC workflow."
+        },
+        {
+          "type": "note",
+          "text": "SKU Gap"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "1 · Collect"
+        },
+        {
+          "type": "paragraph",
+          "text": "Kumpulkan semua SKU yang pernah gagal dari Bali & Jakarta."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "2 · Audit"
+        },
+        {
+          "type": "paragraph",
+          "text": "Bandingkan StockWizz identifier dengan Jubelio SKU/item_code."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "3 · Clean"
+        },
+        {
+          "type": "paragraph",
+          "text": "Fix master data supaya problem tidak terus ditangani manual."
+        }
+      ]
+    },
+    {
+      "id": "ai",
+      "number": "05",
+      "title": "Pisahkan progress AI PO dengan pembahasan tagihan ChatGPT perusahaan.",
+      "blocks": [
+        {
+          "type": "note",
+          "text": "04 · AI Email → Purchase Order"
+        },
+        {
+          "type": "note",
+          "text": "Prototype Environment"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "AI PO prototype tidak saya jalankan dari company ChatGPT workspace."
+        },
+        {
+          "type": "paragraph",
+          "text": "Perancangan dan diskusi: akun ChatGPT pribadi saya."
+        },
+        {
+          "type": "paragraph",
+          "text": "Eksekusi/testing application: akun Antigravity pribadi saya."
+        },
+        {
+          "type": "paragraph",
+          "text": "OpenAI API / credit untuk prototype: API account/credits pribadi saya."
+        },
+        {
+          "type": "paragraph",
+          "text": "Jadi berdasarkan setup tersebut, aktivitas prototype ini tidak menggunakan company ChatGPT workspace atau company API credentials."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Billing Context"
+        },
+        {
+          "type": "paragraph",
+          "text": "ChatGPT workspace dan OpenAI API Platform memiliki billing terpisah."
+        },
+        {
+          "type": "note",
+          "text": "Design Personal ChatGPT Testing Personal Antigravity OpenAI API Personal API account Company Rp6m Harus diperiksa dari company workspace billing secara terpisah"
+        },
+        {
+          "type": "note",
+          "text": "Wording yang aman untuk Michael: prototype AI PO yang saya kerjakan tidak menggunakan company workspace atau company API credential. Jadi saya tidak melihat dasar untuk langsung mengaitkan project ini dengan tagihan Rp6 juta. Kalau kita ingin mengetahui asal tagihan tersebut, kita perlu melihat billing breakdown company workspace."
+        },
+        {
+          "type": "note",
+          "text": "Product Direction"
+        },
+        {
+          "type": "note",
+          "text": "01 Customer Email Email, PDF, SKU list, free text. 02 AI Extraction Extract menjadi structured order. 03 Product Matching SKU, verified alias, history. 04 Draft PO Uncertain line ditandai. 05 Human Review Approve sebelum actual StockWizz PO."
+        },
+        {
+          "type": "note",
+          "text": "Product principle: AI membantu extraction dan suggestion. Order truth tetap deterministic dan human-reviewed."
+        }
+      ]
+    },
+    {
+      "id": "compliance",
+      "number": "06",
+      "title": "Sudah keluar dari tahap prototype. Sekarang sedang diuji dalam kondisi lapangan nyata.",
+      "blocks": [
+        {
+          "type": "note",
+          "text": "05 · Compliance App"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Lombok"
+        },
+        {
+          "type": "paragraph",
+          "text": "Aplikasi sudah digunakan bersama tim Compliance saat audit dan stock opname di Lombok."
+        },
+        {
+          "type": "note",
+          "text": "Real Use Audit Stock Opname"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Makassar · Today"
+        },
+        {
+          "type": "paragraph",
+          "text": "Hari ini ada audit dan stock opname di Makassar. Ini menjadi field validation di lokasi kedua."
+        },
+        {
+          "type": "note",
+          "text": "Second Location Today"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Next"
+        },
+        {
+          "type": "paragraph",
+          "text": "Gabungkan feedback Lombok + Makassar."
+        },
+        {
+          "type": "paragraph",
+          "text": "Kelompokkan menjadi: bug, workflow friction, missing requirement, UX issue, data issue, nice-to-have."
+        },
+        {
+          "type": "paragraph",
+          "text": "Prioritaskan berdasarkan impact × frequency."
+        },
+        {
+          "type": "note",
+          "text": "01 Build Bersama Compliance. 02 Lombok First field test. 03 Makassar Second location. 04 Feedback Collect real friction. 05 Iterate Improve based on evidence."
+        },
+        {
+          "type": "note",
+          "text": "Message ke Michael: Compliance App sekarang sudah memberi real field evidence. Fokus berikutnya bukan menambah sebanyak mungkin fitur, tetapi membuat flow, data dan reliability-nya kuat berdasarkan penggunaan Lombok dan Makassar."
+        }
+      ]
+    },
+    {
+      "id": "decision",
+      "number": "07",
+      "title": "Saya ingin keluar dari meeting dengan beberapa hal yang benar-benar jelas.",
+      "blocks": [
+        {
+          "type": "note",
+          "text": "06 · What I Need From Michael"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Internal Ownership"
+        },
+        {
+          "type": "paragraph",
+          "text": "Konfirmasi arah: siapa internal technical owner StockWizz dan bagaimana role Colin selama transition."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Change Visibility"
+        },
+        {
+          "type": "paragraph",
+          "text": "Feature, bug, request dan deployment harus visible ke internal IT."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Handover Mandate"
+        },
+        {
+          "type": "paragraph",
+          "text": "System, stack, tool, access, DB, deploy, incident, integration, legacy dan current work."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Colin Time"
+        },
+        {
+          "type": "paragraph",
+          "text": "Ada waktu khusus untuk structured reverse handover."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Progressive Authority"
+        },
+        {
+          "type": "paragraph",
+          "text": "Capability/module yang sudah verified mulai saya own sendiri."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Jira + Confluence"
+        },
+        {
+          "type": "paragraph",
+          "text": "Gunakan kembali Jira untuk work visibility dan Confluence untuk technical memory."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Jubelio"
+        },
+        {
+          "type": "paragraph",
+          "text": "Lanjut API automation, SKU audit dan gradual Warehouse/DC migration."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "AI Billing"
+        },
+        {
+          "type": "paragraph",
+          "text": "Pisahkan prototype usage dengan investigation company ChatGPT billing."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Compliance"
+        },
+        {
+          "type": "paragraph",
+          "text": "Review hasil Lombok + Makassar untuk next iteration."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Opening ke Michael"
+        },
+        {
+          "type": "paragraph",
+          "text": "Bisa langsung mulai seperti ini:"
+        }
+      ]
+    }
+  ]
+}

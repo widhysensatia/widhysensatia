@@ -1,0 +1,518 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="light" />
+  <title>StockWizz — Customer Order, Credit Control & Fulfillment Automation Assessment</title>
+  <style>
+    :root{
+      --bg:#f5f7fb;
+      --surface:#ffffff;
+      --surface-2:#f9fafb;
+      --text:#182230;
+      --muted:#64748b;
+      --line:#e5e7eb;
+      --brand:#17324d;
+      --brand-2:#285b7a;
+      --accent:#2f7d6b;
+      --success:#147d64;
+      --success-bg:#eaf8f3;
+      --info:#1d5fa7;
+      --info-bg:#eaf3ff;
+      --warn:#9a6700;
+      --warn-bg:#fff7db;
+      --danger:#b42318;
+      --danger-bg:#fff0ee;
+      --violet:#6f42c1;
+      --violet-bg:#f3edff;
+      --shadow:0 18px 50px rgba(23,50,77,.09);
+      --radius:22px;
+      --radius-sm:14px;
+      --max:1220px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at 15% -10%, rgba(40,91,122,.12), transparent 34%),
+        radial-gradient(circle at 92% 0%, rgba(47,125,107,.09), transparent 28%),
+        var(--bg);
+      line-height:1.65;
+    }
+    a{color:inherit}
+    .container{width:min(var(--max), calc(100% - 40px)); margin:0 auto}
+    .topbar{
+      position:sticky; top:0; z-index:30;
+      backdrop-filter:blur(16px);
+      background:rgba(245,247,251,.88);
+      border-bottom:1px solid rgba(229,231,235,.9);
+    }
+    .topbar-inner{display:flex; align-items:center; justify-content:space-between; gap:18px; min-height:70px}
+    .brand{display:flex; align-items:center; gap:12px; text-decoration:none; min-width:max-content}
+    .brand-mark{
+      width:38px; height:38px; border-radius:12px;
+      display:grid; place-items:center; color:#fff;
+      background:linear-gradient(145deg,var(--brand),var(--brand-2));
+      box-shadow:0 9px 22px rgba(23,50,77,.22);
+      font-weight:800; letter-spacing:-.03em;
+    }
+    .brand-copy strong{display:block; font-size:14px; letter-spacing:.02em}
+    .brand-copy span{display:block; font-size:11px; color:var(--muted)}
+    .nav{display:flex; gap:7px; overflow:auto; scrollbar-width:none; padding:8px 0}
+    .nav::-webkit-scrollbar{display:none}
+    .nav a{
+      white-space:nowrap; text-decoration:none; color:#4b5563; font-size:12px; font-weight:700;
+      padding:8px 11px; border-radius:999px; border:1px solid transparent;
+    }
+    .nav a:hover,.nav a.active{color:var(--brand); background:#fff; border-color:var(--line)}
+    .hero{padding:74px 0 42px}
+    .hero-grid{display:grid; grid-template-columns:1.45fr .75fr; gap:30px; align-items:stretch}
+    .hero-card{
+      position:relative; overflow:hidden;
+      border-radius:30px;
+      padding:42px;
+      color:#fff;
+      background:linear-gradient(135deg,#17324d 0%,#214963 56%,#2f7d6b 145%);
+      box-shadow:0 28px 70px rgba(23,50,77,.22);
+    }
+    .hero-card:after{
+      content:""; position:absolute; width:360px; height:360px; border-radius:50%;
+      right:-150px; top:-150px; border:1px solid rgba(255,255,255,.14);
+      box-shadow:0 0 0 46px rgba(255,255,255,.025),0 0 0 92px rgba(255,255,255,.018);
+    }
+    .eyebrow{font-size:12px; text-transform:uppercase; letter-spacing:.16em; font-weight:800; opacity:.78}
+    h1{font-size:clamp(34px,5vw,58px); line-height:1.03; letter-spacing:-.045em; margin:16px 0 18px; max-width:920px}
+    .hero-card p{max-width:900px; font-size:16px; color:rgba(255,255,255,.82); margin:0 0 28px}
+    .meta{display:flex; flex-wrap:wrap; gap:10px}
+    .meta span{padding:8px 12px; border:1px solid rgba(255,255,255,.18); background:rgba(255,255,255,.08); border-radius:999px; font-size:12px; font-weight:700}
+    .hero-side{display:grid; gap:16px}
+    .side-card{background:var(--surface); border:1px solid var(--line); border-radius:22px; padding:24px; box-shadow:var(--shadow)}
+    .side-card h3{margin:0 0 10px; font-size:16px}
+    .side-card p{margin:0; color:var(--muted); font-size:14px}
+    .status-row{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px}
+    .badge{display:inline-flex; align-items:center; gap:7px; padding:7px 10px; border-radius:999px; font-size:11px; font-weight:800; letter-spacing:.02em}
+    .badge.success{color:var(--success); background:var(--success-bg)}
+    .badge.info{color:var(--info); background:var(--info-bg)}
+    .badge.warn{color:var(--warn); background:var(--warn-bg)}
+    .badge.danger{color:var(--danger); background:var(--danger-bg)}
+    .badge.violet{color:var(--violet); background:var(--violet-bg)}
+    .dot{width:7px;height:7px;border-radius:50%;background:currentColor;opacity:.8}
+    .section{padding:34px 0 18px; scroll-margin-top:92px}
+    .section-head{display:flex; align-items:end; justify-content:space-between; gap:22px; margin-bottom:20px}
+    .section-head small{display:block;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;font-weight:800;margin-bottom:6px}
+    .section-head h2{font-size:30px; line-height:1.15; letter-spacing:-.03em; margin:0}
+    .section-head p{margin:0; color:var(--muted); max-width:640px; font-size:14px}
+    .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+    .card{background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:24px; box-shadow:0 10px 28px rgba(15,23,42,.045)}
+    .card h3{margin:0 0 8px; font-size:18px; letter-spacing:-.015em}
+    .card p{margin:0; color:var(--muted); font-size:14px}
+    .request-card{position:relative; overflow:hidden}
+    .request-card .num{font-size:42px;line-height:1;font-weight:900;letter-spacing:-.06em;color:#d8e1e8;margin-bottom:18px}
+    .request-card .badges{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px}
+    .scope-alert{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:22px 0 6px}
+    .alert{border-radius:18px;padding:20px;border:1px solid var(--line);background:#fff}
+    .alert strong{display:block;margin-bottom:6px}
+    .alert.warning{background:var(--warn-bg);border-color:#f4dfa0}
+    .alert.info{background:var(--info-bg);border-color:#cfe2fb}
+    .flow-wrap{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    .flow-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:24px}
+    .flow-card.active{box-shadow:inset 0 4px 0 var(--accent)}
+    .flow-card.out{box-shadow:inset 0 4px 0 #a78bfa}
+    .flow-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:20px}
+    .flow-title h3{margin:0;font-size:17px}
+    .flow{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .flow-step{padding:10px 12px;border-radius:12px;background:var(--surface-2);border:1px solid var(--line);font-size:12px;font-weight:800;color:#344054}
+    .arrow{color:#98a2b3;font-weight:900}
+    .detail{background:var(--surface);border:1px solid var(--line);border-radius:28px;padding:30px;margin-bottom:22px;box-shadow:var(--shadow)}
+    .detail-top{display:flex;align-items:flex-start;justify-content:space-between;gap:22px;margin-bottom:20px}
+    .detail-kicker{font-size:12px;color:var(--muted);font-weight:800;text-transform:uppercase;letter-spacing:.12em}
+    .detail h3{font-size:25px;letter-spacing:-.03em;margin:5px 0 8px}
+    .detail .lead{margin:0;color:var(--muted);max-width:840px}
+    .subgrid{display:grid;grid-template-columns:1.2fr .8fr;gap:18px;margin-top:18px}
+    .panel{border-radius:17px;padding:18px;border:1px solid var(--line);background:var(--surface-2)}
+    .panel h4{margin:0 0 10px;font-size:14px;text-transform:uppercase;letter-spacing:.06em}
+    .panel p{margin:0;color:#475467;font-size:14px}
+    .panel.success{background:var(--success-bg);border-color:#cdeee2}
+    .panel.info{background:var(--info-bg);border-color:#cfe2fb}
+    .panel.warn{background:var(--warn-bg);border-color:#f4dfa0}
+    .panel.danger{background:var(--danger-bg);border-color:#ffd3cf}
+    .code{
+      margin-top:14px;padding:18px 20px;border-radius:16px;background:#111827;color:#e5edf5;
+      overflow:auto;font:12px/1.7 ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;
+      white-space:pre;
+    }
+    .list{margin:0;padding-left:18px;color:#475467;font-size:14px}
+    .list li+li{margin-top:8px}
+    .mini-table,.decision-table{width:100%;border-collapse:separate;border-spacing:0;margin-top:16px;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#fff}
+    .mini-table th,.mini-table td,.decision-table th,.decision-table td{padding:14px 15px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top;font-size:13px}
+    .mini-table th,.decision-table th{background:#f8fafc;color:#475467;font-size:11px;text-transform:uppercase;letter-spacing:.07em}
+    .mini-table tr:last-child td,.decision-table tr:last-child td{border-bottom:none}
+    .questions{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin-top:12px}
+    .q{display:flex;gap:10px;padding:12px 13px;background:#fafbfc;border:1px solid var(--line);border-radius:12px;color:#475467;font-size:13px}
+    .q:before{content:"?";display:grid;place-items:center;min-width:22px;height:22px;border-radius:50%;background:#edf2f7;color:var(--brand);font-weight:900}
+    .priority{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+    .priority-card{padding:22px;border-radius:18px;border:1px solid var(--line);background:#fff;position:relative;overflow:hidden}
+    .priority-card:before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:#94a3b8}
+    .priority-card.p0:before{background:#e5484d}.priority-card.p1:before{background:#d59b00}.priority-card.p1b:before{background:#377dcc}.priority-card.p2:before{background:#7c8b9a}
+    .priority-card strong{display:block;margin-bottom:6px}.priority-card p{margin:0;color:var(--muted);font-size:13px}
+    .meeting{display:grid;grid-template-columns:.8fr 1.2fr;gap:18px}
+    .meeting-card{background:linear-gradient(135deg,#17324d,#214963);color:#fff;border-radius:24px;padding:28px;box-shadow:var(--shadow)}
+    .meeting-card h3{font-size:25px;margin:0 0 10px;letter-spacing:-.03em}.meeting-card p{color:rgba(255,255,255,.75);margin:0}
+    .agenda{background:#fff;border:1px solid var(--line);border-radius:24px;padding:24px}
+    .agenda ol{margin:0;padding-left:22px;color:#475467}.agenda li+li{margin-top:7px}
+    .next-actions{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+    .action{display:flex;align-items:flex-start;gap:10px;padding:13px 14px;border-radius:13px;background:#fff;border:1px solid var(--line);font-size:13px;color:#475467}
+    .check{width:18px;height:18px;border:2px solid #aab5c2;border-radius:5px;margin-top:1px;flex:none}
+    .footer{padding:48px 0 70px;color:var(--muted);font-size:12px}
+    .footer-inner{border-top:1px solid var(--line);padding-top:22px;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+    .small-note{font-size:12px;color:var(--muted)}
+    .back-link{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:var(--brand);font-weight:800;font-size:12px;margin-bottom:16px}
+    @media (max-width:1040px){
+      .hero-grid,.subgrid,.meeting{grid-template-columns:1fr}
+      .grid-4,.priority{grid-template-columns:repeat(2,1fr)}
+      .grid-3{grid-template-columns:1fr 1fr}
+      .topbar-inner{align-items:flex-start;flex-direction:column;padding:10px 0}.nav{width:100%}
+    }
+    @media (max-width:760px){
+      .container{width:min(100% - 24px,var(--max))}
+      .hero{padding-top:34px}.hero-card{padding:28px}.hero-grid,.grid-4,.grid-3,.grid-2,.scope-alert,.flow-wrap,.questions,.priority,.next-actions{grid-template-columns:1fr}
+      .section-head,.detail-top{align-items:flex-start;flex-direction:column}
+      h1{font-size:38px}.section-head h2{font-size:26px}.detail{padding:22px}
+      .mini-table,.decision-table{display:block;overflow:auto;white-space:nowrap}
+    }
+    @media print{
+      .topbar,.back-link{display:none}.hero{padding-top:0}.section{break-inside:avoid}.detail{box-shadow:none}.card,.side-card{box-shadow:none}
+      body{background:#fff}.container{width:100%;max-width:none;padding:0 18px}
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <a class="brand" href="#top">
+        <div class="brand-mark">SW</div>
+        <div class="brand-copy"><strong>StockWizz Assessment</strong><span>Customer Order & Fulfillment</span></div>
+      </a>
+      <nav class="nav" aria-label="Navigasi halaman">
+        <a href="#summary">Summary</a>
+        <a href="#scope">Scope</a>
+        <a href="#r1">NET 30</a>
+        <a href="#r2">Invoice</a>
+        <a href="#r3">Tracker</a>
+        <a href="#r4">WEB ID</a>
+        <a href="#meeting">Meeting</a>
+        <a href="#next">Next Actions</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container hero-grid">
+        <article class="hero-card">
+          <div class="eyebrow">StockWizz • Technical Assessment</div>
+          <h1>Customer Order, Credit Control & Fulfillment Automation</h1>
+          <p>Assessment awal untuk request Putu Mei terkait kontrol customer overdue, otomatisasi invoice & faktur pajak, PO tracking Gudang, dan validasi WEB ID Bali E-Commerce.</p>
+          <div class="meta">
+            <span>Requester: Putu Mei — Accounting</span>
+            <span>14 September 2026</span>
+            <span>Discovery / Technical Assessment</span>
+          </div>
+        </article>
+        <aside class="hero-side">
+          <div class="side-card">
+            <h3>Status Assessment</h3>
+            <p>Semua request secara umum feasible, tetapi beberapa business rule wajib dikonfirmasi sebelum dibuat menjadi scope development.</p>
+            <div class="status-row">
+              <span class="badge success"><span class="dot"></span>3 Doable</span>
+              <span class="badge info"><span class="dot"></span>1 Investigate</span>
+            </div>
+          </div>
+          <div class="side-card">
+            <h3>Decision Boundary</h3>
+            <p>Dokumen ini adalah assessment, bukan approval implementasi. Jira development dibuat setelah discovery dan business rule sudah jelas.</p>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="summary" class="section">
+      <div class="container">
+        <div class="section-head">
+          <div><small>Executive Summary</small><h2>4 Request Utama</h2></div>
+          <p>Ringkasan cepat untuk menentukan mana yang bisa langsung dianalisis, mana yang membutuhkan meeting, dan mana yang cukup diverifikasi internal.</p>
+        </div>
+        <div class="grid-4">
+          <article class="card request-card">
+            <div class="num">01</div>
+            <h3>NET 30 Credit Control</h3>
+            <p>Blokir Convert Quote → Order jika customer memiliki invoice overdue dengan outstanding balance.</p>
+            <div class="badges"><span class="badge success">Doable</span><span class="badge warn">Meeting Required</span></div>
+          </article>
+          <article class="card request-card">
+            <div class="num">02</div>
+            <h3>Automatic Invoice Delivery</h3>
+            <p>Kirim invoice elektronik dan faktur pajak otomatis ke customer dengan log, retry, dan resend.</p>
+            <div class="badges"><span class="badge success">Doable</span><span class="badge warn">Meeting Required</span></div>
+          </article>
+          <article class="card request-card">
+            <div class="num">03</div>
+            <h3>Warehouse PO Tracking</h3>
+            <p>Gunakan tracker sebagai operational source of truth; Slack difokuskan untuk exception, urgent, atau summary.</p>
+            <div class="badges"><span class="badge success">Doable</span><span class="badge violet">Short Discovery</span></div>
+          </article>
+          <article class="card request-card">
+            <div class="num">04</div>
+            <h3>WEB ID Bali E-Commerce</h3>
+            <p>Verifikasi mapping website order number → websales → WEB ID yang tampil di StockWizz.</p>
+            <div class="badges"><span class="badge info">Investigate</span><span class="badge info">Internal Check</span></div>
+          </article>
+        </div>
+
+        <div class="scope-alert">
+          <div class="alert warning"><strong>Important — bukan PR/PO Procurement Automation</strong>Request Putu Mei membahas customer order, accounts receivable, invoice delivery, dan fulfillment. Ini berbeda dari PR/PO internal untuk procurement/vendor.</div>
+          <div class="alert info"><strong>PR/PO Procurement saat ini belum dimulai</strong>Assessment ini tidak bergantung pada project PR/PO Procurement dan tidak boleh dicampur dalam satu scope atau satu set requirement.</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="scope" class="section">
+      <div class="container">
+        <div class="section-head"><div><small>Scope Boundary</small><h2>Flow yang Dibahas</h2></div><p>Memisahkan konteks customer order dari procurement internal mencegah requirement dan ownership menjadi rancu.</p></div>
+        <div class="flow-wrap">
+          <div class="flow-card active">
+            <div class="flow-title"><h3>Scope Request Putu Mei</h3><span class="badge success">Active Assessment</span></div>
+            <div class="flow"><span class="flow-step">Customer PO / Quote</span><span class="arrow">→</span><span class="flow-step">Credit Validation</span><span class="arrow">→</span><span class="flow-step">Order</span><span class="arrow">→</span><span class="flow-step">Warehouse / Fulfillment</span><span class="arrow">→</span><span class="flow-step">Invoice</span><span class="arrow">→</span><span class="flow-step">Customer</span></div>
+          </div>
+          <div class="flow-card out">
+            <div class="flow-title"><h3>Out of Scope — PR/PO Procurement</h3><span class="badge violet">Separate Stream</span></div>
+            <div class="flow"><span class="flow-step">Internal PR</span><span class="arrow">→</span><span class="flow-step">Approval</span><span class="arrow">→</span><span class="flow-step">Vendor PO</span><span class="arrow">→</span><span class="flow-step">Procurement</span><span class="arrow">→</span><span class="flow-step">Goods Receive</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="r1" class="section">
+      <div class="container">
+        <article class="detail">
+          <div class="detail-top">
+            <div><div class="detail-kicker">Request 01</div><h3>Automatic NET 30 Credit Validation</h3><p class="lead">Mencegah customer PO / Quote diproses menjadi Order ketika customer memiliki invoice NET 30 yang sudah overdue dan masih memiliki outstanding balance.</p></div>
+            <span class="badge success"><span class="dot"></span>Doable</span>
+          </div>
+          <div class="subgrid">
+            <div>
+              <div class="panel success"><h4>Proposed Solution</h4><p>Validasi dilakukan di backend ketika Logistic Manager melakukan <b>Convert Quote → Order</b>. Frontend memberi credit-hold state dan menampilkan detail invoice yang menyebabkan block.</p></div>
+              <div class="code">payment_term = NET 30
+AND outstanding_amount &gt; 0
+AND due_date &lt; validation_date
+→ credit hold / block order conversion</div>
+            </div>
+            <div class="panel warn"><h4>Important</h4><p>Jangan hanya memakai rule “invoice age &gt; 30 days”. Due date + outstanding balance lebih aman karena ada partial payment, adjustment, dispute, atau special agreement.</p></div>
+          </div>
+
+          <table class="mini-table">
+            <thead><tr><th>Tambahan</th><th>Tujuan</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td><b>Manager Override</b></td><td>Order tetap dapat diproses untuk exception yang sudah disetujui.</td><td><span class="badge warn">To Confirm</span></td></tr>
+              <tr><td><b>Grace Period</b></td><td>Menghindari false block ketika customer sudah transfer tetapi payment belum direkonsiliasi.</td><td><span class="badge warn">To Confirm</span></td></tr>
+              <tr><td><b>Audit Log</b></td><td>Catat siapa mencoba convert, siapa override, alasan, invoice penyebab hold, dan timestamp.</td><td><span class="badge success">Recommended</span></td></tr>
+              <tr><td><b>Manual Re-check</b></td><td>Logistics dapat cek ulang setelah Accounting memperbarui payment.</td><td><span class="badge success">Recommended</span></td></tr>
+            </tbody>
+          </table>
+
+          <div class="grid-2" style="margin-top:18px">
+            <div class="panel danger"><h4>Risks</h4><ul class="list"><li>Order valid ikut terblokir jika payment/outstanding belum ter-update.</li><li>Partial payment, credit note, dispute, refund, atau special agreement dapat menjadi false positive.</li><li>Hard block tanpa override dapat mengganggu fulfillment.</li><li>Frontend dan backend harus memakai rule yang sama.</li></ul></div>
+            <div class="panel info"><h4>Need Meeting</h4><p>Ya. Ini bukan hanya technical rule — ini credit-control policy yang membutuhkan validasi Accounting dan pihak yang punya kewenangan menentukan exception.</p></div>
+          </div>
+
+          <h4 style="margin:24px 0 8px">Pertanyaan untuk Accounting / Requester</h4>
+          <div class="questions">
+            <div class="q">Apa source of truth piutang customer saat ini?</div>
+            <div class="q">Due date disimpan langsung atau dihitung dari invoice date + payment term?</div>
+            <div class="q">Rule hanya untuk NET 30 atau juga NET 14 / NET 60 / custom term?</div>
+            <div class="q">Apakah outstanding kecil sekalipun langsung memblokir order?</div>
+            <div class="q">Bagaimana treatment partial payment?</div>
+            <div class="q">Bagaimana treatment credit note, dispute, refund, atau invoice correction?</div>
+            <div class="q">Apakah dibutuhkan grace period? Hari kalender atau hari kerja?</div>
+            <div class="q">Siapa role yang boleh override dan apakah alasan wajib?</div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="r2" class="section">
+      <div class="container">
+        <article class="detail">
+          <div class="detail-top"><div><div class="detail-kicker">Request 02</div><h3>Automatic Invoice & Tax Invoice Delivery</h3><p class="lead">Mengirim invoice elektronik dan faktur pajak secara otomatis ke customer agar proses Accounting tidak bergantung pada pengiriman manual.</p></div><span class="badge success"><span class="dot"></span>Doable</span></div>
+          <div class="subgrid">
+            <div>
+              <div class="panel success"><h4>Proposed Flow</h4><p>Gunakan background job / queue agar proses invoice tidak gagal hanya karena email provider sedang bermasalah.</p></div>
+              <div class="code">Invoice ready for delivery
+→ resolve Invoice PDF
+→ resolve Tax Invoice attachment (if available)
+→ validate customer billing email
+→ queue email
+→ send via configured StockWizz email service
+→ save delivery log
+→ success / retry / manual resend</div>
+            </div>
+            <div class="panel info"><h4>Recommended Controls</h4><ul class="list"><li>Status Pending / Sent / Failed / Retrying.</li><li>Timestamp, recipient, document reference, provider response, retry count.</li><li>Manual Resend untuk authorized Accounting user.</li><li>Action-required jika email kosong/invalid.</li><li>Idempotency agar event yang sama tidak mengirim email duplikat.</li></ul></div>
+          </div>
+          <div class="panel warn" style="margin-top:18px"><h4>Future Option — e-Faktur Integration</h4><p>Integrasi provider seperti OnlinePajak/Mekari dapat dievaluasi di tahap berikutnya jika Faktur Pajak masih dibuat di sistem eksternal. Ini bukan MVP dan harus melalui assessment API, compliance, biaya, data ownership, dan workflow Accounting.</p></div>
+          <h4 style="margin:24px 0 8px">Pertanyaan untuk Accounting / Requester</h4>
+          <div class="questions">
+            <div class="q">Kapan invoice dianggap siap dikirim?</div>
+            <div class="q">Apakah Invoice PDF sudah bisa di-generate konsisten dari StockWizz?</div>
+            <div class="q">Faktur Pajak dibuat di mana saat ini?</div>
+            <div class="q">Apakah Faktur Pajak di-upload dan terhubung ke invoice/order tertentu?</div>
+            <div class="q">Boleh kirim invoice dulu jika Faktur Pajak belum tersedia?</div>
+            <div class="q">Recipient berasal dari customer master atau billing contact?</div>
+            <div class="q">Perlu CC internal Accounting / Sales?</div>
+            <div class="q">Berapa kali retry otomatis sebelum manual action?</div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="r3" class="section">
+      <div class="container">
+        <article class="detail">
+          <div class="detail-top"><div><div class="detail-kicker">Request 03</div><h3>Warehouse PO Tracking & Slack Notification</h3><p class="lead">Memberi visibility kepada Logistics ketika staff Gudang memproses PO pada tracker.</p></div><span class="badge success"><span class="dot"></span>Doable</span></div>
+          <div class="grid-3">
+            <div class="panel warn"><h4>Slack per PO</h4><p>Real-time dan cepat terlihat, tetapi berisiko noisy/spam jika volume order tinggi dan histori sulit dianalisis.</p></div>
+            <div class="panel success"><h4>Fulfillment Tracker</h4><p>Lebih terstruktur untuk status, history, user, timestamp, bottleneck, dan pencarian order. Direkomendasikan sebagai source of truth.</p></div>
+            <div class="panel info"><h4>Combined — Preferred</h4><p>Tracker menyimpan operational state; Slack dipakai sebagai awareness layer untuk urgent, exception, anomaly, atau scheduled summary.</p></div>
+          </div>
+          <div class="grid-2" style="margin-top:18px">
+            <div class="panel"><h4>Contoh Slack Event</h4><ul class="list"><li>Urgent / Rush Order mulai diproses atau tertahan.</li><li>Stock shortage / SKU missing saat picking.</li><li>PO melewati SLA dan belum diproses.</li><li>Scheduled summary, misalnya pukul 12:00 dan 17:00.</li></ul></div>
+            <div class="panel info"><h4>Need Discovery</h4><p>Short discovery dengan Warehouse/Logistics diperlukan untuk menentukan event yang benar-benar penting, target channel, dan volume normal supaya Slack tidak berubah menjadi notification spam.</p></div>
+          </div>
+          <h4 style="margin:24px 0 8px">Pertanyaan untuk Warehouse / Logistics</h4>
+          <div class="questions">
+            <div class="q">Apa arti tepat “PO sudah di tracker”?</div>
+            <div class="q">Status apa saja yang dibutuhkan?</div>
+            <div class="q">Siapa audience dan channel Slack yang tepat?</div>
+            <div class="q">Perlu setiap PO atau cukup urgent/exception/summary?</div>
+            <div class="q">Berapa volume PO normal per hari?</div>
+            <div class="q">Apa SLA yang dianggap terlambat?</div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="r4" class="section">
+      <div class="container">
+        <article class="detail">
+          <div class="detail-top"><div><div class="detail-kicker">Request 04</div><h3>WEB ID Bali E-Commerce</h3><p class="lead">Mengonfirmasi apakah WEB ID yang terlihat di StockWizz Bali E-Commerce benar-benar mengikuti website order number.</p></div><span class="badge info"><span class="dot"></span>Investigate First</span></div>
+          <div class="panel info"><h4>Current Assessment</h4><p>Arsitektur e-commerce sudah memiliki jalur <b>websales</b> yang terpisah dari retail/shop sales. Namun exact field mapping tetap harus dibuktikan dari code/data sebelum disampaikan sebagai “sudah confirmed”.</p></div>
+          <div class="code">Website order number
+↓
+Website → StockWizz ingestion / API
+↓
+websales field / reference
+↓
+Bali E-Commerce UI
+↓
+WEB ID displayed to user</div>
+          <div class="grid-2" style="margin-top:18px">
+            <div class="panel"><h4>Verification Checklist</h4><ul class="list"><li>Identify website order ID field.</li><li>Identify mapped field in websales.</li><li>Identify field yang dipakai UI sebagai WEB ID.</li><li>Compare beberapa recent production orders end-to-end.</li><li>Cek apakah legacy/manual path masih dapat menghasilkan ID berbeda.</li></ul></div>
+            <div class="panel warn"><h4>Communication Guardrail</h4><p>Jangan memberi jawaban final “sudah sama” sebelum mapping website → websales → UI diverifikasi. Bisa jadi hasil akhirnya memang sudah benar dan tidak membutuhkan development.</p></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head"><div><small>Prioritization</small><h2>Suggested Sequence</h2></div><p>Prioritas di bawah adalah rekomendasi IT untuk discovery, bukan keputusan implementasi final.</p></div>
+        <div class="priority">
+          <div class="priority-card p0"><span class="badge danger">P0</span><strong>NET 30 Rule Definition</strong><p>Dampak langsung ke financial control dan order release. Gate: Accounting rule + source data + override policy.</p></div>
+          <div class="priority-card p1"><span class="badge warn">P1</span><strong>Automatic Invoice Delivery</strong><p>Efisiensi manual tinggi. Gate: invoice lifecycle, Faktur Pajak source, email service, recipient.</p></div>
+          <div class="priority-card p1b"><span class="badge info">P1</span><strong>WEB ID Verification</strong><p>Quick internal investigation; bisa selesai tanpa development jika current mapping sudah benar.</p></div>
+          <div class="priority-card p2"><span class="badge violet">P2</span><strong>Tracker + Slack Model</strong><p>Operational visibility improvement. Gate: event, SLA, target channel, notification policy.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="meeting" class="section">
+      <div class="container">
+        <div class="section-head"><div><small>Discovery</small><h2>Meeting yang Disarankan</h2></div><p>Meeting ini bertujuan menutup gap requirement dan menetapkan business rule — bukan menyetujui coding di tempat.</p></div>
+        <div class="meeting">
+          <div class="meeting-card"><div class="eyebrow">Recommended</div><h3>45–60 menit dengan Putu Mei / Accounting</h3><p>Libatkan Warehouse/Logistics hanya untuk bagian tracker. Hasil meeting menjadi input untuk memecah work menjadi Jira implementation tickets yang jelas.</p></div>
+          <div class="agenda"><ol><li>Confirm objective dan pain point masing-masing request.</li><li>Walkthrough current Quote → Order → Fulfillment → Invoice.</li><li>Confirm source of truth customer outstanding / due date.</li><li>Define credit hold, override, grace period, exception.</li><li>Walkthrough current Invoice & Faktur Pajak delivery.</li><li>Define trigger, recipient, attachment, resend, failure handling.</li><li>Clarify PO Tracker event dan Slack need.</li><li>Review hasil internal verification WEB ID.</li><li>Agree priority dan next action.</li></ol></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head"><div><small>Open Decisions</small><h2>Keputusan Sebelum Development</h2></div></div>
+        <table class="decision-table">
+          <thead><tr><th>Decision</th><th>Owner / Stakeholder</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>Definition of overdue / credit hold</td><td>Accounting</td><td><span class="badge warn">Open</span></td></tr>
+            <tr><td>Grace period rule</td><td>Accounting / Management</td><td><span class="badge warn">Open</span></td></tr>
+            <tr><td>Override role & audit requirement</td><td>Accounting / Management / IT</td><td><span class="badge warn">Open</span></td></tr>
+            <tr><td>Invoice email trigger & recipient</td><td>Accounting</td><td><span class="badge warn">Open</span></td></tr>
+            <tr><td>Faktur Pajak source / attachment flow</td><td>Accounting</td><td><span class="badge warn">Open</span></td></tr>
+            <tr><td>Slack event / channel / summary frequency</td><td>Warehouse / Logistics</td><td><span class="badge warn">Open</span></td></tr>
+            <tr><td>WEB ID exact mapping</td><td>IT</td><td><span class="badge info">Verify Internally</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head"><div><small>IT Recommendation</small><h2>Recommended Direction</h2></div></div>
+        <div class="grid-2">
+          <div class="panel success"><h4>Proceed with Discovery</h4><p>Request dapat dikerjakan bertahap tanpa perubahan besar sekaligus. Prioritaskan area dengan financial/business control impact dan gunakan backend sebagai enforcement source.</p></div>
+          <div class="panel info"><h4>Design Principles</h4><p>Gunakan audit trail untuk action penting, queue/retry untuk automation eksternal, tracker sebagai operational source of truth, dan jangan jadikan asumsi data sebagai requirement final.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="next" class="section">
+      <div class="container">
+        <div class="section-head"><div><small>Next Actions</small><h2>Langkah Berikutnya</h2></div><p>Checklist ini sengaja dipisah dari implementation scope supaya discovery selesai lebih dulu.</p></div>
+        <div class="next-actions">
+          <div class="action"><span class="check"></span><span>Share assessment dengan Putu Mei.</span></div>
+          <div class="action"><span class="check"></span><span>Schedule discovery meeting dengan Accounting.</span></div>
+          <div class="action"><span class="check"></span><span>Trace customer invoice / outstanding / due-date data model.</span></div>
+          <div class="action"><span class="check"></span><span>Verify StockWizz email service dan invoice PDF flow.</span></div>
+          <div class="action"><span class="check"></span><span>Document current Faktur Pajak workflow.</span></div>
+          <div class="action"><span class="check"></span><span>Verify WEB ID mapping end-to-end.</span></div>
+          <div class="action"><span class="check"></span><span>Confirm PO Tracker event dengan Warehouse / Logistics.</span></div>
+          <div class="action"><span class="check"></span><span>Setelah discovery, split approved work menjadi Jira implementation tickets.</span></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div><b>StockWizz Technical Assessment</b><br>Requester: Putu Mei — Accounting</div>
+      <div>Current state: Discovery • Belum merupakan approval development</div>
+    </div>
+  </footer>
+
+  <script>
+    const links=[...document.querySelectorAll('.nav a')];
+    const sections=links.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+    const io=new IntersectionObserver(entries=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+e.target.id));
+        }
+      });
+    },{rootMargin:'-30% 0px -60% 0px'});
+    sections.forEach(s=>io.observe(s));
+  </script>
+</body>
+</html>

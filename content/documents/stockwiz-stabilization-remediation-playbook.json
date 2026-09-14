@@ -1,0 +1,672 @@
+{
+  "slug": "stockwiz-stabilization-remediation-playbook",
+  "sourceTitle": "Playbook Perbaikan Sistem Existing — Sensatia StockWiz",
+  "sections": [
+    {
+      "id": "ringkasan",
+      "number": "01",
+      "title": "Ringkasan program perbaikan",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Tujuan tahap ini bukan mengganti seluruh sistem, tetapi menurunkan risiko operasional sambil membentuk fondasi yang aman untuk transformasi berikutnya."
+        },
+        {
+          "type": "paragraph",
+          "text": "Mandat program"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Hentikan kemungkinan kerusakan baru, perbaiki integritas data, lalu buat perubahan menjadi aman dan terukur."
+        },
+        {
+          "type": "paragraph",
+          "text": "StockWiz tetap beroperasi. Perbaikan dilakukan bertahap di sistem existing dengan feature flag, pilot scope, rekonsiliasi, dan rollback. Pekerjaan fitur pada area yang memiliki P0 dibatasi sampai guardrail minimum tersedia."
+        },
+        {
+          "type": "note",
+          "text": "33 rencana tindakan"
+        },
+        {
+          "type": "note",
+          "text": "7 program kerja Stok, security, data, backend, delivery, UI, governance. 0–14 hari containment Tutup jalur eksploitasi dan kerusakan data paling kritis. 90 hari stabilisasi Transaction, test, visibility, dan data control minimum. 3–6 bulan penguatan Fondasi existing siap menjadi jembatan menuju StockWiz Next."
+        },
+        {
+          "type": "note",
+          "text": "Batas program: dokumen ini tidak memerintahkan migrasi PostgreSQL atau rewrite besar langsung. Ia menyiapkan keamanan, konsistensi, testing, dan governance agar perubahan masa depan dapat dilakukan tanpa berjudi dengan operasi."
+        }
+      ]
+    },
+    {
+      "id": "prinsip",
+      "number": "02",
+      "title": "Prinsip perbaikan",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Setiap perubahan harus memperkecil blast radius dan menghasilkan bukti yang dapat diperiksa bisnis maupun teknologi."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Contain sebelum refactor"
+        },
+        {
+          "type": "paragraph",
+          "text": "Tutup endpoint, permission, dan write berbahaya terlebih dahulu. Kode yang rapi tidak berguna bila jalur eksploitasi masih terbuka."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Satu invariant, satu owner"
+        },
+        {
+          "type": "paragraph",
+          "text": "Tetapkan aturan yang tidak boleh dilanggar dan siapa pemilik keputusan bisnisnya—terutama saldo stok dan role user."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Perubahan kecil dan reversible"
+        },
+        {
+          "type": "paragraph",
+          "text": "Feature flag, canary scope, migration expand/contract, dan runbook rollback wajib untuk perubahan berisiko."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Ukur sebelum dan sesudah"
+        },
+        {
+          "type": "paragraph",
+          "text": "Baseline error, variance, latency, duplicate, dan manual correction agar manfaat tidak hanya berdasarkan persepsi."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Data buruk tidak disembunyikan"
+        },
+        {
+          "type": "paragraph",
+          "text": "Record meragukan masuk quarantine dengan owner; jangan dipaksa “bersih” tanpa keputusan domain dan jejak audit."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Definition of done berbasis bukti"
+        },
+        {
+          "type": "paragraph",
+          "text": "Test, dashboard, reconciliation, UAT, restore, dan approval menjadi bukti selesai—bukan sekadar pull request sudah merge."
+        }
+      ]
+    },
+    {
+      "id": "prioritas",
+      "number": "03",
+      "title": "Urutan prioritas yang aman",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Pekerjaan dipilih berdasarkan potensi kerusakan dan dependency. Jangan mulai dari tampilan karena risiko terbesar berada di transaksi dan akses."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Emergency containment"
+        },
+        {
+          "type": "paragraph",
+          "text": "Disable/protect AI route, self-role, HR query admin, mass reminder, socket fail-open, serta token di URL/body."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Stop data damage"
+        },
+        {
+          "type": "paragraph",
+          "text": "No-upsert decrement, saldo cukup, idempotency checkout, transaction spike, backup dan reconciliation harian."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Make failure visible"
+        },
+        {
+          "type": "paragraph",
+          "text": "Test kritis, CI gate, structured logs, business metrics, outbox, durable job, upload policy dan typed config."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Repair & govern"
+        },
+        {
+          "type": "paragraph",
+          "text": "Data cleansing, unique index, canonical ID, retention, API contract, frontend ownership, rule catalog dan SLO."
+        }
+      ]
+    },
+    {
+      "id": "stok",
+      "number": "04",
+      "title": "Playbook khusus stok & inventory",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Tujuan terdekat adalah mencegah stok negatif dan transaksi ganda. Tujuan menengah adalah satu ledger kanonik yang dapat direkonsiliasi."
+        },
+        {
+          "type": "note",
+          "text": "01 Validate request Schema, scope, item, lokasi, quantity. 02 Claim idempotency Unique key per operasi bisnis. 03 Start transaction Session dan boundary eksplisit. 04 Reserve/decrement Atomic condition saldo cukup. 05 Write document Sale/transfer dan movement. 06 Commit + outbox Side effect setelah commit. 07 Reconcile Ledger, balance, source document."
+        },
+        {
+          "type": "paragraph",
+          "text": "Pengurangan hanya berhasil bila saldo tersedia memenuhi quantity, kecuali policy backorder yang eksplisit."
+        },
+        {
+          "type": "paragraph",
+          "text": "Retry atau double-click dengan idempotency key sama mengembalikan hasil pertama tanpa movement tambahan."
+        },
+        {
+          "type": "paragraph",
+          "text": "Posted movement tidak diedit atau dihapus. Koreksi melalui reversal dan adjustment dengan reason serta approval."
+        },
+        {
+          "type": "paragraph",
+          "text": "Saldo cepat boleh disimpan, tetapi harus dapat dihitung ulang dari movement dan direkonsiliasi berkala."
+        },
+        {
+          "type": "paragraph",
+          "text": "Shop, web, produksi, dan integrasi tidak menulis saldo langsung; semuanya lewat inventory service/contract."
+        },
+        {
+          "type": "paragraph",
+          "text": "Available, reserved, in-transit, quarantine, damaged, rejected, dan expired tidak dicampur sebagai satu angka."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Perbaikan cepat di sistem existing"
+        },
+        {
+          "type": "list",
+          "ordered": true,
+          "items": [
+            "Hapus upsert:true pada jalur pengurangan stok.",
+            "Tambahkan filter saldo cukup pada atomic update.",
+            "Kembalikan HTTP 409 ketika saldo tidak cukup.",
+            "Pasang idempotency key pada checkout/transfer.",
+            "Gabungkan sale, balance, history, dan idempotency dalam transaction.",
+            "Tulis email, Slack, loyalty, dan sync ke outbox.",
+            "Jalankan laporan variance setiap hari dan alert non-zero."
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Manfaat yang langsung terlihat"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Overselling dan zombie balance berkurang.",
+            "Double-click/retry tidak menggandakan transaksi.",
+            "Sale tidak tertinggal sendirian saat write lain gagal.",
+            "Selisih dapat ditemukan pada hari yang sama.",
+            "Koreksi memiliki reason, actor, dan approval.",
+            "Finance dan warehouse memakai saldo yang sama."
+          ]
+        },
+        {
+          "type": "note",
+          "text": "Guardrail rollout: mulai dari satu channel dan satu warehouse, jalankan shadow reconciliation 1–2 minggu, lalu perluas. Sediakan kill switch yang menghentikan write baru—bukan menghapus transaksi yang sudah posted."
+        }
+      ]
+    },
+    {
+      "id": "transaksi",
+      "number": "05",
+      "title": "Database transaction & side effect",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Transaction melindungi perubahan internal database. Outbox melindungi efek eksternal seperti email, Slack, sync, dan loyalty agar tidak hilang atau terkirim sebelum commit."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Boundary checkout yang disarankan"
+        },
+        {
+          "type": "paragraph",
+          "text": "Implementasi aktual harus menyesuaikan driver dan schema. Pola berikut menjelaskan urutan, bukan kode siap salin."
+        },
+        {
+          "type": "note",
+          "text": "1. Validasi actor, scope shop, item, quantity, price snapshot 2. Claim idempotency_key dengan unique constraint 3. startSession() → withTransaction() 4. Ambil nomor sale secara atomic dan langsung return nilainya 5. Kurangi stock dengan syarat quantity >= requested dan tanpa upsert 6. Jika matched count tidak sesuai → abort seluruh transaction 7. Tulis sale + item lines + inventory movement + balance/history 8. Tulis outbox event: SalePosted, StockChanged, LoyaltyRequested 9. Commit transaction 10. Worker memproses outbox dengan retry, deduplication, dan dead-letter"
+        },
+        {
+          "type": "note",
+          "text": "Prasyarat MongoDB Transaction membutuhkan replica set atau sharded cluster. Verifikasi production topology sebelum implementasi. Jika transaction belum siap Gunakan conditional atomic update, idempotency, dan compensating reversal sebagai containment sementara—bukan solusi final. Yang tidak boleh Memanggil email/integrasi di tengah transaction, retry seluruh request tanpa idempotency, atau menghapus record untuk rollback."
+        },
+        {
+          "type": "paragraph",
+          "text": "Daftar per use case: collection yang berubah, invariant, side effect, timeout, retryability, dan kompensasi."
+        },
+        {
+          "type": "paragraph",
+          "text": "Event tersimpan bersama transaksi, diproses terpisah dengan attempt count, next retry, last error, dan dead-letter."
+        },
+        {
+          "type": "paragraph",
+          "text": "Bandingkan source document, movement, balance, payment, dan loyalty; exception memiliki owner serta SLA."
+        }
+      ]
+    },
+    {
+      "id": "keamanan",
+      "number": "06",
+      "title": "Security containment",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "P0 security dapat ditangani tanpa menunggu arsitektur baru. Prinsipnya deny-by-default, permission server-side, dan token tidak pernah berada pada URL."
+        },
+        {
+          "type": "paragraph",
+          "text": "Inventaris semua route tanpa auth; disable AI dan mass job sampai service identity, rate limit, audit, dan budget tersedia."
+        },
+        {
+          "type": "paragraph",
+          "text": "Gunakan action permission + scope organization/site/shop/department; abaikan claim admin dari body/query."
+        },
+        {
+          "type": "paragraph",
+          "text": "Authorization header atau secure httpOnly cookie, akses singkat, refresh rotation, revocation, CSRF design, tanpa query/body token."
+        },
+        {
+          "type": "paragraph",
+          "text": "Exact origin allowlist, token verification saat handshake, dan room/shop diturunkan dari server-side permission."
+        },
+        {
+          "type": "paragraph",
+          "text": "Size limit, MIME + signature verification, nama acak, object storage, malware scan, private-by-default, dan retention."
+        },
+        {
+          "type": "paragraph",
+          "text": "Negative tests untuk unauthenticated, wrong role, wrong scope, expired/revoked token, forbidden origin, dan malicious file."
+        }
+      ]
+    },
+    {
+      "id": "data",
+      "number": "07",
+      "title": "Database & data remediation",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Jangan langsung menambah unique index atau mengubah tipe data pada jutaan record. Profilkan, klasifikasikan, bersihkan, lalu enforce secara bertahap."
+        },
+        {
+          "type": "note",
+          "text": "01 Profile Type, null, duplicate, orphan, distribution. 02 Define rule Owner menyetujui canonical form. 03 Quarantine Pisahkan record ambigu. 04 Clean batch Repeatable dan checkpointed. 05 Validate Count, checksum, reconciliation. 06 Enforce Validator dan index bertahap."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Urutan enforcement"
+        },
+        {
+          "type": "list",
+          "ordered": true,
+          "items": [
+            "Tentukan data owner dan canonical field definition.",
+            "Tambahkan observability untuk write yang tidak sesuai.",
+            "Perbaiki writer aplikasi agar hanya menulis bentuk baru.",
+            "Backfill batch kecil dengan checkpoint.",
+            "Review duplicate/orphan melalui exception workflow.",
+            "Pasang validator mode warning lalu strict.",
+            "Buat unique index setelah duplicate = 0."
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Dataset prioritas"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Item/barcode dan unit of measure.",
+            "Customer email/phone/loyalty/consent.",
+            "Stock balance, history, reference, dan remaining negatif.",
+            "Money fields: currency, scale, rounding.",
+            "Business date, timestamp UTC, dan site timezone.",
+            "Large history untuk index/partition/archive."
+          ]
+        },
+        {
+          "type": "note",
+          "text": "Safety rule: setiap data repair memiliki dry-run report, backup/restore point, batch ID, before/after count, rejection file, dan approval domain owner. Jangan menjalankan mass repair melalui endpoint GET."
+        }
+      ]
+    },
+    {
+      "id": "katalog",
+      "number": "08",
+      "title": "33 rencana tindakan terperinci",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Gunakan pencarian dan filter. Klik setiap masalah untuk melihat solusi, cara pengerjaan, manfaat, bukti selesai, PIC, dan estimasi awal."
+        },
+        {
+          "type": "note",
+          "text": "33 dari 33 tindakan"
+        }
+      ]
+    },
+    {
+      "id": "roadmap",
+      "number": "09",
+      "title": "Roadmap eksekusi 90 hari",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Beberapa stream dapat berjalan paralel, tetapi stock transaction dimulai setelah containment security dan backup readiness minimum."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Tutup pintu yang paling berbahaya"
+        },
+        {
+          "type": "paragraph",
+          "text": "Feature flag/disable AI dan mass reminder; hapus self-role dan HR query-admin; fail-close socket; stop token URL/body."
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Owner: Tech Lead + Security",
+            "Bukti: negative access test dan route inventory",
+            "Go/no-go: semua P0 exposure tertutup"
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Pasang guardrail stock dan recovery"
+        },
+        {
+          "type": "paragraph",
+          "text": "Conditional decrement, no upsert, idempotency, atomic counter, transaction proof-of-concept, backup restore drill, reconciliation harian."
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Owner: Inventory Domain Owner + Backend Lead + DBA",
+            "Bukti: concurrency/failure test dan variance report",
+            "Go/no-go: tidak ada transaksi test yang menghasilkan saldo negatif/duplicate"
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Test, CI, outbox, dan dashboard"
+        },
+        {
+          "type": "paragraph",
+          "text": "Characterization tests untuk checkout/transfer, CI quality gate, correlation ID, business metrics, outbox worker, durable scheduler, PII redaction."
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Owner: QA/Platform + Backend",
+            "Bukti: pipeline menolak regression dan alert drill berhasil",
+            "Go/no-go: deployment tidak dapat melewati gate kritis"
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Canonical identity dan cleansing"
+        },
+        {
+          "type": "paragraph",
+          "text": "Profile production read-only, canonical ID, duplicate barcode/customer workflow, orphan quarantine, money/date standard, validator warning."
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Owner: Data Lead + Domain Owners",
+            "Bukti: signed cleansing report, exception ownership, repeatable batch",
+            "Go/no-go: writer baru conform dan exception trend menurun"
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Scale control dan governance"
+        },
+        {
+          "type": "paragraph",
+          "text": "API contract, query budgets, async reports, upload gateway, route ownership, retention matrix, design system baseline, SLO dan incident drill."
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Owner: Product + Tech Lead + Platform",
+            "Bukti: operational readiness review dan KPI baseline-to-current",
+            "Exit: steering committee menyetujui readiness menuju pilot StockWiz Next"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "governance",
+      "number": "10",
+      "title": "Tim, keputusan, dan governance",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Perbaikan lintas stok, HR, customer, dan database membutuhkan business owner. Tim teknologi tidak boleh menebak kebijakan bisnis."
+        },
+        {
+          "type": "table",
+          "headers": [
+            "Peran",
+            "Accountable untuk",
+            "Keputusan wajib",
+            "Cadence"
+          ],
+          "rows": [
+            [
+              "Executive sponsor",
+              "Prioritas, kapasitas, konflik lintas departemen",
+              "Feature freeze area P0; risk acceptance",
+              "Biweekly steering"
+            ],
+            [
+              "Product owner",
+              "Outcome, backlog, dependency, acceptance",
+              "Scope 90 hari dan non-goals",
+              "Weekly planning"
+            ],
+            [
+              "Inventory domain owner",
+              "Definisi saldo, reservation, adjustment, stock status",
+              "Negative-stock policy; reconciliation sign-off",
+              "2× weekly"
+            ],
+            [
+              "Security/HR owner",
+              "Permission, scope, SoD, audit, PII",
+              "Role matrix dan approval rules",
+              "Weekly"
+            ],
+            [
+              "Tech lead",
+              "Transaction boundary, design, rollout, rollback",
+              "ADR dan technical acceptance",
+              "Daily delivery"
+            ],
+            [
+              "Data lead/DBA",
+              "Profiling, repair, indexes, backup, reconciliation",
+              "Canonical ID dan quarantine disposition",
+              "Daily during migration"
+            ],
+            [
+              "QA/Platform",
+              "Test evidence, pipeline, monitoring, incident",
+              "Release gate pass/fail",
+              "Per release"
+            ]
+          ]
+        },
+        {
+          "type": "note",
+          "text": "Change control: semua perbaikan P0/P1 mempunyai ticket, owner, due date, test evidence, feature flag/rollback, reviewer bisnis bila mengubah rule, dan link dashboard setelah live."
+        }
+      ]
+    },
+    {
+      "id": "kpi",
+      "number": "11",
+      "title": "KPI stabilisasi",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Target numerik final ditetapkan setelah baseline production. Arah perbaikan dan indikator wajib tidak boleh menunggu."
+        },
+        {
+          "type": "paragraph",
+          "text": "Target: 0 route P0 yang dapat diakses tanpa permission dan scope yang benar."
+        },
+        {
+          "type": "paragraph",
+          "text": "Target: 0 akibat jalur aplikasi setelah guardrail aktif; exception policy dilacak terpisah."
+        },
+        {
+          "type": "paragraph",
+          "text": "Target: 0 movement/sale ganda untuk idempotency key yang sama."
+        },
+        {
+          "type": "paragraph",
+          "text": "Waktu dari variance tercipta sampai terdeteksi dan ditugaskan; target turun setiap sprint."
+        },
+        {
+          "type": "paragraph",
+          "text": "Persentase checkout/transfer yang selesai lengkap; partial-write target 0."
+        },
+        {
+          "type": "paragraph",
+          "text": "Pending age, retry, dead-letter, last-success, serta duplicate send."
+        },
+        {
+          "type": "paragraph",
+          "text": "Jumlah duplicate, orphan, mixed type, invalid money/date, dan quarantine tanpa owner."
+        },
+        {
+          "type": "paragraph",
+          "text": "Release yang rollback/incident dibanding total release dan mean time to recovery."
+        },
+        {
+          "type": "paragraph",
+          "text": "Checkout, transfer, adjustment, HR approval, auth, upload, dan restore memiliki test evidence."
+        }
+      ]
+    },
+    {
+      "id": "checklist",
+      "number": "12",
+      "title": "Checklist untuk mulai minggu ini",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Jika item pertama belum tersedia, itu adalah pekerjaan awal—bukan alasan menunda program."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Keputusan & ownership"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Tunjuk sponsor, PO, tech lead, data lead, inventory owner.",
+            "Setujui feature freeze untuk area P0.",
+            "Setujui policy negative stock dan adjustment.",
+            "Sepakati waktu maintenance dan rollback owner."
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Safety baseline"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Inventory route/auth/write/jobs lengkap.",
+            "Backup terbaru dan restore drill terjadwal.",
+            "Production topology MongoDB terverifikasi.",
+            "Metric baseline dan incident terakhir dikumpulkan."
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Delivery setup"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Buat satu board remediation dengan 33 tindakan.",
+            "Definisikan severity, SLA, evidence, dan reviewer.",
+            "Siapkan environment integration dengan data sintetis.",
+            "Pasang CI gate minimum sebelum refactor."
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Pilot pertama"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "Pilih checkout atau transfer dengan scope kecil.",
+            "Tulis invariant dan transaction boundary.",
+            "Buat concurrency, retry, dan partial-failure tests.",
+            "Deploy canary dan pantau reconciliation setiap hari."
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Definition of ready menuju StockWiz Next"
+        },
+        {
+          "type": "paragraph",
+          "text": "Security P0 tertutup; transaksi stok kritis idempotent dan atomic; variance terlihat serta memiliki owner; backup/restore terbukti; CI menahan regression; data debt terukur; dan tim dapat melakukan rollout serta rollback kecil dengan disiplin. Setelah itu, blueprint Opsi 3 dapat dimulai dengan risiko yang jauh lebih terkendali."
+        }
+      ]
+    }
+  ]
+}

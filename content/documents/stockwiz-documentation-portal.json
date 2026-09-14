@@ -1,0 +1,280 @@
+{
+  "slug": "stockwiz-documentation-portal",
+  "sourceTitle": "Portal Dokumentasi — Sensatia StockWiz",
+  "sections": [
+    {
+      "id": "urutan",
+      "number": "01",
+      "title": "Baca dalam enam langkah",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Jalur yang disarankan"
+        },
+        {
+          "type": "paragraph",
+          "text": "Urutan ini membawa pembaca dari kondisi nyata, pendalaman arsitektur, keputusan strategi, sampai rencana eksekusi."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Pahami seluruh risiko"
+        },
+        {
+          "type": "paragraph",
+          "text": "Dapatkan gambaran lengkap keamanan, stok, data, backend, frontend, delivery, dan gap ERP."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Stabilkan sistem existing"
+        },
+        {
+          "type": "paragraph",
+          "text": "Kerjakan solusi per masalah, terutama security, stok, transaction, dan kualitas data."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Dalami fondasi sistem"
+        },
+        {
+          "type": "paragraph",
+          "text": "Pelajari arsitektur legacy, kualitas database, kesiapan ERP, dan prioritas teknis."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Pilih arah masa depan"
+        },
+        {
+          "type": "paragraph",
+          "text": "Bandingkan modernisasi, big-bang rewrite, dan evolutionary rebuild beserta stack-nya."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Rancang ERP bisnisnya"
+        },
+        {
+          "type": "paragraph",
+          "text": "Validasi modul, proses end-to-end, master data, approval, kontrol, dan KPI bersama domain owner."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Eksekusi Opsi 3"
+        },
+        {
+          "type": "paragraph",
+          "text": "Gunakan blueprint modular untuk pilot, migrasi data, cutover, dan penghentian legacy."
+        }
+      ]
+    },
+    {
+      "id": "pustaka",
+      "number": "02",
+      "title": "Semua dokumen",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Pustaka StockWiz"
+        },
+        {
+          "type": "paragraph",
+          "text": "Cari berdasarkan topik seperti stok, keamanan, PostgreSQL, migrasi, tim, roadmap, atau cutover."
+        },
+        {
+          "type": "paragraph",
+          "text": "6 dokumen ditampilkan"
+        },
+        {
+          "type": "note",
+          "text": "Audit menyeluruh Mulai di sini"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Master Audit Sistem StockWiz"
+        },
+        {
+          "type": "paragraph",
+          "text": "Peta paling lengkap atas kelemahan sistem yang ada: 33 temuan terprioritas, risiko bisnis, keamanan, integritas stok, database, aplikasi, delivery, dan kesiapan ERP."
+        },
+        {
+          "type": "note",
+          "text": "16 bagian 33 temuan Prioritas P0–P3"
+        },
+        {
+          "type": "note",
+          "text": "Lompat ke bagian penting Semua temuan Masalah stok Database Roadmap"
+        },
+        {
+          "type": "note",
+          "text": "Playbook perbaikan Sebelum transformasi"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Perbaikan Sistem Existing StockWiz"
+        },
+        {
+          "type": "paragraph",
+          "text": "Panduan menangani seluruh 33 temuan satu per satu, lengkap dengan solusi, cara pengerjaan, manfaat, PIC, estimasi, dependency, acceptance criteria, serta roadmap stabilisasi 90 hari."
+        },
+        {
+          "type": "note",
+          "text": "12 bagian 33 action plans Target 90 hari"
+        },
+        {
+          "type": "note",
+          "text": "Lompat ke bagian penting Perbaikan stok DB transaction Security 33 tindakan 90 hari"
+        },
+        {
+          "type": "note",
+          "text": "Audit arsitektur Deep dive"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Audit Arsitektur & Kesiapan ERP"
+        },
+        {
+          "type": "paragraph",
+          "text": "Pendalaman struktur backend, frontend legacy, database MongoDB, alur stok, kualitas data, target architecture, dan langkah penataan fondasi sistem."
+        },
+        {
+          "type": "note",
+          "text": "11 bagian Current state Target state"
+        },
+        {
+          "type": "note",
+          "text": "Lompat ke bagian penting Ringkasan Audit stok Kualitas data Roadmap"
+        },
+        {
+          "type": "note",
+          "text": "Strategi masa depan Decision paper"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Opsi Strategi & Arsitektur Masa Depan"
+        },
+        {
+          "type": "paragraph",
+          "text": "Perbandingan tiga jalur masa depan StockWiz, rekomendasi evolutionary rebuild, rancangan tech stack, tooling pendukung, target PostgreSQL, tim, risiko, dan decision gate."
+        },
+        {
+          "type": "note",
+          "text": "13 bagian 3 opsi Opsi 3 direkomendasikan"
+        },
+        {
+          "type": "note",
+          "text": "Lompat ke bagian penting Tiga opsi Tech stack Tooling PostgreSQL Keputusan"
+        },
+        {
+          "type": "note",
+          "text": "Blueprint bisnis ERP Business north star"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Proses Bisnis & Modul ERP StockWiz"
+        },
+        {
+          "type": "paragraph",
+          "text": "Rancangan ERP manufaktur skincare dari bahan baku sampai customer: 13 domain, sembilan proses end-to-end, master data, workflow, approval, kontrol, KPI, capability gap, dan wave implementasi."
+        },
+        {
+          "type": "note",
+          "text": "18 bagian 13 domain 24 capabilities"
+        },
+        {
+          "type": "note",
+          "text": "Lompat ke bagian penting Peta domain Manufacturing Quality & recall Capability gap Roadmap"
+        },
+        {
+          "type": "note",
+          "text": "Blueprint implementasi Execution guide"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Blueprint Opsi 3 — Implementasi per Modul"
+        },
+        {
+          "type": "paragraph",
+          "text": "Rencana eksekusi lengkap untuk menjalankan legacy dan StockWiz Next berdampingan, memindahkan modul bertahap, memulai pilot transfer gudang, dan melakukan cutover aman."
+        },
+        {
+          "type": "note",
+          "text": "18 bagian Pilot per modul 0–30 bulan"
+        },
+        {
+          "type": "note",
+          "text": "Lompat ke bagian penting Model operasi Migrasi data Pilot 90 hari Cutover"
+        },
+        {
+          "type": "note",
+          "text": "Tidak ada dokumen yang cocok. Coba kata kunci lain atau pilih filter “Semua”."
+        }
+      ]
+    },
+    {
+      "id": "panduan",
+      "number": "03",
+      "title": "Pakai dokumen yang mana?",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Panduan cepat"
+        },
+        {
+          "type": "paragraph",
+          "text": "Pilih berdasarkan keputusan yang sedang ingin dibuat oleh tim."
+        },
+        {
+          "type": "note",
+          "text": "Kebutuhan Dokumen utama Hasil yang diharapkan"
+        },
+        {
+          "type": "note",
+          "text": "Memahami seluruh kelemahan saat ini Master Audit Sistem Daftar risiko, prioritas P0–P3, dan tindakan korektif."
+        },
+        {
+          "type": "note",
+          "text": "Memperbaiki sistem sebelum transformasi Playbook Perbaikan Existing Solusi, langkah teknis, manfaat, PIC, estimasi, dan bukti selesai untuk 33 masalah."
+        },
+        {
+          "type": "note",
+          "text": "Menjelaskan utang teknis dan data Audit Arsitektur & Kesiapan ERP Pemahaman fondasi legacy dan target architecture."
+        },
+        {
+          "type": "note",
+          "text": "Memilih rebuild atau modernisasi Opsi Strategi Masa Depan Keputusan arah, stack, investasi, dan profil risiko."
+        },
+        {
+          "type": "note",
+          "text": "Merancang ERP dari sisi bisnis Blueprint Proses Bisnis & Modul Domain, proses, master data, dokumen, approval, kontrol, KPI, dan urutan modul."
+        },
+        {
+          "type": "note",
+          "text": "Memulai pekerjaan Opsi 3 Blueprint Implementasi Opsi 3 Pilot, ownership, backlog 90 hari, cutover, dan KPI."
+        },
+        {
+          "type": "paragraph",
+          "text": "Rekomendasi utama"
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text": "Perbaiki yang kritis sekarang, bangun ulang secara bertahap."
+        },
+        {
+          "type": "paragraph",
+          "text": "Jadikan Master Audit sebagai risk register awal, lalu gunakan Blueprint Opsi 3 untuk memulai pilot warehouse transfer tanpa menunggu seluruh ERP selesai."
+        }
+      ]
+    }
+  ]
+}
