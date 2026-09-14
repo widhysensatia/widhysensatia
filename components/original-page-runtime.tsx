@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import type { OriginalPageScript } from "@/lib/original-pages";
 
 type Props = {
@@ -16,25 +16,55 @@ function applyAttributes(element: HTMLElement, attributes: Record<string, string
   }
 }
 
+const executedContainersKey = "__sensatiaOriginalPageExecutedContainers";
+
+type RuntimeWindow = Window & {
+  [executedContainersKey]?: WeakSet<Element>;
+};
+
+function getExecutedContainers() {
+  const runtimeWindow = window as RuntimeWindow;
+  runtimeWindow[executedContainersKey] ??= new WeakSet<Element>();
+  return runtimeWindow[executedContainersKey];
+}
+
+function isolateInlineScript(code: string, slug: string, index: number) {
+  const functionNames = [...code.matchAll(/\bfunction\s+([A-Za-z_$][\w$]*)\s*\(/g)]
+    .map((match) => match[1])
+    .filter((name, position, names) => names.indexOf(name) === position);
+
+  const exposeFunctions = functionNames
+    .map(
+      (name) =>
+        `if (typeof ${name} === "function") window[${JSON.stringify(name)}] = ${name};`,
+    )
+    .join("\n");
+
+  return `(() => {\n${code}\n${exposeFunctions}\n})();\n//# sourceURL=original-page/${slug}-${index}.js`;
+}
+
 export function OriginalPageRuntime({
   bodyAttributes,
   htmlAttributes,
   scripts,
   slug,
 }: Props) {
-  const hasRun = useRef(false);
-
   useEffect(() => {
-    if (hasRun.current) return;
-    hasRun.current = true;
+    const container = document.querySelector(`[data-original-document="${CSS.escape(slug)}"]`);
+    if (!container) return;
+
+    const executedContainers = getExecutedContainers();
+    if (executedContainers.has(container)) return;
+    executedContainers.add(container);
 
     applyAttributes(document.documentElement, htmlAttributes);
     applyAttributes(document.body, bodyAttributes);
 
     async function runScripts() {
-      for (const original of scripts) {
+      for (const [index, original] of scripts.entries()) {
         const script = document.createElement("script");
         if (original.type) script.type = original.type;
+        script.dataset.originalPageScript = slug;
 
         if (original.src) {
           await new Promise<void>((resolve) => {
@@ -44,14 +74,16 @@ export function OriginalPageRuntime({
             document.body.appendChild(script);
           });
         } else {
-          script.textContent = original.code;
+          script.textContent = isolateInlineScript(original.code, slug, index);
           document.body.appendChild(script);
         }
+
+        script.remove();
       }
     }
 
     void runScripts();
-  }, [slug]);
+  }, [bodyAttributes, htmlAttributes, scripts, slug]);
 
   return null;
 }
