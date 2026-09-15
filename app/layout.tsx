@@ -8,6 +8,18 @@ export const metadata: Metadata = {
   },
   description: "Internal knowledge workspace untuk catatan, analisis, meeting notes, dan blueprint Sensatia.",
   icons: { icon: "/sensatia-mark.svg" },
+  robots: {
+    index: false,
+    follow: false,
+    nocache: true,
+    googleBot: {
+      index: false,
+      follow: false,
+      noimageindex: true,
+      "max-image-preview": "none",
+      "max-snippet": 0,
+    },
+  },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
