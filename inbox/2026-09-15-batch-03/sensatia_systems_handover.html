@@ -1,0 +1,317 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Sensatia Systems Handover & Technical Documentation"><title>Sensatia Systems — Handover & Technical Documentation</title><style>
+:root{--bg:#f4f7f5;--surface:#fff;--text:#17211c;--muted:#66736c;--line:#dde5e0;--accent:#1f6f4a;--soft:#e8f3ed;--warn:#8a6115;--warnbg:#fff7df;--danger:#8f3d3d;--dangerbg:#fff0f0}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.layout{display:grid;grid-template-columns:280px 1fr;min-height:100vh}.sidebar{position:sticky;top:0;height:100vh;overflow:auto;background:#14261e;color:#dcebe3;padding:24px 18px}.brand{display:flex;gap:12px;align-items:center;margin-bottom:18px}.brand b{font-size:14px;line-height:1.3}.brand small{display:block;color:#9fb5aa;margin-top:3px}.mark{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;background:#ffffff14;font-size:21px}
+.search{width:100%;padding:10px 11px;border-radius:10px;border:1px solid #ffffff20;background:#ffffff12;color:#fff;outline:none;margin-bottom:16px}.search::placeholder{color:#91a89c}.navlabel{font-size:10px;text-transform:uppercase;letter-spacing:.13em;color:#789788;font-weight:800;margin:14px 8px 5px}.nav a{display:flex;gap:8px;padding:8px;border-radius:9px;color:#caDDD3;font-size:12px;line-height:1.3}.nav a:hover{background:#ffffff12;text-decoration:none;color:#fff}.num{min-width:22px;color:#789788}
+.sidefoot{font-size:10px;color:#80998d;border-top:1px solid #ffffff15;margin-top:20px;padding:16px 8px}.main{min-width:0}.topbar{position:sticky;top:0;z-index:5;display:flex;justify-content:flex-end;gap:8px;padding:9px 24px;background:#f4f7f5e8;backdrop-filter:blur(10px);border-bottom:1px solid #dbe3de}.topbar a,.topbar button{background:#fff;border:1px solid var(--line);border-radius:9px;padding:8px 10px;color:var(--text);font-size:12px;cursor:pointer}
+.container{max-width:1180px;margin:auto;padding:32px 32px 76px}.hero{background:linear-gradient(135deg,#163429,#2b6e4e);color:#fff;border-radius:24px;padding:38px;box-shadow:0 14px 36px #192a2112}.eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:.15em;font-weight:800;color:#bcd7c9}.hero h1{font-size:38px;line-height:1.12;margin:10px 0 12px;max-width:800px}.hero p{color:#d9e7df;max-width:820px}.pills{display:flex;flex-wrap:wrap;gap:7px}.pill{font-size:10px;font-weight:700;padding:7px 10px;border-radius:999px;background:#ffffff16;border:1px solid #ffffff1c}
+.section{scroll-margin-top:70px;margin-top:34px}.heading{display:flex;gap:11px;align-items:flex-start;margin-bottom:13px}.icon{width:38px;height:38px;display:grid;place-items:center;border-radius:11px;background:var(--soft);font-size:18px}.heading h2{font-size:24px;line-height:1.2;margin:2px 0}.sub{font-size:12px;color:var(--muted);margin:3px 0 0}.grid{display:grid;gap:14px}.g2{grid-template-columns:repeat(2,minmax(0,1fr))}.g3{grid-template-columns:repeat(3,minmax(0,1fr))}.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 4px 14px #192a2107}.card h3{font-size:15px;margin:0 0 8px}.metric .v{font-size:31px;font-weight:800;line-height:1}.metric .l{font-size:10px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:800;margin-top:8px}.metric .n{font-size:11px;color:var(--muted);margin-top:4px}
+.callout{margin:14px 0;padding:14px 16px;background:#fff;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:13px;font-size:12px}.callout strong{display:block;margin-bottom:3px}.warn{border-left-color:var(--warn);background:var(--warnbg)}.danger{border-left-color:var(--danger);background:var(--dangerbg)}
+.table{overflow:auto;background:#fff;border:1px solid var(--line);border-radius:14px}table{width:100%;border-collapse:collapse;font-size:11px}th,td{text-align:left;vertical-align:top;padding:10px 11px;border-bottom:1px solid var(--line)}th{font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:#4e5b54;background:#f7f9f8;white-space:nowrap}tr:last-child td{border-bottom:0}
+.badge{display:inline-block;padding:4px 7px;border-radius:999px;font-size:9px;font-weight:800;border:1px solid #dce2df;background:#f2f4f3;color:#627068;white-space:nowrap}.green{background:#edf7f1;color:#286747;border-color:#cfe8da}.yellow{background:#fff7df;color:#8b6417;border-color:#f0dfac}.red{background:#fff0f0;color:#8f3d3d;border-color:#efd0d0}.blue{background:#eef6fc;color:#315f85;border-color:#d5e5f2}.purple{background:#f3effa;color:#65508f;border-color:#e2d9f2}.gray{background:#f2f4f3;color:#66736c}
+.small{font-size:11px;color:var(--muted)}ul,ol{padding-left:21px;margin-top:7px}li{margin:4px 0}code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em;background:#eef2ef;color:#244132;padding:2px 5px;border-radius:5px}
+details{background:#fff;border:1px solid var(--line);border-radius:13px;margin:9px 0;overflow:hidden}summary{padding:13px 15px;font-size:12px;font-weight:750;cursor:pointer;list-style:none}summary:after{content:"+";float:right;color:var(--muted)}details[open] summary:after{content:"−"}.dbody{padding:0 15px 14px;border-top:1px solid var(--line);font-size:11px}
+.flow{display:flex;gap:7px;align-items:stretch;overflow:auto;padding-bottom:5px}.node{min-width:130px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:11px;display:grid;place-items:center;text-align:center;font-size:10px;font-weight:800}.arr{display:grid;place-items:center;color:#87948d;font-weight:900}
+.sources{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.source{background:#fff;border:1px solid var(--line);border-radius:11px;padding:11px;font-size:10px}.source strong{display:block;color:var(--text);font-size:11px}.priority{list-style:none;padding:0;counter-reset:p}.priority li{counter-increment:p;display:grid;grid-template-columns:30px 1fr;gap:10px;padding:11px 0;border-bottom:1px solid var(--line)}.priority li:before{content:counter(p);width:26px;height:26px;display:grid;place-items:center;border-radius:8px;background:var(--soft);color:var(--accent);font-size:10px;font-weight:800}
+.footer{font-size:10px;color:var(--muted);border-top:1px solid var(--line);margin-top:40px;padding-top:18px}
+@media(max-width:980px){.layout{display:block}.sidebar{display:none}.container{padding:22px 18px 60px}.topbar{padding:8px 18px}.g4,.g3{grid-template-columns:repeat(2,minmax(0,1fr))}.hero h1{font-size:31px}.hero{padding:29px}}
+@media(max-width:640px){.g4,.g3,.g2,.sources{grid-template-columns:1fr}.hero h1{font-size:27px}.hero{padding:24px 20px}}
+@media print{body{background:#fff}.sidebar,.topbar{display:none}.layout{display:block}.container{max-width:none;padding:0}.card,.table,details{break-inside:avoid}.hero{box-shadow:none}}
+</style></head><body>
+<div class="layout">
+<aside class="sidebar">
+  <div class="brand"><div class="mark">🧭</div><div><b>Sensatia Systems<br>Handover</b><small>Technical Documentation</small></div></div>
+  <input id="navSearch" class="search" placeholder="Filter sections…">
+  <nav class="nav" id="nav">
+    <div class="navlabel">Overview</div>
+    <a href="#summary"><span class="num">00</span>Executive Summary</a>
+    <a href="#rules"><span class="num">01</span>Governance & Rules</a>
+    <a href="#portfolio"><span class="num">02</span>System Portfolio</a>
+    <div class="navlabel">Technical Domains</div>
+    <a href="#stockwizz"><span class="num">03</span>StockWizz</a>
+    <a href="#website"><span class="num">04</span>sensatia.com & CMS</a>
+    <a href="#database"><span class="num">05</span>Database & Data Safety</a>
+    <a href="#infra"><span class="num">06</span>Infrastructure</a>
+    <a href="#security"><span class="num">07</span>Security & Access</a>
+    <a href="#observability"><span class="num">08</span>Observability</a>
+    <a href="#deployment"><span class="num">09</span>Deployment & Rollback</a>
+    <a href="#integrations"><span class="num">10</span>Integrations</a>
+    <a href="#incidents"><span class="num">11</span>Incident Runbooks</a>
+    <a href="#legacy"><span class="num">12</span>Legacy & Decisions</a>
+    <div class="navlabel">Handover Control</div>
+    <a href="#control"><span class="num">13</span>Control Center</a>
+    <a href="#kt"><span class="num">14</span>KT Plan</a>
+    <a href="#gaps"><span class="num">15</span>Knowledge Gaps</a>
+    <a href="#assessment"><span class="num">16</span>Assessment</a>
+    <a href="#sources"><span class="num">17</span>Notion Sources</a>
+  </nav>
+  <div class="sidefoot">Generated from the Notion handover workspace on 14 Sep 2026. No actual passwords, tokens, private keys, MFA recovery codes, or secrets are included.</div>
+</aside>
+<main class="main">
+<div class="topbar">
+  <a href="https://app.notion.com/p/3d55bbd644b3819fb8dff1ba82f77321" target="_blank">Open Notion ↗</a>
+  <button onclick="window.print()">Print / PDF</button>
+</div>
+<div class="container">
+
+<header class="hero">
+  <div class="eyebrow">Internal Technical Handover</div>
+  <h1>Sensatia Systems — Handover & Technical Documentation</h1>
+  <p>Consolidated technical handover for transferring system ownership from Colin to Internal IT. The target is operational independence: understand, operate, troubleshoot, recover, deploy and own the systems without reliance on a single individual.</p>
+  <div class="pills"><span class="pill">Source: Notion</span><span class="pill">Generated: 14 Sep 2026</span><span class="pill">Evidence state: Unverified / in progress</span><span class="pill">Internal Technical Documentation</span></div>
+</header>
+
+<section class="section" id="summary">
+<div class="heading"><div class="icon">📊</div><div><h2>Executive Summary</h2><p class="sub">Current handover state based on the main pages and linked registries.</p></div></div>
+<div class="grid g4">
+  <div class="card metric"><div class="v">7</div><div class="l">Registered Systems</div><div class="n">Systems Registry</div></div>
+  <div class="card metric"><div class="v">16</div><div class="l">KT Topics</div><div class="n">All currently Planned</div></div>
+  <div class="card metric"><div class="v">12</div><div class="l">Knowledge Gaps</div><div class="n">5 Critical · 5 High · 2 Medium</div></div>
+  <div class="card metric"><div class="v">0</div><div class="l">Verified KT Topics</div><div class="n">No completed reverse handover recorded</div></div>
+</div>
+<div class="grid g2" style="margin-top:14px">
+  <div class="card"><h3>Systems Registry Handover Status</h3>
+    <table><tr><td>Practicing</td><td><span class="badge purple">1</span> Jubelio Integration</td></tr>
+    <tr><td>Discovery</td><td><span class="badge yellow">4</span> StockWizz, sensatia.com, Better Stack, Prometheus/Metrics</td></tr>
+    <tr><td>Not Started</td><td><span class="badge gray">2</span> Sentry, Website CMS</td></tr>
+    <tr><td>Documented / Verified</td><td><span class="badge red">0</span></td></tr></table>
+  </div>
+  <div class="card"><h3>Linked Registry Health</h3>
+    <table><tr><td>Systems Registry</td><td><span class="badge green">7 entries</span></td></tr>
+    <tr><td>Infrastructure Registry</td><td><span class="badge red">Empty</span></td></tr>
+    <tr><td>Integrations Registry</td><td><span class="badge red">Empty</span></td></tr>
+    <tr><td>Incident Runbooks</td><td><span class="badge red">Empty</span></td></tr>
+    <tr><td>KT Tracker</td><td><span class="badge blue">16 planned</span></td></tr>
+    <tr><td>Knowledge Gaps</td><td><span class="badge yellow">12 active</span></td></tr></table>
+  </div>
+</div>
+<div class="callout warn"><strong>Current reading</strong>The documentation framework is well structured, but much of the operational truth is still <b>TBD</b>, <b>Need Verification</b>, <b>Unknown</b>, or <b>Ask Colin</b>. This file preserves that boundary instead of turning placeholders into facts.</div>
+<div class="callout danger"><strong>DEMO page is not factual current-state documentation</strong>The Notion workspace contains a filled demo with fictional hostnames, repositories, providers, topology and ownership. Those values are intentionally excluded from the factual sections below.</div>
+</section>
+
+<section class="section" id="rules">
+<div class="heading"><div class="icon">🧭</div><div><h2>Governance & Documentation Rules</h2><p class="sub">What counts as a completed handover.</p></div></div>
+<div class="grid g2">
+  <div class="card"><h3>Readiness Model</h3><p><b>Explained → Documented → Access Ready → Practiced → Verified</b></p><p class="small">Explanation alone is not transfer.</p></div>
+  <div class="card"><h3>Definition of Done</h3><ol class="small"><li>Colin explains current behavior.</li><li>Documentation and evidence exist.</li><li>Access is available and recoverable.</li><li>Widhy performs the work independently.</li><li>Reviewer verifies the result.</li><li>Normal execution no longer depends on Colin.</li></ol></div>
+</div>
+<div class="callout danger"><strong>Security rule</strong>Never store actual passwords, tokens, API keys, private keys, MFA recovery codes or other secrets in Notion. Store ownership, purpose, approved secret-store location, rotation procedure and recovery path only.</div>
+<div class="table"><table><thead><tr><th>Label</th><th>Meaning</th></tr></thead><tbody>
+<tr><td><span class="badge green">Confirmed</span></td><td>Supported by current evidence or recent verification.</td></tr>
+<tr><td><span class="badge yellow">Need Verification</span></td><td>Likely correct but not checked against current state.</td></tr>
+<tr><td><span class="badge gray">Unknown / Ask Colin</span></td><td>Current state is unknown and must not be assumed.</td></tr>
+<tr><td><span class="badge purple">Legacy but Used</span></td><td>Legacy behavior or technology still active operationally.</td></tr>
+<tr><td><span class="badge red">Deprecated</span></td><td>No longer on the supported path.</td></tr>
+</tbody></table></div>
+<details><summary>Minimum documentation scope per system</summary><div class="dbody"><ul><li>Purpose & criticality; business/technical/backup owner</li><li>Repository, production/sandbox/staging, frontend/backend/API</li><li>Database/cache/storage; authentication & permissions</li><li>Hosting/domain/DNS/SSL/CDN</li><li>Observability, integrations, deployment/rollback</li><li>Backup/restore, runbooks, legacy risks, open questions, last verified date</li></ul></div></details>
+<details><summary>Recommended handover order</summary><div class="dbody"><ol><li>System Landscape</li><li>Repositories & Code Map</li><li>StockWizz Architecture</li><li>sensatia.com & CMS</li><li>Environment / Hosting</li><li>Security & Access</li><li>Deployment & Rollback</li><li>Better Stack / Observability</li><li>Database & Data Safety</li><li>Domain / DNS / SSL</li><li>Integrations</li><li>Backup / Restore / DR</li><li>Legacy Knowledge</li></ol></div></details>
+</section>
+
+<section class="section" id="portfolio">
+<div class="heading"><div class="icon">🗺️</div><div><h2>System Portfolio & Ownership</h2><p class="sub">Current entries in Systems Registry.</p></div></div>
+<div class="table"><table><thead><tr><th>System</th><th>Category</th><th>Criticality</th><th>State</th><th>Handover</th><th>Known ownership</th><th>Main gap</th></tr></thead><tbody>
+<tr><td><b>StockWizz</b></td><td>Internal System</td><td><span class="badge red">Critical</span></td><td>Production</td><td>Discovery</td><td>Business: multiple teams<br>Technical: Widhy — Internal Business Systems</td><td>Production architecture, hosting, frontend stack, background jobs, legacy boundaries.</td></tr>
+<tr><td><b>sensatia.com</b></td><td>Website</td><td><span class="badge red">Critical</span></td><td>Production</td><td>Discovery</td><td>Business: Marketing / E-Commerce<br>Technical: Internal IT — transition</td><td>Repo, hosting, CMS relationship, deployment, locale architecture, payment/provider topology.</td></tr>
+<tr><td><b>Jubelio Integration</b></td><td>Integration</td><td>High</td><td>Sandbox</td><td><span class="badge purple">Practicing</span></td><td>E-Commerce · Widhy + Colin during transition</td><td>Production readiness, retry/recovery, credential ownership, reconciliation monitoring.</td></tr>
+<tr><td><b>Better Stack</b></td><td>Observability</td><td>High</td><td>Production</td><td>Discovery</td><td>IT · Internal IT</td><td>Source inventory, retention, alert rules, billing/admin ownership, query library.</td></tr>
+<tr><td><b>Prometheus / Metrics</b></td><td>Observability</td><td>Medium</td><td>Unknown</td><td>Discovery</td><td>IT · Internal IT</td><td>Verify what is live, scraped, retained and dashboarded.</td></tr>
+<tr><td><b>Sentry</b></td><td>Observability</td><td>Medium</td><td>Unknown</td><td>Not Started</td><td>IT · technical owner needs verification</td><td>Confirm usage; map org/projects/releases/source maps/alerts or mark N/A.</td></tr>
+<tr><td><b>Website CMS</b></td><td>CMS</td><td>High</td><td>Unknown</td><td>Not Started</td><td>Marketing / Content · technical owner needs verification</td><td>Determine whether CMS is inside StockWizz, website repo, or a separate service.</td></tr>
+</tbody></table></div>
+<details><summary>Open questions for the complete system landscape</summary><div class="dbody"><ul><li>Which systems/services are still active and maintained by Colin?</li><li>Which are Legacy but Used?</li><li>Which are Deprecated?</li><li>Are there repositories/services outside the main StockWizz repository?</li><li>Which infrastructure components are shared across applications?</li></ul></div></details>
+</section>
+
+<section class="section" id="stockwizz">
+<div class="heading"><div class="icon">📦</div><div><h2>StockWizz — System Overview & Architecture</h2><p class="sub">Responsibility boundaries, code map and key unknowns.</p></div></div>
+<div class="flow"><div class="node">Internal Users</div><div class="arr">→</div><div class="node">StockWizz Frontend</div><div class="arr">→</div><div class="node">Backend / API</div><div class="arr">→</div><div class="node">Database</div></div>
+<div class="flow"><div class="node">Backend / API</div><div class="arr">→</div><div class="node">Cron / Worker / Queue</div><div class="arr">→</div><div class="node">External Integrations</div><div class="arr">→</div><div class="node">Logs / Monitoring</div></div>
+<div class="grid g2" style="margin-top:14px">
+<div class="card"><h3>Repository / Code Map</h3><table><tr><td>Current Frontend</td><td>TBD · Need Verification</td></tr><tr><td>Legacy Frontend</td><td>TBD · Need Verification</td></tr><tr><td>Backend / API</td><td>TBD · Need Verification</td></tr><tr><td>Documentation</td><td><code>docs/</code> · Known</td></tr></table></div>
+<div class="card"><h3>Tech Stack — current evidence</h3><ul class="small"><li>Frontend: TBD</li><li>Backend: TBD</li><li>Runtime: TBD</li><li>Database: MongoDB — topology to verify</li><li>Cache/session: verify current use</li><li>Authentication: verify provider/topology</li><li>Monitoring: Better Stack known in use; verify additional tools</li></ul></div>
+</div>
+<div class="card" style="margin-top:14px"><h3>Module Catalog</h3><p class="small">Inventory · Warehouse / Distribution Center · Retail / Shops · Purchase Order / Purchasing · Production · Product / Item Master · Website / E-Commerce related modules · CMS (verify whether embedded) · Reporting · Administration / Permissions</p></div>
+<details><summary>Critical questions</summary><div class="dbody"><ul><li>Current source of truth for stock by location?</li><li>Which code paths are current vs legacy?</li><li>Which endpoints perform critical data mutations?</li><li>Which background jobs are active?</li><li>Which areas are high-risk to modify?</li></ul></div></details>
+<details><summary>Handover evidence checklist</summary><div class="dbody"><ul><li>☐ Architecture explained</li><li>☐ Repository map verified</li><li>☐ Current frontend confirmed</li><li>☐ Backend entry point confirmed</li><li>☐ Critical modules mapped</li><li>☐ Widhy can trace UI → API → database</li></ul></div></details>
+</section>
+
+<section class="section" id="website">
+<div class="heading"><div class="icon">🌐</div><div><h2>sensatia.com & CMS</h2><p class="sub">Website architecture, content, localization, checkout and payment.</p></div></div>
+<div class="callout warn"><strong>Do not assume the CMS location</strong>It is not yet confirmed whether CMS is part of StockWizz, the website repository, or a separate service.</div>
+<div class="flow"><div class="node">CMS</div><div class="arr">→</div><div class="node">Content / Product Data</div><div class="arr">→</div><div class="node">sensatia.com</div><div class="arr">→</div><div class="node">Cart / Checkout</div><div class="arr">→</div><div class="node">Payment</div><div class="arr">→</div><div class="node">Order Creation</div><div class="arr">→</div><div class="node">StockWizz / Fulfilment</div></div>
+<div class="grid g2" style="margin-top:14px">
+<div class="card"><h3>Website scope</h3><ul class="small"><li><code>sensatia.com/id/...</code> and <code>sensatia.com/en/...</code></li><li>Product/category/content pages</li><li>Account/customer features</li><li>Cart, checkout, payment, order creation</li><li>Localization/language switching</li><li>SEO/metadata</li></ul></div>
+<div class="card"><h3>CMS mapping — Ask Colin</h3><table><tr><td>CMS URL</td><td>TBD</td></tr><tr><td>Repo / folder</td><td>TBD</td></tr><tr><td>Content API</td><td>TBD</td></tr><tr><td>DB collections</td><td>TBD</td></tr><tr><td>Media storage</td><td>TBD</td></tr><tr><td>Publishing flow</td><td>TBD</td></tr><tr><td>Permissions</td><td>TBD</td></tr></table></div>
+</div>
+<details open><summary>Checkout & payment lifecycle that must be documented</summary><div class="dbody"><ol><li>Cart created</li><li>Checkout validation</li><li>Pending order creation</li><li>Payment initiated</li><li>Success / decline / retry</li><li>Webhook callback</li><li>Final order persistence</li><li>Stock / fulfilment handoff</li><li>Cancellation / refund / recovery</li></ol><p><b>Tests:</b> language switching with same context, payment retry after decline, order persistence after successful payment, cart recovery, duplicate payment/order prevention.</p></div></details>
+<details><summary>Locale / routing verification</summary><div class="dbody"><ul><li>How /id and /en map to the same content</li><li>Slug mapping & redirects</li><li>Canonical URLs</li><li>Fallback when translation is unavailable</li><li>Cookie/session locale behavior</li><li>Cache/CDN impact</li></ul></div></details>
+</section>
+
+<section class="section" id="database">
+<div class="heading"><div class="icon">🗄️</div><div><h2>Database & Data Safety</h2><p class="sub">Data model, source of truth, correction safety, backup and restore.</p></div></div>
+<div class="callout danger"><strong>Production data rule</strong>Do not edit production quantities without understanding the originating transaction. Capture before-state evidence, inspect ledger/history, back up before bulk/manual correction, then reconcile.</div>
+<div class="grid g2">
+<div class="card"><h3>Critical collections</h3><p class="small"><code>item</code>, <code>warehousestock</code>, <code>stockhistory</code>, <code>shopstock</code>, <code>shopstockhistory</code>, <code>shopsales</code>, <code>websales</code>, plus other collections to verify.</p></div>
+<div class="card"><h3>Source-of-truth rules to verify</h3><p class="small"><b>Retail:</b> key <code>_shop_id + _item_id</code>.<br><b>Warehouse / DC:</b> key <code>_warehouse_id + _item_id</code>.<br>Current balance and history collections still require current-state verification.</p></div>
+</div>
+<div class="table" style="margin-top:14px"><table><thead><tr><th>Environment</th><th>Provider / Cluster</th><th>Database</th><th>Access</th><th>Backup</th></tr></thead><tbody><tr><td>Production</td><td>TBD</td><td>TBD</td><td>TBD</td><td>TBD</td></tr><tr><td>Sandbox</td><td>TBD</td><td>TBD</td><td>TBD</td><td>TBD</td></tr><tr><td>Local</td><td>TBD</td><td>TBD</td><td>Developer</td><td>N/A</td></tr></tbody></table></div>
+<div class="grid g2" style="margin-top:14px"><div class="card"><h3>Backup / restore — TBD</h3><p class="small">Provider · schedule · retention · encryption · restore procedure · last restore test.</p></div><div class="card"><h3>Evidence required</h3><p class="small">☐ collections explained · ☐ source of truth verified · ☐ indexes reviewed · ☐ safe correction practiced · ☐ backup access confirmed · ☐ Widhy performs safe restore.</p></div></div>
+</section>
+
+<section class="section" id="infra">
+<div class="heading"><div class="icon">☁️</div><div><h2>Infrastructure, Hosting, Domain & Environments</h2><p class="sub">Environment map, provider ownership and recovery.</p></div></div>
+<div class="callout danger"><strong>Infrastructure Registry: 0 entries</strong>The structure exists, but the linked operational registry has not yet been populated.</div>
+<div class="grid g2">
+<div class="card"><h3>Environment Matrix</h3><ul class="small"><li>Local</li><li>Sandbox / SB</li><li>Staging — verify if it exists</li><li>Production</li></ul><p class="small">For each: hostname, source branch, DB, external credential scope, test-data rules, deploy method, monitoring/log source.</p></div>
+<div class="card"><h3>Current placeholders</h3><table><tr><td>StockWizz App</td><td>Production · provider TBD</td></tr><tr><td>StockWizz SB</td><td>Sandbox · provider TBD</td></tr><tr><td>sensatia.com</td><td>Production · provider TBD</td></tr><tr><td>Database</td><td>Prod/SB · provider TBD</td></tr><tr><td>Cache / Redis</td><td>Verify current use</td></tr></table></div>
+</div>
+<details open><summary>Domain / DNS / SSL / CDN</summary><div class="dbody"><ul><li>Domain registrar, owner and recovery</li><li>DNS provider, zone ownership and recovery</li><li>SSL/TLS mechanism and renewal</li><li>CDN — TBD / N/A</li><li>Emergency recovery if primary administrator is unavailable</li></ul></div></details>
+<details><summary>Open infrastructure questions</summary><div class="dbody"><ul><li>Which hosting provider/resources are in use?</li><li>Who owns billing?</li><li>Are website and StockWizz production environments separate?</li><li>Docker/containers/PM2/other process manager?</li><li>Is a CDN used?</li><li>Who owns domain and DNS?</li><li>What is emergency recovery if primary admin is unavailable?</li></ul></div></details>
+</section>
+
+<section class="section" id="security">
+<div class="heading"><div class="icon">🔐</div><div><h2>Security, Access & Credential Ownership</h2><p class="sub">Ownership, access level, recovery and rotation — not secret values.</p></div></div>
+<div class="callout danger"><strong>Critical gap</strong>The complete access and credential ownership matrix is still open. Safe ownership requires recoverable access, not just technical knowledge.</div>
+<div class="grid g2"><div class="card"><h3>Scope</h3><p class="small">GitHub · hosting/cloud · DB admin · domain/DNS/SSL · Better Stack/Sentry · auth provider · payment provider · Jubelio/marketplaces · email/notifications · service accounts/API credentials.</p></div><div class="card"><h3>Registry fields</h3><p class="small">Service/purpose · environment · technical owner · billing owner · backup/recovery owner · approved secret store · rotation · recovery · last verified.</p></div></div>
+<p class="small"><b>Access states:</b> Full · Limited · Missing · Unknown · N/A</p>
+</section>
+
+<section class="section" id="observability">
+<div class="heading"><div class="icon">📈</div><div><h2>Observability — Logs, Errors, Metrics & Alerts</h2><p class="sub">Better Stack is known; Sentry and metrics require verification.</p></div></div>
+<div class="grid g3"><div class="card"><h3>Better Stack</h3><p class="small">Known in use. Still needs complete source inventory, retention, standard queries, alert rules and admin/billing ownership.</p></div><div class="card"><h3>Sentry</h3><p class="small"><span class="badge gray">Unknown</span> Confirm whether used. If yes: org, projects, source maps, backend tracking, releases and alerts.</p></div><div class="card"><h3>Prometheus / Metrics</h3><p class="small"><span class="badge yellow">Investigating</span> Verify scrape/export config, live metrics, retention, dashboards and alerts.</p></div></div>
+<details open><summary>Standard investigation flow</summary><div class="dbody"><ol><li>Reproduce / capture symptom.</li><li>Capture timestamp, user, location, record/transaction ID.</li><li>Find request in Better Stack.</li><li>Trace backend/API path.</li><li>Inspect DB/data if needed.</li><li>Check provider response.</li><li>Decide safe recovery.</li><li>Reconcile business data.</li></ol></div></details>
+<div class="table"><table><thead><tr><th>Alert</th><th>Severity</th><th>Owner</th><th>First Check</th><th>Channel</th></tr></thead><tbody><tr><td>API error spike</td><td>High</td><td>Internal IT</td><td>Better Stack</td><td>TBD</td></tr><tr><td>Website checkout failure</td><td>Critical</td><td>Internal IT</td><td>Logs + payment provider</td><td>TBD</td></tr><tr><td>Jubelio sync failure</td><td>High</td><td>Internal IT</td><td>Integration logs</td><td>TBD</td></tr></tbody></table></div>
+</section>
+
+<section class="section" id="deployment">
+<div class="heading"><div class="icon">🚀</div><div><h2>Deployment, Release & Rollback</h2><p class="sub">Target release discipline and reverse-handover evidence.</p></div></div>
+<div class="flow"><div class="node">Local Dev</div><div class="arr">→</div><div class="node">Pull Request</div><div class="arr">→</div><div class="node">Sandbox / Staging</div><div class="arr">→</div><div class="node">Validation</div><div class="arr">→</div><div class="node">Production</div><div class="arr">→</div><div class="node">Monitoring</div></div>
+<div class="grid g2" style="margin-top:14px"><div class="card"><h3>Before Deployment</h3><p class="small">☐ Jira exists · ☐ scope/risk understood · ☐ PR reviewed · ☐ sandbox validation · ☐ DB impact checked · ☐ backup/recovery known · ☐ integration impact checked · ☐ rollback ready.</p></div><div class="card"><h3>Rollback conditions</h3><p class="small">Critical workflow failure · material error spike · incorrect inventory mutation · broken checkout/payment · unexpected data mutation.</p></div></div>
+<div class="callout warn"><strong>Actual deploy commands/steps remain TBD</strong>Precise StockWizz and website deployment, branch/platform steps, health checks and rollback procedure still require Colin walkthrough plus Widhy reverse handover.</div>
+<details><summary>Post-deployment validation</summary><div class="dbody">☐ app reachable · ☐ critical endpoints healthy · ☐ no error spike · ☐ DB mutation correct · ☐ integrations stable · ☐ business flow validated · ☐ Jira updated · ☐ docs updated if behavior changed.</div></details>
+</section>
+
+<section class="section" id="integrations">
+<div class="heading"><div class="icon">🔌</div><div><h2>Integrations & External Services</h2><p class="sub">Jubelio, payment, marketplace, auth and notification boundaries.</p></div></div>
+<div class="callout danger"><strong>Integrations Registry: 0 entries</strong>The principles are documented, but per-integration operational records still need to be populated.</div>
+<div class="grid g2"><div class="card"><h3>Required for every integration</h3><p class="small">Business purpose · direction · source of truth · authentication/provider/endpoint · timeout · retry · idempotency · partial failure · logs · reconciliation · manual fallback · credential owner.</p></div><div class="card"><h3>Current known state</h3><table><tr><td>Jubelio</td><td><span class="badge purple">Practicing</span></td></tr><tr><td>Payment</td><td>Verify scope</td></tr><tr><td>Marketplace</td><td>Active context</td></tr><tr><td>Auth / Identity</td><td>TBD</td></tr><tr><td>Email / Notifications</td><td>TBD</td></tr></table></div></div>
+<details open><summary>Jubelio target recovery behavior</summary><div class="dbody"><p><b>Direction:</b> StockWizz event → exact SKU resolution → Jubelio item/location → stock adjustment.</p><ul><li>Successful items are not repeated.</li><li>Failed items retry separately.</li><li>StockWizz quantity is not changed again during retry.</li><li>Failures remain visible if retry still fails.</li><li>Manual adjustment remains possible.</li><li>Final reconciliation must be verifiable.</li></ul></div></details>
+<details><summary>Payment provider documentation requirements</summary><div class="dbody"><p>Provider(s), checkout initiation, payment intent/order reference, webhook, retry, idempotency, refund, order lifecycle and recovery when payment succeeds but order state is inconsistent.</p></div></details>
+</section>
+
+<section class="section" id="incidents">
+<div class="heading"><div class="icon">🧯</div><div><h2>Incident Runbooks & Recovery</h2><p class="sub">Standard response and domain-specific recovery patterns.</p></div></div>
+<div class="callout danger"><strong>Incident Runbooks Registry: 0 entries</strong>High-level patterns exist, but durable owned/testable runbook records have not yet been populated.</div>
+<div class="card"><h3>Incident Response Standard</h3><p><b>Symptom → Scope → Evidence → Diagnosis → Safe Action → Verify → Reconcile → Document</b></p></div>
+<div class="grid g2" style="margin-top:14px">
+<details><summary>Stock Integrity</summary><div class="dbody">1. Identify item/location. 2. Capture stock. 3. Review history. 4. Identify originating transaction. 5. Check duplicate/wrong/missing movement. 6. Preserve evidence. 7. Controlled correction. 8. Reconcile.</div></details>
+<details><summary>Website Checkout / Payment</summary><div class="dbody">Capture identifiers → provider status → pending/final order → webhook/logs → prevent duplicate fulfilment → refund/recovery → root cause.</div></details>
+<details><summary>Jubelio Sync</summary><div class="dbody">Identify PO/restock → per-item status → SKU/location mapping → quantity payload → retry failed only → manual fallback → reconcile.</div></details>
+<details><summary>Performance</summary><div class="dbody">Reproduce → browser/network → API duration → Better Stack → DB query/indexes → N+1/repeated calls → compare before/after.</div></details>
+<details><summary>Deployment Failure</summary><div class="dbody">Stop changes → capture evidence → assess impact → rollback if needed → verify → communicate → post-incident notes.</div></details>
+</div>
+</section>
+
+<section class="section" id="legacy">
+<div class="heading"><div class="icon">🧩</div><div><h2>Legacy Knowledge, Technical Debt & Decisions</h2><p class="sub">Historical context that may not be visible from code alone.</p></div></div>
+<p><span class="badge green">Active</span> <span class="badge purple">Legacy but Used</span> <span class="badge red">Deprecated</span> <span class="badge gray">Unknown</span></p>
+<div class="table"><table><thead><tr><th>Area</th><th>Behavior</th><th>Why</th><th>Status</th><th>Risk</th><th>Direction</th></tr></thead><tbody><tr><td>Inventory</td><td>TBD</td><td>TBD</td><td>Unknown</td><td>TBD</td><td>Ask Colin</td></tr><tr><td>Warehouse / DC</td><td>TBD</td><td>TBD</td><td>Unknown</td><td>TBD</td><td>Ask Colin</td></tr><tr><td>Website</td><td>TBD</td><td>TBD</td><td>Unknown</td><td>TBD</td><td>Ask Colin</td></tr></tbody></table></div>
+<details open><summary>Critical “tribal knowledge” questions</summary><div class="dbody"><ul><li>Which ten StockWizz areas are most incident-prone if changed incorrectly?</li><li>Which operational workarounds are known only by Colin?</li><li>Which unusual behaviors are intentional?</li><li>Which code/modules should not be changed before refactor?</li><li>Which historical decisions must Internal IT understand?</li></ul></div></details>
+<details><summary>Architecture Decision Record template</summary><div class="dbody">Decision · Context · Options Considered · Selected Decision · Trade-offs · Current Validity (still valid / review / deprecated).</div></details>
+</section>
+
+<section class="section" id="control">
+<div class="heading"><div class="icon">🎯</div><div><h2>Handover Control Center</h2><p class="sub">How explanations become verified capability.</p></div></div>
+<div class="grid g2"><div class="card"><h3>Working Rules</h3><ul class="small"><li>One session = one primary focus.</li><li>Every session creates documentation output.</li><li>Unresolved items go to Knowledge Gaps.</li><li>Capability is tested by reverse handover.</li><li>Jira = work tracker.</li><li>Notion = system knowledge, evidence and readiness.</li></ul></div><div class="card"><h3>Simple Workflow for Colin</h3><ol class="small"><li>Find the correct existing page.</li><li>Replace unknowns with verified current-state info.</li><li>Preserve confirmed vs uncertain boundary.</li><li>Record unresolved items.</li><li>Widhy performs reverse handover.</li><li>Reviewer verifies result.</li></ol></div></div>
+<div class="callout"><strong>One topic = one permanent source of truth</strong>If a new system/domain does not fit clearly, use New System / Domain Intake temporarily. Avoid fragmented pages like “Colin Notes” or “Deployment Info 2”.</div>
+<details><summary>KT Session Template</summary><div class="dbody">Session date/topic/trainer/owner/Jira/docs; goal; current understanding; Colin explanation; architecture/flow; important files/modules/services; access; live walkthrough; safe/unsafe actions; documentation updated; reverse-handover task/result/review; capability status; open questions; next action.</div></details>
+<details><summary>New System / Domain Intake</summary><div class="dbody">Temporary holding area only. Promote to a permanent page only when the topic is a distinct system/service/domain, cannot fit an existing source-of-truth page, and has enough operational importance or complexity to justify dedicated ownership.</div></details>
+</section>
+
+<section class="section" id="kt">
+<div class="heading"><div class="icon">🎓</div><div><h2>KT Plan — Current Tracker</h2><p class="sub">All 16 topics are Planned; Documented, Access Ready, Practiced and Verified are all unchecked.</p></div></div>
+<div class="table"><table><thead><tr><th>#</th><th>Topic</th><th>Domain</th><th>Priority</th><th>Status</th><th>Outcome / Notes</th></tr></thead><tbody>
+<tr><td>01</td><td>System Landscape</td><td>System Landscape</td><td>High</td><td>Planned</td><td>List active systems/apps/services/repos/domains; classify active / legacy / deprecated.</td></tr>
+<tr><td>02</td><td>Repositories & Code Map</td><td>StockWizz</td><td>High</td><td>Planned</td><td>Map StockWizz, sensatia.com, CMS, workers/scripts, branches and production source.</td></tr>
+<tr><td>03</td><td>StockWizz Architecture</td><td>StockWizz</td><td>High</td><td>Planned</td><td>Trace frontend → API → DB → jobs → integrations.</td></tr>
+<tr><td>04</td><td>sensatia.com & CMS</td><td>Website/CMS</td><td>High</td><td>Planned</td><td>Repo, CMS location, content API, localization, media and publish flow.</td></tr>
+<tr><td>05</td><td>Database Deep Dive</td><td>Database</td><td>High</td><td>Planned</td><td>Topology, collections, source-of-truth, indexes, safe/unsafe operations.</td></tr>
+<tr><td>06</td><td>Environment Map</td><td>Infrastructure</td><td>High</td><td>Planned</td><td>Local, SB, staging if any, prod; URLs, DBs, configs and safe test boundaries.</td></tr>
+<tr><td>07</td><td>Deploy & Rollback</td><td>Deployment</td><td>High</td><td>Planned</td><td>StockWizz + website deploy, health check, rollback; reverse handover.</td></tr>
+<tr><td>08</td><td>Hosting & Infrastructure</td><td>Infrastructure</td><td>High</td><td>Planned</td><td>Compute, DB, cache, storage, network, provider, billing/admin ownership.</td></tr>
+<tr><td>09</td><td>Domain, DNS, SSL & CDN</td><td>Infrastructure</td><td>High</td><td>Planned</td><td>Registrar, DNS, SSL renewal, CDN/cache and recovery ownership.</td></tr>
+<tr><td>10</td><td>Auth, Access & Secrets</td><td>Infrastructure</td><td>High</td><td>Planned</td><td>Identity, admin/service accounts, secret store, rotation, recovery.</td></tr>
+<tr><td>11</td><td>Better Stack, Sentry & Metrics</td><td>Observability</td><td>High</td><td>Planned</td><td>Logs, sources, queries, Sentry yes/no, Prometheus current state, alerts.</td></tr>
+<tr><td>12</td><td>Cron, Worker & Queue</td><td>StockWizz</td><td>Medium</td><td>Planned</td><td>Jobs, triggers/schedules, code paths, retries/idempotency, logs/failures.</td></tr>
+<tr><td>13</td><td>Integration Registry</td><td>Integrations</td><td>High</td><td>Planned</td><td>Jubelio, payment, marketplace, auth, email and vendor APIs.</td></tr>
+<tr><td>14</td><td>Backup, Restore & DR</td><td>Infrastructure</td><td>High</td><td>Planned</td><td>Backup scope, retention, restore, recovery order and practical test.</td></tr>
+<tr><td>15</td><td>Legacy & Incident Knowledge</td><td>Legacy</td><td>Medium</td><td>Planned</td><td>Critical legacy behavior, recurring incidents and workarounds.</td></tr>
+<tr><td>16</td><td>Reverse Handover / Capability Test</td><td>Incidents</td><td>High</td><td>Planned</td><td>Widhy deploys, diagnoses, traces data and performs recovery while Colin reviews.</td></tr>
+</tbody></table></div>
+</section>
+
+<section class="section" id="gaps">
+<div class="heading"><div class="icon">⚠️</div><div><h2>Knowledge Gaps — Current Register</h2><p class="sub">12 gaps; none resolved.</p></div></div>
+<div class="grid g3"><div class="card metric"><div class="v">5</div><div class="l">Critical</div></div><div class="card metric"><div class="v">5</div><div class="l">High</div></div><div class="card metric"><div class="v">2</div><div class="l">Medium</div></div></div>
+<div class="table" style="margin-top:14px"><table><thead><tr><th>Priority</th><th>Gap</th><th>Domain / Type</th><th>Status</th><th>Need From</th></tr></thead><tbody>
+<tr><td><span class="badge red">Critical</span></td><td>Complete access and credential ownership matrix</td><td>Access/Security · Access</td><td>Open</td><td>GitHub, hosting, DB, domain/DNS, Better Stack, auth/payment/provider ownership and recovery.</td></tr>
+<tr><td><span class="badge red">Critical</span></td><td>Confirm domain registrar, DNS, SSL and recovery ownership</td><td>Infrastructure · Ownership</td><td>Waiting Colin</td><td>Registrar, DNS provider, SSL renewal, CDN if any, primary/backup admins.</td></tr>
+<tr><td><span class="badge red">Critical</span></td><td>Confirm exact Website CMS location and architecture</td><td>Website/CMS · Knowledge</td><td>Waiting Colin</td><td>URL, repo/folder, API, DB collections, translation model, media, publish flow, permissions.</td></tr>
+<tr><td><span class="badge red">Critical</span></td><td>Map production hosting resources and ownership</td><td>Infrastructure · Knowledge</td><td>Waiting Colin</td><td>Provider, resources, region, environments, admin/billing owner.</td></tr>
+<tr><td><span class="badge red">Critical</span></td><td>Perform database restore in safe environment</td><td>Database · Capability</td><td>Open</td><td>Backup provider/access, restore runbook, isolated restore exercise.</td></tr>
+<tr><td><span class="badge yellow">High</span></td><td>Confirm complete Sensatia system landscape</td><td>System Landscape · Knowledge</td><td>Waiting Colin</td><td>Full list of active systems/services/repos/domains and classifications.</td></tr>
+<tr><td><span class="badge yellow">High</span></td><td>Document website payment/order lifecycle end-to-end</td><td>Website/CMS · Documentation</td><td>Investigating</td><td>Pending order, payment retry, webhook, idempotency, refund/recovery.</td></tr>
+<tr><td><span class="badge yellow">High</span></td><td>Map all active cron, workers and queues</td><td>StockWizz · Knowledge</td><td>Waiting Colin</td><td>Job, trigger/schedule, code path, retry/idempotency, logs/failure.</td></tr>
+<tr><td><span class="badge yellow">High</span></td><td>Perform sensatia.com deployment under review</td><td>Website/CMS · Capability</td><td>Open</td><td>Exact release/rollback and safe production validation.</td></tr>
+<tr><td><span class="badge yellow">High</span></td><td>Perform StockWizz production deployment under review</td><td>Deployment · Capability</td><td>Open</td><td>Colin walkthrough → Widhy deploys → Colin reviews.</td></tr>
+<tr><td><span class="badge blue">Medium</span></td><td>Confirm Sentry usage or mark N/A</td><td>Observability · Knowledge</td><td>Waiting Colin</td><td>Usage; if yes org/projects/releases/source maps/alerts.</td></tr>
+<tr><td><span class="badge blue">Medium</span></td><td>Verify current Prometheus / metrics setup</td><td>Observability · Knowledge</td><td>Investigating</td><td>Scrape/export config, live metrics, dashboards and alerts.</td></tr>
+</tbody></table></div>
+</section>
+
+<section class="section" id="assessment">
+<div class="heading"><div class="icon">✅</div><div><h2>Assessment & Recommended Next Actions</h2><p class="sub">Synthesis from the current structure, tracker and knowledge-gap data.</p></div></div>
+<div class="grid g2"><div class="card"><h3>What is already strong</h3><ul class="small"><li>Clear domain-based source-of-truth structure.</li><li>Confirmed vs unknown evidence is explicitly separated.</li><li>Security rules exclude actual secrets.</li><li>Reverse handover is part of Definition of Done.</li><li>Jira vs Notion responsibilities are clear.</li><li>Incident patterns exist at framework level.</li><li>New-domain intake reduces documentation fragmentation.</li></ul></div><div class="card"><h3>Main risk right now</h3><p class="small">The structure is ahead of the operational content. The highest risk is missing verified production details, recoverable access, tested deployment/rollback, tested backup restore, and populated infrastructure/integration/runbook registries.</p></div></div>
+<div class="card" style="margin-top:14px"><h3>Recommended execution order</h3><ol class="priority">
+<li><div><b>Complete access & ownership</b><div class="small">GitHub, hosting, DB, domain/DNS, observability, auth/payment/providers and recovery ownership.</div></div></li>
+<li><div><b>Map production infrastructure</b><div class="small">Provider/resources/regions/environments/admin/billing/domain/DNS/SSL/recovery.</div></div></li>
+<li><div><b>Verify system & repository landscape</b><div class="small">All active, legacy and deprecated systems, repos, workers, scripts and services.</div></div></li>
+<li><div><b>Complete StockWizz + website architecture walkthroughs</b><div class="small">UI → API → DB → jobs → integrations; CMS and payment/order lifecycle.</div></div></li>
+<li><div><b>Run deployment & rollback reverse handover</b><div class="small">Widhy performs real controlled steps under review.</div></div></li>
+<li><div><b>Prove backup / restore capability</b><div class="small">Restore in a safe isolated environment and retain evidence.</div></div></li>
+<li><div><b>Populate empty registries</b><div class="small">Infrastructure, Integrations and Incident Runbooks should become operational tools.</div></div></li>
+<li><div><b>Close with capability verification</b><div class="small">Move Planned → Explained → Documented → Access Ready → Practiced → Verified only with evidence.</div></div></li>
+</ol></div>
+<div class="callout"><strong>Operating principle</strong>Measure handover by repeatable capabilities, not meeting count: deploy, rollback, trace requests, diagnose incidents, reconcile stock, recover access, restore data and operate integrations safely.</div>
+</section>
+
+<section class="section" id="sources">
+<div class="heading"><div class="icon">🔗</div><div><h2>Notion Source Map</h2><p class="sub">Direct source-of-truth links used for this consolidated view.</p></div></div>
+<div class="sources">
+<a class="source" href="https://app.notion.com/p/3d55bbd644b3819fb8dff1ba82f77321" target="_blank"><strong>🧭 Main Handover Index</strong>Source of truth and documentation map</a>
+<a class="source" href="https://app.notion.com/p/3d55bbd644b3815d9a97d93b3373dc78" target="_blank"><strong>🗺️ 00 — System Portfolio</strong>Ownership and Systems Registry</a>
+<a class="source" href="https://app.notion.com/p/3d55bbd644b3812f8cdcc5fdef027a1c" target="_blank"><strong>📦 01 — StockWizz</strong>System overview & architecture</a>
+<a class="source" href="https://app.notion.com/p/3d55bbd644b38178a56ef729ca19de5e" target="_blank"><strong>🌐 02 — sensatia.com & CMS</strong>Architecture, content & commerce</a>
+<a class="source" href="https://app.notion.com/p/3d55bbd644b3811a979eeeea775fc120" target="_blank"><strong>🗄️ 03 — Database</strong>Data safety, backup & restore</a>
+<a class="source" href="https://app.notion.com/p/3d55bbd644b38121a8fceb1b9f9de186" target="_blank"><strong>☁️ 04 — Infrastructure</strong>Hosting, domain & environments</a>
+<a class="source" href="https://app.notion.com/p/3d55bbd644b381379577de7323a25b1a" target="_blank"><strong>🔐 05 — Security</strong>Access and credential ownership</a>
+<a class="source" href="https://app.notion.com/p/3d55bbd644b381519c7fc334153fe092" target="_blank"><strong>📈 06 — Observability</strong>Logs, errors, metrics & alerts</a>
+<a class="source" href="https://app.notion.com/p/3d55bbd644b3816492eddd25e33af9f2" target="_blank"><strong>🚀 07 — Deployment</strong>Release & rollback</a>
+<a class="source" href="https://app.notion.com/p/3d55bbd644b381de98ddde4eecf7aa55" target="_blank"><strong>🔌 08 — Integrations</strong>External services</a>
+<a class="source" href="https://app.notion.com/p/3d55bbd644b381c6af3edbd66ea36788" target="_blank"><strong>🧯 09 — Incident Runbooks</strong>Recovery patterns</a>
+<a class="source" href="https://app.notion.com/p/3d55bbd644b38160bdcbf4d19de76058" target="_blank"><strong>🧩 10 — Legacy</strong>Technical debt & decisions</a>
+<a class="source" href="https://app.notion.com/p/3d55bbd644b3819997d8f4f10ece940f" target="_blank"><strong>🎯 11 — Control Center</strong>KT governance, tracker and gaps</a>
+<a class="source" href="https://app.notion.com/p/3d55bbd644b38166a2ebc9887efaff11" target="_blank"><strong>🎓 KT Session Template</strong>Session evidence template</a>
+<a class="source" href="https://app.notion.com/p/3db5bbd644b38137a1c1d23f4f6b247a" target="_blank"><strong>🆕 New System / Domain Intake</strong>Controlled intake</a>
+</div>
+<div class="callout warn"><strong>Reference-only DEMO</strong>The filled example in Notion is useful as a completeness model, but its technical values are fictional and not treated as current-state facts.</div>
+</section>
+
+<div class="footer"><b>Sensatia Systems — Handover & Technical Documentation</b><br>Consolidated HTML generated from the Notion handover workspace. All current-state claims remain subject to the Confirmed / Need Verification / Unknown evidence rules defined in the source documentation.</div>
+
+</div></main></div>
+<script>
+const s=document.getElementById('navSearch'),links=[...document.querySelectorAll('#nav a')];
+s.addEventListener('input',()=>{const q=s.value.toLowerCase().trim();links.forEach(a=>a.style.display=!q||a.innerText.toLowerCase().includes(q)?'flex':'none')});
+</script>
+</body></html>

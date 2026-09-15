@@ -19,6 +19,45 @@ export type KnowledgeDocument = {
 
 export const documents: KnowledgeDocument[] = [
   {
+    slug: "project-phoenix-dctp-guide",
+    title: "Project Phoenix — Digital Capability Transition Program",
+    shortTitle: "Project Phoenix DCTP Guide",
+    summary:
+      "Panduan program transisi kapabilitas digital enam bulan, mencakup peran, roadmap, evidence, knowledge gaps, dan kriteria penyelesaian.",
+    category: "Meeting & Handover",
+    type: "Program Guide",
+    updated: "2026-09-14",
+    updatedLabel: "14 Sep 2026",
+    tags: ["Project Phoenix", "Knowledge Transfer", "DCTP"],
+    accent: "plum",
+  },
+  {
+    slug: "sensatia-systems-handover-technical-documentation",
+    title: "Sensatia Systems — Handover & Technical Documentation",
+    shortTitle: "Systems Handover Documentation",
+    summary:
+      "Dokumentasi teknis konsolidasi untuk portfolio sistem, arsitektur, akses, deployment, incident response, knowledge transfer, dan ownership.",
+    category: "Meeting & Handover",
+    type: "Handover",
+    updated: "2026-09-14",
+    updatedLabel: "14 Sep 2026",
+    tags: ["Technical Handover", "System Ownership", "Knowledge Transfer"],
+    accent: "plum",
+  },
+  {
+    slug: "google-review-qr-rollout-guide",
+    title: "Panduan Google Review QR Code & Rollout 52 Toko",
+    shortTitle: "Google Review QR Rollout Guide",
+    summary:
+      "Panduan operasional pembuatan QR review resmi, alur Creative, pemasangan, validasi, dan tracker rollout untuk 52 toko.",
+    category: "Ideas",
+    type: "Guide",
+    updated: "2026-09-14",
+    updatedLabel: "14 Sep 2026",
+    tags: ["Google Business Profile", "QR Code", "Store Rollout"],
+    accent: "amber",
+  },
+  {
     slug: "stockwizz-putu-mei-assessment",
     title: "StockWizz Order-to-Cash & Fulfillment Automation",
     shortTitle: "StockWizz Order-to-Cash Automation",

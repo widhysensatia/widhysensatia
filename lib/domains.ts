@@ -101,7 +101,16 @@ export const domains: KnowledgeDomain[] = [
       {
         name: "Systems Handover",
         description: "Konteks sistem, ownership, dan kesinambungan pekerjaan.",
-        documentSlugs: ["sensatia-systems-handover-master-blueprint"],
+        documentSlugs: [
+          "sensatia-systems-handover-technical-documentation",
+          "sensatia-systems-handover-master-blueprint",
+        ],
+      },
+      {
+        name: "Digital Capability Transition",
+        description:
+          "Program transisi, knowledge transfer, evidence, dan readiness menuju internal ownership.",
+        documentSlugs: ["project-phoenix-dctp-guide"],
       },
     ],
   },
@@ -114,6 +123,12 @@ export const domains: KnowledgeDomain[] = [
       "Ruang untuk peluang baru, eksperimen workflow, dan otomasi proses kerja yang layak dikembangkan.",
     accent: "amber",
     children: [
+      {
+        name: "Customer Experience & Store Operations",
+        description:
+          "Panduan operasional untuk pengalaman customer, reputasi digital, dan rollout lintas toko.",
+        documentSlugs: ["google-review-qr-rollout-guide"],
+      },
       {
         name: "B2B Workflow",
         description: "Konsep otomasi dari komunikasi customer menuju order terstruktur.",
