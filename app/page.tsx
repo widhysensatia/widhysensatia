@@ -1,6 +1,6 @@
-import { KnowledgeHub } from "@/components/knowledge-hub";
+import { HomePasswordGate } from "@/components/home-password-gate";
 import { documents } from "@/lib/documents";
 
 export default function HomePage() {
-  return <KnowledgeHub documents={documents} />;
+  return <HomePasswordGate documents={documents} />;
 }

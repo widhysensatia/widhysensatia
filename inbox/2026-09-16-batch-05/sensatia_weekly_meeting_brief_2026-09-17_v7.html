@@ -1,0 +1,1651 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Sensatia — Weekly Meeting Brief Michael — 17 Sep 2026</title>
+<style>
+:root{
+  --ink:#111111;
+  --ink-soft:#3f433f;
+  --muted:#747874;
+  --paper:#f6f4ef;
+  --surface:#ffffff;
+  --surface-2:#fbfaf7;
+  --line:#dedfd9;
+  --black:#000000;
+  --green:#546957;
+  --green-dark:#334639;
+  --green-soft:#e8eee8;
+  --olive:#86907c;
+  --sand:#eee7dc;
+  --amber:#9c6f2f;
+  --amber-soft:#f7efe2;
+  --rose:#92524b;
+  --rose-soft:#f6e9e6;
+  --blue:#688da0;
+  --blue-soft:#eaf2f4;
+  --coral:#d87962;
+  --coral-soft:#fae9e3;
+  --apricot:#e7a47e;
+  --apricot-soft:#fbede4;
+  --mustard:#cda64a;
+  --mustard-soft:#f7efcf;
+  --rose:#c98791;
+  --rose-soft:#f7e9ec;
+  --lilac:#9d94b8;
+  --lilac-soft:#efedf6;
+  --sea:#7fa8a5;
+  --sea-soft:#e5f0ef;
+  --sage-2:#91a27d;
+  --sage-2-soft:#edf1e8;
+  --shadow:0 18px 55px rgba(20,28,21,.065);
+  --radius:24px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:
+    radial-gradient(circle at 92% 3%, rgba(216,121,98,.10), transparent 25%),
+    radial-gradient(circle at 8% 17%, rgba(145,162,125,.12), transparent 26%),
+    radial-gradient(circle at 85% 65%, rgba(157,148,184,.07), transparent 24%),
+    var(--paper);
+  color:var(--ink);
+  font-family:Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  line-height:1.58;
+  letter-spacing:-.005em;
+}
+a{color:inherit}
+button{font:inherit}
+#progress{
+  position:fixed;left:0;top:0;height:3px;width:0;z-index:1000;
+  background:linear-gradient(90deg,var(--green-dark),var(--olive));
+}
+.topbar{
+  position:sticky;top:0;z-index:90;
+  backdrop-filter:blur(16px);
+  background:rgba(246,244,239,.88);
+  border-bottom:1px solid rgba(222,223,217,.9);
+}
+.topbar-inner{
+  max-width:1380px;margin:auto;padding:10px 24px;
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+}
+.wordmark{
+  display:flex;align-items:center;gap:10px;text-decoration:none;
+}
+.logo-svg{width:126px;height:31px;display:block}
+.top-actions{display:flex;gap:8px;align-items:center}
+.btn{
+  border:1px solid var(--line);background:rgba(255,255,255,.75);color:var(--ink);
+  border-radius:999px;padding:8px 12px;font-size:12px;font-weight:700;cursor:pointer;
+  transition:.18s ease;
+}
+.btn:hover{transform:translateY(-1px);background:#fff;border-color:#c7cbc4}
+.btn.primary{background:var(--green-dark);color:#fff;border-color:var(--green-dark)}
+.page{max-width:1380px;margin:0 auto;padding:24px}
+.hero{
+  position:relative;overflow:hidden;
+  background:
+    radial-gradient(circle at 86% 14%, rgba(216,121,98,.18), transparent 22%),
+    radial-gradient(circle at 70% 88%, rgba(127,168,165,.14), transparent 24%),
+    linear-gradient(135deg,#fff 0%,#fbf8f2 50%,#eef2e9 100%);
+  border:1px solid var(--line);
+  border-radius:32px;
+  padding:50px 50px 42px;
+  box-shadow:var(--shadow);
+}
+.hero:before{
+  content:"";position:absolute;right:-110px;top:-125px;width:390px;height:390px;border-radius:50%;
+  background:radial-gradient(circle,rgba(84,105,87,.14),rgba(84,105,87,0) 68%);
+}
+.hero:after{
+  content:"";position:absolute;left:46%;bottom:-130px;width:310px;height:310px;border-radius:50%;
+  border:1px solid rgba(84,105,87,.10);
+}
+.hero .eyebrow{color:var(--coral);font-weight:850}
+.hero .metric:nth-child(1){background:linear-gradient(145deg,#fff,var(--sage-2-soft));border-color:#d8e0ce}
+.hero .metric:nth-child(2){background:linear-gradient(145deg,#fff,var(--coral-soft));border-color:#efd3ca}
+.hero .metric:nth-child(3){background:linear-gradient(145deg,#fff,var(--blue-soft));border-color:#d4e2e7}
+.hero .metric:nth-child(4){background:linear-gradient(145deg,#fff,var(--lilac-soft));border-color:#ddd8eb}
+.hero .metric:nth-child(1) strong{color:#526449}
+.hero .metric:nth-child(2) strong{color:#a85847}
+.hero .metric:nth-child(3) strong{color:#4e7788}
+.hero .metric:nth-child(4) strong{color:#70678d}
+.eyebrow{
+  font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:800;color:var(--muted)
+}
+.hero h1{
+  max-width:900px;font-size:58px;line-height:.99;letter-spacing:-3.2px;
+  margin:24px 0 18px;font-weight:540;position:relative;z-index:1;
+}
+.hero .lead{
+  max-width:850px;font-size:19px;line-height:1.55;color:#555b56;margin:0;position:relative;z-index:1
+}
+.hero-meta{
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:34px;position:relative;z-index:1
+}
+.metric{
+  background:rgba(255,255,255,.72);border:1px solid rgba(215,218,211,.9);
+  border-radius:18px;padding:16px 17px
+}
+.metric strong{font-size:22px;display:block;letter-spacing:-.7px}
+.metric span{display:block;margin-top:3px;color:var(--muted);font-size:12px}
+.layout{display:grid;grid-template-columns:270px minmax(0,1fr);gap:22px;margin-top:22px}
+.sidebar{
+  align-self:start;position:sticky;top:66px;
+  background:rgba(255,255,255,.88);backdrop-filter:blur(14px);
+  border:1px solid var(--line);border-radius:22px;padding:14px;
+  box-shadow:0 10px 36px rgba(20,28,21,.04)
+}
+.sidebar-label{padding:8px 10px 6px;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);font-weight:800}
+.nav-link{
+  display:flex;align-items:center;gap:10px;padding:10px 10px;text-decoration:none;
+  border-radius:12px;color:#474d48;font-size:13px;margin:2px 0;transition:.16s ease
+}
+.nav-link:hover,.nav-link.active{background:var(--green-soft);color:var(--green-dark)}
+.nav-n{width:23px;height:23px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;font-size:10px;font-weight:800;background:#fff}
+.sidebar-card{margin-top:12px;border-radius:15px;padding:13px;background:var(--surface-2);border:1px solid var(--line)}
+.sidebar-card b{display:block;font-size:12px;margin-bottom:5px}
+.sidebar-card p{font-size:11px;color:var(--muted);margin:0}
+.main{display:flex;flex-direction:column;gap:18px;min-width:0}
+.section{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:28px;box-shadow:0 9px 32px rgba(20,28,21,.035);
+}
+.section-head{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin-bottom:20px}
+.section h2{font-size:32px;line-height:1.13;letter-spacing:-1.1px;margin:5px 0 0;font-weight:590}
+.section h3{font-size:17px;margin:20px 0 8px;letter-spacing:-.25px}
+.section p{color:var(--ink-soft)}
+.badge{
+  display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:7px 10px;
+  font-size:10px;text-transform:uppercase;letter-spacing:.08em;font-weight:850;white-space:nowrap
+}
+.badge.green{background:var(--green-soft);color:var(--green-dark)}
+.badge.amber{background:var(--amber-soft);color:#7a551f}
+.badge.blue{background:var(--blue-soft);color:#435d70}
+.badge.rose{background:var(--rose-soft);color:#80463f}
+.grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
+.grid-4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px}
+.card{
+  border:1px solid var(--line);
+  background:linear-gradient(160deg,#fff 0%,var(--surface-2) 100%);
+  border-radius:17px;padding:17px;
+  box-shadow:0 5px 18px rgba(18,23,19,.025);
+  transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+.card:hover{
+  transform:translateY(-2px);
+  box-shadow:0 11px 28px rgba(18,23,19,.055);
+  border-color:#cfd3cc;
+}
+.card h3,.card h4{margin:0 0 6px}
+.card h4{font-size:14px}
+.card p{margin:0;font-size:13px;color:#666d67}
+.stat{font-size:28px;line-height:1;font-weight:620;letter-spacing:-1px;color:var(--green-dark);margin-bottom:7px}
+.stat-label{font-size:11px;color:var(--muted)}
+.callout{
+  border-left:4px solid var(--green);background:var(--green-soft);
+  border-radius:0 15px 15px 0;padding:15px 17px;margin:16px 0;
+}
+.callout.amber{border-color:var(--amber);background:var(--amber-soft)}
+.callout.rose{border-color:var(--rose);background:var(--rose-soft)}
+.callout.blue{border-color:var(--blue);background:var(--blue-soft)}
+.callout p{margin:4px 0 0;font-size:13px}
+.flow{
+  display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:7px;align-items:stretch;margin:15px 0
+}
+.flow-box{
+  padding:13px 10px;border:1px solid var(--line);background:#fff;border-radius:14px;text-align:center;position:relative
+}
+.flow-box:not(:last-child):after{content:"→";position:absolute;right:-11px;top:50%;transform:translateY(-50%);z-index:3;color:#8c918c;font-weight:800}
+.flow-box strong{font-size:12px;display:block}
+.flow-box span{font-size:10px;color:var(--muted);display:block;margin-top:4px}
+.flow-box.good{background:var(--green-soft);border-color:#cad6cb}
+.timeline{display:flex;flex-direction:column;gap:10px;margin:13px 0}
+.t-item{display:grid;grid-template-columns:34px minmax(0,1fr);gap:11px}
+.t-dot{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--green-dark);color:#fff;font-size:11px;font-weight:850}
+.t-body{padding:3px 0 13px;border-bottom:1px dashed var(--line)}
+.t-body strong{font-size:13px}
+.t-body p{font-size:12px;margin:3px 0 0;color:var(--muted)}
+table{width:100%;border-collapse:separate;border-spacing:0;margin-top:12px;font-size:12px;overflow:hidden;border:1px solid var(--line);border-radius:15px}
+th,td{text-align:left;vertical-align:top;padding:12px 11px;border-bottom:1px solid var(--line)}
+th{font-size:10px;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);background:#f8f8f5}
+tr:last-child td{border-bottom:0}
+td+td,th+th{border-left:1px solid var(--line)}
+ul{margin:8px 0;padding-left:19px}
+li{margin:6px 0;color:#424842}
+.talk{
+  border:1px solid var(--line);border-radius:17px;padding:16px 18px;margin-top:15px;background:#fff;position:relative
+}
+.talk:before{
+  content:"Kalimat yang bisa dipakai";display:block;font-size:9px;text-transform:uppercase;
+  letter-spacing:.14em;font-weight:850;color:var(--muted);margin-bottom:6px
+}
+.decision{
+  display:grid;grid-template-columns:38px minmax(0,1fr);gap:12px;
+  border:1px solid #e3d5bc;background:#faf3e7;border-radius:17px;padding:15px;margin-top:13px
+}
+.decision-icon{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:#fff;border:1px solid #e3d5bc;font-weight:850;color:#8a632c}
+.decision b{display:block;font-size:13px}
+.decision p{font-size:12px;margin:3px 0 0;color:#6e6558}
+details{
+  margin-top:12px;border:1px solid var(--line);border-radius:15px;background:#fff;overflow:hidden
+}
+summary{
+  list-style:none;cursor:pointer;padding:13px 15px;font-size:12px;font-weight:800;
+  display:flex;justify-content:space-between;align-items:center
+}
+summary::-webkit-details-marker{display:none}
+summary:after{content:"＋";font-size:17px;color:var(--muted)}
+details[open] summary:after{content:"−"}
+.details-body{padding:0 15px 15px;font-size:12px;color:#59605a;border-top:1px solid var(--line)}
+.source-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.source-link{
+  text-decoration:none;border:1px solid var(--line);background:#fff;border-radius:999px;
+  padding:7px 10px;font-size:10px;color:#555c56;transition:.16s
+}
+.source-link:hover{border-color:#bfc9bf;background:var(--green-soft)}
+.action-list{display:grid;gap:9px;margin-top:10px}
+.action{
+  display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:start;
+  border:1px solid var(--line);border-radius:14px;padding:12px;background:#fff
+}
+.action-check{width:20px;height:20px;border-radius:6px;border:1px solid #bec5bd;background:#fafaf8;cursor:pointer;display:grid;place-items:center;font-size:12px;color:#fff}
+.action-check.checked{background:var(--green-dark);border-color:var(--green-dark)}
+.action-title{font-size:12px;font-weight:780}
+.action-note{font-size:10px;color:var(--muted);margin-top:2px}
+.action-tag{font-size:9px;text-transform:uppercase;letter-spacing:.06em;font-weight:850;color:var(--muted)}
+.executive-strip{
+  display:grid;grid-template-columns:1.2fr .8fr;gap:13px;margin-top:13px
+}
+.priority-stack{display:flex;flex-direction:column;gap:8px}
+.priority-row{
+  display:grid;grid-template-columns:30px minmax(0,1fr) auto;gap:10px;align-items:center;
+  border:1px solid var(--line);border-radius:13px;padding:10px 11px;background:#fff
+}
+.p-num{width:26px;height:26px;border-radius:8px;background:var(--green-dark);color:#fff;display:grid;place-items:center;font-size:10px;font-weight:850}
+.p-label{font-size:12px;font-weight:750}
+.p-time{font-size:10px;color:var(--muted)}
+.compact .detail-rich,.compact details,.compact .source-links{display:none}
+.compact .section{padding:22px}
+.footer{padding:28px 6px 50px;text-align:center;color:var(--muted);font-size:11px}
+.print-only{display:none}
+@media(max-width:1080px){
+  .layout{grid-template-columns:1fr}.sidebar{position:relative;top:0}
+  .sidebar nav{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}
+  .sidebar-label,.sidebar-card{display:none}
+}
+@media(max-width:760px){
+  .page{padding:13px}.hero{padding:30px 24px}.hero h1{font-size:40px;letter-spacing:-2px}
+  .hero-meta,.grid-4,.grid-3,.grid-2,.executive-strip{grid-template-columns:1fr}
+  .flow{grid-template-columns:1fr}.flow-box:not(:last-child):after{content:"↓";right:auto;left:50%;top:auto;bottom:-16px}
+  .topbar-inner{padding:9px 13px}.btn span{display:none}
+  .sidebar nav{grid-template-columns:1fr 1fr}.section{padding:20px}.section h2{font-size:27px}
+  table{font-size:11px;display:block;overflow-x:auto}
+}
+@media print{
+  body{background:#fff}.topbar,.sidebar,#progress{display:none!important}.page{max-width:none;padding:0}
+  .layout{display:block}.hero,.section{box-shadow:none;break-inside:avoid;border-radius:12px}
+  .section{margin-top:10px}.source-links{display:none}.print-only{display:block}
+  details{display:none}.hero h1{font-size:42px}
+}
+
+/* Sensatia-inspired section accents */
+.section{
+  position:relative;
+  overflow:hidden;
+}
+.section:before{
+  content:"";
+  position:absolute;
+  inset:0 0 auto 0;
+  height:5px;
+  background:var(--section-accent,var(--green));
+}
+.section:after{
+  content:"";
+  position:absolute;
+  width:170px;height:170px;border-radius:50%;
+  right:-95px;top:-95px;
+  background:var(--section-glow,rgba(84,105,87,.05));
+  pointer-events:none;
+}
+#ringkasan{
+  --section-accent:linear-gradient(90deg,var(--sage-2),var(--sea),var(--apricot));
+  --section-glow:rgba(145,162,125,.12);
+  background:linear-gradient(180deg,#fff 0%,#fdfcf9 100%);
+}
+#jubelio{
+  --section-accent:linear-gradient(90deg,var(--coral),var(--apricot),var(--mustard));
+  --section-glow:rgba(216,121,98,.11);
+  background:linear-gradient(180deg,#fff 0%,#fffaf6 100%);
+}
+#putu{
+  --section-accent:linear-gradient(90deg,var(--sea),var(--blue));
+  --section-glow:rgba(127,168,165,.12);
+  background:linear-gradient(180deg,#fff 0%,#f9fcfc 100%);
+}
+#soma{
+  --section-accent:linear-gradient(90deg,var(--mustard),var(--apricot));
+  --section-glow:rgba(205,166,74,.13);
+  background:linear-gradient(180deg,#fff 0%,#fffdf7 100%);
+}
+#qr{
+  --section-accent:linear-gradient(90deg,var(--rose),var(--coral));
+  --section-glow:rgba(201,135,145,.12);
+  background:linear-gradient(180deg,#fff 0%,#fffafb 100%);
+}
+#convertio{
+  --section-accent:linear-gradient(90deg,var(--lilac),var(--rose));
+  --section-glow:rgba(157,148,184,.12);
+  background:linear-gradient(180deg,#fff 0%,#fbfaff 100%);
+}
+#phoenix{
+  --section-accent:linear-gradient(90deg,var(--blue),var(--sea),var(--sage-2));
+  --section-glow:rgba(104,141,160,.12);
+  background:linear-gradient(180deg,#fff 0%,#f8fbfc 100%);
+}
+#closing{
+  --section-accent:linear-gradient(90deg,var(--green-dark),var(--sage-2),var(--mustard));
+  --section-glow:rgba(84,105,87,.11);
+  background:linear-gradient(180deg,#fff 0%,#fbfcf8 100%);
+}
+
+/* Color-code small cards without making the page noisy */
+#ringkasan .grid-3 .card:nth-child(1){background:linear-gradient(160deg,#fff,var(--sage-2-soft))}
+#ringkasan .grid-3 .card:nth-child(2){background:linear-gradient(160deg,#fff,var(--blue-soft))}
+#ringkasan .grid-3 .card:nth-child(3){background:linear-gradient(160deg,#fff,var(--apricot-soft))}
+#jubelio .grid-3 .card:nth-child(1){background:linear-gradient(160deg,#fff,var(--apricot-soft))}
+#jubelio .grid-3 .card:nth-child(2){background:linear-gradient(160deg,#fff,var(--sage-2-soft))}
+#jubelio .grid-3 .card:nth-child(3){background:linear-gradient(160deg,#fff,var(--coral-soft))}
+#convertio .grid-3 .card:nth-child(1){background:linear-gradient(160deg,#fff,var(--sage-2-soft))}
+#convertio .grid-3 .card:nth-child(2){background:linear-gradient(160deg,#fff,var(--mustard-soft))}
+#convertio .grid-3 .card:nth-child(3){background:linear-gradient(160deg,#fff,var(--lilac-soft))}
+#qr .grid-4 .card:nth-child(1){background:linear-gradient(160deg,#fff,var(--rose-soft))}
+#qr .grid-4 .card:nth-child(2){background:linear-gradient(160deg,#fff,var(--apricot-soft))}
+#qr .grid-4 .card:nth-child(3){background:linear-gradient(160deg,#fff,var(--sage-2-soft))}
+#qr .grid-4 .card:nth-child(4){background:linear-gradient(160deg,#fff,var(--blue-soft))}
+
+/* Better badges */
+.badge.green{background:linear-gradient(135deg,var(--sage-2-soft),#e4ece3);color:#40523f;border:1px solid #d2ddcf}
+.badge.amber{background:linear-gradient(135deg,var(--mustard-soft),var(--apricot-soft));color:#7a551f;border:1px solid #ead8b1}
+.badge.blue{background:linear-gradient(135deg,var(--blue-soft),var(--sea-soft));color:#435d70;border:1px solid #d3e1e4}
+.badge.rose{background:linear-gradient(135deg,var(--rose-soft),var(--lilac-soft));color:#80463f;border:1px solid #ead5dc}
+
+/* Navigation gets gentle multi-color states */
+.nav-link:nth-child(2):hover,.nav-link:nth-child(2).active{background:var(--coral-soft);color:#8d4c3e}
+.nav-link:nth-child(3):hover,.nav-link:nth-child(3).active{background:var(--blue-soft);color:#496c7c}
+.nav-link:nth-child(4):hover,.nav-link:nth-child(4).active{background:var(--mustard-soft);color:#76591f}
+.nav-link:nth-child(5):hover,.nav-link:nth-child(5).active{background:var(--rose-soft);color:#7c4b54}
+.nav-link:nth-child(6):hover,.nav-link:nth-child(6).active{background:var(--lilac-soft);color:#665d83}
+.nav-link:nth-child(7):hover,.nav-link:nth-child(7).active{background:var(--sea-soft);color:#496d6a}
+
+/* Talking points feel more editorial */
+.talk{
+  background:
+    linear-gradient(90deg,rgba(145,162,125,.08),rgba(255,255,255,.82) 34%),
+    #fff;
+  border-left:4px solid var(--sage-2);
+}
+
+/* Accent tables */
+#jubelio th{background:#fbefe9}
+#putu th{background:#edf5f5}
+#qr th{background:#faeef0}
+#closing th{background:#eef3e9}
+
+/* More expressive action checklist */
+.action:nth-child(1){border-left:3px solid var(--coral)}
+.action:nth-child(2){border-left:3px solid var(--lilac)}
+.action:nth-child(3){border-left:3px solid var(--blue)}
+.action:nth-child(4){border-left:3px solid var(--rose)}
+.action:nth-child(5){border-left:3px solid var(--sage-2)}
+
+/* Scroll progress uses the richer palette */
+#progress{
+  background:linear-gradient(90deg,var(--coral),var(--mustard),var(--sage-2),var(--sea),var(--lilac));
+}
+
+
+#fleet{
+  --section-accent:linear-gradient(90deg,var(--mustard),var(--coral),var(--sea));
+  --section-glow:rgba(205,166,74,.13);
+  background:linear-gradient(180deg,#fff 0%,#fffcf7 100%);
+}
+#fleet .grid-4 .card:nth-child(1){background:linear-gradient(160deg,#fff,var(--sage-2-soft))}
+#fleet .grid-4 .card:nth-child(2){background:linear-gradient(160deg,#fff,var(--blue-soft))}
+#fleet .grid-4 .card:nth-child(3){background:linear-gradient(160deg,#fff,var(--apricot-soft))}
+#fleet .grid-4 .card:nth-child(4){background:linear-gradient(160deg,#fff,var(--mustard-soft))}
+#fleet th{background:#fbf4e5}
+
+</style>
+</head>
+<body>
+<div id="progress"></div>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="wordmark" href="#top" aria-label="Sensatia">
+      <!-- clean inline wordmark based on the black Sensatia wordmark used on sensatia.com -->
+      <svg class="logo-svg" viewBox="0 0 220 54" role="img" aria-label="sensatia">
+        <text x="0" y="39" font-family="Arial, Helvetica, sans-serif" font-size="41" font-weight="500" letter-spacing="-2.4" fill="#000">sensatia</text>
+      </svg>
+    </a>
+    <div class="top-actions">
+      <button class="btn" id="modeBtn" type="button">◫ <span>Mode Ringkas</span></button>
+      <button class="btn primary" onclick="window.print()" type="button">⌁ <span>Print / PDF</span></button>
+    </div>
+  </div>
+</header>
+
+<div class="page" id="top">
+  <section class="hero">
+    <div class="eyebrow">Weekly Meeting Brief · Michael × Widhy · Kamis, 17 September 2026</div>
+    <h1>Progress, keputusan yang dibutuhkan, dan arah kerja minggu berikutnya.</h1>
+    <p class="lead">Dokumen ini dibuat untuk dipakai langsung saat meeting. Urutannya sengaja dimulai dari Jubelio & warehouse strategy karena itu topik paling strategis, lalu masuk ke request bisnis, governance development, CRM/Convertio, dan Project Phoenix.</p>
+
+    <div style="display:flex;gap:6px;margin-top:18px;position:relative;z-index:1" aria-hidden="true">
+      <span style="width:38px;height:6px;border-radius:999px;background:#d87962"></span>
+      <span style="width:28px;height:6px;border-radius:999px;background:#e7a47e"></span>
+      <span style="width:32px;height:6px;border-radius:999px;background:#cda64a"></span>
+      <span style="width:42px;height:6px;border-radius:999px;background:#91a27d"></span>
+      <span style="width:34px;height:6px;border-radius:999px;background:#7fa8a5"></span>
+      <span style="width:30px;height:6px;border-radius:999px;background:#9d94b8"></span>
+      <span style="width:36px;height:6px;border-radius:999px;background:#c98791"></span>
+    </div>
+    <div class="hero-meta">
+      <div class="metric"><strong>7 topik</strong><span>Agenda utama meeting</span></div>
+      <div class="metric"><strong>3 keputusan</strong><span>Butuh arahan / approval Michael</span></div>
+      <div class="metric"><strong>1 topik utama</strong><span>Jubelio + multi-warehouse</span></div>
+      <div class="metric"><strong>30–45 menit</strong><span>Durasi ideal pembahasan</span></div>
+    </div>
+  </section>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="sidebar-label">Agenda Meeting</div>
+      <nav>
+        <a class="nav-link active" href="#ringkasan"><span class="nav-n">0</span>Ringkasan Eksekutif</a>
+        <a class="nav-link" href="#jubelio"><span class="nav-n">1</span>Jubelio & Warehouse</a>
+        <a class="nav-link" href="#putu"><span class="nav-n">2</span>Request Putu Mei</a>
+        <a class="nav-link" href="#soma"><span class="nav-n">3</span>Flow Request Luh Soma</a>
+        <a class="nav-link" href="#qr"><span class="nav-n">4</span>Google Review QR</a>
+        <a class="nav-link" href="#convertio"><span class="nav-n">5</span>Convertio / CRM</a>
+        <a class="nav-link" href="#phoenix"><span class="nav-n">6</span>Project Phoenix</a>
+        <a class="nav-link" href="#fleet"><span class="nav-n">7</span>Fleet GPS / MC Easy</a>
+        <a class="nav-link" href="#closing"><span class="nav-n">✓</span>Closing & Next Action</a>
+      </nav>
+      <div class="sidebar-card">
+        <b>Fokus meeting</b>
+        <p>Jangan hanya memberi status. Untuk tiap topik: jelaskan progress → risk → keputusan yang diperlukan → next action.</p>
+      </div>
+    </aside>
+
+    <main class="main">
+      <section class="section" id="ringkasan">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">0 · Executive Summary</div>
+            <h2>Apa yang berubah sejak meeting minggu lalu?</h2>
+          </div>
+          <span class="badge green">Weekly Progress</span>
+        </div>
+
+        <div class="grid-3">
+          <div class="card">
+            <h4>Jubelio semakin jelas</h4>
+            <p>Root cause stock sync sudah lebih terdefinisi: inbound harus berbasis movement/delta, bukan overwrite final balance. Retry logic juga diarahkan hanya untuk unmatched item.</p>
+          </div>
+          <div class="card">
+            <h4>Lebih banyak evidence operasional</h4>
+            <p>Request Luh Soma selesai cepat, Google Review QR sedang distandardisasi, dan request Accounting sudah masuk fase menunggu feedback setelah assessment.</p>
+          </div>
+          <div class="card">
+            <h4>Governance mulai dibentuk</h4>
+            <p>Project Phoenix dan Jira mulai dipakai sebagai knowledge/traceability layer. Kasus Luh Soma menunjukkan kenapa ticket harus dibuat sebelum development.</p>
+          </div>
+        </div>
+
+        <div class="executive-strip detail-rich">
+          <div class="card">
+            <h3 style="margin-top:0">3 hal yang paling penting keluar dari meeting</h3>
+            <div class="priority-stack">
+              <div class="priority-row"><span class="p-num">1</span><span class="p-label">Alignment arah warehouse: Jakarta-primary vs selective multi-WH</span><span class="p-time">15–20 min</span></div>
+              <div class="priority-row"><span class="p-num">2</span><span class="p-label">Approval boundary untuk export raw data Convertio</span><span class="p-time">5 min</span></div>
+              <div class="priority-row"><span class="p-num">3</span><span class="p-label">Sepakat flow request IT: Jira → SB/UAT → Production</span><span class="p-time">5 min</span></div>
+            </div>
+          </div>
+          <div class="card">
+            <h3 style="margin-top:0">Status singkat</h3>
+            <div class="grid-2">
+              <div><div class="stat">In Progress</div><div class="stat-label">Jubelio, QR Review, Phoenix</div></div>
+              <div><div class="stat">Waiting</div><div class="stat-label">Putu Mei feedback / meeting</div></div>
+              <div><div class="stat">Done</div><div class="stat-label">Activity Type Luh Soma</div></div>
+              <div><div class="stat">Approval</div><div class="stat-label">Convertio raw data</div></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="jubelio">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">1 · Prioritas Strategis</div>
+            <h2>Jubelio, shared stock Bali, dan arah multi-warehouse</h2>
+          </div>
+          <span class="badge amber">Perlu Alignment</span>
+        </div>
+
+        <div class="callout">
+          <b>Pesan utama untuk Michael</b>
+          <p>Masalahnya bukan sekadar “Jubelio telat update”. Ada tiga layer yang harus dipisahkan: physical/shared stock, movement yang diekspos ke marketplace, dan transaction deduction balik dari Jubelio ke StockWizz.</p>
+        </div>
+
+        <h3>A. Current model yang sudah kita pahami</h3>
+        <div class="flow">
+          <div class="flow-box"><strong>Stockroom / DC</strong><span>physical stock / replenishment</span></div>
+          <div class="flow-box"><strong>SECM Bali</strong><span>shared physical pool</span></div>
+          <div class="flow-box good"><strong>StockWizz</strong><span>100% refill movement</span></div>
+          <div class="flow-box good"><strong>Jubelio</strong><span>allocation/exposure movement</span></div>
+          <div class="flow-box"><strong>Marketplace</strong><span>sellable stock per channel</span></div>
+        </div>
+
+        <div class="grid-3 detail-rich">
+          <div class="card"><h4>80% bukan ownership</h4><p>80% adalah rule exposure/allocation ke Jubelio. Tidak ada pemisahan fisik rak “80% marketplace, 20% website”. Website tetap memakai shared Bali pool.</p></div>
+          <div class="card"><h4>StockWizz ≠ Jubelio balance</h4><p>Saldo akhir tidak harus sama selama intentional allocation masih berlaku. Yang harus konsisten adalah movement dan logika deduction-nya.</p></div>
+          <div class="card"><h4>Risk terbesar</h4><p>Kalau final balance StockWizz dipush ke Jubelio tanpa outbound transaction loop yang realtime, stok yang sebenarnya sudah terjual bisa terbuka lagi.</p></div>
+        </div>
+
+        <h3>B. Production finding yang jadi dasar perubahan</h3>
+        <div class="grid-2">
+          <div class="card">
+            <h4>Test SECM1041</h4>
+            <p><b>Refill movement:</b> +6<br><b>StockWizz:</b> 32 → 38<br><b>Actual Jubelio:</b> 1 → 38<br><b>Expected:</b> 1 → 7 jika allocation 100%</p>
+          </div>
+          <div class="card">
+            <h4>Kesimpulan teknis</h4>
+            <p>Connectivity/API trigger terbukti bekerja. Problem ada di quantity logic: sebelumnya mengirim absolute/final balance, sementara model shared stock membutuhkan delta-based Stock Adjustment.</p>
+          </div>
+        </div>
+
+        <h3>C. Update terbaru dengan Colin — 16 September</h3>
+        <div class="timeline">
+          <div class="t-item"><div class="t-dot">1</div><div class="t-body"><strong>Retry hanya unmatched item</strong><p>Saat retry sync, item yang sudah match/success tidak boleh dikirim ulang. Ini mengurangi risiko duplicate adjustment.</p></div></div>
+          <div class="t-item"><div class="t-dot">2</div><div class="t-body"><strong>Allocation % tetap dipakai</strong><p>Retry tidak boleh bypass allocation. Quantity yang dikirim tetap mengikuti rule allocation untuk e-commerce location terkait.</p></div></div>
+          <div class="t-item"><div class="t-dot">3</div><div class="t-body"><strong>Mulai research Jubelio Transaction API</strong><p>Arah berikutnya adalah sales transaction create/update dari Jubelio masuk ke StockWizz supaya deduction stock menjadi near-real-time.</p></div></div>
+          <div class="t-item"><div class="t-dot">4</div><div class="t-body"><strong>Finance dipisahkan ke fase berikutnya</strong><p>Phase 1 fokus stabilkan transaction sync untuk stock. Format/mapping yang dibutuhkan Finance dikerjakan setelah loop transaksi stabil.</p></div></div>
+        </div>
+
+
+        <h3>D. Next Target — Auto Sync Order Jubelio ↔ StockWizz</h3>
+
+        <div class="callout">
+          <b>Arah arsitektur yang saya sarankan</b>
+          <p>
+            Pisahkan integrasi menjadi <b>jalur operasional cepat</b> dan <b>jalur accounting enrichment</b>.
+            Order dan status kritis harus masuk ke StockWizz secara real-time / near-real-time,
+            sedangkan detail finance seperti marketplace fee, voucher, tax, dan settlement boleh ditarik belakangan
+            melalui API tanpa membebani proses gudang.
+          </p>
+        </div>
+
+        <div class="grid-3 detail-rich">
+          <div class="card">
+            <h4>1. Stock Sync</h4>
+            <p><b>StockWizz → Jubelio</b><br>Refill/stock movement dikirim sebagai delta × allocation. Ini jalur inventory exposure yang sudah sedang distabilkan.</p>
+          </div>
+          <div class="card">
+            <h4>2. Operational Order Sync</h4>
+            <p><b>Jubelio → StockWizz</b><br>Order create/update/status kritis disinkronkan cepat agar order, SKU, quantity dan fulfillment state tidak tertinggal.</p>
+          </div>
+          <div class="card">
+            <h4>3. Accounting Enrichment</h4>
+            <p><b>Jubelio API → Finance data</b><br>Fee, discount, voucher, tax, settlement dan detail final ditarik async setelah order sudah matang/final.</p>
+          </div>
+        </div>
+
+        <h3 style="font-size:15px">D1. Webhook “Fast Path” untuk operasional</h3>
+
+        <div class="flow detail-rich">
+          <div class="flow-box"><strong>Jubelio Event</strong><span>order create / update</span></div>
+          <div class="flow-box"><strong>Webhook Receiver</strong><span>validate + save event</span></div>
+          <div class="flow-box"><strong>Queue / Worker</strong><span>async processing</span></div>
+          <div class="flow-box"><strong>StockWizz Order</strong><span>upsert + status mapping</span></div>
+          <div class="flow-box good"><strong>Warehouse</strong><span>ready for operation</span></div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <h4>Webhook jangan mengerjakan semuanya sekaligus</h4>
+            <p>
+              Receiver sebaiknya hanya verifikasi request, simpan event mentah/audit reference, cek duplicate,
+              lalu cepat mengembalikan response sukses. Processing berat dilakukan worker di belakang.
+              Dengan cara ini webhook lebih tahan traffic tinggi dan retry.
+            </p>
+          </div>
+          <div class="card">
+            <h4>Payload operasional minimum</h4>
+            <p>
+              External order/transaction ID, marketplace/source, SKU, quantity, source warehouse/location,
+              order status, shipping/courier reference, timestamp dan event version.
+              Detail accounting tidak perlu memblokir order masuk ke gudang.
+            </p>
+          </div>
+        </div>
+
+        <div class="callout blue detail-rich">
+          <b>Penting: webhook + reconciliation, bukan webhook saja</b>
+          <p>
+            Webhook bisa gagal, duplicate, terlambat, atau tidak mencakup semua perubahan.
+            Tambahkan <b>scheduled reconciliation/polling</b> berdasarkan transaction yang berubah sejak last-sync
+            sebagai safety net. Jadi webhook memberi kecepatan, API reconciliation memberi completeness.
+          </p>
+        </div>
+
+        <h3 style="font-size:15px">D2. Idempotency — cegah double order / double deduction</h3>
+
+        <div class="grid-2">
+          <div class="card">
+            <h4>Gunakan external unique key</h4>
+            <p>
+              Simpan Jubelio transaction/order ID sebagai integration key dan pastikan event yang sama hanya diproses sekali.
+              Jika <code>_sale_id</code> memang terbukti unik 1:1 terhadap order Jubelio, field itu bisa menjadi candidate unique key.
+            </p>
+          </div>
+          <div class="card">
+            <h4>Jangan langsung tambah unique index tanpa audit</h4>
+            <p>
+              Sebelum membuat unique index pada data existing, cek dulu duplicate lama, null/legacy rows dan apakah satu external sale
+              memang selalu hanya boleh punya satu record. Jika semantics belum aman, lebih baik gunakan integration mapping table
+              dengan key <code>source + external_order_id</code>.
+            </p>
+          </div>
+        </div>
+
+        <h3 style="font-size:15px">D3. Status sync — canceled harus diperlakukan sebagai status kritis</h3>
+
+        <table>
+          <thead>
+            <tr><th>Event dari Jubelio</th><th>Respons StockWizz yang disarankan</th><th>Catatan</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>New / Eligible Order</b></td>
+              <td>Create/upsert order; mapping SKU, qty, warehouse dan external ID.</td>
+              <td>Idealnya buat reservation lebih dulu, bukan langsung physical deduction.</td>
+            </tr>
+            <tr>
+              <td><b>Normal Status Update</b></td>
+              <td>Update external marketplace status tanpa merusak internal fulfillment state.</td>
+              <td>Pisahkan <code>external_order_status</code> dan <code>fulfillment_status</code> jika memungkinkan.</td>
+            </tr>
+            <tr>
+              <td><b>Canceled sebelum pack</b></td>
+              <td>Block fulfillment + release reservation / cancel order.</td>
+              <td>Ini harus near-real-time agar gudang tidak packing order batal.</td>
+            </tr>
+            <tr>
+              <td><b>Canceled setelah packed</b></td>
+              <td>Masuk exception flow / manual review.</td>
+              <td>Jangan blind overwrite karena stock movement mungkin sudah terjadi.</td>
+            </tr>
+            <tr>
+              <td><b>Shipped → Refund / Return</b></td>
+              <td>Gunakan return/refund/reversal flow.</td>
+              <td>Bukan sekadar mengganti status menjadi canceled.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="callout amber detail-rich">
+          <b>Saran penting soal stock deduction</b>
+          <p>
+            Secara arsitektur, lebih aman membedakan <b>reserved stock</b> dan <b>physical/on-hand stock</b>.
+            Order marketplace yang masuk dapat membuat reservation, sedangkan physical stock tetap berkurang saat pack/fulfillment.
+            Kalau StockWizz saat ini belum punya reservation model, Phase 1 sebaiknya mempertahankan timing deduction yang sudah ada
+            dan fokus dulu pada order/status sync yang idempotent agar tidak menambah risiko baru.
+          </p>
+        </div>
+
+        <h3 style="font-size:15px">D4. Accounting — tarik belakangan lewat API</h3>
+
+        <div class="flow detail-rich">
+          <div class="flow-box"><strong>Order Operasional</strong><span>sudah sync</span></div>
+          <div class="flow-box"><strong>Shipped / Done</strong><span>eligible for finance</span></div>
+          <div class="flow-box"><strong>Finance Worker</strong><span>scheduled / manual sync</span></div>
+          <div class="flow-box"><strong>Jubelio API</strong><span>pull financial detail</span></div>
+          <div class="flow-box good"><strong>Accounting Data</strong><span>reconciled / report-ready</span></div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <h4>Data yang bisa di-enrich kemudian</h4>
+            <p>
+              Gross sales, marketplace/platform fee, seller voucher, discount, tax, shipping subsidy,
+              settlement/payout reference dan finance-related fields lain yang memang tersedia dari Jubelio/source marketplace.
+            </p>
+          </div>
+          <div class="card">
+            <h4>Schedule yang saya sarankan</h4>
+            <p>
+              Bisa mulai dari job periodik (misalnya hourly / nightly) plus tombol <b>Manual Finance Sync</b>.
+              Tambahkan nightly reconciliation/backfill agar transaksi yang sempat gagal tetap tertarik kembali.
+            </p>
+          </div>
+        </div>
+
+        <div class="callout rose detail-rich">
+          <b>Jangan hard-code endpoint sebelum dokumentasi Jubelio diverifikasi</b>
+          <p>
+            Nama endpoint seperti <code>/sales/orders</code> atau <code>/sales/invoices</code> sebaiknya dianggap contoh konsep dulu.
+            Colin/Widhy perlu memastikan endpoint, webhook event, status field, pagination, rate limit dan financial fields yang benar
+            dari dokumentasi/API Jubelio yang aktif sebelum implementation.
+          </p>
+        </div>
+
+        <h3 style="font-size:15px">D5. Source of truth yang disarankan</h3>
+
+        <table>
+          <thead>
+            <tr><th>Data</th><th>Source of truth / role utama</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><b>Physical stock / stock movement</b></td><td>StockWizz sebagai internal operational source; Jubelio menerima allocated exposure/movement.</td></tr>
+            <tr><td><b>Marketplace order & external status</b></td><td>Jubelio / marketplace source untuk external event; StockWizz menyimpan mirror + internal fulfillment state.</td></tr>
+            <tr><td><b>Warehouse fulfillment</b></td><td>StockWizz: picking, packing, internal status dan actual stock movement.</td></tr>
+            <tr><td><b>Marketplace financial detail</b></td><td>Pull dari Jubelio/API sebagai finance enrichment; Accounting tetap melakukan validation/reporting sesuai kebutuhan bisnis.</td></tr>
+          </tbody>
+        </table>
+
+        <h3 style="font-size:15px">D6. Urutan implementasi yang saya sarankan</h3>
+
+        <div class="timeline">
+          <div class="t-item">
+            <div class="t-dot">0</div>
+            <div class="t-body">
+              <strong>Discovery API & webhook contract</strong>
+              <p>Confirm event types, transaction key, status mapping, warehouse mapping, cancellation/return behavior, API rate limit dan finance fields.</p>
+            </div>
+          </div>
+          <div class="t-item">
+            <div class="t-dot">1</div>
+            <div class="t-body">
+              <strong>Operational order sync MVP</strong>
+              <p>Order create/upsert, idempotency, external ID, SKU/qty/location mapping, cancellation rule, logs, retry dan dead-letter/error handling.</p>
+            </div>
+          </div>
+          <div class="t-item">
+            <div class="t-dot">2</div>
+            <div class="t-body">
+              <strong>Reconciliation & recovery</strong>
+              <p>Scheduled pull/backfill untuk mencari missed webhook, unmatched order dan status drift.</p>
+            </div>
+          </div>
+          <div class="t-item">
+            <div class="t-dot">3</div>
+            <div class="t-body">
+              <strong>Accounting enrichment</strong>
+              <p>Pull finance details untuk shipped/done/settled orders tanpa membebani fast operational path.</p>
+            </div>
+          </div>
+          <div class="t-item">
+            <div class="t-dot">4</div>
+            <div class="t-body">
+              <strong>Finance reporting / automation</strong>
+              <p>Setelah data flow stabil, baru map output sesuai kebutuhan Accounting dan reconciliation/reporting final.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="decision">
+          <div class="decision-icon">→</div>
+          <div>
+            <b>Next target yang saya sarankan</b>
+            <p>
+              Setelah delta-based StockWizz → Jubelio stabil, fokus berikutnya adalah
+              <b>Jubelio → StockWizz Operational Order Sync</b>: idempotent order create/update,
+              critical cancellation handling, warehouse mapping, logging dan reconciliation.
+              Finance requirement tetap masuk roadmap, tetapi tidak memblokir operational sync.
+            </p>
+          </div>
+        </div>
+
+        <div class="talk">
+          “Untuk next step saya ingin memisahkan jalur operasional dan accounting.
+          Order dari Jubelio harus cepat masuk dan sinkron ke StockWizz supaya gudang dan stock tidak tertinggal.
+          Webhook cukup menangani order/status penting secara ringan dan aman. Detail fee, voucher, tax dan settlement
+          bisa kita pull belakangan melalui API Jubelio setelah order sudah final. Jadi kebutuhan Accounting tetap bisa terpenuhi,
+          tapi tidak menghambat operational sync yang lebih urgent.”
+        </div>
+
+        <h3>E. Direction warehouse yang ingin dibahas</h3>
+        <table>
+          <thead><tr><th>Channel / Area</th><th>Direction yang disarankan</th><th>Alasan</th><th>Yang perlu dibuktikan</th></tr></thead>
+          <tbody>
+            <tr><td><b>Website /id</b></td><td>Evaluasi fulfillment utama dari Jakarta</td><td>55.28% website order adalah domestic /id; dari domestic order, 50.2% menuju Jabodetabek & Jawa.</td><td>Lead time, ongkir, transfer Jasri/Bali→Jakarta, stock cover Jakarta.</td></tr>
+            <tr><td><b>Shopee</b></td><td>Pertahankan selective multi-WH Bali + Jakarta</td><td>Shopee ~80.4% marketplace order; volume cukup besar untuk membenarkan complexity dual node.</td><td>Routing transaction per warehouse, return/cancel flow, reconciliation.</td></tr>
+            <tr><td><b>TikTok / Tokopedia</b></td><td>Evaluasi Jakarta-primary</td><td>Menambah dual-WH ke semua channel akan memperbanyak titik failure dan workload operasional.</td><td>Seller-center capability, SLA dispatch, fallback Bali.</td></tr>
+            <tr><td><b>Bali / SECM</b></td><td>Tetap punya role strategis</td><td>Dekat ke production source Jasri, tetap penting untuk Shopee Bali, regional/international web dan contingency.</td><td>Minimum reserve dan kebutuhan fallback yang realistis.</td></tr>
+          </tbody>
+        </table>
+
+        <div class="callout blue detail-rich">
+          <b>Kenapa jangan langsung semua multi-WH?</b>
+          <p>Setiap kombinasi platform × warehouse menambah requirement untuk stock allocation, order routing, deduction, cancellation, return, replacement, partial fulfillment, dan reconciliation. Complexity-nya tumbuh lebih cepat daripada jumlah warehouse.</p>
+        </div>
+
+        <div class="decision">
+          <div class="decision-icon">?</div>
+          <div><b>Keputusan / alignment yang dibutuhkan</b><p>Apakah kita lanjut dengan direction: <b>/id → Jakarta</b>, <b>Shopee selective multi-WH</b>, dan <b>non-Shopee cenderung Jakarta-primary</b> melalui controlled pilot, bukan langsung full migration?</p></div>
+        </div>
+
+        <div class="talk">“Saya ingin memastikan arah warehouse-nya dulu. Dari data dan complexity yang kita lihat, saya lebih condong Jakarta menjadi primary execution untuk domestic, Shopee tetap selective multi-warehouse karena volumenya besar, sedangkan channel yang volumenya lebih kecil tidak perlu otomatis dibuat dual-warehouse. Saya ingin validasi arah ini sebelum kita masuk pilot lebih jauh.”</div>
+
+        <details class="detail-rich">
+          <summary>Open questions teknis yang masih perlu dijawab</summary>
+          <div class="details-body">
+            <ul>
+              <li>Bagaimana Jubelio mengidentifikasi source warehouse pada transaction Shopee Bali vs Jakarta?</li>
+              <li>Event API mana yang menjadi source deduction: create transaction, paid, ready-to-ship, shipped, atau kombinasi?</li>
+              <li>Bagaimana cancellation, refund, return, replacement, bundle, partial shipment dan correction diperlakukan?</li>
+              <li>Berapa days-of-cover minimum JECM Jakarta setelah menerima /id + marketplace tertentu?</li>
+              <li>Apakah fixed 80% allocation Bali masih relevan setelah /id dipindahkan dari Bali?</li>
+              <li>Apakah Bali perlu emergency stock untuk TikTok/Tokopedia atau cukup configuration/fallback capability?</li>
+            </ul>
+          </div>
+        </details>
+
+        <div class="source-links">
+          <a class="source-link" href="https://sensatia.dgrow.id/docs/bali-ecommerce-shared-stock-model/" target="_blank">↗ Shared Stock Model</a>
+          <a class="source-link" href="https://sensatia.dgrow.id/docs/bali-ecommerce-fulfillment-presentation/#slide-1" target="_blank">↗ Fulfillment Presentation</a>
+        </div>
+      </section>
+
+      <section class="section" id="putu">
+        <div class="section-head">
+          <div><div class="eyebrow">2 · Business Request</div><h2>Request Putu Mei / Accounting</h2></div>
+          <span class="badge blue">Waiting Feedback</span>
+        </div>
+
+        <div class="callout">
+          <b>Status singkat</b>
+          <p>Assessment sudah dibuat dan dikirim. Sekarang bukan masalah feasibility teknis; kita menunggu feedback dan discovery meeting untuk mengunci business rule sebelum development.</p>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <h4>Sudah dilakukan</h4>
+            <ul style="font-size:12px">
+              <li>Request dipetakan sebagai improvement Customer Order / Credit Control / Fulfillment.</li>
+              <li>Technical assessment sudah disiapkan dan dibagikan.</li>
+              <li>Scope dipisahkan dari Procurement PR/PO automation.</li>
+              <li>Risk dan dependency bisnis sudah diidentifikasi.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h4>Sebelum coding perlu dikunci</h4>
+            <ul style="font-size:12px">
+              <li>Definisi NET30 dan overdue.</li>
+              <li>Outstanding balance mana yang dihitung.</li>
+              <li>Siapa yang boleh override / exception.</li>
+              <li>Kapan invoice dan tax invoice dikirim.</li>
+              <li>Recipient, retry dan failure handling.</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>Scope assessment</h3>
+        <table>
+          <thead><tr><th>Area</th><th>Requirement</th><th>Status</th><th>Next step</th></tr></thead>
+          <tbody>
+            <tr><td>Credit Control</td><td>NET30 overdue validation sebelum Quote → Order</td><td>Need business rule</td><td>Discovery dengan Accounting</td></tr>
+            <tr><td>Accounting</td><td>Automatic Invoice & Tax Invoice email</td><td>Need trigger/recipient confirmation</td><td>Validasi source & retry flow</td></tr>
+            <tr><td>Fulfillment</td><td>PO tracker + Slack notification model</td><td>Assessment</td><td>Clarify event/status lifecycle</td></tr>
+            <tr><td>Bali E-Commerce</td><td>WEB ID mapping vs website order number</td><td>Verification</td><td>Confirm source-of-truth field</td></tr>
+          </tbody>
+        </table>
+
+        <div class="talk">“Assessment-nya sudah selesai dan sudah saya kirim. Dari sisi teknis doable, tapi saya belum mau langsung coding sebelum Putu Mei/Accounting mengkonfirmasi business rule seperti overdue definition, exception, invoice trigger dan tax invoice flow. Jadi next step-nya meeting/discovery, bukan development dulu.”</div>
+      </section>
+
+      <section class="section" id="soma">
+        <div class="section-head">
+          <div><div class="eyebrow">3 · Development Governance</div><h2>Kasus Mbo Luh Soma: hasil cepat, tapi flow perlu dirapikan</h2></div>
+          <span class="badge green">Done + Lesson</span>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <h4>Yang terjadi</h4>
+            <p>Luh Soma request Activity Type filter pada Finished Goods Stock Movement History. Saya sudah reply bahwa akan membuat ticket, tetapi Colin langsung implement ke sandbox sebelum ticket-nya sempat dibuat.</p>
+          </div>
+          <div class="card">
+            <h4>Hasil akhirnya</h4>
+            <p>Setelah satu iterasi koreksi, validation berhasil: All Activity 19 = Cost Activity 3 + Stock Movement 16, tanpa missing/duplicate. Kemudian langsung deploy production.</p>
+          </div>
+        </div>
+
+        <h3>Flow yang terjadi vs flow yang kita inginkan</h3>
+        <div class="grid-2 detail-rich">
+          <div class="card">
+            <h4>Yang terjadi</h4>
+            <div class="timeline">
+              <div class="t-item"><div class="t-dot">1</div><div class="t-body"><strong>User request di Slack</strong></div></div>
+              <div class="t-item"><div class="t-dot">2</div><div class="t-body"><strong>Langsung coding / deploy SB</strong></div></div>
+              <div class="t-item"><div class="t-dot">3</div><div class="t-body"><strong>User feedback → redeploy</strong></div></div>
+              <div class="t-item"><div class="t-dot">4</div><div class="t-body"><strong>Validated → Production</strong></div></div>
+              <div class="t-item"><div class="t-dot">5</div><div class="t-body"><strong>Jira dibuat belakangan</strong></div></div>
+            </div>
+          </div>
+          <div class="card">
+            <h4>Flow ideal</h4>
+            <div class="timeline">
+              <div class="t-item"><div class="t-dot">1</div><div class="t-body"><strong>Request masuk</strong></div></div>
+              <div class="t-item"><div class="t-dot">2</div><div class="t-body"><strong>Jira + scope + acceptance criteria</strong></div></div>
+              <div class="t-item"><div class="t-dot">3</div><div class="t-body"><strong>Develop → Sandbox</strong></div></div>
+              <div class="t-item"><div class="t-dot">4</div><div class="t-body"><strong>UAT / evidence</strong></div></div>
+              <div class="t-item"><div class="t-dot">5</div><div class="t-body"><strong>Production → Done</strong></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout amber">
+          <b>Point yang ingin dibawa ke Michael</b>
+          <p>Kecepatan Colin bagus dan jangan dihilangkan. Yang ingin diperbaiki adalah traceability: request, priority, scope, test evidence, dan production history harus punya satu referensi Jira.</p>
+        </div>
+
+        <div class="decision">
+          <div class="decision-icon">✓</div>
+          <div><b>Alignment yang diinginkan</b><p>Untuk normal request, ticket dibuat dulu sebelum development. Untuk emergency boleh fast-track, tapi ticket tetap dibuat saat itu juga / segera setelah mitigasi, bukan hilang dari tracking.</p></div>
+        </div>
+
+        <div class="talk">“Ini bukan masalah hasil kerja Colin—justru cepat dan hasilnya bagus. Tapi saya ingin kita punya rule sederhana: kalau ada request development, Jira dibuat dulu supaya requirement, test dan deployment punya history. Kalau emergency boleh fast-track, tapi tetap harus tercatat.”</div>
+      </section>
+
+      <section class="section" id="qr">
+        <div class="section-head">
+          <div><div class="eyebrow">4 · Retail Experience</div><h2>Progress replacement Google Review QR semua toko</h2></div>
+          <span class="badge green">In Progress</span>
+        </div>
+
+        <div class="callout">
+          <b>Technical finding sudah selesai</b>
+          <p>Kita tidak perlu custom QR generator. Google Business Profile sudah menyediakan official Review Link dan QR melalui menu <b>Ask for reviews</b>. Jadi pekerjaan utama sekarang adalah collection, verification, documentation, dan artwork replacement.</p>
+        </div>
+
+        <div class="grid-4">
+          <div class="card"><div class="stat">1</div><div class="stat-label">Standard teknis disepakati</div></div>
+          <div class="card"><div class="stat">→</div><div class="stat-label">Collect per-store link / QR</div></div>
+          <div class="card"><div class="stat">✓</div><div class="stat-label">Mobile verification sebelum print</div></div>
+          <div class="card"><div class="stat">All</div><div class="stat-label">Target standardisasi semua toko</div></div>
+        </div>
+
+        <h3>Master reference yang perlu tersedia</h3>
+        <table>
+          <thead><tr><th>Field</th><th>Tujuan</th></tr></thead>
+          <tbody>
+            <tr><td>Store name + Google Business Profile</td><td>Pastikan QR menunjuk location yang tepat.</td></tr>
+            <tr><td>Official Review Link</td><td>Source-of-truth selain file QR.</td></tr>
+            <tr><td>QR file/reference</td><td>Handoff ke artwork/print.</td></tr>
+            <tr><td>Owner/manager access</td><td>Identifikasi blocker akses.</td></tr>
+            <tr><td>Verification + last verified date</td><td>Evidence bahwa QR sudah dites.</td></tr>
+          </tbody>
+        </table>
+
+        <div class="talk">“Untuk Google Review QR, technical solution-nya sudah clear dan tidak perlu development. Sekarang saya standardisasi official review link/QR untuk seluruh store, verify satu-satu, lalu handoff ke artwork untuk replacement.”</div>
+      </section>
+
+      <section class="section" id="convertio">
+        <div class="section-head">
+          <div><div class="eyebrow">5 · CRM / Data Governance</div><h2>Convertio meminta raw customer & transaction data</h2></div>
+          <span class="badge rose">Approval Needed</span>
+        </div>
+
+        <div class="callout rose">
+          <b>Kenapa dibawa ke Michael?</b>
+          <p>Ini bukan hanya task export Excel. Dataset berisi customer/member transaction information yang termasuk PII dan internal business data. NDA sudah dikonfirmasi ada, tetapi approval scope tetap perlu jelas sebelum export.</p>
+        </div>
+
+        <div class="timeline">
+          <div class="t-item"><div class="t-dot">1</div><div class="t-body"><strong>Convertio meminta detailed transaction/member data</strong><p>CRM team membutuhkan data agar vendor bisa menyusun CRM plan/consultancy.</p></div></div>
+          <div class="t-item"><div class="t-dot">2</div><div class="t-body"><strong>Saya hold raw export</strong><p>Saya concern memberikan raw internal/customer data tanpa memastikan NDA/DPA dan approval.</p></div></div>
+          <div class="t-item"><div class="t-dot">3</div><div class="t-body"><strong>Legal / CRM confirm NDA coverage</strong><p>Kerahasiaan data pelanggan dinyatakan sudah tercakup dalam agreement/NDA.</p></div></div>
+          <div class="t-item"><div class="t-dot">4</div><div class="t-body"><strong>CRM meminta full requested dataset</strong><p>Summary dianggap tidak cukup untuk consultancy. Saya bilang akan minta approval di meeting ini sebelum menarik data.</p></div></div>
+        </div>
+
+        <h3>Safeguard yang saya sarankan</h3>
+        <div class="grid-3">
+          <div class="card"><h4>Data minimization</h4><p>Hanya field yang benar-benar diminta dan diperlukan untuk scope consultancy.</p></div>
+          <div class="card"><h4>Time-range restriction</h4><p>Hanya periode yang disepakati, bukan dump seluruh historical database.</p></div>
+          <div class="card"><h4>Controlled delivery</h4><p>File dikirim ke recipient/channel yang disepakati dan tidak dipublikasikan via link terbuka.</p></div>
+        </div>
+
+        <div class="decision">
+          <div class="decision-icon">?</div>
+          <div><b>Approval yang diminta dari Michael</b><p>Apakah saya boleh menyiapkan dan membagikan dataset lengkap <b>sesuai field + periode yang diminta Convertio</b>, dengan NDA sebagai basis dan prinsip data minimization?</p></div>
+        </div>
+
+        <div class="talk">“Convertio butuh data lengkap agar consultancy bisa jalan. NDA sudah dikonfirmasi cover confidentiality. Sebelum saya extract, saya ingin approval: apakah kita setuju share dataset sesuai exact field dan periode yang mereka minta, bukan raw dump database yang lebih luas?”</div>
+      </section>
+
+      <section class="section" id="phoenix">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">6 · Capability Transition</div>
+            <h2>Project Phoenix — September Baseline, KT, dan arah internalization</h2>
+          </div>
+          <span class="badge blue">September = Baseline</span>
+        </div>
+
+        <div class="callout blue">
+          <b>Pesan utama untuk Michael</b>
+          <p>
+            September bukan target untuk menyatakan kita sudah independen dari Colin.
+            Target bulan ini adalah membangun <b>factual baseline</b>: kita harus tahu apa yang kita miliki,
+            apa yang sudah terdokumentasi, apa yang masih bergantung pada Colin, apa yang belum terverifikasi,
+            dan siapa owner + target date untuk menutup gap tersebut.
+          </p>
+        </div>
+
+        <h3>A. Target September — apa yang harus sudah terlihat jelas?</h3>
+        <div class="grid-3">
+          <div class="card">
+            <h4>1. Digital Asset / DTAR Baseline</h4>
+            <p>Inventaris sistem penting: StockWizz, website, MongoDB, repository, environment, integrations, third-party services, criticality, ownership dan evidence reference.</p>
+          </div>
+          <div class="card">
+            <h4>2. Architecture & MongoDB Baseline</h4>
+            <p>Major components, module, environment, data flow, database role, critical collections/index/legacy behavior, dan area yang masih Colin-dependent.</p>
+          </div>
+          <div class="card">
+            <h4>3. Access / MFA / Recovery Baseline</h4>
+            <p>Critical account ownership, backup owner, recovery path, OTP/2FA dependency, dan akses yang masih bergantung pada satu orang.</p>
+          </div>
+          <div class="card">
+            <h4>4. Backup & Recovery Baseline</h4>
+            <p>Bedakan “backup tersedia” dengan “recovery sudah terbukti”. Catat scope, frequency, owner, restore evidence, dan single-person dependency.</p>
+          </div>
+          <div class="card">
+            <h4>5. Risk / Technical Debt / Registers</h4>
+            <p>Existing projects, recurring incident, technical debt, third-party dependency, open risk dan unknown yang perlu owner + target date.</p>
+          </div>
+          <div class="card">
+            <h4>6. Priority KT Topics</h4>
+            <p>Baseline harus menghasilkan daftar pertanyaan dan knowledge gaps yang benar-benar perlu dibahas dengan Colin, bukan KT tanpa agenda.</p>
+          </div>
+        </div>
+
+        <div class="callout amber detail-rich">
+          <b>Definition of September Done</b>
+          <p>
+            Akhir September belum harus semua gap solved. Yang penting gap-nya <b>terlihat, terklasifikasi, punya evidence,
+            owner, target date, dan masuk prioritas October</b>. Blank field bukan completion.
+          </p>
+        </div>
+
+        <h3>B. Progress yang sudah ada sekarang</h3>
+        <table>
+          <thead>
+            <tr><th>Area</th><th>Status Sekarang</th><th>Progress Nyata</th><th>Yang Masih Kurang</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>Program Structure</b></td>
+              <td><span class="badge green">Sudah kuat</span></td>
+              <td>6-month roadmap, roles, evidence rule, documentation model, completion criteria sudah tersusun.</td>
+              <td>Perlu memastikan execution evidence mulai terisi, bukan hanya framework.</td>
+            </tr>
+            <tr>
+              <td><b>Technical Gap Review — SENS-122</b></td>
+              <td><span class="badge blue">In Progress</span></td>
+              <td>Area architecture, DB, integrations, environments, release, backup, monitoring, security dan Colin dependency sudah dipetakan.</td>
+              <td>Belum semua gap punya evidence / answer final.</td>
+            </tr>
+            <tr>
+              <td><b>Website & Digital Assets — SENS-138</b></td>
+              <td><span class="badge blue">In Progress</span></td>
+              <td>Website resmi masuk scope handover: repository, hosting, deployment, DNS/domain, analytics, ownership, external dependencies.</td>
+              <td>Masih perlu inventory + ownership evidence lengkap.</td>
+            </tr>
+            <tr>
+              <td><b>Access & 2FA — SENS-143</b></td>
+              <td><span class="badge blue">In Progress</span></td>
+              <td>Dependency OTP/2FA dan access recovery sudah menjadi workstream nyata, bukan hanya konsep.</td>
+              <td>Critical accounts + backup owner + recovery path masih perlu dirapikan.</td>
+            </tr>
+            <tr>
+              <td><b>Weekly KT — SENS-123</b></td>
+              <td><span class="badge green">Ready</span></td>
+              <td>First KT 23 Sep, 08:30–10:30 WITA. Colin required; Agus optional sesuai topik.</td>
+              <td>Actual session evidence belum ada karena KT belum mulai.</td>
+            </tr>
+            <tr>
+              <td><b>DTAR / Architecture / Recovery / Registers</b></td>
+              <td><span class="badge amber">Next Focus</span></td>
+              <td>Scope dan Jira sudah dibuat: SENS-158, 159, 160, 161.</td>
+              <td>Ini deliverable September yang sekarang perlu dieksekusi, bukan hanya disiapkan.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>C. Weekly KT — bukan sekadar meeting handover</h3>
+        <div class="callout">
+          <b>Schedule confirmed</b>
+          <p>
+            Mulai <b>23 September 2026, 08:30–10:30 WITA</b>, weekly sampai 28 Februari 2027.
+            Colin required. Agus optional untuk infra/access/hosting/recovery. Michael lebih cocok tetap di monthly management review.
+          </p>
+        </div>
+
+        <div class="flow detail-rich">
+          <div class="flow-box"><strong>Knowledge</strong><span>dijelaskan</span></div>
+          <div class="flow-box"><strong>Evidence</strong><span>dibuktikan</span></div>
+          <div class="flow-box"><strong>Documentation</strong><span>ditulis</span></div>
+          <div class="flow-box"><strong>Ownership</strong><span>diambil internal</span></div>
+          <div class="flow-box good"><strong>Capability</strong><span>bisa operate sendiri</span></div>
+        </div>
+
+        <div class="grid-2 detail-rich">
+          <div class="card">
+            <h4>First KT — fokus 23 September</h4>
+            <ul style="font-size:12px">
+              <li>StockWizz landscape & architecture.</li>
+              <li>Run StockWizz locally.</li>
+              <li>Review handover documents / current records.</li>
+              <li>Capture remaining knowledge gaps.</li>
+              <li>Identify evidence yang masih perlu divalidasi.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h4>Output wajib setiap KT</h4>
+            <ul style="font-size:12px">
+              <li>Topic + system/module covered.</li>
+              <li>Knowledge yang benar-benar transferred.</li>
+              <li>Evidence / docs yang dibuat atau di-update.</li>
+              <li>Open questions.</li>
+              <li>Action item + owner + target date.</li>
+              <li>Remaining Colin dependency.</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>D. Yang perlu dibahas dengan Michael besok</h3>
+        <div class="grid-2">
+          <div class="card">
+            <h4>1. Konfirmasi target September</h4>
+            <p>Pastikan Michael sejalan bahwa September = discovery & baseline, bukan independent operation. Independence baru dibangun bertahap mulai paired operation di October.</p>
+          </div>
+          <div class="card">
+            <h4>2. Update progress secara jujur</h4>
+            <p>Framework sudah kuat, beberapa workstream sudah berjalan, KT ready. Tapi deliverable baseline utama masih perlu execution sebelum monthly review.</p>
+          </div>
+          <div class="card">
+            <h4>3. Confirm evidence expectation</h4>
+            <p>Tanya Michael: evidence apa yang ingin dia lihat agar September dianggap berhasil? Ini mencegah beda ekspektasi di akhir bulan.</p>
+          </div>
+          <div class="card">
+            <h4>4. Escalation support</h4>
+            <p>Minta bantuan hanya untuk blocker level management: ownership belum jelas, access yang bergantung satu orang, atau priority conflict lintas tim.</p>
+          </div>
+        </div>
+
+        <div class="decision">
+          <div class="decision-icon">?</div>
+          <div>
+            <b>Pertanyaan terbaik ke Michael</b>
+            <p>
+              “Untuk monthly review akhir September, evidence minimum apa yang Bapak ingin lihat supaya September dianggap berhasil?
+              Saya propose: critical asset inventory, architecture baseline, access/recovery gaps, Colin-dependency list, top risks,
+              dan October priority plan.”
+            </p>
+          </div>
+        </div>
+
+        <h3>E. Risk yang perlu Michael tahu — tanpa terlalu teknis</h3>
+        <div class="grid-3 detail-rich">
+          <div class="card">
+            <h4>Single-person dependency</h4>
+            <p>Beberapa knowledge/access masih berpotensi hanya diketahui atau dikontrol satu orang.</p>
+          </div>
+          <div class="card">
+            <h4>Recovery belum sama dengan backup</h4>
+            <p>Backup job yang sukses belum berarti restore/recovery terbukti bisa dilakukan internal.</p>
+          </div>
+          <div class="card">
+            <h4>Undocumented operations</h4>
+            <p>Deployment, rollback, recurring failure pattern dan support flow belum semuanya terdokumentasi dengan evidence.</p>
+          </div>
+        </div>
+
+        <div class="talk">
+          “Untuk September saya belum mau claim kita sudah independent. Target saya adalah membuat current state benar-benar visible dan evidence-based.
+          Akhir bulan kita harus tahu apa yang kita control, apa yang masih dependent ke Colin, apa yang belum terdokumentasi,
+          dan apa yang harus dipindahkan atau dites di October.”
+        </div>
+
+        <h3>F. Saran saya untuk Project Phoenix</h3>
+        <div class="grid-2">
+          <div class="card">
+            <h4>1. Fokus September jangan terlalu melebar</h4>
+            <p>
+              Prioritaskan empat deliverable inti: <b>Architecture/MongoDB → DTAR → Backup/Recovery → Registers</b>.
+              Jangan mencoba menyelesaikan semua technical debt di September.
+            </p>
+          </div>
+          <div class="card">
+            <h4>2. Gunakan KT untuk menutup unknown, bukan presentasi umum</h4>
+            <p>
+              Sebelum sesi Colin, siapkan daftar pertanyaan dari baseline. KT jadi targeted knowledge extraction,
+              bukan sekadar walkthrough panjang yang sulit dilacak.
+            </p>
+          </div>
+          <div class="card">
+            <h4>3. Bedakan “documented” vs “validated”</h4>
+            <p>
+              Contoh: deployment flow yang ditulis Colin belum otomatis dianggap transferred.
+              Widhy/internal team perlu mempraktikkan atau memvalidasinya di fase berikutnya.
+            </p>
+          </div>
+          <div class="card">
+            <h4>4. Buat dependency score sederhana</h4>
+            <p>
+              Untuk tiap critical area gunakan status: <b>Independent / Can operate with review / Colin-dependent / Unknown</b>.
+              Ini akan membuat progress Phoenix jauh lebih mudah dibaca Michael setiap bulan.
+            </p>
+          </div>
+          <div class="card">
+            <h4>5. Jangan tunggu akhir bulan untuk register</h4>
+            <p>
+              Isi DTAR, risk register, technical debt, incident dan third-party register secara incremental setiap ada evidence,
+              bukan marathon menjelang monthly review.
+            </p>
+          </div>
+          <div class="card">
+            <h4>6. Definisikan backup internal untuk Widhy</h4>
+            <p>
+              Phoenix tidak boleh berakhir dengan memindahkan single-person dependency dari Colin ke Widhy.
+              Perlu backup capability internal lain untuk area kritikal.
+            </p>
+          </div>
+        </div>
+
+        <div class="callout amber">
+          <b>Rekomendasi urutan kerja sampai 30 September</b>
+          <p>
+            <b>1) SENS-159 Architecture/MongoDB</b> → 
+            <b>2) SENS-158 DTAR</b> → 
+            <b>3) SENS-160 Backup/Recovery</b> → 
+            <b>4) SENS-161 Registers</b>, 
+            sambil first KT 23 Sep dipakai untuk menutup unknown yang membutuhkan Colin.
+          </p>
+        </div>
+
+        <details class="detail-rich">
+          <summary>Acceptance criteria yang saya sarankan untuk September review</summary>
+          <div class="details-body">
+            <ul>
+              <li>Critical systems dan owners sudah teridentifikasi.</li>
+              <li>Critical StockWizz architecture dan MongoDB baseline tersedia.</li>
+              <li>Critical access/MFA/recovery dependencies terlihat jelas.</li>
+              <li>Backup/recovery status dibedakan antara “exists” dan “tested”.</li>
+              <li>Top Colin-dependent knowledge sudah punya KT plan.</li>
+              <li>Risk/technical debt/open issue register sudah berisi baseline nyata.</li>
+              <li>Semua unknown penting punya owner + target date.</li>
+              <li>October priorities sudah dapat diturunkan dari evidence September.</li>
+            </ul>
+          </div>
+        </details>
+      </section>
+
+
+<section class="section" id="fleet">
+  <div class="section-head">
+    <div>
+      <div class="eyebrow">7 · Fleet GPS / Vendor Decision</div>
+      <h2>MC Easy — fitur lengkap, API tersedia, tetapi keputusan komersial perlu sebelum 22 September</h2>
+    </div>
+    <span class="badge amber">Decision Before 22 Sep</span>
+  </div>
+
+  <div class="callout amber">
+    <b>Ringkasan meeting MC Easy — 16 September 2026</b>
+    <p>
+      Dari meeting dengan MC Easy, fitur fleet/GPS tracking terlihat cukup lengkap dan
+      <b>API tersedia</b>. Ini membuat MC Easy menarik bukan hanya sebagai GPS dashboard,
+      tetapi juga sebagai data source yang suatu saat bisa diintegrasikan ke sistem internal Sensatia.
+      Namun fitur <b>live assignment / live penugasan</b> merupakan fitur berbayar.
+      Vendor juga menyampaikan promo hanya berlaku sampai <b>22 September 2026</b>,
+      sehingga perlu ada keputusan sebelum tanggal tersebut bila ingin memanfaatkan promo.
+    </p>
+  </div>
+
+  <div class="grid-4">
+    <div class="card">
+      <div class="stat">✓</div>
+      <div class="stat-label">Feature coverage cukup lengkap</div>
+    </div>
+    <div class="card">
+      <div class="stat">API</div>
+      <div class="stat-label">API tersedia untuk integrasi internal</div>
+    </div>
+    <div class="card">
+      <div class="stat">Paid</div>
+      <div class="stat-label">Live assignment adalah paid add-on</div>
+    </div>
+    <div class="card">
+      <div class="stat">22 Sep</div>
+      <div class="stat-label">Promo / decision deadline</div>
+    </div>
+  </div>
+
+  <h3>A. Apa yang menarik dari MC Easy?</h3>
+  <div class="grid-3">
+    <div class="card">
+      <h4>Feature coverage</h4>
+      <p>
+        Dari demo/discussion, capability yang ditawarkan terlihat cukup lengkap untuk kebutuhan fleet tracking.
+        Ini membuat MC Easy lebih dekat ke opsi managed solution daripada harus membangun platform sendiri dari nol.
+      </p>
+    </div>
+    <div class="card">
+      <h4>API availability</h4>
+      <p>
+        API menjadi nilai penting karena data kendaraan berpotensi dipakai untuk dashboard internal,
+        reporting, alerting, workflow, atau integrasi lain tanpa mengikat seluruh proses ke UI vendor.
+      </p>
+    </div>
+    <div class="card">
+      <h4>Operational fit</h4>
+      <p>
+        Kalau reliability dan support terbukti baik saat pilot, workload internal bisa jauh lebih kecil
+        dibanding Sensatia mengelola GPS engine, SIM, device protocol, server, alerting, dan maintenance sendiri.
+      </p>
+    </div>
+  </div>
+
+  <h3>B. Catatan penting: Live Assignment berbayar</h3>
+  <div class="grid-2">
+    <div class="card">
+      <h4>Apa yang perlu dipastikan?</h4>
+      <ul style="font-size:12px">
+        <li>Berapa harga add-on live assignment?</li>
+        <li>Per kendaraan, per user, atau per account?</li>
+        <li>Apakah ada minimum quantity?</li>
+        <li>Apakah harus aktif untuk seluruh kendaraan?</li>
+        <li>Apakah fitur ini dibutuhkan sejak pilot atau bisa fase berikutnya?</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Kenapa jangan langsung dibeli?</h4>
+      <p>
+        Kita perlu bedakan antara <b>core GPS tracking requirement</b> dan fitur dispatch/assignment tambahan.
+        Kalau kebutuhan utama saat ini hanya tracking, history, alerts, reporting dan API,
+        live assignment mungkin bisa diputuskan terpisah setelah user/business benar-benar membutuhkan.
+      </p>
+    </div>
+  </div>
+
+  <h3>C. Commercial details yang harus dikunci sebelum 22 September</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Area</th>
+        <th>Yang harus dikonfirmasi</th>
+        <th>Kenapa penting</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><b>Hardware & Installation</b></td>
+        <td>Harga device, instalasi, ownership, removal, replacement.</td>
+        <td>Menentukan initial cost dan exit cost.</td>
+      </tr>
+      <tr>
+        <td><b>Subscription</b></td>
+        <td>Biaya bulanan/tahunan per kendaraan dan minimum contract.</td>
+        <td>Komponen utama 36-month TCO.</td>
+      </tr>
+      <tr>
+        <td><b>Live Assignment</b></td>
+        <td>Harga add-on, pricing model, minimum quantity.</td>
+        <td>Fitur ini terkonfirmasi berbayar.</td>
+      </tr>
+      <tr>
+        <td><b>API</b></td>
+        <td>Included/tidak, rate limit, fee tambahan, documentation, historical access.</td>
+        <td>Menentukan fleksibilitas integrasi dan vendor lock-in.</td>
+      </tr>
+      <tr>
+        <td><b>SIM / Data</b></td>
+        <td>Included/tidak, coverage, fair usage.</td>
+        <td>Mempengaruhi recurring cost dan reliability.</td>
+      </tr>
+      <tr>
+        <td><b>Contract / Exit</b></td>
+        <td>Term contract, early termination, device removal/portability.</td>
+        <td>Menentukan risiko lock-in.</td>
+      </tr>
+      <tr>
+        <td><b>Data</b></td>
+        <td>Retention, raw export, ownership, API history.</td>
+        <td>Penting untuk audit dan migrasi.</td>
+      </tr>
+      <tr>
+        <td><b>Support / SLA</b></td>
+        <td>Response time, warranty, device replacement, support channel.</td>
+        <td>Menentukan beban operasional setelah rollout.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout blue detail-rich">
+    <b>Kenapa API menjadi nilai strategis?</b>
+    <p>
+      Dengan API, Sensatia tidak harus membangun GPS tracking engine dari nol tetapi tetap bisa memiliki
+      layer internal sendiri di masa depan. Contohnya: internal fleet dashboard, trip summary,
+      maintenance trigger, alert ke Slack, atau integrasi assignment/workflow.
+      Yang perlu diverifikasi adalah dokumentasi API, rate limit, event yang tersedia, historical data, dan biaya aksesnya.
+    </p>
+  </div>
+
+  <h3>D. Decision framing — apa sebenarnya yang perlu diputuskan?</h3>
+  <div class="grid-3">
+    <div class="card">
+      <h4>Bukan keputusan full rollout</h4>
+      <p>
+        Promo sampai 22 Sep tidak seharusnya memaksa Sensatia memilih vendor final tanpa validation.
+      </p>
+    </div>
+    <div class="card">
+      <h4>Keputusan yang lebih aman</h4>
+      <p>
+        Tentukan apakah MC Easy layak menjadi <b>preferred vendor / controlled pilot candidate</b>
+        dan apakah promo perlu dikunci untuk scope pilot.
+      </p>
+    </div>
+    <div class="card">
+      <h4>Full rollout setelah pilot</h4>
+      <p>
+        Rollout lebih besar baru setelah reliability, support, API, usability dan actual cost terbukti.
+      </p>
+    </div>
+  </div>
+
+  <h3>E. Controlled Pilot — 5 kendaraan</h3>
+  <div class="flow detail-rich">
+    <div class="flow-box"><strong>Final Quotation</strong><span>commercial terms</span></div>
+    <div class="flow-box"><strong>5 Vehicles</strong><span>controlled install</span></div>
+    <div class="flow-box"><strong>4–8 Weeks</strong><span>real operation</span></div>
+    <div class="flow-box"><strong>Evaluate</strong><span>feature, API, support, cost</span></div>
+    <div class="flow-box good"><strong>Final Decision</strong><span>rollout / renegotiate / reject</span></div>
+  </div>
+
+  <div class="grid-2 detail-rich">
+    <div class="card">
+      <h4>Technical / GPS validation</h4>
+      <ul style="font-size:12px">
+        <li>Live location accuracy.</li>
+        <li>Trip history / playback.</li>
+        <li>Ignition detection.</li>
+        <li>Speed alert & geofence.</li>
+        <li>Idle detection & mileage.</li>
+        <li>Offline behavior & recovery.</li>
+        <li>Tamper / power-loss alert bila tersedia.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Operational / vendor validation</h4>
+      <ul style="font-size:12px">
+        <li>Dashboard usability untuk user.</li>
+        <li>Network stability.</li>
+        <li>Reporting.</li>
+        <li>API/data export quality.</li>
+        <li>Vendor support responsiveness.</li>
+        <li>Actual recurring cost.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>F. Timeline keputusan</h3>
+  <div class="timeline">
+    <div class="t-item">
+      <div class="t-dot">16</div>
+      <div class="t-body"><strong>16 Sep — Vendor meeting selesai</strong><p>Feature coverage, API availability, paid live assignment dan promo deadline teridentifikasi.</p></div>
+    </div>
+    <div class="t-item">
+      <div class="t-dot">18</div>
+      <div class="t-body"><strong>18–19 Sep — Target final quotation</strong><p>Minta breakdown commercial lengkap, termasuk add-on, API, SIM/data, contract, data retention dan support.</p></div>
+    </div>
+    <div class="t-item">
+      <div class="t-dot">20</div>
+      <div class="t-body"><strong>20–21 Sep — Internal review</strong><p>Bandingkan commercial terms, TCO dan scope pilot. Jangan menunggu tanggal terakhir.</p></div>
+    </div>
+    <div class="t-item">
+      <div class="t-dot">22</div>
+      <div class="t-body"><strong>22 Sep — Promo deadline</strong><p>Decision: lock offer untuk controlled pilot atau lanjut tanpa promo.</p></div>
+    </div>
+  </div>
+
+  <div class="decision">
+    <div class="decision-icon">?</div>
+    <div>
+      <b>Keputusan yang ingin dibawa dari meeting dengan Michael</b>
+      <p>
+        Jika final commercial terms masuk akal, apakah Michael setuju MC Easy dijadikan
+        <b>preferred candidate untuk controlled pilot 5 kendaraan</b> dan promo dikunci untuk pilot,
+        tanpa langsung commit ke full rollout?
+      </p>
+    </div>
+  </div>
+
+  <div class="talk">
+    “Saya sudah meeting dengan MC Easy. Feature coverage mereka cukup lengkap dan API tersedia,
+    jadi secara teknis cukup menarik. Tapi live assignment adalah paid add-on dan promo mereka hanya sampai 22 September.
+    Saya tidak menyarankan langsung full rollout karena promo. Kalau final commercial breakdown masuk akal,
+    saya lebih nyaman lock offer untuk controlled pilot 5 kendaraan dulu, lalu kita nilai reliability,
+    support, API dan actual cost sebelum rollout lebih besar.”
+  </div>
+
+  <h3>G. Update tracking Jira</h3>
+  <table>
+    <thead><tr><th>Ticket</th><th>Status / update</th></tr></thead>
+    <tbody>
+      <tr><td><b>SENS-47 — Vendor Comparison</b></td><td>In Progress, assigned ke Widhy, due 22 Sep. Hasil meeting dan decision window sudah dicatat.</td></tr>
+      <tr><td><b>SENS-53 — Pilot 5 Kendaraan</b></td><td>MC Easy dicatat sebagai kandidat controlled pilot.</td></tr>
+      <tr><td><b>SENS-52 — 36-Month TCO</b></td><td>MC Easy masuk TCO comparison; harga promo dipisahkan dari normal recurring cost.</td></tr>
+      <tr><td><b>SENS-54 — Final Recommendation</b></td><td>Decision sebelum 22 Sep difokuskan ke preferred pilot candidate, bukan otomatis vendor final.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout amber">
+    <b>Saran saya</b>
+    <p>
+      Kejar final quotation sebelum 18–19 September. Kalau commercial proposal tidak cukup jelas,
+      jangan biarkan promo menjadi alasan mengorbankan due diligence. Discount yang bagus tetap kalah penting
+      dibanding contract yang buruk, API yang terbatas, recurring fee tinggi, atau support yang tidak reliable.
+    </p>
+  </div>
+</section>
+
+
+<section class="section" id="closing">
+        <div class="section-head">
+          <div><div class="eyebrow">Closing</div><h2>Keputusan yang ingin dibawa pulang dari meeting</h2></div>
+          <span class="badge amber">Actionable Close</span>
+        </div>
+
+        <table>
+          <thead><tr><th>Topik</th><th>Yang ingin dikonfirmasi</th><th>Next action setelah meeting</th></tr></thead>
+          <tbody>
+            <tr><td><b>Jubelio / Warehouse</b></td><td>Direction selective multi-WH + Jakarta-primary, plus pemisahan operational order sync vs accounting enrichment.</td><td>Stabilkan delta sync → implement Jubelio→StockWizz order sync MVP → reconciliation → finance API enrichment.</td></tr>
+            <tr><td><b>Putu Mei</b></td><td>Priority tetap / tidak ada perubahan direction.</td><td>Wait feedback, schedule discovery, lock business rules.</td></tr>
+            <tr><td><b>Development flow</b></td><td>Jira-first sebagai standard; emergency boleh fast-track dengan traceability.</td><td>Terapkan request → Jira → SB/UAT → Prod → Done.</td></tr>
+            <tr><td><b>Google Review QR</b></td><td>All-store rollout tetap target.</td><td>Complete master reference & replacement.</td></tr>
+            <tr><td><b>Convertio</b></td><td>Approval exact data scope yang boleh dibagikan.</td><td>Extract approved field/time range dan share via controlled channel.</td></tr>
+            <tr><td><b>Project Phoenix</b></td><td>Konfirmasi September = discovery/baseline, evidence minimum untuk monthly review, dan KT governance.</td><td>Execute SENS-159 → 158 → 160 → 161; gunakan KT 23 Sep untuk menutup Colin-dependent unknown.</td></tr>
+            <tr><td><b>Fleet GPS / MC Easy</b></td><td>Apakah MC Easy layak jadi preferred pilot candidate dan apakah promo perlu dikunci sebelum 22 Sep.</td><td>Final commercial breakdown → review internal → controlled pilot 5 kendaraan jika terms masuk akal.</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Checklist setelah meeting</h3>
+        <div class="action-list">
+          <div class="action"><span class="action-check" role="checkbox" tabindex="0"></span><div><div class="action-title">Catat decision warehouse/Jubelio di Jira + Confluence</div><div class="action-note">Jangan biarkan keputusan hanya tinggal di meeting.</div></div><span class="action-tag">P0</span></div>
+          <div class="action"><span class="action-check" role="checkbox" tabindex="0"></span><div><div class="action-title">Update status Convertio setelah approval Michael</div><div class="action-note">Scope data + periode + delivery method.</div></div><span class="action-tag">P0</span></div>
+          <div class="action"><span class="action-check" role="checkbox" tabindex="0"></span><div><div class="action-title">Follow-up Putu Mei untuk discovery meeting</div><div class="action-note">Lock business rule sebelum development.</div></div><span class="action-tag">P1</span></div>
+          <div class="action"><span class="action-check" role="checkbox" tabindex="0"></span><div><div class="action-title">Continue QR store master reference</div><div class="action-note">Track done vs outstanding.</div></div><span class="action-tag">P1</span></div>
+          <div class="action"><span class="action-check" role="checkbox" tabindex="0"></span><div><div class="action-title">Follow-up final quotation MC Easy</div><div class="action-note">Minta breakdown hardware, installation, recurring fee, live assignment add-on, API, SIM/data, contract, retention dan SLA sebelum 18–19 Sep.</div></div><span class="action-tag">P0</span></div>
+          <div class="action"><span class="action-check" role="checkbox" tabindex="0"></span><div><div class="action-title">Lock September Phoenix acceptance criteria dengan Michael</div><div class="action-note">Critical asset inventory, architecture baseline, access/recovery gaps, Colin dependency, top risks, October priorities.</div></div><span class="action-tag">P0</span></div>
+          <div class="action"><span class="action-check" role="checkbox" tabindex="0"></span><div><div class="action-title">Prepare Phoenix KT 23 Sep</div><div class="action-note">Agenda, required access, documentation template, evidence checklist.</div></div><span class="action-tag">P1</span></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <footer class="footer">
+    Sensatia · Internal Weekly Meeting Brief · Prepared 16 September 2026<br>
+    <span class="print-only">Internal use only</span>
+  </footer>
+</div>
+
+<script>
+const progress=document.getElementById('progress');
+window.addEventListener('scroll',()=>{
+  const h=document.documentElement;
+  const pct=(h.scrollTop/(h.scrollHeight-h.clientHeight))*100;
+  progress.style.width=Math.max(0,Math.min(100,pct))+'%';
+});
+
+const links=[...document.querySelectorAll('.nav-link')];
+const sections=links.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+e.target.id));
+    }
+  })
+},{rootMargin:'-25% 0px -60% 0px',threshold:0});
+sections.forEach(s=>obs.observe(s));
+
+const modeBtn=document.getElementById('modeBtn');
+modeBtn.addEventListener('click',()=>{
+  document.body.classList.toggle('compact');
+  const compact=document.body.classList.contains('compact');
+  modeBtn.innerHTML=compact?'▤ <span>Mode Detail</span>':'◫ <span>Mode Ringkas</span>';
+});
+
+document.querySelectorAll('.action-check').forEach(el=>{
+  const toggle=()=>{
+    el.classList.toggle('checked');
+    el.textContent=el.classList.contains('checked')?'✓':'';
+    el.setAttribute('aria-checked',el.classList.contains('checked'));
+  };
+  el.addEventListener('click',toggle);
+  el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();toggle();}});
+});
+</script>
+</body>
+</html>

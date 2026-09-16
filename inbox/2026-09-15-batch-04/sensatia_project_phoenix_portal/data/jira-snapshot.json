@@ -1,0 +1,72 @@
+[
+  {
+    "key": "SENS-121",
+    "summary": "Project Phoenix - Digital Capability Transition Program (6-Month Internalization)",
+    "status": "In Progress",
+    "priority": "High",
+    "purpose": "Program epic / DCTP tracking"
+  },
+  {
+    "key": "SENS-122",
+    "summary": "Project Phoenix - Review Baseline, Handover Plan & Technical Gaps",
+    "status": "In Progress",
+    "priority": "High",
+    "purpose": "Technical gap review"
+  },
+  {
+    "key": "SENS-123",
+    "summary": "Weekly Project Phoenix Knowledge Transfer with Colin",
+    "status": "To Do",
+    "priority": "High",
+    "purpose": "Recurring knowledge-transfer anchor"
+  },
+  {
+    "key": "SENS-126",
+    "summary": "Audit & Secure Internal Integration Credentials",
+    "status": "To Do",
+    "priority": "High",
+    "purpose": "Credential governance"
+  },
+  {
+    "key": "SENS-138",
+    "summary": "Handover Website & Aset Digital - Inventarisasi Akses, Sistem, dan Ownership",
+    "status": "In Progress",
+    "priority": "High",
+    "purpose": "Website & digital asset handover"
+  },
+  {
+    "key": "SENS-143",
+    "summary": "Kelola Akses Digital & 2FA - Kurangi Ketergantungan pada Kode dari Director",
+    "status": "In Progress",
+    "priority": "High",
+    "purpose": "Digital access & 2FA"
+  },
+  {
+    "key": "SENS-158",
+    "summary": "Project Phoenix - Populate DTAR & Critical Digital Asset Inventory",
+    "status": "To Do",
+    "priority": "High",
+    "purpose": "September DTAR baseline"
+  },
+  {
+    "key": "SENS-159",
+    "summary": "Project Phoenix - Establish StockWizz Architecture & MongoDB Baseline",
+    "status": "To Do",
+    "priority": "High",
+    "purpose": "Architecture & database baseline"
+  },
+  {
+    "key": "SENS-160",
+    "summary": "Project Phoenix - Baseline Backup, Recovery & Continuity Requirements",
+    "status": "To Do",
+    "priority": "High",
+    "purpose": "Recovery baseline"
+  },
+  {
+    "key": "SENS-161",
+    "summary": "Project Phoenix - Populate September Baseline Registers",
+    "status": "To Do",
+    "priority": "High",
+    "purpose": "Risk/project/debt/third-party baseline"
+  }
+]

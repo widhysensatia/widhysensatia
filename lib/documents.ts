@@ -19,6 +19,19 @@ export type KnowledgeDocument = {
 
 export const documents: KnowledgeDocument[] = [
   {
+    slug: "project-phoenix-command-center",
+    title: "Project Phoenix Command Center",
+    shortTitle: "Phoenix Command Center",
+    summary:
+      "Portal internal multi-halaman untuk scope, evidence, workstream, readiness, dependencies, dan progress transisi digital Sensatia.",
+    category: "Meeting & Handover",
+    type: "Portal",
+    updated: "2026-09-15",
+    updatedLabel: "15 Sep 2026",
+    tags: ["Project Phoenix", "Readiness", "Transition"],
+    accent: "plum",
+  },
+  {
     slug: "project-phoenix-dctp-guide",
     title: "Project Phoenix — Digital Capability Transition Program",
     shortTitle: "Project Phoenix DCTP Guide",
@@ -29,6 +42,32 @@ export const documents: KnowledgeDocument[] = [
     updated: "2026-09-14",
     updatedLabel: "14 Sep 2026",
     tags: ["Project Phoenix", "Knowledge Transfer", "DCTP"],
+    accent: "plum",
+  },
+  {
+    slug: "sensatia-weekly-meeting-brief-2026-09-17",
+    title: "Sensatia Weekly Meeting Brief — Michael × Widhy",
+    shortTitle: "Weekly Meeting Brief — 17 Sep",
+    summary:
+      "Brief meeting 17 September 2026 untuk progress, keputusan yang dibutuhkan, request bisnis, governance development, CRM/Convertio, dan Project Phoenix.",
+    category: "Meeting & Handover",
+    type: "Meeting Brief",
+    updated: "2026-09-16",
+    updatedLabel: "16 Sep 2026",
+    tags: ["Weekly Meeting", "Michael", "Project Phoenix"],
+    accent: "plum",
+  },
+  {
+    slug: "sensatia-weekly-meeting-presentation-2026-09-17",
+    title: "Sensatia Weekly Meeting Presentation — IT, E-Commerce & Digital Capability",
+    shortTitle: "Weekly Meeting Presentation — 17 Sep",
+    summary:
+      "Interactive management deck untuk update IT, E-Commerce, Project Phoenix, CRM governance, Convertio, dan keputusan Fleet GPS.",
+    category: "Meeting & Handover",
+    type: "Presentation",
+    updated: "2026-09-16",
+    updatedLabel: "16 Sep 2026",
+    tags: ["Weekly Meeting", "Presentation", "Digital Capability"],
     accent: "plum",
   },
   {

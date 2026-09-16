@@ -1,0 +1,524 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sensatia Weekly Meeting Presentation | 17 September 2026</title>
+<style>
+:root{
+  --forest:#143d32;--forest-2:#1f5949;--mint:#a9d7c7;--cream:#f4f0e7;--paper:#fffdf8;
+  --ink:#173029;--muted:#66766f;--line:rgba(23,48,41,.13);--gold:#d5ad55;--coral:#d9775c;
+  --blue:#6f9fb5;--plum:#8f789f;--green:#4f8b70;--shadow:0 30px 90px rgba(3,20,14,.26);
+  --ease:cubic-bezier(.22,.8,.23,1);--accent:var(--green);--accent-soft:#edf5f0;
+}
+*{box-sizing:border-box}
+html,body{width:100%;height:100%;margin:0;overflow:hidden}
+body{font-family:Inter,"Helvetica Neue",Arial,sans-serif;color:var(--ink);background:#0c251d}
+button{font:inherit}
+.deck{position:relative;width:100vw;height:100vh;overflow:hidden;background:
+  radial-gradient(circle at 11% 17%,rgba(112,159,181,.19),transparent 24%),
+  radial-gradient(circle at 89% 84%,rgba(213,173,85,.15),transparent 27%),
+  linear-gradient(140deg,#0c251d,#17392e 48%,#102b23)}
+.noise{position:fixed;inset:0;pointer-events:none;opacity:.055;z-index:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.78' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E")}
+.orb{position:fixed;border-radius:50%;filter:blur(4px);pointer-events:none;z-index:0;animation:drift 15s ease-in-out infinite alternate}
+.orb.one{width:260px;height:260px;left:-105px;top:8%;border:1px solid rgba(169,215,199,.2)}
+.orb.two{width:410px;height:410px;right:-180px;bottom:-170px;background:rgba(217,119,92,.08);animation-delay:-6s}
+@keyframes drift{to{transform:translate3d(32px,-22px,0) scale(1.06)}}
+
+.slide{position:absolute;inset:0;display:grid;place-items:center;padding:28px 46px 72px;opacity:0;visibility:hidden;transform:translate3d(48px,0,0) scale(.985);transition:opacity .42s var(--ease),transform .55s var(--ease),visibility .42s;z-index:1}
+.slide.was-active{transform:translate3d(-42px,0,0) scale(.985)}
+.slide.active{opacity:1;visibility:visible;transform:none;z-index:3}
+.frame{position:relative;width:min(1480px,calc(100vw - 92px));height:min(832px,calc(100vh - 100px));aspect-ratio:16/9;background:var(--paper);border:1px solid rgba(255,255,255,.45);border-radius:28px;overflow:hidden;box-shadow:var(--shadow)}
+.frame:before{content:"";position:absolute;inset:0 0 auto 0;height:6px;background:var(--accent)}
+.frame:after{content:"";position:absolute;right:-120px;top:-145px;width:410px;height:410px;border:1px solid color-mix(in srgb,var(--accent) 24%,transparent);border-radius:50%;box-shadow:0 0 0 62px color-mix(in srgb,var(--accent) 5%,transparent),0 0 0 125px color-mix(in srgb,var(--accent) 3%,transparent);pointer-events:none}
+.frame.dark{background:linear-gradient(135deg,#11382d 0%,#16493b 57%,#1e5948 100%);color:white}
+.frame.dark:after{border-color:rgba(255,255,255,.12);box-shadow:0 0 0 62px rgba(255,255,255,.035),0 0 0 125px rgba(255,255,255,.02)}
+.frame.dark .muted,.frame.dark p{color:rgba(255,255,255,.72)}
+.frame.dark .eyebrow{color:#c7e4d8}
+.frame.dark .frame-footer{color:rgba(255,255,255,.45)}
+.frame.dark .slide-no{color:rgba(255,255,255,.55)}
+.frame-inner{position:relative;z-index:2;height:100%;padding:70px 72px 56px;display:flex;flex-direction:column}
+.topline{position:absolute;z-index:5;left:72px;right:44px;top:28px;display:flex;align-items:center;justify-content:space-between}
+.wordmark{width:116px;height:auto;display:block;filter:none}
+.dark .wordmark{filter:invert(1);opacity:.93}
+.section-name{display:flex;align-items:center;gap:12px;font-size:11px;line-height:1;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)}
+.section-name:before{content:"";width:24px;height:2px;background:var(--accent)}
+.dark .section-name{color:rgba(255,255,255,.58)}
+.slide-no{font-size:11px;font-weight:850;letter-spacing:.16em;color:#87948e}
+.frame-footer{position:absolute;left:72px;bottom:22px;font-size:10px;color:#95a09a;letter-spacing:.02em}
+.eyebrow{margin-bottom:12px;color:var(--accent);font-size:11px;font-weight:900;letter-spacing:.18em;text-transform:uppercase}
+h1,h2,h3,p{margin-top:0}
+h1{max-width:1120px;margin-bottom:22px;font-family:Georgia,"Times New Roman",serif;font-size:clamp(48px,5.3vw,82px);line-height:.98;letter-spacing:-.052em;font-weight:500}
+h2{max-width:1140px;margin-bottom:24px;font-family:Georgia,"Times New Roman",serif;font-size:clamp(38px,4vw,61px);line-height:1.02;letter-spacing:-.043em;font-weight:500}
+h3{margin-bottom:8px;font-size:17px;line-height:1.2;letter-spacing:-.015em}
+p{margin-bottom:0;color:var(--muted);font-size:15px;line-height:1.5}
+.lead{max-width:930px;font-size:21px;line-height:1.48}
+.small{font-size:12px;line-height:1.45;color:var(--muted)}
+.mono{font-variant-numeric:tabular-nums}
+.push{margin-top:auto}
+.row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.tag{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:999px;padding:8px 12px;background:rgba(255,255,255,.72);font-size:11px;font-weight:800;color:#4b6057}
+.dark .tag{border-color:rgba(255,255,255,.16);background:rgba(255,255,255,.08);color:#fff}
+.tag:before{content:"";width:7px;height:7px;border-radius:50%;background:var(--accent)}
+.tag.warn:before{background:var(--gold)}
+.tag.risk:before{background:var(--coral)}
+
+.statline{display:flex;gap:0;margin-top:auto;border-top:1px solid rgba(255,255,255,.16)}
+.statline>div{min-width:160px;padding:22px 28px 0 0;margin-right:28px;border-right:1px solid rgba(255,255,255,.15)}
+.statline>div:last-child{border:0}
+.statline strong{display:block;font-family:Georgia,serif;font-size:38px;font-weight:500;line-height:1;color:#fff}
+.statline span{display:block;margin-top:7px;font-size:11px;color:rgba(255,255,255,.62)}
+
+.decision-list{display:grid;grid-template-columns:1.08fr .92fr;gap:0;margin-top:3px;border-top:1px solid var(--line)}
+.decision-row{display:grid;grid-template-columns:64px 1fr 110px;gap:15px;align-items:center;min-height:105px;padding:16px 20px 16px 0;border-bottom:1px solid var(--line)}
+.decision-row:nth-child(odd){border-right:1px solid var(--line);padding-right:28px}
+.decision-row:nth-child(even){padding-left:28px}
+.decision-row .n{font-family:Georgia,serif;font-size:35px;color:var(--accent)}
+.decision-row p{font-size:13px;line-height:1.42}
+.decision-row .ask{text-align:right;font-size:10px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
+
+.change-grid{display:grid;grid-template-columns:1.08fr .92fr;gap:46px;align-items:start}
+.big-number{font-family:Georgia,serif;font-size:112px;line-height:.8;color:var(--accent);letter-spacing:-.07em}
+.signal-list{margin-top:27px;border-top:1px solid var(--line)}
+.signal{display:grid;grid-template-columns:22px 132px 1fr;gap:14px;align-items:start;padding:14px 0;border-bottom:1px solid var(--line)}
+.signal i{width:9px;height:9px;margin-top:4px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 5px var(--accent-soft)}
+.signal strong{font-size:13px}
+.signal span{font-size:12px;line-height:1.45;color:var(--muted)}
+
+.flow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin:14px 0 20px}
+.step{position:relative;min-height:112px;padding:18px 16px;border:1px solid var(--line);border-radius:16px;background:#fff}
+.step:not(:last-child):after{content:"";position:absolute;z-index:3;right:-13px;top:52px;width:13px;height:1px;background:#9aaaa3}
+.step b{display:block;margin-bottom:7px;font-size:14px}
+.step span{display:block;font-size:11px;line-height:1.4;color:var(--muted)}
+.step.active-step{border-color:color-mix(in srgb,var(--accent) 34%,white);background:var(--accent-soft)}
+.step.strong{background:var(--forest);border-color:var(--forest);color:#fff}
+.step.strong span{color:rgba(255,255,255,.68)}
+.step .step-k{display:block;margin-bottom:12px;font-size:9px;font-weight:900;letter-spacing:.13em;color:var(--accent);text-transform:uppercase}
+.step.strong .step-k{color:#bde2d3}
+.flowline{position:relative;height:3px;margin:2px 0 25px;border-radius:99px;background:#e1e7e3;overflow:hidden}
+.flowline span{display:block;width:0;height:100%;background:var(--accent);transition:width 1.25s .35s var(--ease)}
+.slide.active .flowline span{width:78%}
+
+.evidence{display:grid;grid-template-columns:.82fr 1.18fr;gap:35px;align-items:stretch}
+.evidence-main{padding:28px;border-radius:22px;background:var(--forest);color:#fff}
+.evidence-main .label{font-size:10px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;color:#bde2d3}
+.equation{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:28px 0 20px}
+.eq{min-width:120px;text-align:center}
+.eq b{display:block;font-family:Georgia,serif;font-size:44px;font-weight:500}
+.eq span{font-size:11px;color:rgba(255,255,255,.62)}
+.operator{font-size:25px;color:#86b6a3}
+.evidence-main p{font-size:13px;color:rgba(255,255,255,.7)}
+.finding-list{border-top:1px solid var(--line)}
+.finding{display:grid;grid-template-columns:42px 1fr;gap:14px;padding:16px 0;border-bottom:1px solid var(--line)}
+.finding .icon{width:32px;height:32px;border-radius:10px;background:var(--accent-soft);display:grid;place-items:center;color:var(--accent);font-weight:900}
+.finding p{font-size:13px}
+
+.architecture{display:grid;grid-template-columns:1fr 90px 1fr;align-items:center;gap:10px;margin-top:10px}
+.arch-column{display:grid;gap:12px}
+.arch-block{padding:17px 18px;border:1px solid var(--line);border-radius:16px;background:#fff}
+.arch-block b{display:block;font-size:14px;margin-bottom:5px}
+.arch-block span{font-size:11px;line-height:1.4;color:var(--muted)}
+.arch-block.key{background:var(--accent-soft);border-color:color-mix(in srgb,var(--accent) 30%,white)}
+.arch-center{text-align:center;color:var(--accent)}
+.arch-center .pulse{width:58px;height:58px;margin:0 auto 9px;border-radius:50%;display:grid;place-items:center;background:var(--forest);color:#fff;font-weight:900;box-shadow:0 0 0 0 rgba(79,139,112,.3);animation:pulse 2.4s ease-out infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 17px rgba(79,139,112,0)}}
+.arch-center span{font-size:9px;font-weight:900;letter-spacing:.11em;text-transform:uppercase}
+
+.strategy{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;margin-top:12px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.strategy article{min-height:225px;padding:28px 26px;border-right:1px solid var(--line)}
+.strategy article:last-child{border:0}
+.strategy .channel{font-size:10px;font-weight:900;letter-spacing:.13em;color:var(--accent);text-transform:uppercase}
+.strategy h3{margin-top:28px;font-family:Georgia,serif;font-size:31px;font-weight:500}
+.strategy p{font-size:13px}
+.strategy .route{display:inline-block;margin-top:17px;padding-top:10px;border-top:2px solid var(--accent);font-size:11px;font-weight:800}
+
+.scope-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin-top:10px;background:var(--line);border:1px solid var(--line);border-radius:19px;overflow:hidden}
+.scope{min-height:235px;padding:23px 20px;background:#fff}
+.scope .n{font-family:Georgia,serif;font-size:29px;color:var(--accent)}
+.scope h3{margin-top:23px}
+.scope p{font-size:12px}
+.status-note{margin-top:19px;padding:14px 18px;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:13px;line-height:1.45}
+
+.process{display:grid;grid-template-columns:repeat(5,1fr);align-items:start;gap:0;margin-top:19px}
+.process-item{position:relative;padding-right:20px}
+.process-item:before{content:"";position:absolute;left:34px;right:0;top:17px;height:1px;background:#cdd7d1}
+.process-item:last-child:before{display:none}
+.process-dot{position:relative;z-index:2;width:35px;height:35px;border-radius:50%;display:grid;place-items:center;background:#fff;border:1px solid #cdd7d1;color:var(--accent);font-size:11px;font-weight:900}
+.process-item.on .process-dot{background:var(--accent);border-color:var(--accent);color:#fff}
+.process-item b{display:block;margin:16px 0 5px;font-size:13px}
+.process-item span{font-size:11px;line-height:1.38;color:var(--muted)}
+.lesson{display:grid;grid-template-columns:1fr 1fr;gap:30px;margin-top:28px}
+.lesson article{padding-top:18px;border-top:3px solid var(--accent)}
+.lesson p{font-size:13px}
+
+.handoff{display:grid;grid-template-columns:1.04fr .96fr;gap:40px;align-items:start}
+.owner-list{border-top:1px solid var(--line)}
+.owner{display:grid;grid-template-columns:112px 1fr;gap:14px;padding:13px 0;border-bottom:1px solid var(--line)}
+.owner b{font-size:12px;color:var(--accent)}
+.owner span{font-size:12px;line-height:1.42;color:var(--muted)}
+.ring{position:relative;width:260px;height:260px;margin:0 auto;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--accent) 0 82%,#e8ede9 82%)}
+.ring:after{content:"";position:absolute;inset:18px;border-radius:50%;background:var(--paper)}
+.ring-content{position:relative;z-index:2;text-align:center}
+.ring-content b{display:block;font-family:Georgia,serif;font-size:55px;font-weight:500;color:var(--accent)}
+.ring-content span{font-size:11px;color:var(--muted)}
+
+.guardrails{display:grid;grid-template-columns:.9fr 1.1fr;gap:40px;align-items:start}
+.guardrail-main{padding:28px;border-radius:22px;background:#f7ede9;border:1px solid #efd9d2}
+.guardrail-main h3{font-family:Georgia,serif;font-size:33px;font-weight:500;color:#8e4c3c}
+.guardrail-main p{font-size:13px}
+.guardrail-list{border-top:1px solid var(--line)}
+.guardrail{display:grid;grid-template-columns:32px 1fr;gap:13px;padding:15px 0;border-bottom:1px solid var(--line)}
+.guardrail .check{width:27px;height:27px;border-radius:50%;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent);font-size:12px;font-weight:900}
+.guardrail b{display:block;font-size:13px;margin-bottom:4px}
+.guardrail span{font-size:11px;line-height:1.4;color:var(--muted)}
+
+.phoenix-layout{display:grid;grid-template-columns:.8fr 1.2fr;gap:44px}
+.definition{padding:27px;border-radius:23px;background:var(--forest);color:#fff}
+.definition .month{font-family:Georgia,serif;font-size:54px;font-weight:500}
+.definition p{font-size:13px;color:rgba(255,255,255,.7)}
+.definition .not{margin-top:24px;padding-top:18px;border-top:1px solid rgba(255,255,255,.16);font-size:12px;color:#f0c88d}
+.workstreams{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.workstream{padding:17px 18px;border:1px solid var(--line);border-radius:16px}
+.workstream b{display:block;font-size:13px;margin-bottom:6px}
+.workstream span{font-size:11px;line-height:1.4;color:var(--muted)}
+.workstream code{font-family:inherit;color:var(--accent);font-size:10px;font-weight:900}
+
+.kt-line{display:grid;grid-template-columns:170px 1fr;gap:34px;align-items:start}
+.date-card{padding:24px;border-radius:22px;background:var(--accent-soft);border:1px solid color-mix(in srgb,var(--accent) 22%,white)}
+.date-card .day{font-family:Georgia,serif;font-size:74px;line-height:.85;color:var(--accent)}
+.date-card .month{margin-top:9px;font-size:12px;font-weight:900;letter-spacing:.12em;text-transform:uppercase}
+.date-card p{margin-top:18px;font-size:12px}
+.ladder{display:grid;grid-template-columns:repeat(5,1fr);align-items:end;gap:8px;height:220px}
+.ladder div{display:flex;align-items:flex-end;padding:15px;border-radius:13px 13px 4px 4px;background:var(--accent-soft);font-size:11px;font-weight:800;color:var(--accent)}
+.ladder div:nth-child(1){height:32%}.ladder div:nth-child(2){height:48%}.ladder div:nth-child(3){height:64%}.ladder div:nth-child(4){height:82%}.ladder div:nth-child(5){height:100%;background:var(--forest);color:#fff}
+
+.vendor-layout{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:start}
+.vendor-score{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:20px;overflow:hidden}
+.vendor-score div{min-height:132px;padding:20px;background:#fff}
+.vendor-score b{display:block;font-family:Georgia,serif;font-size:32px;font-weight:500;color:var(--accent)}
+.vendor-score span{font-size:11px;line-height:1.38;color:var(--muted)}
+.commercial{border-top:1px solid var(--line)}
+.commercial div{display:grid;grid-template-columns:120px 1fr;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.commercial b{font-size:11px;color:var(--accent)}
+.commercial span{font-size:11px;line-height:1.4;color:var(--muted)}
+
+.calendar{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:15px}
+.date{min-height:175px;padding:21px 18px;border:1px solid var(--line);border-radius:17px;background:#fff}
+.date .d{font-family:Georgia,serif;font-size:37px;color:var(--accent)}
+.date .m{font-size:9px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.date h3{margin-top:21px;font-size:14px}
+.date p{font-size:11px}
+.date.deadline{background:#fff4dd;border-color:#ead39b}
+
+.register{width:100%;border-collapse:collapse;margin-top:2px}
+.register th{padding:10px 12px;border-bottom:2px solid var(--ink);text-align:left;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.register td{padding:13px 12px;border-bottom:1px solid var(--line);font-size:11px;line-height:1.35;vertical-align:top}
+.register td:first-child{font-weight:850;font-size:12px}
+.ask-badge{display:inline-block;border-radius:999px;padding:5px 8px;background:var(--accent-soft);color:var(--accent);font-size:9px;font-weight:900}
+
+.closing{display:grid;grid-template-columns:1.15fr .85fr;gap:55px;align-items:end;height:100%}
+.closing h1{font-size:clamp(50px,5.4vw,84px)}
+.close-actions{border-top:1px solid rgba(255,255,255,.18)}
+.close-action{display:grid;grid-template-columns:34px 1fr;gap:13px;padding:14px 0;border-bottom:1px solid rgba(255,255,255,.14)}
+.close-action .box{width:24px;height:24px;border:1px solid rgba(255,255,255,.36);border-radius:7px;cursor:pointer;display:grid;place-items:center}
+.close-action.done .box{background:var(--gold);border-color:var(--gold);color:#173029}
+.close-action b{display:block;font-size:12px}
+.close-action span{font-size:10px;color:rgba(255,255,255,.58)}
+
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .58s var(--ease),transform .58s var(--ease)}
+.slide.active .reveal{opacity:1;transform:none}
+.slide.active .r1{transition-delay:.06s}.slide.active .r2{transition-delay:.13s}.slide.active .r3{transition-delay:.20s}.slide.active .r4{transition-delay:.29s}.slide.active .r5{transition-delay:.38s}
+.a-green{--accent:#4f8b70;--accent-soft:#edf5f0}.a-blue{--accent:#5d8fa6;--accent-soft:#edf4f7}.a-gold{--accent:#a57a29;--accent-soft:#faf3e2}.a-coral{--accent:#bb624d;--accent-soft:#faefeb}.a-plum{--accent:#816b91;--accent-soft:#f3eff5}
+
+.detail-button{position:absolute;z-index:10;right:42px;bottom:27px;border:1px solid var(--line);border-radius:999px;padding:8px 12px;background:#fff;color:var(--ink);font-size:10px;font-weight:850;cursor:pointer;box-shadow:0 7px 20px rgba(18,45,36,.08)}
+.drawer{position:absolute;z-index:20;right:22px;top:22px;bottom:22px;width:min(520px,43%);padding:27px;background:#fff;border:1px solid var(--line);border-radius:22px;box-shadow:0 30px 70px rgba(8,31,23,.25);overflow:auto;transform:translateX(112%);transition:transform .38s var(--ease)}
+.drawer.open{transform:none}.drawer-close{float:right;width:31px;height:31px;border:0;border-radius:50%;background:#edf2ef;cursor:pointer;font-weight:900}.drawer h3{font-family:Georgia,serif;font-size:27px;font-weight:500}.drawer ul{padding-left:18px}.drawer li{margin:9px 0;color:var(--muted);font-size:12px;line-height:1.45}
+
+.controls{position:fixed;z-index:60;left:50%;bottom:15px;transform:translateX(-50%);display:flex;align-items:center;gap:5px;padding:6px;border:1px solid rgba(255,255,255,.11);border-radius:999px;background:rgba(5,22,16,.8);backdrop-filter:blur(14px);box-shadow:0 12px 38px rgba(0,0,0,.3)}
+.controls button{width:38px;height:38px;border:0;border-radius:50%;background:transparent;color:#f7fbf8;cursor:pointer}.controls button:hover{background:rgba(255,255,255,.12)}
+.counter{min-width:68px;text-align:center;color:#d4dfd9;font-size:11px;font-weight:850}
+.progress{position:fixed;z-index:70;left:0;bottom:0;height:4px;width:0;background:linear-gradient(90deg,var(--mint),var(--gold),var(--coral));transition:width .4s var(--ease)}
+.rail{position:fixed;z-index:55;right:15px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:6px;padding:9px 7px;border-radius:999px;background:rgba(5,22,16,.46);backdrop-filter:blur(9px)}
+.rail button{width:7px;height:7px;padding:0;border:0;border-radius:5px;background:#9aaba3;opacity:.5;cursor:pointer;transition:.2s}.rail button.active{height:22px;background:#fff;opacity:1}
+.overview{display:none;position:fixed;z-index:100;inset:0;padding:28px;overflow:auto;background:rgba(6,25,18,.97)}.overview.show{display:block;animation:fade .2s ease}@keyframes fade{from{opacity:0}}
+.overview-head{max-width:1450px;margin:0 auto 18px;display:flex;align-items:center;justify-content:space-between;color:#fff}.overview-head h3{margin:0}.overview-head button{border:0;border-radius:999px;padding:9px 15px;cursor:pointer;font-weight:850}
+.thumbs{max-width:1450px;margin:auto;display:grid;grid-template-columns:repeat(4,minmax(220px,1fr));gap:13px}.thumb{min-height:136px;padding:16px;border:2px solid transparent;border-radius:16px;background:#f7f5ee;cursor:pointer;transition:.2s}.thumb:hover{transform:translateY(-2px);border-color:var(--gold)}.thumb .tn{font-size:9px;font-weight:900;color:#8c9992}.thumb .tt{margin-top:12px;font-family:Georgia,serif;font-size:18px;color:#173029}.thumb .ts{margin-top:7px;font-size:10px;line-height:1.4;color:#6b7871}
+.help{display:none;position:fixed;z-index:110;inset:0;place-items:center;background:rgba(5,22,16,.72)}.help.show{display:grid}.help-card{width:min(520px,calc(100vw - 40px));padding:28px;border-radius:23px;background:#fff;box-shadow:var(--shadow)}.help-card h3{font-family:Georgia,serif;font-size:28px}.keys{display:grid;grid-template-columns:110px 1fr;gap:10px;font-size:12px}.keys kbd{justify-self:start;padding:5px 8px;border:1px solid #ccd6d0;border-bottom-width:2px;border-radius:7px;background:#f4f7f5;font-family:inherit;font-size:10px;font-weight:900}
+
+@media(max-width:960px){.slide{padding:13px 12px 62px}.frame{width:100%;height:calc(100vh - 76px);border-radius:18px;overflow:auto}.frame-inner{padding:58px 27px 52px}.topline{left:27px;right:24px;top:22px}.wordmark{width:92px}.frame-footer{left:27px}.decision-list,.change-grid,.evidence,.architecture,.handoff,.guardrails,.phoenix-layout,.kt-line,.vendor-layout,.closing{grid-template-columns:1fr}.decision-row:nth-child(odd){border-right:0}.decision-row:nth-child(even){padding-left:0}.flow,.process{grid-template-columns:1fr}.step:not(:last-child):after,.process-item:before{display:none}.strategy,.scope-grid,.calendar{grid-template-columns:1fr 1fr}.rail{display:none}.thumbs{grid-template-columns:1fr 1fr}.drawer{width:calc(100% - 44px)}h1{font-size:44px}h2{font-size:35px}.ring{width:200px;height:200px}.frame:after{display:none}}
+@media print{html,body{overflow:visible;background:#fff}.noise,.orb,.controls,.rail,.progress,.overview,.help,.detail-button,.drawer{display:none!important}.deck{height:auto;background:#fff}.slide{position:relative;display:grid!important;width:100vw;height:100vh;padding:12px;opacity:1!important;visibility:visible!important;transform:none!important;page-break-after:always}.frame{width:100%;height:100%;box-shadow:none}.reveal{opacity:1!important;transform:none!important}}
+</style>
+</head>
+<body>
+<div class="noise"></div><div class="orb one"></div><div class="orb two"></div>
+<main class="deck" id="weeklyDeck">
+
+<section class="slide active a-green" data-title="Opening" data-sub="Weekly management meeting, 17 September 2026">
+  <div class="frame dark">
+    <div class="topline"><img class="wordmark" src="/sensatia-logo.svg" alt="Sensatia"><span class="slide-no">01 / 18</span></div>
+    <div class="frame-inner">
+      <div style="margin:auto 0">
+        <div class="eyebrow reveal r1">Weekly Management Meeting · 17 September 2026</div>
+        <h1 class="reveal r2">Digital systems, operations, and capability update</h1>
+        <p class="lead reveal r3">Progress penting minggu ini, keputusan yang dibutuhkan, dan arah kerja sampai akhir September.</p>
+        <div class="row reveal r4" style="margin-top:24px"><span class="tag">Jubelio & Warehouse</span><span class="tag">Project Phoenix</span><span class="tag warn">Fleet GPS</span><span class="tag risk">CRM Governance</span></div>
+      </div>
+      <div class="statline reveal r5"><div><strong>7</strong><span>agenda utama</span></div><div><strong>4</strong><span>management asks</span></div><div><strong>30–45</strong><span>menit pembahasan</span></div></div>
+      <div class="frame-footer">Widhy · IT, E-Commerce & Digital Capability</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide a-coral" data-title="Meeting Outcomes" data-sub="Empat alignment yang perlu keluar dari meeting">
+  <div class="frame"><div class="topline"><div class="section-name">Meeting outcomes</div><span class="slide-no">02 / 18</span></div>
+    <div class="frame-inner"><div class="eyebrow reveal r1">Decision focus</div><h2 class="reveal r2">Empat hal yang perlu diputuskan atau dikonfirmasi</h2>
+      <div class="decision-list reveal r3">
+        <div class="decision-row"><span class="n">01</span><div><h3>Jubelio & warehouse</h3><p>Operational order sync menjadi prioritas, dengan arah Jakarta-primary dan selective multi-warehouse.</p></div><span class="ask">Alignment</span></div>
+        <div class="decision-row"><span class="n">02</span><div><h3>Convertio</h3><p>Field, periode data, dan controlled recipient yang boleh menerima customer transaction data.</p></div><span class="ask">Approval</span></div>
+        <div class="decision-row"><span class="n">03</span><div><h3>Project Phoenix</h3><p>September sebagai baseline month dan evidence minimum untuk monthly review.</p></div><span class="ask">Confirm</span></div>
+        <div class="decision-row"><span class="n">04</span><div><h3>MC Easy</h3><p>Jika terms masuk akal, lock promo untuk controlled pilot 5 kendaraan sebelum 22 September.</p></div><span class="ask">Decision</span></div>
+      </div>
+      <div class="frame-footer">Target akhir meeting: decision, owner, atau next action untuk setiap topik</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide a-gold" data-title="What Changed" data-sub="Perubahan nyata sejak meeting sebelumnya">
+  <div class="frame"><div class="topline"><div class="section-name">Executive update</div><span class="slide-no">03 / 18</span></div>
+    <div class="frame-inner"><div class="change-grid">
+      <div><div class="eyebrow reveal r1">Since last meeting</div><div class="big-number reveal r2">4</div><h2 class="reveal r3" style="font-size:44px">perubahan yang menggeser fokus minggu ini</h2><p class="reveal r4">Bukan hanya progress activity. Kita sudah punya finding, evidence, dan decision window yang lebih jelas.</p></div>
+      <div class="signal-list reveal r3">
+        <div class="signal"><i></i><strong>Jubelio</strong><span>Root cause stock sync mengarah ke absolute overwrite. Model target berubah ke delta × allocation.</span></div>
+        <div class="signal"><i></i><strong>Operations</strong><span>Request Luh Soma selesai dan tervalidasi, sekaligus membuka gap traceability.</span></div>
+        <div class="signal"><i></i><strong>Phoenix</strong><span>KT pertama sudah terjadwal 23 September. Workstream baseline siap dieksekusi.</span></div>
+        <div class="signal"><i></i><strong>Fleet GPS</strong><span>MC Easy punya API dan feature coverage yang menarik, tetapi deadline promo jatuh 22 September.</span></div>
+      </div>
+    </div><div class="frame-footer">Source: Weekly Meeting Brief, prepared 16 September 2026</div></div>
+  </div>
+</section>
+
+<section class="slide a-green" data-title="Jubelio Stock Model" data-sub="Physical stock, movement, dan allocated exposure">
+  <div class="frame"><div class="topline"><div class="section-name">Jubelio · Current model</div><span class="slide-no">04 / 18</span></div>
+    <div class="frame-inner"><div class="eyebrow reveal r1">Inventory logic</div><h2 class="reveal r2">Balance tidak harus sama. Movement dan deduction harus konsisten.</h2>
+      <div class="flow reveal r3"><div class="step"><span class="step-k">Physical</span><b>Stockroom / DC</b><span>Replenishment dan physical stock</span></div><div class="step"><span class="step-k">Shared pool</span><b>SECM Bali</b><span>Dipakai website dan marketplace</span></div><div class="step active-step"><span class="step-k">Internal source</span><b>StockWizz</b><span>100% refill movement</span></div><div class="step active-step"><span class="step-k">Exposure</span><b>Jubelio</b><span>Movement × allocation</span></div><div class="step"><span class="step-k">Channel</span><b>Marketplace</b><span>Sellable stock per channel</span></div></div>
+      <div class="flowline reveal r4"><span></span></div>
+      <div class="row reveal r5"><span class="tag">80% = allocation rule</span><span class="tag">shared physical pool</span><span class="tag risk">absolute overwrite creates risk</span></div>
+      <div class="frame-footer">StockWizz remains the internal operational source for physical stock and stock movement</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide a-coral" data-title="Production Finding" data-sub="Evidence dari test SECM1041">
+  <div class="frame"><div class="topline"><div class="section-name">Jubelio · Production evidence</div><span class="slide-no">05 / 18</span></div>
+    <div class="frame-inner"><div class="eyebrow reveal r1">SECM1041</div><h2 class="reveal r2">Connectivity bekerja. Quantity logic yang harus diperbaiki.</h2>
+      <div class="evidence reveal r3"><div class="evidence-main"><div class="label">Observed result</div><div class="equation"><div class="eq"><b>+6</b><span>refill movement</span></div><span class="operator">→</span><div class="eq"><b>1 → 38</b><span>actual Jubelio</span></div></div><p>Expected result pada allocation 100% adalah 1 → 7. Actual result menunjukkan final balance StockWizz dikirim sebagai overwrite.</p></div>
+        <div class="finding-list"><div class="finding"><span class="icon">1</span><div><h3>Perubahan inti</h3><p>Kirim stock adjustment sebagai <b>delta movement × allocation</b>, bukan final balance.</p></div></div><div class="finding"><span class="icon">2</span><div><h3>Retry behavior</h3><p>Retry hanya unmatched item. Item yang sudah success tidak dikirim ulang.</p></div></div><div class="finding"><span class="icon">3</span><div><h3>Risk yang dicegah</h3><p>Stok yang sudah terjual tidak terbuka kembali karena blind balance overwrite.</p></div></div></div></div>
+      <div class="frame-footer">Finding discussed with Colin, 16 September 2026</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide a-blue" data-title="Target Architecture" data-sub="Fast operational path dengan reconciliation">
+  <div class="frame"><div class="topline"><div class="section-name">Jubelio · Next target</div><span class="slide-no">06 / 18</span></div>
+    <div class="frame-inner"><div class="eyebrow reveal r1">Integration direction</div><h2 class="reveal r2">Order operasional masuk cepat. Finance menyusul setelah transaksi matang.</h2>
+      <div class="architecture reveal r3"><div class="arch-column"><div class="arch-block key"><b>Jubelio event</b><span>Order create, update, cancellation, dan external status.</span></div><div class="arch-block"><b>Scheduled reconciliation</b><span>Safety net untuk event gagal, terlambat, atau tidak lengkap.</span></div></div><div class="arch-center"><div class="pulse">API</div><span>idempotent</span></div><div class="arch-column"><div class="arch-block key"><b>StockWizz order</b><span>Upsert SKU, quantity, warehouse, external ID, dan status kritis.</span></div><div class="arch-block"><b>Finance enrichment</b><span>Fee, voucher, tax, dan settlement ditarik async setelah final.</span></div></div></div>
+      <div class="row reveal r4" style="margin-top:20px"><span class="tag">webhook fast path</span><span class="tag">queue / worker</span><span class="tag">external unique key</span><span class="tag risk">cancel = critical event</span></div>
+      <button class="detail-button" type="button" data-drawer>Technical notes</button><aside class="drawer"><button class="drawer-close" type="button">×</button><h3>Technical guardrails</h3><ul><li>Webhook receiver hanya verify, persist event, deduplicate, lalu respond cepat.</li><li>Gunakan source + external_order_id sebagai integration key jika semantics _sale_id belum terverifikasi.</li><li>Pisahkan external_order_status dan internal fulfillment_status.</li><li>Cancellation sebelum pack harus release reservation atau block fulfillment.</li><li>Cancellation setelah pack masuk exception flow, bukan blind overwrite.</li><li>Endpoint, webhook events, pagination, rate limits, dan finance fields wajib diverifikasi dari dokumentasi Jubelio aktif.</li></ul></aside>
+      <div class="frame-footer">Recommended sequence: contract discovery → operational MVP → cancellation → reconciliation → finance enrichment</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide a-gold" data-title="Warehouse Direction" data-sub="Selective multi-warehouse, bukan semua channel">
+  <div class="frame"><div class="topline"><div class="section-name">E-Commerce fulfillment</div><span class="slide-no">07 / 18</span></div>
+    <div class="frame-inner"><div class="eyebrow reveal r1">Warehouse strategy</div><h2 class="reveal r2">Complexity bertambah pada setiap kombinasi channel × warehouse</h2>
+      <div class="strategy reveal r3"><article><span class="channel">Website /id</span><h3>Jakarta-primary</h3><p>Evaluasi Jakarta sebagai fulfillment utama untuk domestic website orders.</p><span class="route">Primary recommendation</span></article><article><span class="channel">Shopee</span><h3>Selective multi-WH</h3><p>Bali + Jakarta layak diuji karena volume dan kebutuhan availability lebih besar.</p><span class="route">Controlled exception</span></article><article><span class="channel">TikTok / Tokopedia</span><h3>Jakarta-primary</h3><p>Batasi routing, cancellation, return, reconciliation, dan titik failure.</p><span class="route">Keep it simple</span></article></div>
+      <div class="status-note reveal r4"><b>Alignment yang dibutuhkan:</b> Bali tetap punya peran regional dan contingency, tetapi tidak semua channel perlu multi-warehouse sejak awal.</div>
+      <div class="frame-footer">Direction proposed for discussion, not a final operational policy</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide a-plum" data-title="Accounting Request" data-sub="Assessment Putu Mei dan next step">
+  <div class="frame"><div class="topline"><div class="section-name">Business request · Putu Mei</div><span class="slide-no">08 / 18</span></div>
+    <div class="frame-inner"><div class="eyebrow reveal r1">Assessment ready</div><h2 class="reveal r2">Empat kebutuhan sudah dipetakan. Business rules belum boleh diasumsikan.</h2>
+      <div class="scope-grid reveal r3"><article class="scope"><span class="n">01</span><h3>NET 30 control</h3><p>Validasi overdue invoice sebelum PO dikonversi menjadi Order, termasuk override dan grace period.</p></article><article class="scope"><span class="n">02</span><h3>Invoice email</h3><p>Invoice dan Faktur Pajak dikirim otomatis, lengkap dengan delivery log dan retry.</p></article><article class="scope"><span class="n">03</span><h3>PO tracking</h3><p>Fulfillment tracker sebagai primary view. Slack untuk exception dan summary.</p></article><article class="scope"><span class="n">04</span><h3>WEB ID</h3><p>Konfirmasi mapping Bali E-Commerce mengikuti website transaction ID.</p></article></div>
+      <div class="status-note reveal r4"><b>Status:</b> assessment sudah dikirim. Next step adalah feedback dan discovery meeting untuk mengunci scope serta acceptance criteria.</div>
+      <div class="frame-footer">PO terminology is used consistently throughout this assessment</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide a-coral" data-title="Development Governance" data-sub="Kecepatan delivery tetap dijaga dengan traceability">
+  <div class="frame"><div class="topline"><div class="section-name">Development governance</div><span class="slide-no">09 / 18</span></div>
+    <div class="frame-inner"><div class="eyebrow reveal r1">Case: Activity Type</div><h2 class="reveal r2">Hasilnya baik. Flow request perlu satu referensi yang konsisten.</h2>
+      <div class="process reveal r3"><div class="process-item on"><span class="process-dot">1</span><b>Request</b><span>Slack atau stakeholder</span></div><div class="process-item on"><span class="process-dot">2</span><b>Jira</b><span>Scope dan acceptance criteria</span></div><div class="process-item on"><span class="process-dot">3</span><b>Develop</b><span>Implementation</span></div><div class="process-item on"><span class="process-dot">4</span><b>Sandbox / UAT</b><span>Validation dan evidence</span></div><div class="process-item on"><span class="process-dot">5</span><b>Production</b><span>Deploy dan close</span></div></div>
+      <div class="lesson reveal r4"><article><h3>Evidence</h3><p>All Activity 19 = Cost Activity 3 + Stock Movement 16. Tidak ada missing atau duplicate setelah retest.</p></article><article><h3>Rule sederhana</h3><p>Normal request membuat Jira lebih dulu. Emergency boleh fast-track, tetapi tracking tetap dibuat saat itu juga.</p></article></div>
+      <div class="frame-footer">Retrospective tracking: SENS-165 · Done</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide a-green" data-title="Google Review QR" data-sub="Handoff lintas Marketing, VM, Creative, dan Retail Operations">
+  <div class="frame"><div class="topline"><div class="section-name">Retail experience</div><span class="slide-no">10 / 18</span></div>
+    <div class="frame-inner"><div class="handoff"><div><div class="eyebrow reveal r1">All-store rollout</div><h2 class="reveal r2">Technical solution selesai. Fokus berpindah ke ownership dan rollout.</h2><div class="owner-list reveal r3"><div class="owner"><b>IT · Widhy</b><span>Panduan, standard teknis, checklist, dan issue support.</span></div><div class="owner"><b>Marketing · Jeppy</b><span>Provide official Review Link dan QR dari Google Business Profile tiap toko.</span></div><div class="owner"><b>VM · Malik</b><span>Audit placement, ukuran, visibility, dan installation quality.</span></div><div class="owner"><b>Creative</b><span>Final artwork dengan approved QR dan visual guideline.</span></div><div class="owner"><b>Retail Ops · Erlin</b><span>Koordinasi store, PIC, rollout, dan confirmation dari lapangan.</span></div></div></div>
+        <div class="reveal r4" style="padding-top:66px"><div class="ring"><div class="ring-content"><b>All</b><span>stores verified<br>before print</span></div></div><p class="small" style="text-align:center;margin-top:22px">Official Google asset → mobile test → artwork → placement → store confirmation</p></div></div>
+      <div class="frame-footer">No custom QR generator is needed when Google provides the official review asset</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide a-coral" data-title="Convertio Data Governance" data-sub="Raw customer and transaction data needs an approval boundary">
+  <div class="frame"><div class="topline"><div class="section-name">CRM · Convertio</div><span class="slide-no">11 / 18</span></div>
+    <div class="frame-inner"><div class="eyebrow reveal r1">Approval required</div><h2 class="reveal r2">NDA covers confidentiality. Data scope still needs explicit approval.</h2>
+      <div class="guardrails reveal r3"><div class="guardrail-main"><h3>Exact dataset, controlled delivery</h3><p>Convertio membutuhkan transaction-level data agar consultancy berjalan. Approval yang diminta bukan untuk dump seluruh database, melainkan exact field dan periode yang disepakati.</p></div><div class="guardrail-list"><div class="guardrail"><span class="check">✓</span><div><b>Data minimization</b><span>Hanya field yang benar-benar dibutuhkan untuk scope consultancy.</span></div></div><div class="guardrail"><span class="check">✓</span><div><b>Time-range restriction</b><span>Periode disepakati lebih dulu, bukan seluruh historical data.</span></div></div><div class="guardrail"><span class="check">✓</span><div><b>Controlled recipient</b><span>Kirim melalui recipient dan channel yang disetujui, tanpa public link.</span></div></div><div class="guardrail"><span class="check">?</span><div><b>Management approval</b><span>Konfirmasi Michael sebelum extraction dan delivery.</span></div></div></div></div>
+      <div class="status-note reveal r4"><b>Ask:</b> boleh menyiapkan dataset sesuai exact field + periode yang diminta Convertio, dengan NDA sebagai basis dan prinsip data minimization?</div>
+      <div class="frame-footer">Customer/member data contains PII and internal business information</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide a-blue" data-title="Project Phoenix Baseline" data-sub="September is a factual baseline month">
+  <div class="frame"><div class="topline"><div class="section-name">Project Phoenix</div><span class="slide-no">12 / 18</span></div>
+    <div class="frame-inner"><div class="eyebrow reveal r1">Capability transition</div><h2 class="reveal r2">September membangun factual baseline, belum menyatakan independence.</h2>
+      <div class="phoenix-layout reveal r3"><div class="definition"><div class="month">SEP</div><h3>Definition of progress</h3><p>Kita tahu aset yang dimiliki, evidence yang tersedia, dependency ke Colin, gap yang belum terverifikasi, serta owner dan target date.</p><div class="not">Blank field bukan completion. “Documented” belum tentu “validated”.</div></div><div class="workstreams"><div class="workstream"><code>SENS-159</code><b>Architecture & MongoDB</b><span>Major components, data flow, critical collections, dan knowledge gaps.</span></div><div class="workstream"><code>SENS-158</code><b>DTAR</b><span>Critical systems, repositories, environments, integrations, dan ownership.</span></div><div class="workstream"><code>SENS-160</code><b>Backup & Recovery</b><span>Bedakan backup exists dengan restore yang sudah terbukti.</span></div><div class="workstream"><code>SENS-161</code><b>Registers</b><span>Risk, technical debt, incidents, third-party dependency, dan unknowns.</span></div></div></div>
+      <div class="frame-footer">Recommended execution order: SENS-159 → SENS-158 → SENS-160 → SENS-161</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide a-green" data-title="Phoenix KT" data-sub="First weekly knowledge transfer and evidence model">
+  <div class="frame"><div class="topline"><div class="section-name">Project Phoenix · KT</div><span class="slide-no">13 / 18</span></div>
+    <div class="frame-inner"><div class="eyebrow reveal r1">First session confirmed</div><h2 class="reveal r2">Weekly KT mengubah knowledge menjadi internal capability</h2>
+      <div class="kt-line reveal r3"><div class="date-card"><div class="day">23</div><div class="month">September</div><p><b>08:30–10:30 WITA</b><br>Colin required<br>Agus optional by topic</p></div><div><div class="ladder"><div>Knowledge</div><div>Evidence</div><div>Documentation</div><div>Ownership</div><div>Capability</div></div><div class="row" style="margin-top:18px"><span class="tag">StockWizz landscape</span><span class="tag">run locally</span><span class="tag">knowledge gaps</span><span class="tag">evidence checklist</span></div></div></div>
+      <div class="status-note reveal r4"><b>Ask ke Michael:</b> evidence minimum apa yang ingin dilihat pada monthly review supaya September dianggap berhasil?</div>
+      <button class="detail-button" type="button" data-drawer>September acceptance criteria</button><aside class="drawer"><button class="drawer-close" type="button">×</button><h3>Proposed evidence</h3><ul><li>Critical systems dan owners teridentifikasi.</li><li>Architecture dan MongoDB baseline tersedia.</li><li>Access, MFA, dan recovery dependencies terlihat.</li><li>Backup status membedakan exists vs restore-tested.</li><li>Top Colin-dependent knowledge memiliki KT plan.</li><li>Risk dan technical debt register berisi baseline nyata.</li><li>Unknown penting memiliki owner dan target date.</li><li>October priorities diturunkan dari evidence September.</li></ul></aside>
+      <div class="frame-footer">Monthly management review remains the appropriate forum for executive progress</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide a-gold" data-title="MC Easy Assessment" data-sub="Strong feature coverage, open commercial questions">
+  <div class="frame"><div class="topline"><div class="section-name">Fleet GPS · MC Easy</div><span class="slide-no">14 / 18</span></div>
+    <div class="frame-inner"><div class="eyebrow reveal r1">Vendor position</div><h2 class="reveal r2">Teknisnya menjanjikan. Commercial terms menentukan kelayakan pilot.</h2>
+      <div class="vendor-layout reveal r3"><div class="vendor-score"><div><b>✓</b><span>Feature coverage cukup lengkap untuk fleet tracking.</span></div><div><b>API</b><span>Tersedia untuk dashboard, alert, reporting, dan future integration.</span></div><div><b>Paid</b><span>Live assignment merupakan add-on berbayar.</span></div><div><b>22 Sep</b><span>Promo deadline membutuhkan decision window yang disiplin.</span></div></div><div class="commercial"><div><b>Hardware</b><span>Price, installation, ownership, replacement, removal.</span></div><div><b>Recurring</b><span>Subscription, SIM/data, minimum contract, 36-month TCO.</span></div><div><b>API & data</b><span>Fee, rate limit, docs, retention, raw export, history.</span></div><div><b>Support</b><span>SLA, warranty, device replacement, exit terms.</span></div></div></div>
+      <div class="frame-footer">Promo value should be separated from normal recurring cost in the TCO comparison</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide a-coral" data-title="MC Easy Decision Window" data-sub="Controlled pilot, not promo-led full rollout">
+  <div class="frame"><div class="topline"><div class="section-name">Fleet GPS · Decision</div><span class="slide-no">15 / 18</span></div>
+    <div class="frame-inner"><div class="eyebrow reveal r1">Before 22 September</div><h2 class="reveal r2">Keputusan yang aman adalah controlled pilot 5 kendaraan</h2>
+      <div class="calendar reveal r3"><div class="date"><span class="d">16</span><span class="m">September</span><h3>Vendor meeting</h3><p>Features, API, paid add-on, dan promo deadline teridentifikasi.</p></div><div class="date"><span class="d">18–19</span><span class="m">September</span><h3>Final quotation</h3><p>Commercial breakdown, API, SIM/data, contract, retention, dan SLA.</p></div><div class="date"><span class="d">20–21</span><span class="m">September</span><h3>Internal review</h3><p>Pilot scope, actual recurring cost, TCO, exit terms, dan support.</p></div><div class="date deadline"><span class="d">22</span><span class="m">September</span><h3>Decision</h3><p>Lock pilot offer atau lanjut tanpa promo. Tidak otomatis full rollout.</p></div></div>
+      <div class="status-note reveal r4"><b>Pilot target:</b> 5 kendaraan selama 4–8 minggu untuk menguji GPS accuracy, API, support, usability, network stability, dan actual cost.</div>
+      <div class="frame-footer">Jira: SENS-47 · SENS-53 · SENS-52 · SENS-54</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide a-blue" data-title="Decision Register" data-sub="What needs confirmation in this meeting">
+  <div class="frame"><div class="topline"><div class="section-name">Management register</div><span class="slide-no">16 / 18</span></div>
+    <div class="frame-inner"><div class="eyebrow reveal r1">Confirm today</div><h2 class="reveal r2" style="font-size:49px">Decision register</h2>
+      <table class="register reveal r3"><thead><tr><th>Topic</th><th>Proposed direction</th><th>Management ask</th><th>Next action</th></tr></thead><tbody>
+        <tr><td>Jubelio / Warehouse</td><td>Operational sync first. Jakarta-primary dengan selective multi-WH.</td><td><span class="ask-badge">ALIGN</span></td><td>Stabilize delta, confirm contract, build order sync MVP.</td></tr>
+        <tr><td>Development flow</td><td>Jira-first. Emergency tetap tercatat.</td><td><span class="ask-badge">CONFIRM</span></td><td>Apply request → Jira → UAT → Production.</td></tr>
+        <tr><td>Convertio</td><td>Exact fields, limited period, controlled delivery.</td><td><span class="ask-badge">APPROVE</span></td><td>Extract approved scope and share securely.</td></tr>
+        <tr><td>Project Phoenix</td><td>September = baseline and evidence month.</td><td><span class="ask-badge">CONFIRM</span></td><td>Execute four workstreams and first KT.</td></tr>
+        <tr><td>MC Easy</td><td>Preferred pilot candidate if terms are reasonable.</td><td><span class="ask-badge">DECIDE</span></td><td>Final quote, internal review, lock pilot offer.</td></tr>
+      </tbody></table>
+      <div class="frame-footer">Use this slide to record verbal outcomes before closing the meeting</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide a-green" data-title="Next Actions" data-sub="Priority actions immediately after the meeting">
+  <div class="frame"><div class="topline"><div class="section-name">Action plan</div><span class="slide-no">17 / 18</span></div>
+    <div class="frame-inner"><div class="eyebrow reveal r1">After the meeting</div><h2 class="reveal r2">Lima follow-up yang paling penting</h2>
+      <div class="decision-list reveal r3">
+        <div class="decision-row"><span class="n">P0</span><div><h3>Record Jubelio decision</h3><p>Catat direction warehouse, integration phase, owner, dan target di Jira + Confluence.</p></div><span class="ask">Widhy</span></div>
+        <div class="decision-row"><span class="n">P0</span><div><h3>Convertio scope</h3><p>Update Jeppy/CRM setelah approval: exact fields, period, dan delivery method.</p></div><span class="ask">Widhy</span></div>
+        <div class="decision-row"><span class="n">P0</span><div><h3>MC Easy quotation</h3><p>Dapatkan commercial breakdown lengkap sebelum 18–19 September.</p></div><span class="ask">Widhy</span></div>
+        <div class="decision-row"><span class="n">P0</span><div><h3>Phoenix acceptance</h3><p>Lock September evidence criteria dengan Michael dan jalankan baseline workstreams.</p></div><span class="ask">Michael × Widhy</span></div>
+        <div class="decision-row"><span class="n">P1</span><div><h3>Operational follow-ups</h3><p>Schedule Putu Mei discovery, continue QR rollout, dan prepare KT 23 September.</p></div><span class="ask">Cross-team</span></div>
+      </div>
+      <div class="frame-footer">Each follow-up needs one owner, one target date, and one evidence link</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide a-gold" data-title="Discussion" data-sub="Close with decisions and ownership">
+  <div class="frame dark"><div class="topline"><img class="wordmark" src="/sensatia-logo.svg" alt="Sensatia"><span class="slide-no">18 / 18</span></div>
+    <div class="frame-inner"><div class="closing"><div><div class="eyebrow reveal r1">Close</div><h1 class="reveal r2">Decisions, owners, next actions</h1><p class="lead reveal r3">Sebelum meeting selesai, pastikan setiap management ask sudah memiliki jawaban atau tanggal follow-up.</p><div class="row reveal r4" style="margin-top:23px"><span class="tag">Jubelio</span><span class="tag">Convertio</span><span class="tag">Phoenix</span><span class="tag warn">MC Easy</span></div></div>
+      <div class="close-actions reveal r4"><div class="close-action"><span class="box" role="checkbox" tabindex="0"></span><div><b>Warehouse direction</b><span>Aligned or follow-up date set</span></div></div><div class="close-action"><span class="box" role="checkbox" tabindex="0"></span><div><b>Convertio data scope</b><span>Approved or pending owner assigned</span></div></div><div class="close-action"><span class="box" role="checkbox" tabindex="0"></span><div><b>Phoenix evidence</b><span>September criteria confirmed</span></div></div><div class="close-action"><span class="box" role="checkbox" tabindex="0"></span><div><b>MC Easy pilot</b><span>Decision path before 22 September</span></div></div></div></div>
+      <div class="frame-footer">← → navigate · O overview · D details · F fullscreen · ? help</div>
+    </div>
+  </div>
+</section>
+
+</main>
+<nav class="rail" id="slideRail" aria-label="Slide navigation"></nav>
+<div class="controls"><button id="prevSlide" type="button" aria-label="Previous slide">←</button><button id="overviewOpen" type="button" aria-label="Open slide overview">⌘</button><div class="counter" id="slideCounter">1 / 18</div><button id="nextSlide" type="button" aria-label="Next slide">→</button></div>
+<div class="progress" id="deckProgress"></div>
+<section class="overview" id="slideOverview" aria-label="Slide overview"><div class="overview-head"><h3>Slide overview</h3><button id="overviewClose" type="button">Close</button></div><div class="thumbs" id="slideThumbs"></div></section>
+<section class="help" id="deckHelp"><div class="help-card"><button class="drawer-close" id="helpClose" type="button">×</button><h3>Presentation controls</h3><div class="keys"><kbd>← / →</kbd><span>Previous or next slide</span><kbd>O</kbd><span>Open slide overview</span><kbd>D</kbd><span>Open detail panel on the current slide</span><kbd>F</kbd><span>Enter or exit fullscreen</span><kbd>Home / End</kbd><span>Jump to first or last slide</span><kbd>?</kbd><span>Show or hide this help</span></div></div></section>
+
+<script>
+(() => {
+  const slides=[...document.querySelectorAll('.slide')];
+  const counter=document.getElementById('slideCounter');
+  const progress=document.getElementById('deckProgress');
+  const overview=document.getElementById('slideOverview');
+  const thumbs=document.getElementById('slideThumbs');
+  const rail=document.getElementById('slideRail');
+  const help=document.getElementById('deckHelp');
+  let current=0;
+
+  slides.forEach((slide,index)=>{
+    const dot=document.createElement('button');
+    dot.type='button'; dot.title=slide.dataset.title||`Slide ${index+1}`;
+    dot.addEventListener('click',()=>show(index)); rail.appendChild(dot);
+    const thumb=document.createElement('article');
+    thumb.className='thumb';
+    thumb.innerHTML=`<div class="tn">${String(index+1).padStart(2,'0')}</div><div class="tt">${slide.dataset.title||`Slide ${index+1}`}</div><div class="ts">${slide.dataset.sub||''}</div>`;
+    thumb.addEventListener('click',()=>{overview.classList.remove('show');show(index)}); thumbs.appendChild(thumb);
+  });
+
+  function closeDrawers(){document.querySelectorAll('.drawer.open').forEach(item=>item.classList.remove('open'))}
+  function show(next){
+    next=Math.max(0,Math.min(next,slides.length-1));
+    slides.forEach((slide,index)=>{slide.classList.remove('active','was-active');if(index===current&&index!==next)slide.classList.add('was-active')});
+    current=next; slides[current].classList.add('active'); closeDrawers();
+    counter.textContent=`${current+1} / ${slides.length}`; progress.style.width=`${((current+1)/slides.length)*100}%`;
+    [...rail.children].forEach((item,index)=>item.classList.toggle('active',index===current));
+    history.replaceState(null,'',`#slide-${current+1}`);
+  }
+  function toggleOverview(){overview.classList.toggle('show')}
+  function toggleHelp(){help.classList.toggle('show')}
+  document.getElementById('prevSlide').addEventListener('click',()=>show(current-1));
+  document.getElementById('nextSlide').addEventListener('click',()=>show(current+1));
+  document.getElementById('overviewOpen').addEventListener('click',toggleOverview);
+  document.getElementById('overviewClose').addEventListener('click',()=>overview.classList.remove('show'));
+  document.getElementById('helpClose').addEventListener('click',()=>help.classList.remove('show'));
+  document.querySelectorAll('[data-drawer]').forEach(button=>button.addEventListener('click',()=>button.closest('.frame').querySelector('.drawer')?.classList.toggle('open')));
+  document.querySelectorAll('.drawer-close').forEach(button=>button.addEventListener('click',()=>button.closest('.drawer')?.classList.remove('open')));
+  document.querySelectorAll('.close-action').forEach(action=>action.addEventListener('click',()=>{action.classList.toggle('done');action.querySelector('.box').textContent=action.classList.contains('done')?'✓':''}));
+  document.addEventListener('keydown',event=>{
+    if(help.classList.contains('show')){if(event.key==='Escape'||event.key==='?')help.classList.remove('show');return}
+    if(overview.classList.contains('show')){if(event.key==='Escape'||event.key.toLowerCase()==='o')overview.classList.remove('show');return}
+    if(['ArrowRight','PageDown',' '].includes(event.key)){event.preventDefault();show(current+1)}
+    if(['ArrowLeft','PageUp'].includes(event.key)){event.preventDefault();show(current-1)}
+    if(event.key==='Home')show(0); if(event.key==='End')show(slides.length-1);
+    if(event.key.toLowerCase()==='o')toggleOverview();
+    if(event.key.toLowerCase()==='d')slides[current].querySelector('.drawer')?.classList.toggle('open');
+    if(event.key.toLowerCase()==='f'){if(!document.fullscreenElement)document.documentElement.requestFullscreen?.();else document.exitFullscreen?.()}
+    if(event.key==='?')toggleHelp(); if(event.key==='Escape')closeDrawers();
+  });
+  let touchStart=null;
+  document.addEventListener('touchstart',event=>{touchStart=event.changedTouches[0].clientX},{passive:true});
+  document.addEventListener('touchend',event=>{if(touchStart===null)return;const distance=event.changedTouches[0].clientX-touchStart;if(Math.abs(distance)>55)show(current+(distance<0?1:-1));touchStart=null},{passive:true});
+  const hash=location.hash.match(/slide-(\d+)/); if(hash)current=Math.min(slides.length-1,Math.max(0,Number(hash[1])-1)); show(current);
+})();
+</script>
+</body>
+</html>

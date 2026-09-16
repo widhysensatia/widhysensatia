@@ -96,7 +96,11 @@ export const domains: KnowledgeDomain[] = [
       {
         name: "Meeting Briefs",
         description: "Persiapan diskusi, fokus pembahasan, dan tindak lanjut.",
-        documentSlugs: ["michael-widhy-meeting-brief"],
+        documentSlugs: [
+          "sensatia-weekly-meeting-presentation-2026-09-17",
+          "sensatia-weekly-meeting-brief-2026-09-17",
+          "michael-widhy-meeting-brief",
+        ],
       },
       {
         name: "Systems Handover",
@@ -110,7 +114,7 @@ export const domains: KnowledgeDomain[] = [
         name: "Digital Capability Transition",
         description:
           "Program transisi, knowledge transfer, evidence, dan readiness menuju internal ownership.",
-        documentSlugs: ["project-phoenix-dctp-guide"],
+        documentSlugs: ["project-phoenix-command-center", "project-phoenix-dctp-guide"],
       },
     ],
   },
