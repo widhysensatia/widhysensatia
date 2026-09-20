@@ -19,6 +19,19 @@ export type KnowledgeDocument = {
 
 export const documents: KnowledgeDocument[] = [
   {
+    slug: "putu-mei-accounting-meeting-pack-2026-09-21",
+    title: "StockWizz Accounting Discovery — Meeting Pack Putu Mei",
+    shortTitle: "Putu Mei Accounting Meeting Pack",
+    summary:
+      "Bahan discovery meeting Accounting dan IT untuk mengunci business rule credit control NET 30, invoice delivery, PO tracker, WEB ID, invoice correction, dan reporting Shop ke DC.",
+    category: "StockWiz",
+    type: "Meeting Pack",
+    updated: "2026-09-20",
+    updatedLabel: "20 Sep 2026",
+    tags: ["Accounting", "Putu Mei", "Credit Control"],
+    accent: "blue",
+  },
+  {
     slug: "project-phoenix-command-center",
     title: "Project Phoenix Command Center",
     shortTitle: "Phoenix Command Center",

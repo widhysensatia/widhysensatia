@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Meeting Pack Putu Mei - 21 Sep 2026</title>
+<style>
+:root{--bg:#f6f7f9;--card:#fff;--ink:#18212b;--muted:#66717d;--line:#dfe5ea;--nav:#163a5f;--blue:#285f8f;--teal:#0f766e;--ok:#16794f;--warn:#a86100;--red:#b42318;--r:18px}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:linear-gradient(180deg,#f4f7f9,#f8f9fa 35%,#f6f7f9);color:var(--ink);font:14px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}a{color:var(--blue);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{display:grid;grid-template-columns:250px 1fr;min-height:100vh}.side{position:sticky;top:0;height:100vh;background:#fff;border-right:1px solid var(--line);padding:22px 16px}.logo{display:flex;gap:10px;align-items:center;margin-bottom:24px}.mark{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,var(--nav),#27768a);color:#fff;display:grid;place-items:center;font-weight:800}.logo b{display:block}.logo span{font-size:11px;color:var(--muted)}
+nav a{display:flex;gap:9px;padding:9px 11px;margin:3px 0;border-radius:10px;color:#34414d;font-size:12px;font-weight:700}nav a:hover{background:#eef3f7;text-decoration:none}.dot{width:7px;height:7px;border-radius:50%;background:#a9b3bc;margin-top:6px}
+.main{min-width:0}.top{position:sticky;top:0;z-index:5;background:rgba(246,247,249,.9);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;padding:12px 26px}.top span{font-size:12px;color:var(--muted)}button{border:1px solid var(--line);background:#fff;padding:8px 11px;border-radius:9px;font-weight:700;cursor:pointer}.primary{background:var(--nav);color:#fff;border-color:var(--nav)}
+.page{max-width:1200px;margin:auto;padding:30px 30px 70px}.hero{background:linear-gradient(135deg,#132f4b,#1c4b75 58%,#1c6b73);color:#fff;padding:38px;border-radius:26px;box-shadow:0 20px 45px rgba(17,24,39,.12)}.ey{font-size:11px;text-transform:uppercase;letter-spacing:.14em;font-weight:800;opacity:.8}.hero h1{font-size:36px;line-height:1.08;margin:10px 0 12px;max-width:840px}.hero p{max-width:800px;margin:0;opacity:.9}.heroGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:24px}.heroGrid div{padding:12px 14px;border-radius:13px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.14)}.heroGrid b{display:block;font-size:12px}.heroGrid span{font-size:11px;opacity:.75}
+section{margin-top:26px;scroll-margin-top:70px}.sh{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;margin-bottom:12px}.sh h2{font-size:23px;margin:0}.sh p{margin:3px 0 0;color:var(--muted)}.tag{display:inline-block;padding:5px 8px;border-radius:999px;font-size:10px;font-weight:800;border:1px solid}.green{color:#176541;background:#eef9f3;border-color:#ccebd9}.yellow{color:#895100;background:#fff8eb;border-color:#efdcb5}.blue{color:#275a83;background:#eef4fa;border-color:#d4e1ed}.red{color:#9c281f;background:#fff1ef;border-color:#efcfcc}
+.grid{display:grid;gap:14px}.g2{grid-template-columns:1fr 1fr}.g4{grid-template-columns:repeat(4,1fr)}.card,.topic{background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:0 8px 22px rgba(17,24,39,.04)}.card{padding:18px}.card h3,.card h4{margin:0 0 7px}.card p{margin:0;color:#46525d}.metric b{font-size:26px;color:var(--nav);display:block}.metric span{font-size:11px;color:var(--muted)}
+.call{padding:15px 17px;border-radius:14px;border:1px solid}.call b{display:block;margin-bottom:4px}.ci{background:#f1f6fb;border-color:#d4e2ef}.cw{background:#fff9ef;border-color:#efddb4}.cs{background:#f0faf5;border-color:#cdebdc}.cr{background:#fff2f0;border-color:#efcfcc}
+.agenda{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:4px 18px}.row{display:grid;grid-template-columns:64px 1fr auto;gap:12px;padding:14px 0;border-bottom:1px solid var(--line)}.row:last-child{border:0}.time{font-weight:800;color:var(--nav);font-size:12px}.row h4{margin:0 0 2px}.row p{margin:0;color:var(--muted);font-size:12px}
+.topic{overflow:hidden}.thead{padding:20px 20px 14px;display:flex;justify-content:space-between;gap:15px}.thead h3{font-size:19px;margin:0 0 5px}.thead p{margin:0;color:var(--muted)}.tbody{padding:0 20px 20px}.cols{display:grid;grid-template-columns:1.08fr .92fr;gap:16px}.panel{background:#f8fafb;border:1px solid var(--line);border-radius:14px;padding:15px}.panel h4{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:#566370;margin:0 0 9px}
+.qs{display:grid;gap:8px}.q{display:grid;grid-template-columns:26px 1fr;gap:8px;background:#fff;border:1px solid #e2e7eb;border-radius:11px;padding:10px 12px}.n{width:22px;height:22px;border-radius:7px;display:grid;place-items:center;background:#eaf1f7;color:var(--nav);font-size:10px;font-weight:800}.q b{font-size:12px}.q p{font-size:11px;color:var(--muted);margin:2px 0 0}.dec{display:grid;grid-template-columns:22px 1fr 120px;gap:8px;align-items:center;padding:9px 0;border-bottom:1px dashed var(--line)}.dec:last-child{border:0}.dec label{font-size:12px}.dec select{border:1px solid var(--line);background:#fff;border-radius:8px;padding:7px;font-size:11px}.track{width:16px;height:16px;accent-color:var(--teal)}
+textarea{width:100%;min-height:105px;border:1px solid var(--line);border-radius:11px;padding:11px 12px;resize:vertical;margin-top:10px;background:#fff}.flow{display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin-top:9px}.node{background:#fff;border:1px solid var(--line);border-radius:10px;padding:7px 10px;font-size:11px;font-weight:700}.arr{color:#86939f}
+.script{background:#111827;color:#e7edf4;border-radius:16px;padding:19px}.script p{margin:0}.checks label{display:flex;gap:9px;align-items:flex-start;padding:9px 0;border-bottom:1px solid var(--line);font-size:12px}.checks label:last-child{border:0}
+table{width:100%;border-collapse:separate;border-spacing:0;background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden}th,td{text-align:left;padding:11px 12px;border-bottom:1px solid var(--line);font-size:12px;vertical-align:top}th{background:#f4f6f8;font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:#53606c}tr:last-child td{border:0}
+.sources a{display:block;background:#fff;border:1px solid var(--line);padding:9px 11px;border-radius:10px;margin:7px 0;font-size:11px}.foot{margin-top:28px;padding-top:18px;border-top:1px solid var(--line);font-size:11px;color:var(--muted)}
+.quick{position:fixed;right:18px;bottom:18px;width:310px;background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 20px 50px rgba(17,24,39,.16);overflow:hidden}.quick header{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:#f5f7f8;border-bottom:1px solid var(--line)}.quick textarea{border:0;border-radius:0;margin:0;min-height:120px}.quick.closed .body{display:none}.quick.closed{width:auto}
+@media(max-width:980px){.wrap{grid-template-columns:1fr}.side{display:none}.page{padding:22px 16px 60px}.g4{grid-template-columns:1fr 1fr}.cols{grid-template-columns:1fr}.heroGrid{grid-template-columns:1fr 1fr}}
+@media(max-width:620px){.hero{padding:26px 20px}.hero h1{font-size:29px}.g2,.g4{grid-template-columns:1fr}.row{grid-template-columns:52px 1fr}.row .tag{display:none}.dec{grid-template-columns:20px 1fr}.dec select{grid-column:2}.quick{display:none}}
+@media print{body{background:#fff}.side,.top,.quick{display:none!important}.wrap{display:block}.page{max-width:none;padding:0}.hero,.card,.topic{box-shadow:none}section{break-inside:avoid}.topic{break-inside:avoid}a{color:#111}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<aside class="side">
+  <div class="logo"><div class="mark">S</div><div><b>Sensatia Meeting Pack</b><span>Putu Mei x IT · 21 Sep 2026</span></div></div>
+  <nav>
+    <a href="#overview"><span class="dot"></span>Overview</a>
+    <a href="#agenda"><span class="dot"></span>Agenda</a>
+    <a href="#features"><span class="dot"></span>Feature Overview</a>
+    <a href="#credit"><span class="dot"></span>1. NET 30 / Credit Control</a>
+    <a href="#invoice"><span class="dot"></span>2. Invoice & Faktur Pajak</a>
+    <a href="#tracker"><span class="dot"></span>3. PO Tracker & Slack</a>
+    <a href="#webid"><span class="dot"></span>4. WEB ID Mapping</a>
+    <a href="#correction"><span class="dot"></span>5. Invoice Correction</a>
+    <a href="#ecom"><span class="dot"></span>6. Shop → DC Reporting</a>
+    <a href="#register"><span class="dot"></span>Decision Register</a>
+    <a href="#next"><span class="dot"></span>Next Actions</a>
+    <a href="#sources"><span class="dot"></span>Sources</a>
+  </nav>
+</aside>
+<div class="main">
+  <div class="top"><span>Discovery Meeting · Senin, 21 September 2026 · sekitar 10:00 WITA</span><div><button onclick="toggleQuick()">Quick Notes</button> <button class="primary" onclick="window.print()">Print / PDF</button></div></div>
+  <div class="page">
+    <section id="overview" class="hero">
+      <div class="ey">Accounting x IT Discovery</div>
+      <h1>StockWizz: Customer Order, Credit Control & Fulfillment Improvements</h1>
+      <p>Bahan meeting untuk mengunci business rule Accounting sebelum scope development dibuat. Meeting ini <b>discovery / clarification</b>, bukan approval coding.</p>
+      <div class="heroGrid">
+        <div><b>Requester</b><span>Putu Mei · Accounting</span></div>
+        <div><b>Parent Jira</b><span>SENS-151</span></div>
+        <div><b>Core topics</b><span>SENS-152 · 153 · 154 · 155</span></div>
+        <div><b>Goal</b><span>Rule clear → Jira scope clear</span></div>
+      </div>
+    </section>
+
+    <section class="grid g4">
+      <div class="card metric"><b>4</b><span>core workstreams</span></div>
+      <div class="card metric"><b>5</b><span>minimum decisions for NET 30</span></div>
+      <div class="card metric"><b>45–60m</b><span>recommended meeting duration</span></div>
+      <div class="card metric"><b>0</b><span>coding approvals assumed</span></div>
+    </section>
+
+    <section><div class="call ci"><b>Prinsip meeting</b><span class="tag green">CONFIRMED FACT</span> <span class="tag yellow">TO CONFIRM</span> <span class="tag blue">IT RECOMMENDATION</span> harus dipisahkan. Jangan mengubah rekomendasi teknis menjadi business rule tanpa konfirmasi Accounting.</div></section>
+
+    <section>
+      <div class="sh"><div><h2>Opening</h2><p>Mulai dari rule dan current process, bukan langsung fitur.</p></div></div>
+      <div class="script"><p>“Bu Putu, saya ingin pastikan dulu rule dan current process dari sisi Accounting sebelum saya ubah logic di StockWizz. Tujuan meeting ini bukan langsung approve coding, tapi memastikan sistem nanti tidak salah block customer, salah kirim invoice, atau membuat flow yang justru menyulitkan Accounting. Setelah rule-nya clear, saya akan rapikan scope Jira dan technical implementation-nya.”</p></div>
+    </section>
+
+    <section id="agenda">
+      <div class="sh"><div><h2>Agenda</h2><p>Financial/control impact dibahas lebih dulu.</p></div><span class="tag yellow">DISCOVERY</span></div>
+      <div class="agenda">
+        <div class="row"><div class="time">00–05</div><div><h4>Context & objective</h4><p>Confirm pain point dan target meeting.</p></div><span class="tag green">ALIGN</span></div>
+        <div class="row"><div class="time">05–20</div><div><h4>NET 30 / Credit Control</h4><p>Overdue, source outstanding, block/warning, grace, override, partial payment.</p></div><span class="tag red">P0</span></div>
+        <div class="row"><div class="time">20–32</div><div><h4>Invoice & Faktur Pajak</h4><p>Trigger, source, recipient, attachment, resend, failure.</p></div><span class="tag yellow">P1</span></div>
+        <div class="row"><div class="time">32–42</div><div><h4>PO Tracker + Slack</h4><p>Event penting, audience, frequency, source of truth.</p></div><span class="tag blue">P2</span></div>
+        <div class="row"><div class="time">42–48</div><div><h4>WEB ID mapping</h4><p>Verifikasi equality dengan website order number.</p></div><span class="tag blue">VERIFY</span></div>
+        <div class="row"><div class="time">48–60</div><div><h4>Correction + Shop → DC reporting</h4><p>Exception workflow dan accounting/reporting impact.</p></div><span class="tag yellow">OPEN</span></div>
+      </div>
+    </section>
+
+    <section id="features">
+      <div class="sh">
+        <div>
+          <h2>Feature Overview — Apa yang Sebenarnya Mau Dibuat?</h2>
+          <p>Supaya meeting tidak terasa seperti sesi interview saja, bagian ini menjelaskan gambaran solusi yang ingin dibangun. Semua masih <b>proposed direction</b> sampai business rule dikonfirmasi Putu.</p>
+        </div>
+        <span class="tag blue">PROPOSED SOLUTION</span>
+      </div>
+
+      <div class="grid g2">
+        <div class="card">
+          <h3>01 · Credit Control Guard</h3>
+          <p><b>Tujuan:</b> sebelum Quote menjadi Order, StockWizz mengecek apakah customer punya overdue invoice / outstanding yang memenuhi rule credit hold.</p>
+          <div class="flow">
+            <span class="node">Quote</span><span class="arr">→</span>
+            <span class="node">Check Credit</span><span class="arr">→</span>
+            <span class="node">Clear / Hold</span><span class="arr">→</span>
+            <span class="node">Order</span>
+          </div>
+          <div class="call ci" style="margin-top:10px"><b>Feature concept</b>Credit status badge, blocked reason, overdue invoice reference, manual re-check, dan controlled override bila Accounting mengizinkan.</div>
+        </div>
+
+        <div class="card">
+          <h3>02 · Invoice & Tax Invoice Delivery</h3>
+          <p><b>Tujuan:</b> ketika dokumen sudah benar-benar ready, StockWizz mengirim invoice / Faktur Pajak ke recipient yang sesuai dan menyimpan delivery status.</p>
+          <div class="flow">
+            <span class="node">Invoice Ready</span><span class="arr">→</span>
+            <span class="node">Queue Email</span><span class="arr">→</span>
+            <span class="node">Sent / Failed</span>
+          </div>
+          <div class="call ci" style="margin-top:10px"><b>Feature concept</b>Send history, retry, manual resend, attachment validation, dan audit trail supaya Accounting tidak perlu menebak apakah email benar-benar terkirim.</div>
+        </div>
+
+        <div class="card">
+          <h3>03 · Fulfillment Tracker + Smart Slack Alert</h3>
+          <p><b>Tujuan:</b> status proses tetap dilihat di StockWizz, sementara Slack hanya memberi awareness untuk event penting atau exception.</p>
+          <div class="flow">
+            <span class="node">PO / Order</span><span class="arr">→</span>
+            <span class="node">Tracker Status</span><span class="arr">→</span>
+            <span class="node">Important Event</span><span class="arr">→</span>
+            <span class="node">Slack</span>
+          </div>
+          <div class="call ci" style="margin-top:10px"><b>Feature concept</b>Bukan semua perubahan kirim Slack. Hanya event yang memang membutuhkan action / awareness.</div>
+        </div>
+
+        <div class="card">
+          <h3>04 · WEB ID Mapping Consistency</h3>
+          <p><b>Tujuan:</b> identifier order dari website dapat ditelusuri konsisten sampai StockWizz sehingga Accounting mudah reconcile.</p>
+          <div class="flow">
+            <span class="node">Website Order #</span><span class="arr">→</span>
+            <span class="node">WebSale</span><span class="arr">→</span>
+            <span class="node">WEB ID</span>
+          </div>
+          <div class="call cw" style="margin-top:10px"><b>Catatan</b>Ini lebih dulu perlu <b>verification</b>. Bisa jadi tidak membutuhkan development bila mapping sekarang sudah benar.</div>
+        </div>
+
+        <div class="card">
+          <h3>05 · Controlled Invoice Correction</h3>
+          <p><b>Tujuan:</b> jika ada kesalahan data setelah invoice, user berwenang punya jalur correction yang aman tanpa direct database edit.</p>
+          <div class="flow">
+            <span class="node">Correction Request</span><span class="arr">→</span>
+            <span class="node">Permission / Reason</span><span class="arr">→</span>
+            <span class="node">Audit</span>
+          </div>
+          <div class="call ci" style="margin-top:10px"><b>Feature concept</b>Reason wajib, role permission, before/after audit, dan kemungkinan regenerate dokumen jika memang dibutuhkan Accounting.</div>
+        </div>
+
+        <div class="card">
+          <h3>06 · Reporting Continuity: Shop → DC</h3>
+          <p><b>Tujuan:</b> saat operasi E-Commerce berpindah dari model Shop ke Distribution Center, laporan Accounting tetap konsisten dan tidak kehilangan transaksi.</p>
+          <div class="flow">
+            <span class="node">Operational Source</span><span class="arr">→</span>
+            <span class="node">DC</span><span class="arr">→</span>
+            <span class="node">Accounting Report</span>
+          </div>
+          <div class="call cw" style="margin-top:10px"><b>Important</b>Ini bukan sekadar migration teknis. Output reporting yang dipakai Putu/Mira perlu tetap valid walau source operasional berubah.</div>
+        </div>
+      </div>
+
+      <div class="call cs" style="margin-top:14px">
+        <b>Ideal hasil meeting</b>
+        Putu tidak perlu menyetujui desain teknis detail. Yang dibutuhkan adalah: <b>business rule jelas, exception jelas, source data jelas, siapa owner jelas, dan contoh real case tersedia.</b> Setelah itu IT bisa membuat implementation ticket yang jauh lebih presisi.
+      </div>
+    </section>
+
+    <section id="credit">
+      <div class="sh"><div><h2>1 · NET 30 / Credit Control</h2><p>Target: definisi credit hold yang aman diterjemahkan ke backend rule.</p></div><a class="tag red" target="_blank" href="https://widhysensatia.atlassian.net/browse/SENS-152">SENS-152 ↗</a></div>
+      <div class="topic">
+        <div class="thead"><div><h3>Business rule dulu, coding belakangan</h3><p>Objective awal: cegah Quote / customer PO menjadi Order bila invoice NET 30 overdue dan masih outstanding.</p></div><span class="tag green">OBJECTIVE CONFIRMED</span></div>
+        <div class="tbody">
+          <div class="call cs" style="margin-bottom:14px">
+            <b>Feature yang mau dibuat — Credit Hold di Quote → Order</b>
+            Saat user mencoba convert Quote menjadi Order, StockWizz melakukan credit check ke customer. Jika tidak ada overdue sesuai rule, proses lanjut. Jika ada credit hold, user melihat alasan yang jelas dan order tidak diproses — kecuali Accounting memang mengizinkan controlled override.
+            <div class="flow">
+              <span class="node">Open Quote</span><span class="arr">→</span>
+              <span class="node">Backend Credit Check</span><span class="arr">→</span>
+              <span class="node">Clear?</span><span class="arr">→</span>
+              <span class="node">Convert to Order</span>
+            </div>
+            <div class="flow">
+              <span class="node">If Hold</span><span class="arr">→</span>
+              <span class="node">Show Reason + Invoice</span><span class="arr">→</span>
+              <span class="node">Re-check / Authorized Override</span>
+            </div>
+          </div>
+          <div class="cols">
+            <div class="panel"><h4>Pertanyaan wajib</h4><div class="qs">
+              <div class="q"><span class="n">1</span><div><b>Kapan invoice dianggap overdue?</b><p>Tepat setelah due date, atau ada grace period?</p></div></div>
+              <div class="q"><span class="n">2</span><div><b>Due date berasal dari mana?</b><p>Stored langsung atau invoice date + payment term?</p></div></div>
+              <div class="q"><span class="n">3</span><div><b>Apa source of truth outstanding?</b><p>StockWizz, Accounting report, atau source lain?</p></div></div>
+              <div class="q"><span class="n">4</span><div><b>Kalau overdue: warning atau hard block?</b><p>Apakah Convert Quote → Order benar-benar harus gagal?</p></div></div>
+              <div class="q"><span class="n">5</span><div><b>Bagaimana partial payment?</b><p>Sisa kecil tetap block? Ada minimum threshold?</p></div></div>
+              <div class="q"><span class="n">6</span><div><b>Sudah bayar tapi belum reconcile?</b><p>Perlu grace period atau manual re-check?</p></div></div>
+              <div class="q"><span class="n">7</span><div><b>Siapa yang boleh override?</b><p>Accounting / manager? Wajib alasan + audit log?</p></div></div>
+              <div class="q"><span class="n">8</span><div><b>Exception apa saja?</b><p>Credit note, dispute, refund, correction, special agreement.</p></div></div>
+            </div></div>
+            <div class="panel"><h4>Decision checklist</h4>
+              <div class="dec"><input class="track" type="checkbox"><label>Definition of overdue</label><select><option>Open</option><option>Confirmed</option><option>Follow-up</option></select></div>
+              <div class="dec"><input class="track" type="checkbox"><label>Source of outstanding / due date</label><select><option>Open</option><option>Confirmed</option><option>Follow-up</option></select></div>
+              <div class="dec"><input class="track" type="checkbox"><label>Hard block vs warning</label><select><option>Open</option><option>Confirmed</option><option>Follow-up</option></select></div>
+              <div class="dec"><input class="track" type="checkbox"><label>Grace / payment pending</label><select><option>Open</option><option>Confirmed</option><option>Follow-up</option></select></div>
+              <div class="dec"><input class="track" type="checkbox"><label>Override role + audit</label><select><option>Open</option><option>Confirmed</option><option>Follow-up</option></select></div>
+              <div class="dec"><input class="track" type="checkbox"><label>Partial payment / threshold</label><select><option>Open</option><option>Confirmed</option><option>Follow-up</option></select></div>
+              <div class="dec"><input class="track" type="checkbox"><label>Exception handling</label><select><option>Open</option><option>Confirmed</option><option>Follow-up</option></select></div>
+            </div>
+          </div>
+          <div class="grid g2" style="margin-top:14px">
+            <div class="call ci"><b>IT recommendation — belum business rule</b>Backend enforce saat <b>Convert Quote → Order</b>; frontend hanya menampilkan credit-hold state. <div class="flow"><span class="node">NET 30</span><span class="arr">+</span><span class="node">Outstanding &gt; 0</span><span class="arr">+</span><span class="node">Due date lewat</span><span class="arr">→</span><span class="node">Credit hold</span></div></div>
+            <div class="call cr"><b>Risiko terbesar</b>False block jika payment sudah masuk tetapi outstanding belum update; atau special agreement / partial payment diperlakukan sama dengan overdue normal.</div>
+          </div>
+          <textarea class="persist" data-key="credit" placeholder="Meeting notes — jawaban Putu, contoh kasus, report/source data, exception..."></textarea>
+        </div>
+      </div>
+    </section>
+
+    <section id="invoice">
+      <div class="sh"><div><h2>2 · Invoice & Faktur Pajak Delivery</h2><p>Tujuan: kurangi manual send, tapi lifecycle dokumen harus jelas.</p></div><a class="tag yellow" target="_blank" href="https://widhysensatia.atlassian.net/browse/SENS-153">SENS-153 ↗</a></div>
+      <div class="topic"><div class="tbody" style="padding-top:20px">
+        <div class="call cs" style="margin-bottom:14px">
+          <b>Feature yang mau dibuat — Invoice Delivery Automation</b>
+          Begitu invoice / Faktur Pajak memenuhi status “ready”, sistem membuat delivery job, kirim ke recipient yang benar, menyimpan hasil kirim, dan menyediakan retry / resend jika gagal.
+          <div class="flow">
+            <span class="node">Document Ready</span><span class="arr">→</span>
+            <span class="node">Validate Recipient + Attachment</span><span class="arr">→</span>
+            <span class="node">Send</span><span class="arr">→</span>
+            <span class="node">Delivery History</span>
+          </div>
+        </div>
+        <div class="cols">
+        <div class="panel"><h4>Pertanyaan ke Putu</h4><div class="qs">
+          <div class="q"><span class="n">1</span><div><b>Invoice dibuat kapan?</b><p>Status / event apa yang berarti invoice ready?</p></div></div>
+          <div class="q"><span class="n">2</span><div><b>Faktur Pajak berasal dari mana?</b><p>StockWizz, aplikasi pajak, upload manual, atau proses lain?</p></div></div>
+          <div class="q"><span class="n">3</span><div><b>Siapa recipient?</b><p>Customer email, finance contact, CC sales/accounting?</p></div></div>
+          <div class="q"><span class="n">4</span><div><b>Kapan email dikirim?</b><p>Created, approved, paid, shipped, atau event lain?</p></div></div>
+          <div class="q"><span class="n">5</span><div><b>Kalau email gagal?</b><p>Retry otomatis, alert, manual resend?</p></div></div>
+          <div class="q"><span class="n">6</span><div><b>Kalau invoice/customer dikoreksi?</b><p>Regenerate/resend? Dokumen lama bagaimana?</p></div></div>
+        </div></div>
+        <div class="panel"><h4>IT guardrails</h4>
+          <div class="call ci"><b>Recommended direction</b>Background/asynchronous sending, idempotent, punya send status, retry, dan manual resend. Ini rekomendasi teknis.</div>
+          <div class="call cw" style="margin-top:9px"><b>Jangan auto-send terlalu cepat</b>Invoice dan Faktur Pajak bisa punya lifecycle berbeda; invoice ready belum tentu tax invoice ready.</div>
+          <div class="dec"><input class="track" type="checkbox"><label>Invoice trigger confirmed</label><select><option>Open</option><option>Confirmed</option></select></div>
+          <div class="dec"><input class="track" type="checkbox"><label>Tax invoice source confirmed</label><select><option>Open</option><option>Confirmed</option></select></div>
+          <div class="dec"><input class="track" type="checkbox"><label>Recipient rule confirmed</label><select><option>Open</option><option>Confirmed</option></select></div>
+          <div class="dec"><input class="track" type="checkbox"><label>Failure/resend confirmed</label><select><option>Open</option><option>Confirmed</option></select></div>
+        </div>
+      </div><textarea class="persist" data-key="invoice" placeholder="Meeting notes — invoice, faktur pajak, recipient, trigger, retry/resend..."></textarea></div></div>
+    </section>
+
+    <section id="tracker">
+      <div class="sh"><div><h2>3 · PO Tracker & Slack Notification</h2><p>StockWizz sebagai source of truth; Slack sebagai awareness layer.</p></div><a class="tag blue" target="_blank" href="https://widhysensatia.atlassian.net/browse/SENS-154">SENS-154 ↗</a></div>
+      <div class="topic"><div class="tbody" style="padding-top:20px">
+        <div class="call cs" style="margin-bottom:14px">
+          <b>Feature yang mau dibuat — Operational Tracker + Selective Alert</b>
+          Semua status tetap tercatat dan dibaca dari StockWizz. Slack hanya memberi alert untuk event yang butuh perhatian: misalnya overdue, ready for action, exception, atau status kritis.
+          <div class="flow">
+            <span class="node">StockWizz Tracker</span><span class="arr">→</span>
+            <span class="node">Event Rule</span><span class="arr">→</span>
+            <span class="node">Important?</span><span class="arr">→</span>
+            <span class="node">Slack Alert</span>
+          </div>
+        </div>
+        <div class="cols">
+        <div class="panel"><h4>Yang dibahas</h4><div class="qs">
+          <div class="q"><span class="n">1</span><div><b>Event apa yang penting?</b><p>Created, approved, ready, received, overdue, shipped, exception?</p></div></div>
+          <div class="q"><span class="n">2</span><div><b>Siapa yang butuh tahu?</b><p>Warehouse, Logistics, Accounting, requester?</p></div></div>
+          <div class="q"><span class="n">3</span><div><b>Realtime atau digest?</b><p>Mana yang urgent dan mana yang cukup summary?</p></div></div>
+          <div class="q"><span class="n">4</span><div><b>Apa source of truth?</b><p>Rekomendasi: StockWizz tracker, bukan Slack.</p></div></div>
+        </div></div>
+        <div class="panel"><h4>Decision checklist</h4>
+          <div class="dec"><input class="track" type="checkbox"><label>Tracked events</label><select><option>Open</option><option>Confirmed</option></select></div>
+          <div class="dec"><input class="track" type="checkbox"><label>Slack audience/channel</label><select><option>Open</option><option>Confirmed</option></select></div>
+          <div class="dec"><input class="track" type="checkbox"><label>Realtime vs digest</label><select><option>Open</option><option>Confirmed</option></select></div>
+          <div class="dec"><input class="track" type="checkbox"><label>Escalation rule</label><select><option>Open</option><option>Confirmed</option></select></div>
+        </div>
+      </div><textarea class="persist" data-key="tracker" placeholder="Meeting notes — event, owner, channel, frequency..."></textarea></div></div>
+    </section>
+
+    <section id="webid">
+      <div class="sh"><div><h2>4 · WEB ID Mapping Verification</h2><p>Verifikasi dulu; development hanya jika benar-benar ada mismatch.</p></div><a class="tag blue" target="_blank" href="https://widhysensatia.atlassian.net/browse/SENS-155">SENS-155 ↗</a></div>
+      <div class="call cs" style="margin-bottom:12px">
+        <b>Feature / verification target — One Order, One Consistent Identifier</b>
+        Target akhirnya sederhana: ketika Putu/Mira melihat WEB ID di StockWizz, identifier itu bisa langsung ditelusuri ke website order yang sama tanpa translation manual atau ambiguity.
+      </div>
+      <div class="grid g2">
+        <div class="card"><h3>Konfirmasi ke Putu</h3><ul><li>WEB ID apa yang Accounting expect?</li><li>Harus sama persis dengan website order number?</li><li>WEB ID dipakai untuk rekonsiliasi apa?</li><li>Ada contoh order yang dianggap salah?</li><li>Legacy/manual order punya pola berbeda?</li></ul></div>
+        <div class="call cw"><b>Current boundary</b>Arah arsitektur mendukung mapping website order number, tetapi equality field UI belum boleh disebut “sudah confirmed” sebelum code/data mapping diverifikasi pada beberapa production order.</div>
+      </div>
+      <div class="flow"><span class="node">Website Order Number</span><span class="arr">→</span><span class="node">StockWizz WebSale / mapping</span><span class="arr">→</span><span class="node">Bali E-Commerce UI “WEB ID”</span></div>
+      <textarea class="persist" data-key="webid" placeholder="Catat contoh WEB ID/order number yang dipakai Accounting..."></textarea>
+    </section>
+
+    <section id="correction">
+      <div class="sh"><div><h2>5 · Controlled Correction Setelah Invoice</h2><p>Gunakan incident nyata untuk menentukan exception workflow.</p></div><span class="tag green">INCIDENT EVIDENCE</span></div>
+      <div class="call cs" style="margin-bottom:12px">
+        <b>Feature yang mungkin dibuat — Controlled Post-Invoice Correction</b>
+        Jika Accounting memang membutuhkan correction setelah invoice, flow ideal bukan edit database langsung. User berwenang membuka correction, isi alasan, sistem simpan before/after value, lalu dokumen terkait di-update sesuai rule yang disetujui.
+      </div>
+      <div class="grid g2">
+        <div class="card"><h3>Kasus 00047848</h3><p>Invoice / B2B sale terkait customer yang salah. Customer benar: <b>PT Surga Dunia Bali</b>. Current validation mencegah Customer ID diubah setelah invoice status. Colin melakukan direct DB correction dan Accounting kemudian mengonfirmasi correction berhasil.</p></div>
+        <div class="card"><h3>Yang harus diputuskan</h3><ul><li>Apakah authorized correction setelah invoice dibutuhkan?</li><li>Siapa yang boleh melakukan?</li><li>Wajib alasan / approval?</li><li>Perlu before/after audit trail?</li><li>Apakah correction memicu regenerate invoice/tax invoice/email?</li></ul></div>
+      </div>
+      <div class="call cr" style="margin-top:12px"><b>Boundary</b>Direct database correction sebaiknya tetap exception, bukan operational workflow normal.</div>
+      <textarea class="persist" data-key="correction" placeholder="Catat correction policy, approver, audit requirement..."></textarea>
+    </section>
+
+    <section id="ecom">
+      <div class="sh"><div><h2>6 · E-Commerce Reporting: Shop → Distribution Center</h2><p>Impact Accounting harus diklarifikasi sebelum migration dianggap selesai.</p></div><span class="tag yellow">TO VERIFY</span></div>
+      <div class="call ci" style="margin-bottom:12px">
+        <b>Yang mau dijaga — Accounting tidak kehilangan visibility saat source pindah</b>
+        Operasi E-Commerce boleh bergerak ke Distribution Center, tetapi report, reconciliation, tax reference, dan identifier yang dipakai Accounting harus tetap konsisten atau punya mapping yang jelas.
+      </div>
+      <div class="grid g2">
+        <div class="call cs"><b>Confirmed context</b>Bali E-Commerce saat ini masih direpresentasikan pada <b>Shop → Bali E-Commerce</b>. Arah transaction sync adalah model operasional <b>Distribution Center</b>. Putu menyebut <b>Mira</b> sebagai current handler laporan transaksi E-Commerce.</div>
+        <div class="call cw"><b>Belum confirmed</b>Shop → DC belum selesai dan mapping Accounting/reporting belum final. Reporting impact perlu diklarifikasi bersama Mira sebelum rollout.</div>
+      </div>
+      <div class="panel" style="margin-top:12px"><h4>Pertanyaan</h4><div class="qs">
+        <div class="q"><span class="n">1</span><div><b>Report apa yang sekarang diambil dari Shop?</b><p>Field/report/period yang dipakai Mira.</p></div></div>
+        <div class="q"><span class="n">2</span><div><b>Kalau transaksi pindah ke DC, apa yang bisa putus?</b><p>Sales reporting, tax, reconciliation, invoice, channel mapping?</p></div></div>
+        <div class="q"><span class="n">3</span><div><b>Haruskah output Accounting tetap sama?</b><p>Operational source bisa berubah tanpa merusak reporting layer.</p></div></div>
+        <div class="q"><span class="n">4</span><div><b>Siapa follow-up owner?</b><p>Putu + Mira + IT, dan E-Commerce bila perlu.</p></div></div>
+      </div></div>
+      <textarea class="persist" data-key="ecom" placeholder="Catat report yang dipakai Mira dan risk jika source berpindah ke DC..."></textarea>
+    </section>
+
+    <section>
+      <div class="sh">
+        <div><h2>Before vs After — Gambaran User Experience</h2><p>Ini membantu menjelaskan manfaat feature tanpa terlalu teknis.</p></div>
+      </div>
+      <table>
+        <thead><tr><th>Area</th><th>Before</th><th>After yang diharapkan</th></tr></thead>
+        <tbody>
+          <tr><td>Credit Control</td><td>User bisa lanjut tanpa visibility credit hold yang konsisten.</td><td>Sebelum Order dibuat, sistem cek rule dan tampilkan alasan block / exception dengan jelas.</td></tr>
+          <tr><td>Invoice Delivery</td><td>Pengiriman dan follow-up cenderung manual.</td><td>Delivery tercatat, bisa retry/resend, dan status kirim bisa dilihat.</td></tr>
+          <tr><td>Fulfillment Tracking</td><td>Status tersebar antara StockWizz dan komunikasi Slack.</td><td>StockWizz jadi tracker utama; Slack hanya awareness untuk event penting.</td></tr>
+          <tr><td>WEB ID</td><td>Perlu memastikan identifier mana yang sama dengan website order.</td><td>Satu identifier yang konsisten dan mudah direconcile.</td></tr>
+          <tr><td>Invoice Correction</td><td>Exception tertentu membutuhkan direct DB correction.</td><td>Controlled correction dengan permission, reason, dan audit trail.</td></tr>
+          <tr><td>Shop → DC Reporting</td><td>Reporting bergantung pada model Shop saat ini.</td><td>Operational source boleh pindah ke DC tanpa merusak output Accounting.</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="register">
+      <div class="sh"><div><h2>Decision Register</h2><p>Isi saat meeting agar hasil tidak tinggal di percakapan.</p></div></div>
+      <table><thead><tr><th>Area</th><th>Decision / Rule</th><th>Owner</th><th>Status</th></tr></thead><tbody>
+        <tr><td>Credit Control</td><td contenteditable="true">Klik untuk isi keputusan…</td><td>Putu / Accounting</td><td>OPEN</td></tr>
+        <tr><td>Invoice Email</td><td contenteditable="true">Klik untuk isi keputusan…</td><td>Accounting</td><td>OPEN</td></tr>
+        <tr><td>Faktur Pajak</td><td contenteditable="true">Klik untuk isi keputusan…</td><td>Accounting</td><td>OPEN</td></tr>
+        <tr><td>PO Tracker / Slack</td><td contenteditable="true">Klik untuk isi keputusan…</td><td>Accounting / Warehouse</td><td>OPEN</td></tr>
+        <tr><td>WEB ID</td><td contenteditable="true">Klik untuk isi hasil verifikasi…</td><td>IT</td><td>VERIFY</td></tr>
+        <tr><td>Invoice Correction</td><td contenteditable="true">Klik untuk isi policy…</td><td>Accounting / IT</td><td>OPEN</td></tr>
+        <tr><td>Shop → DC Reporting</td><td contenteditable="true">Klik untuk isi impact…</td><td>Putu / Mira / IT</td><td>OPEN</td></tr>
+      </tbody></table>
+    </section>
+
+    <section id="next">
+      <div class="sh"><div><h2>Next Actions Setelah Meeting</h2><p>Transformasikan hasil meeting langsung menjadi Jira evidence dan scope.</p></div></div>
+      <div class="grid g2">
+        <div class="card checks"><h3>IT / Widhy</h3>
+          <label><input class="track" type="checkbox">Update SENS-152 dengan NET 30 rule confirmed</label>
+          <label><input class="track" type="checkbox">Update SENS-153 invoice/tax invoice flow</label>
+          <label><input class="track" type="checkbox">Update SENS-154 tracker/Slack event model</label>
+          <label><input class="track" type="checkbox">Verify SENS-155 WEB ID mapping</label>
+          <label><input class="track" type="checkbox">Create implementation tickets hanya untuk scope approved</label>
+        </div>
+        <div class="card checks"><h3>Stakeholder follow-up</h3>
+          <label><input class="track" type="checkbox">Putu confirm Accounting rules / exceptions</label>
+          <label><input class="track" type="checkbox">Mira confirm E-Commerce reporting dependency</label>
+          <label><input class="track" type="checkbox">Warehouse/Logistics confirm tracker events bila perlu</label>
+          <label><input class="track" type="checkbox">Accounting provide sample transaction/problem cases</label>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="sh"><div><h2>Closing</h2><p>Pastikan tidak ada implicit approval.</p></div></div>
+      <div class="script"><p>“Baik Bu, saya rangkum dulu rule yang sudah confirmed dan yang masih open. Setelah ini saya update Jira per area. Untuk yang sudah jelas, saya buat technical scope dan sandbox plan. Untuk yang masih butuh keputusan Accounting atau stakeholder lain, saya tidak akan anggap approved sampai ada konfirmasi.”</p></div>
+    </section>
+
+    <section><div class="call ci"><b>Cheat sheet — 5 keputusan minimum NET 30</b>1) definition of overdue · 2) source outstanding/due date · 3) hard block vs warning · 4) grace/payment pending · 5) override role + audit.</div></section>
+
+    <section id="sources">
+      <div class="sh"><div><h2>Internal Sources</h2><p>Materi dirangkum dari Jira/Confluence internal yang sudah ada.</p></div></div>
+      <div class="sources">
+        <a target="_blank" href="https://widhysensatia.atlassian.net/wiki/spaces/SENS/pages/15794188/StockWizz+Customer+Order+Credit+Control+Fulfillment+Automation+Assessment+Putu+Mei"><b>Confluence</b> · Putu Mei Assessment</a>
+        <a target="_blank" href="https://widhysensatia.atlassian.net/browse/SENS-151"><b>SENS-151</b> · Parent Epic</a>
+        <a target="_blank" href="https://widhysensatia.atlassian.net/browse/SENS-152"><b>SENS-152</b> · NET 30 / Credit Control</a>
+        <a target="_blank" href="https://widhysensatia.atlassian.net/browse/SENS-153"><b>SENS-153</b> · Invoice + Tax Invoice Delivery</a>
+        <a target="_blank" href="https://widhysensatia.atlassian.net/browse/SENS-154"><b>SENS-154</b> · Fulfillment Tracker + Slack</a>
+        <a target="_blank" href="https://widhysensatia.atlassian.net/browse/SENS-155"><b>SENS-155</b> · WEB ID Mapping</a>
+        <a target="_blank" href="https://widhysensatia.atlassian.net/wiki/spaces/SENS/pages/12812339/E-Commerce+Jubelio+Integrasi+Saat+Ini+Alur+Operasional"><b>Confluence</b> · E-Commerce/Jubelio + Shop → DC Accounting Follow-up</a>
+      </div>
+    </section>
+
+    <div class="foot"><b>Prepared for:</b> Widhy × Putu Mei · Accounting Discovery Meeting · 21 September 2026<br><b>Rule:</b> confirmed facts, recommendations, and open questions are intentionally separated.</div>
+  </div>
+</div>
+</div>
+
+<div class="quick" id="quick"><header><b>Quick Meeting Notes</b><button onclick="toggleQuick()">Hide</button></header><div class="body"><textarea class="persist" data-key="quick" placeholder="Catat poin penting di luar agenda..."></textarea></div></div>
+
+<script>
+document.querySelectorAll('.persist').forEach(e=>{let k='putu-'+e.dataset.key;e.value=localStorage.getItem(k)||'';e.addEventListener('input',()=>localStorage.setItem(k,e.value))});
+function toggleQuick(){document.getElementById('quick').classList.toggle('closed')}
+</script>
+</body>
+</html>

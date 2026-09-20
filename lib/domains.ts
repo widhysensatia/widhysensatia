@@ -36,7 +36,10 @@ export const domains: KnowledgeDomain[] = [
         name: "Order & Fulfillment Automation",
         description:
           "Assessment customer order, credit control, invoice delivery, dan fulfillment automation.",
-        documentSlugs: ["stockwizz-putu-mei-assessment"],
+        documentSlugs: [
+          "putu-mei-accounting-meeting-pack-2026-09-21",
+          "stockwizz-putu-mei-assessment",
+        ],
       },
       {
         name: "Strategy & Direction",

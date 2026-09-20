@@ -23,6 +23,7 @@ const sourceFiles: Record<string, string> = {
   "bali-ecommerce-shared-stock-model": "2026-09-11-batch-01/bali_ecommerce_shared_stock_model.html",
   "google-review-qr-rollout-guide": "2026-09-14-batch-02/google_review_qr_ask_for_reviews_guide_updated.html",
   "michael-widhy-meeting-brief": "2026-09-11-batch-01/preview.html",
+  "putu-mei-accounting-meeting-pack-2026-09-21": "2026-09-20-batch-06/putu_mei_accounting_meeting_pack_2026-09-21_v2.html",
   "project-phoenix-dctp-guide": "2026-09-15-batch-03/project_phoenix_dctp_guide.html",
   "sensatia-weekly-meeting-brief-2026-09-17": "2026-09-16-batch-05/sensatia_weekly_meeting_brief_2026-09-17_v7.html",
   "sensatia-weekly-meeting-presentation-2026-09-17": "2026-09-16-batch-05/sensatia_weekly_meeting_presentation_2026-09-17_v2.html",
