@@ -19,6 +19,45 @@ export type KnowledgeDocument = {
 
 export const documents: KnowledgeDocument[] = [
   {
+    slug: "project-phoenix-weekly-handover-2026-09-23",
+    title: "Project Phoenix — Weekly Handover #1",
+    shortTitle: "Phoenix Weekly Handover #1",
+    summary:
+      "Workspace KT pertama untuk StockWizz architecture, deployment dan rollback, Jubelio reliability, hands-on development, evidence capture, dan reverse handover.",
+    category: "Meeting & Handover",
+    type: "KT & Handover",
+    updated: "2026-09-22",
+    updatedLabel: "22 Sep 2026",
+    tags: ["Project Phoenix", "Knowledge Transfer", "Colin"],
+    accent: "plum",
+  },
+  {
+    slug: "putu-mei-stockwizz-three-feature-blueprint",
+    title: "StockWizz B2B Accounting — Three Feature Blueprint",
+    shortTitle: "Putu Mei Three Feature Blueprint",
+    summary:
+      "Perancangan visual dan teknis untuk B2B credit control, invoice dan Faktur Pajak delivery, serta tracking pending signed invoice.",
+    category: "StockWiz",
+    type: "Feature Blueprint",
+    updated: "2026-09-22",
+    updatedLabel: "22 Sep 2026",
+    tags: ["B2B Accounting", "Credit Control", "Invoice Delivery"],
+    accent: "blue",
+  },
+  {
+    slug: "putu-mei-accounting-meeting-notes-2026-09-21",
+    title: "Meeting Notes Putu Mei — B2B Credit Control & Invoice Delivery",
+    shortTitle: "Putu Mei Meeting Notes — 21 Sep",
+    summary:
+      "Hasil meeting Accounting dan IT mengenai credit terms NET 30/45/60, grace period, Jurnal.id, invoice delivery, tax invoice, dan pending invoice filter.",
+    category: "StockWiz",
+    type: "Meeting Notes",
+    updated: "2026-09-22",
+    updatedLabel: "22 Sep 2026",
+    tags: ["Putu Mei", "B2B Accounting", "Meeting Notes"],
+    accent: "blue",
+  },
+  {
     slug: "putu-mei-accounting-meeting-pack-2026-09-21",
     title: "StockWizz Accounting Discovery — Meeting Pack Putu Mei",
     shortTitle: "Putu Mei Accounting Meeting Pack",

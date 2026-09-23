@@ -1,0 +1,1269 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="light dark" />
+  <title>Meeting Notes — Putu Mei — B2B Credit Control & Invoice Delivery — 21 Sep 2026</title>
+  <style>
+    :root{
+      --bg:#f6f7f9;
+      --paper:#ffffff;
+      --paper-2:#fbfcfd;
+      --ink:#172033;
+      --muted:#667085;
+      --line:#e6e8ec;
+      --line-strong:#d7dbe2;
+      --brand:#1f6f5f;
+      --brand-2:#174f45;
+      --brand-soft:#eaf5f2;
+      --blue:#245ea8;
+      --blue-soft:#edf4ff;
+      --amber:#9a6700;
+      --amber-soft:#fff7df;
+      --red:#b42318;
+      --red-soft:#fff0ee;
+      --green:#16794b;
+      --green-soft:#ecf8f1;
+      --purple:#6f4aa5;
+      --purple-soft:#f4effb;
+      --shadow:0 14px 36px rgba(19,33,68,.08);
+      --radius:18px;
+      --radius-sm:12px;
+      --max:1440px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color:var(--ink);
+      background:
+        radial-gradient(circle at top right, rgba(31,111,95,.07), transparent 22rem),
+        linear-gradient(180deg,#fafbfc 0%,var(--bg) 26%,var(--bg) 100%);
+      line-height:1.55;
+    }
+
+    a{color:inherit}
+    button{font:inherit}
+
+    .top-progress{
+      position:fixed;
+      top:0; left:0;
+      height:3px;
+      width:0%;
+      background:linear-gradient(90deg,var(--brand),#4aa88f);
+      z-index:1000;
+      transition:width .08s linear;
+    }
+
+    .shell{
+      width:min(var(--max), calc(100% - 36px));
+      margin:0 auto;
+      padding:28px 0 72px;
+    }
+
+    .hero{
+      position:relative;
+      overflow:hidden;
+      background:
+        linear-gradient(135deg,rgba(31,111,95,.98),rgba(23,79,69,.97)),
+        var(--brand);
+      color:white;
+      border-radius:28px;
+      padding:34px;
+      box-shadow:var(--shadow);
+      margin-bottom:22px;
+    }
+    .hero:after{
+      content:"";
+      position:absolute;
+      width:420px;height:420px;
+      right:-150px;top:-220px;
+      border-radius:50%;
+      border:1px solid rgba(255,255,255,.18);
+      box-shadow:
+        0 0 0 34px rgba(255,255,255,.035),
+        0 0 0 76px rgba(255,255,255,.025);
+    }
+    .hero-grid{
+      position:relative;
+      z-index:1;
+      display:grid;
+      grid-template-columns:1.55fr .8fr;
+      gap:30px;
+      align-items:end;
+    }
+    .eyebrow{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      font-size:12px;
+      font-weight:750;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      color:rgba(255,255,255,.78);
+      margin-bottom:10px;
+    }
+    .hero h1{
+      margin:0;
+      font-size:clamp(30px,5vw,56px);
+      line-height:1.02;
+      letter-spacing:-.045em;
+      max-width:900px;
+    }
+    .hero p{
+      margin:16px 0 0;
+      color:rgba(255,255,255,.82);
+      font-size:16px;
+      max-width:850px;
+    }
+    .hero-meta{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+    }
+    .meta-tile{
+      border:1px solid rgba(255,255,255,.18);
+      background:rgba(255,255,255,.075);
+      border-radius:14px;
+      padding:13px 14px;
+      backdrop-filter:blur(8px);
+    }
+    .meta-tile small{
+      display:block;
+      opacity:.68;
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.1em;
+      margin-bottom:4px;
+    }
+    .meta-tile strong{font-size:14px}
+
+    .toolbar{
+      display:flex;
+      gap:9px;
+      flex-wrap:wrap;
+      margin:0 0 22px;
+    }
+    .btn{
+      border:1px solid var(--line);
+      background:var(--paper);
+      color:var(--ink);
+      border-radius:11px;
+      padding:9px 13px;
+      cursor:pointer;
+      box-shadow:0 3px 12px rgba(15,23,42,.04);
+      transition:.18s ease;
+    }
+    .btn:hover{transform:translateY(-1px);border-color:var(--line-strong)}
+    .btn.primary{
+      background:var(--brand);
+      color:#fff;
+      border-color:var(--brand);
+    }
+
+    .layout{
+      display:grid;
+      grid-template-columns:250px minmax(0,1fr);
+      gap:24px;
+      align-items:start;
+    }
+
+    .sidebar{
+      position:sticky;
+      top:18px;
+      background:rgba(255,255,255,.9);
+      backdrop-filter:blur(14px);
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:14px;
+      box-shadow:0 8px 24px rgba(15,23,42,.05);
+    }
+    .sidebar h3{
+      font-size:11px;
+      letter-spacing:.11em;
+      text-transform:uppercase;
+      color:var(--muted);
+      margin:6px 8px 10px;
+    }
+    .nav-link{
+      display:block;
+      text-decoration:none;
+      padding:9px 10px;
+      border-radius:10px;
+      color:#465063;
+      font-size:13px;
+      margin:2px 0;
+      transition:.15s ease;
+    }
+    .nav-link:hover{background:#f4f7f6;color:var(--brand-2)}
+    .nav-link.active{
+      background:var(--brand-soft);
+      color:var(--brand-2);
+      font-weight:700;
+    }
+    .sidebar .legend{
+      margin-top:14px;
+      padding-top:12px;
+      border-top:1px solid var(--line);
+      display:grid;
+      gap:7px;
+      font-size:12px;
+      color:var(--muted);
+    }
+
+    main{min-width:0}
+
+    .section{
+      scroll-margin-top:18px;
+      background:var(--paper);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      padding:26px;
+      margin-bottom:18px;
+      box-shadow:0 7px 24px rgba(15,23,42,.045);
+    }
+    .section-head{
+      display:flex;
+      justify-content:space-between;
+      gap:16px;
+      align-items:flex-start;
+      margin-bottom:18px;
+    }
+    .kicker{
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:.11em;
+      text-transform:uppercase;
+      color:var(--brand);
+      margin-bottom:5px;
+    }
+    h2{
+      margin:0;
+      font-size:26px;
+      line-height:1.15;
+      letter-spacing:-.025em;
+    }
+    h3{
+      margin:24px 0 10px;
+      font-size:18px;
+      letter-spacing:-.015em;
+    }
+    h4{
+      margin:16px 0 8px;
+      font-size:14px;
+    }
+    .lead{color:var(--muted);margin:8px 0 0;max-width:900px}
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      border-radius:999px;
+      padding:5px 9px;
+      font-size:11px;
+      font-weight:800;
+      letter-spacing:.035em;
+      white-space:nowrap;
+      border:1px solid transparent;
+    }
+    .badge.green{color:var(--green);background:var(--green-soft);border-color:#d6efdf}
+    .badge.amber{color:var(--amber);background:var(--amber-soft);border-color:#f7e8b0}
+    .badge.red{color:var(--red);background:var(--red-soft);border-color:#ffd8d2}
+    .badge.blue{color:var(--blue);background:var(--blue-soft);border-color:#d7e6ff}
+    .badge.purple{color:var(--purple);background:var(--purple-soft);border-color:#e3d8f2}
+    .badge.gray{color:#505a6b;background:#f2f4f7;border-color:#e3e6eb}
+
+    .summary-grid{
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:12px;
+    }
+    .summary-card{
+      background:var(--paper-2);
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:16px;
+    }
+    .summary-card strong{display:block;font-size:22px;margin:3px 0}
+    .summary-card small{color:var(--muted)}
+
+    .callout{
+      border-radius:14px;
+      padding:15px 16px;
+      margin:16px 0;
+      border:1px solid var(--line);
+      background:var(--paper-2);
+    }
+    .callout.success{background:var(--green-soft);border-color:#d7efdf}
+    .callout.info{background:var(--blue-soft);border-color:#dbe9ff}
+    .callout.warning{background:var(--amber-soft);border-color:#f2e3ac}
+    .callout.future{background:var(--purple-soft);border-color:#e2d7f2}
+    .callout strong{display:block;margin-bottom:3px}
+
+    .grid-2{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:14px;
+    }
+    .grid-3{
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:14px;
+    }
+
+    .mini-card{
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:15px;
+      background:#fff;
+    }
+    .mini-card .label{
+      color:var(--muted);
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      font-size:10px;
+      font-weight:800;
+      margin-bottom:7px;
+    }
+
+    .table-wrap{
+      overflow:auto;
+      border:1px solid var(--line);
+      border-radius:14px;
+      margin:12px 0 8px;
+    }
+    table{
+      width:100%;
+      border-collapse:collapse;
+      min-width:700px;
+      background:#fff;
+    }
+    th,td{
+      padding:12px 13px;
+      text-align:left;
+      vertical-align:top;
+      border-bottom:1px solid var(--line);
+      font-size:13px;
+    }
+    thead th{
+      background:#f8fafb;
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.07em;
+      color:#596579;
+      position:sticky;
+      top:0;
+      z-index:1;
+    }
+    tbody tr:last-child td{border-bottom:none}
+    tbody tr:hover{background:#fbfcfd}
+
+    ul.clean, ol.clean{
+      margin:10px 0;
+      padding-left:20px;
+    }
+    ul.clean li, ol.clean li{margin:6px 0}
+
+    .formula{
+      display:flex;
+      align-items:center;
+      flex-wrap:wrap;
+      gap:8px;
+      padding:14px;
+      border:1px dashed #b9c7c3;
+      background:#f6fbf9;
+      border-radius:14px;
+      margin:14px 0;
+      font-weight:700;
+    }
+    .formula .token{
+      padding:7px 10px;
+      border-radius:9px;
+      background:#fff;
+      border:1px solid #dfe9e5;
+      box-shadow:0 2px 8px rgba(31,111,95,.04);
+    }
+    .formula .op{color:var(--muted)}
+
+    .flow{
+      display:grid;
+      grid-template-columns:repeat(5,minmax(0,1fr));
+      gap:9px;
+      align-items:stretch;
+      margin:14px 0 4px;
+    }
+    .flow-step{
+      position:relative;
+      border:1px solid var(--line);
+      border-radius:13px;
+      padding:13px 12px;
+      background:linear-gradient(180deg,#fff,#fbfcfd);
+      min-height:92px;
+    }
+    .flow-step:not(:last-child):after{
+      content:"→";
+      position:absolute;
+      right:-14px;
+      top:50%;
+      transform:translateY(-50%);
+      width:18px;height:18px;
+      display:grid;place-items:center;
+      color:#9aa4b3;
+      font-weight:900;
+      z-index:2;
+    }
+    .flow-step b{display:block;font-size:13px;margin-bottom:5px}
+    .flow-step span{font-size:12px;color:var(--muted)}
+
+    .state-stack{
+      display:grid;
+      grid-template-columns:1.2fr 1fr .75fr;
+      border:1px solid var(--line);
+      border-radius:14px;
+      overflow:hidden;
+      margin:10px 0;
+    }
+    .state-stack > div{
+      padding:12px 14px;
+      border-bottom:1px solid var(--line);
+    }
+    .state-stack > div:nth-child(3n+1){font-weight:700}
+    .state-stack > div:nth-child(3n+2){color:var(--muted)}
+    .state-stack > div:nth-child(3n){text-align:right}
+    .state-stack > div:nth-last-child(-n+3){border-bottom:none}
+
+    .timeline{
+      position:relative;
+      margin:14px 0 0 7px;
+      padding-left:22px;
+    }
+    .timeline:before{
+      content:"";
+      position:absolute;left:5px;top:5px;bottom:5px;
+      width:2px;background:#e4e8ed;
+    }
+    .t-item{
+      position:relative;
+      margin:0 0 16px;
+    }
+    .t-item:before{
+      content:"";
+      position:absolute;left:-22px;top:6px;
+      width:10px;height:10px;border-radius:50%;
+      background:var(--brand);
+      box-shadow:0 0 0 4px #e8f3f0;
+    }
+    .t-item b{font-size:13px}
+    .t-item small{display:block;color:var(--muted);margin-top:2px}
+
+    details{
+      border:1px solid var(--line);
+      border-radius:12px;
+      padding:0 13px;
+      background:#fff;
+      margin:10px 0;
+    }
+    summary{
+      cursor:pointer;
+      font-weight:750;
+      padding:12px 0;
+    }
+    details > div{padding:0 0 12px}
+
+    .decision-list{
+      display:grid;
+      gap:8px;
+      margin-top:10px;
+    }
+    .decision{
+      display:grid;
+      grid-template-columns:120px 1fr;
+      gap:12px;
+      align-items:start;
+      border:1px solid var(--line);
+      border-radius:12px;
+      padding:12px;
+      background:#fff;
+    }
+
+    .footer{
+      margin-top:20px;
+      color:var(--muted);
+      font-size:12px;
+      text-align:center;
+    }
+
+    .mobile-nav{
+      display:none;
+      position:sticky;
+      top:0;
+      z-index:30;
+      background:rgba(246,247,249,.92);
+      backdrop-filter:blur(12px);
+      margin:0 -18px 16px;
+      padding:10px 18px;
+      overflow:auto;
+      border-bottom:1px solid var(--line);
+      gap:8px;
+    }
+    .mobile-nav a{
+      text-decoration:none;
+      font-size:12px;
+      white-space:nowrap;
+      border:1px solid var(--line);
+      background:#fff;
+      padding:7px 10px;
+      border-radius:999px;
+    }
+
+    .tech-only{display:block}
+    body.hide-tech .tech-only{display:none}
+
+    @media(max-width:1050px){
+      .summary-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .flow{grid-template-columns:1fr}
+      .flow-step:not(:last-child):after{
+        content:"↓";right:auto;left:50%;top:auto;bottom:-16px;transform:translateX(-50%);
+      }
+    }
+    @media(max-width:900px){
+      .hero-grid{grid-template-columns:1fr}
+      .layout{grid-template-columns:1fr}
+      .sidebar{display:none}
+      .mobile-nav{display:flex}
+    }
+    @media(max-width:680px){
+      .shell{width:min(100% - 20px,var(--max));padding-top:10px}
+      .hero{padding:23px;border-radius:20px}
+      .section{padding:19px}
+      .summary-grid,.grid-2,.grid-3{grid-template-columns:1fr}
+      .hero-meta{grid-template-columns:1fr 1fr}
+      .state-stack{grid-template-columns:1fr}
+      .state-stack > div{
+        border-bottom:none;
+        padding:7px 12px;
+      }
+      .state-stack > div:nth-child(3n){text-align:left;padding-bottom:13px;border-bottom:1px solid var(--line)}
+      .state-stack > div:last-child{border-bottom:none}
+    }
+
+    @media print{
+      body{background:#fff}
+      .top-progress,.toolbar,.sidebar,.mobile-nav{display:none!important}
+      .shell{width:100%;padding:0}
+      .hero{box-shadow:none;border-radius:0;margin:0 0 18px}
+      .layout{display:block}
+      .section{
+        box-shadow:none;
+        break-inside:avoid;
+        border-color:#d9dde3;
+      }
+      details{break-inside:avoid}
+      details > div{display:block!important}
+      summary{list-style:none}
+      a{text-decoration:none}
+    }
+  </style>
+</head>
+<body>
+<div class="top-progress" id="progress"></div>
+
+<div class="shell">
+  <header class="hero">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow">Sensatia Botanicals · StockWizz · Meeting Notes</div>
+        <h1>B2B Credit Control &amp; Invoice Delivery</h1>
+        <p>
+          Hasil diskusi dengan Putu Mei — Accounting. Fokus meeting: credit term NET 30/45/60,
+          grace period, visibility outstanding/partial payment, automation email invoice &amp; faktur pajak,
+          serta monitoring invoice yang belum lengkap.
+        </p>
+      </div>
+      <div class="hero-meta">
+        <div class="meta-tile"><small>Tanggal</small><strong>21 Sep 2026</strong></div>
+        <div class="meta-tile"><small>Stakeholder</small><strong>Putu Mei · Accounting</strong></div>
+        <div class="meta-tile"><small>Area</small><strong>B2B Sales / Accounting</strong></div>
+        <div class="meta-tile"><small>Status</small><strong>Discovery → Requirement</strong></div>
+      </div>
+    </div>
+  </header>
+
+  <div class="toolbar">
+    <button class="btn primary" onclick="window.print()">Print / Save PDF</button>
+    <button class="btn" id="techToggle" onclick="toggleTech()">Hide Technical Notes</button>
+    <button class="btn" onclick="expandAll()">Expand All Details</button>
+    <button class="btn" onclick="collapseAll()">Collapse Details</button>
+  </div>
+
+  <nav class="mobile-nav">
+    <a href="#summary">Summary</a>
+    <a href="#point1">1. Credit Control</a>
+    <a href="#point2">2. Invoice Delivery</a>
+    <a href="#point3">3. Pending Invoice Filter</a>
+    <a href="#implementation">Implementation</a>
+    <a href="#open">Open Questions</a>
+  </nav>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <h3>Meeting Sections</h3>
+      <a class="nav-link" href="#summary">Executive Summary</a>
+      <a class="nav-link" href="#point1">1 · Credit Control</a>
+      <a class="nav-link" href="#point2">2 · Invoice &amp; Tax Delivery</a>
+      <a class="nav-link" href="#point3">3 · Pending Invoice Filter</a>
+      <a class="nav-link" href="#implementation">Implementation Breakdown</a>
+      <a class="nav-link" href="#open">Open Questions</a>
+      <a class="nav-link" href="#decision-register">Decision Register</a>
+
+      <div class="legend">
+        <div><span class="badge green">CONFIRMED</span> hasil meeting</div>
+        <div><span class="badge blue">RECOMMENDATION</span> technical direction</div>
+        <div><span class="badge purple">FUTURE</span> terpisah dari scope saat ini</div>
+        <div><span class="badge amber">OPEN</span> masih perlu keputusan</div>
+      </div>
+    </aside>
+
+    <main>
+      <section class="section" id="summary">
+        <div class="section-head">
+          <div>
+            <div class="kicker">Executive Summary</div>
+            <h2>Outcome utama meeting</h2>
+            <p class="lead">Tiga area utama sudah cukup jelas untuk masuk ke breakdown implementasi tanpa mengubah flow StockWizz secara besar-besaran.</p>
+          </div>
+          <span class="badge green">REQUIREMENT READY</span>
+        </div>
+
+        <div class="summary-grid">
+          <div class="summary-card">
+            <small>Credit Terms</small>
+            <strong>30 / 45 / 60</strong>
+            <small>Semua dihitung dari Invoice Date</small>
+          </div>
+          <div class="summary-card">
+            <small>Grace Period</small>
+            <strong>+15 Hari</strong>
+            <small>Setelah normal due date</small>
+          </div>
+          <div class="summary-card">
+            <small>Email Flows</small>
+            <strong>2</strong>
+            <small>Invoice &amp; Tax Invoice terpisah</small>
+          </div>
+          <div class="summary-card">
+            <small>Slack Notification</small>
+            <strong>Tidak Perlu</strong>
+            <small>Diganti filter di B2B Sales</small>
+          </div>
+        </div>
+
+        <div class="callout success">
+          <strong>Confirmed business direction</strong>
+          Jurnal.id tetap menjadi <b>accounting source of truth</b>. StockWizz dipakai untuk operational visibility, customer/order validation, document delivery, dan audit history berdasarkan data yang tetap diperbarui oleh Accounting.
+        </div>
+
+        <div class="decision-list">
+          <div class="decision">
+            <span class="badge green">CONFIRMED</span>
+            <div><b>Credit Control</b> mencakup NET 30 / 45 / 60 dengan grace period 15 hari.</div>
+          </div>
+          <div class="decision">
+            <span class="badge green">CONFIRMED</span>
+            <div><b>Invoice Email</b> dan <b>Tax Invoice Email</b> adalah dua proses delivery yang berbeda.</div>
+          </div>
+          <div class="decision">
+            <span class="badge green">CONFIRMED</span>
+            <div><b>Signed Invoice upload</b> menjadi trigger pengiriman Invoice Email.</div>
+          </div>
+          <div class="decision">
+            <span class="badge green">CONFIRMED</span>
+            <div><b>Tax Invoice</b> dikirim H+1 melalui cron job harian berdasarkan file tax yang sudah di-upload.</div>
+          </div>
+          <div class="decision">
+            <span class="badge green">CONFIRMED</span>
+            <div>Accounting cukup dibantu dengan <b>Pending Invoice Upload filter</b> di B2B Sales; Slack notification tidak diperlukan untuk current scope.</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="point1">
+        <div class="section-head">
+          <div>
+            <div class="kicker">Point 1</div>
+            <h2>Credit Control — NET 30 / 45 / 60</h2>
+            <p class="lead">Credit control dibuat visible langsung di halaman B2B Sales, tanpa module baru. Fokusnya adalah status yang mudah dibaca + behaviour yang tepat ketika Sales membuat order baru.</p>
+          </div>
+          <span class="badge green">CONFIRMED</span>
+        </div>
+
+        <h3>Source of Truth &amp; Date Calculation</h3>
+        <div class="grid-2">
+          <div class="mini-card">
+            <div class="label">Accounting Source of Truth</div>
+            <b>Jurnal.id</b>
+            <p class="lead">Accounting tetap melakukan update data invoice/payment yang dibutuhkan ke StockWizz.</p>
+          </div>
+          <div class="mini-card">
+            <div class="label">Base Date</div>
+            <b>Invoice Date</b>
+            <p class="lead">Bukan PO date, delivery date, maupun tanggal upload dokumen.</p>
+          </div>
+        </div>
+
+        <div class="formula">
+          <span class="token">Invoice Date</span>
+          <span class="op">+</span>
+          <span class="token">Credit Term (30 / 45 / 60)</span>
+          <span class="op">=</span>
+          <span class="token">Due Date</span>
+          <span class="op">+</span>
+          <span class="token">15 Hari Grace</span>
+          <span class="op">=</span>
+          <span class="token">Grace Deadline</span>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Credit Term</th>
+                <th>Normal Due Date</th>
+                <th>Grace Deadline</th>
+                <th>Total dari Invoice Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><b>NET 30</b></td><td>Invoice Date + 30 hari</td><td>Due Date + 15 hari</td><td><span class="badge blue">45 DAYS</span></td></tr>
+              <tr><td><b>NET 45</b></td><td>Invoice Date + 45 hari</td><td>Due Date + 15 hari</td><td><span class="badge blue">60 DAYS</span></td></tr>
+              <tr><td><b>NET 60</b></td><td>Invoice Date + 60 hari</td><td>Due Date + 15 hari</td><td><span class="badge blue">75 DAYS</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>B2B Sales — Filter &amp; Visual Status</h3>
+        <p class="lead">Cukup enrich existing B2B Sales page. Accounting/Sales tidak perlu masuk module terpisah.</p>
+
+        <div class="grid-3">
+          <div class="mini-card">
+            <div class="label">Filter</div>
+            <b>Outstanding</b>
+            <p class="lead">Menampilkan transaksi/customer yang masih memiliki payment exposure.</p>
+          </div>
+          <div class="mini-card">
+            <div class="label">Filter</div>
+            <b>Partial / Underpaid</b>
+            <p class="lead">Ada payment masuk, tetapi invoice belum fully settled.</p>
+          </div>
+          <div class="mini-card">
+            <div class="label">Filter</div>
+            <b>Overdue / Credit Block</b>
+            <p class="lead">Membedakan warning state dari blocking state.</p>
+          </div>
+        </div>
+
+        <div class="callout info">
+          <strong>Important distinction</strong>
+          <b>Amount Due &gt; 0 tidak otomatis berarti customer harus diblok.</b> Partial payment / kurang bayar harus terlihat jelas, tetapi order tetap dapat diproses kecuali customer sudah masuk state blocking.
+        </div>
+
+        <h3>New Order Behaviour by State</h3>
+        <div class="state-stack">
+          <div>Clear / Paid</div>
+          <div>Tidak ada payment issue</div>
+          <div><span class="badge green">ALLOW</span></div>
+
+          <div>Partial Payment / Underpaid</div>
+          <div>Popup warning + tampilkan remaining balance</div>
+          <div><span class="badge amber">WARN + ALLOW</span></div>
+
+          <div>Overdue — belum blocking</div>
+          <div>Popup warning berdasarkan state customer/invoice</div>
+          <div><span class="badge amber">WARN + ALLOW</span></div>
+
+          <div>Outstanding / Credit Block</div>
+          <div>Masih outstanding dan sudah memenuhi blocking rule setelah credit term + grace</div>
+          <div><span class="badge red">BLOCK</span></div>
+        </div>
+
+        <details class="tech-only">
+          <summary>Technical Recommendation — validation flow</summary>
+          <div>
+            <div class="callout info">
+              <strong>Recommendation, bukan business fact baru</strong>
+              UI boleh menampilkan badge/warning, tetapi validation terakhir sebaiknya tetap dilakukan di backend saat submit order agar rule tidak bisa dilewati hanya dari frontend.
+            </div>
+            <div class="flow">
+              <div class="flow-step"><b>Select Customer</b><span>Load credit term &amp; payment exposure</span></div>
+              <div class="flow-step"><b>Calculate State</b><span>Due date + grace + outstanding</span></div>
+              <div class="flow-step"><b>Show Popup</b><span>Warning atau blocking message</span></div>
+              <div class="flow-step"><b>Submit Order</b><span>Backend re-check state</span></div>
+              <div class="flow-step"><b>Allow / Block</b><span>Result berdasarkan latest data</span></div>
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <section class="section" id="point2">
+        <div class="section-head">
+          <div>
+            <div class="kicker">Point 2</div>
+            <h2>Invoice &amp; Faktur Pajak Delivery</h2>
+            <p class="lead">Satu invoice memiliki dua lifecycle email yang berbeda: Invoice Email dan Tax Invoice Email. Keduanya harus dapat dipantau dan di-resend secara independen.</p>
+          </div>
+          <span class="badge green">CONFIRMED</span>
+        </div>
+
+        <h3>Recipient — B2B Customer Master</h3>
+        <div class="grid-2">
+          <div class="mini-card">
+            <div class="label">Mandatory Recipient Data</div>
+            <b>Finance / Account Payable</b>
+            <ul class="clean">
+              <li>Finance / AP Contact Name</li>
+              <li><b>Finance / AP Email — mandatory</b></li>
+            </ul>
+          </div>
+          <div class="mini-card">
+            <div class="label">Separate Contact</div>
+            <b>Purchasing Contact</b>
+            <ul class="clean">
+              <li>Purchasing Contact Name</li>
+              <li>Purchasing Email</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="callout success">
+          <strong>Confirmed operational responsibility</strong>
+          Sales tetap wajib melengkapi informasi customer B2B. Untuk delivery Invoice dan Faktur Pajak, current direction adalah <b>Finance / Account Payable Email</b> sebagai recipient utama.
+        </div>
+
+        <h3>Flow A — Invoice Email</h3>
+        <p class="lead">Tambahkan upload baru di B2B Order/Invoice untuk <b>Signed Invoice / Final Invoice</b> yang sudah TTD + materai.</p>
+
+        <div class="flow">
+          <div class="flow-step"><b>Invoice Finalized</b><span>Accounting siapkan invoice final</span></div>
+          <div class="flow-step"><b>Upload Signed Invoice</b><span>TTD + materai</span></div>
+          <div class="flow-step"><b>Validate AP Email</b><span>Recipient customer</span></div>
+          <div class="flow-step"><b>Send Invoice Email</b><span>Trigger saat file di-upload</span></div>
+          <div class="flow-step"><b>Save History</b><span>Sent / Failed / Resend</span></div>
+        </div>
+
+        <div class="callout success">
+          <strong>Trigger Invoice Email</strong>
+          Upload <b>Signed Invoice File</b> menjadi trigger pengiriman Invoice Email.
+        </div>
+
+        <h3>Flow B — Tax Invoice Email</h3>
+        <p class="lead">Faktur pajak diterbitkan setelah barang diterima customer. File Tax Invoice di-upload ke StockWizz dan menjadi patokan readiness, tetapi email tidak dikirim langsung.</p>
+
+        <div class="flow">
+          <div class="flow-step"><b>Goods Received</b><span>Customer sudah menerima barang</span></div>
+          <div class="flow-step"><b>Tax File Uploaded</b><span>Upload ke StockWizz</span></div>
+          <div class="flow-step"><b>Pending H+1</b><span>Tunggu eligibility</span></div>
+          <div class="flow-step"><b>Daily Cron</b><span>Ambil eligible unsent invoices</span></div>
+          <div class="flow-step"><b>Send &amp; Log</b><span>Email tax + history</span></div>
+        </div>
+
+        <div class="callout info tech-only">
+          <strong>Technical safeguard</strong>
+          Cron sebaiknya mengambil <b>semua Tax Invoice yang sudah melewati H+1 dan belum successfully sent</b>, bukan hanya file yang upload date = kemarin. Ini mencegah dokumen hilang dari queue jika cron sempat gagal/down.
+        </div>
+
+        <h3>Email Delivery History — Invoice-Centric</h3>
+        <p class="lead">Page history lebih tepat berbentuk list invoice. Satu row = satu invoice, dengan status Invoice Email dan Tax Email yang terlihat bersamaan.</p>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Invoice</th>
+                <th>Customer</th>
+                <th>Invoice Date</th>
+                <th>Invoice Email</th>
+                <th>Tax Email</th>
+                <th>Last Activity</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><b>INV-00124</b></td>
+                <td>Customer A</td>
+                <td>21 Sep 2026</td>
+                <td><span class="badge green">SENT</span></td>
+                <td><span class="badge amber">PENDING H+1</span></td>
+                <td>21 Sep · 14:20</td>
+                <td>View</td>
+              </tr>
+              <tr>
+                <td><b>INV-00123</b></td>
+                <td>Customer B</td>
+                <td>20 Sep 2026</td>
+                <td><span class="badge amber">UPDATED AFTER SENT</span></td>
+                <td><span class="badge green">SENT</span></td>
+                <td>21 Sep · 09:10</td>
+                <td><b>Resend Invoice</b></td>
+              </tr>
+              <tr>
+                <td><b>INV-00122</b></td>
+                <td>Customer C</td>
+                <td>19 Sep 2026</td>
+                <td><span class="badge red">FAILED</span></td>
+                <td><span class="badge red">FAILED</span></td>
+                <td>20 Sep · 08:00</td>
+                <td><b>Retry</b></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Status yang perlu dipisahkan</h3>
+        <div class="grid-2">
+          <div class="mini-card">
+            <div class="label">Invoice Email</div>
+            <div style="display:flex;gap:7px;flex-wrap:wrap">
+              <span class="badge gray">NOT READY</span>
+              <span class="badge blue">PENDING</span>
+              <span class="badge green">SENT</span>
+              <span class="badge red">FAILED</span>
+              <span class="badge amber">UPDATED</span>
+              <span class="badge purple">RESENT</span>
+            </div>
+          </div>
+          <div class="mini-card">
+            <div class="label">Tax Email</div>
+            <div style="display:flex;gap:7px;flex-wrap:wrap">
+              <span class="badge gray">NOT READY</span>
+              <span class="badge amber">PENDING H+1</span>
+              <span class="badge green">SENT</span>
+              <span class="badge red">FAILED</span>
+              <span class="badge amber">UPDATED</span>
+              <span class="badge purple">RESENT</span>
+            </div>
+          </div>
+        </div>
+
+        <h3>Change Detection &amp; Resend</h3>
+        <div class="timeline">
+          <div class="t-item">
+            <b>Email sent successfully</b>
+            <small>History menyimpan recipient, file/version, timestamp, status.</small>
+          </div>
+          <div class="t-item">
+            <b>Data atau file berubah</b>
+            <small>Contoh: Signed Invoice diganti, Tax Invoice diganti, atau Finance/AP email berubah.</small>
+          </div>
+          <div class="t-item">
+            <b>System marks “Updated After Sent”</b>
+            <small>Tidak melakukan auto-resend.</small>
+          </div>
+          <div class="t-item">
+            <b>User clicks Resend</b>
+            <small>Resend Invoice dan Resend Tax Invoice tetap terpisah.</small>
+          </div>
+          <div class="t-item">
+            <b>Warning before resend</b>
+            <small>Beritahu bahwa dokumen sudah pernah dikirim dan tampilkan last sent info.</small>
+          </div>
+          <div class="t-item">
+            <b>New send attempt saved</b>
+            <small>History lama tidak dihapus; audit trail tetap utuh.</small>
+          </div>
+        </div>
+
+        <details>
+          <summary>Audit trail detail yang perlu disimpan</summary>
+          <div>
+            <ul class="clean">
+              <li>Invoice Number / Customer</li>
+              <li>Email Type: Invoice / Tax Invoice</li>
+              <li>Recipient email</li>
+              <li>Document/file reference atau version</li>
+              <li>Upload timestamp</li>
+              <li>Scheduled send date untuk Tax Invoice</li>
+              <li>Actual sent date &amp; time</li>
+              <li>Status: Pending / Sent / Failed / Resent</li>
+              <li>Error message jika gagal</li>
+              <li>Retry / resend count</li>
+              <li>User yang melakukan manual resend</li>
+            </ul>
+          </div>
+        </details>
+
+        <div class="callout future">
+          <strong>Future option — separate phase</strong>
+          Integrasi <b>Digital Signature / TTE + e-Meterai</b> dapat dievaluasi kemudian. Bukan bagian dari current development. Flow sekarang tetap:
+          <b>Accounting upload Signed + Stamped Invoice → trigger Invoice Email.</b>
+        </div>
+      </section>
+
+      <section class="section" id="point3">
+        <div class="section-head">
+          <div>
+            <div class="kicker">Point 3</div>
+            <h2>B2B Sales — Pending Invoice Upload Filter</h2>
+            <p class="lead">Original idea “PO Tracker &amp; Slack Notification” disederhanakan. Accounting cukup membutuhkan visibility yang jelas di existing B2B Sales page.</p>
+          </div>
+          <span class="badge green">SCOPE SIMPLIFIED</span>
+        </div>
+
+        <div class="callout warning">
+          <strong>Scope change</strong>
+          <b>Tidak perlu Slack Notification</b> untuk current scope. Tidak perlu standalone tracker baru. Fokus ke filter existing B2B Sales.
+        </div>
+
+        <div class="formula">
+          <span class="token">Delivery Memo File = Uploaded</span>
+          <span class="op">AND</span>
+          <span class="token">Signed Invoice File = Not Uploaded</span>
+          <span class="op">→</span>
+          <span class="token">Pending Invoice Upload</span>
+        </div>
+
+        <div class="grid-3">
+          <div class="mini-card">
+            <div class="label">Filter Name</div>
+            <b>Pending Invoice Upload</b>
+          </div>
+          <div class="mini-card">
+            <div class="label">Visible Indicator</div>
+            <b>Delivery Memo ✓</b><br>
+            <span class="badge amber" style="margin-top:6px">INVOICE FILE PENDING</span>
+          </div>
+          <div class="mini-card">
+            <div class="label">Exit Condition</div>
+            <b>Signed Invoice Uploaded</b>
+            <p class="lead">Row otomatis tidak lagi masuk filter.</p>
+          </div>
+        </div>
+
+        <p class="lead" style="margin-top:15px">
+          Tujuan utamanya: Accounting bisa langsung melihat invoice/order yang secara delivery sudah berjalan,
+          tetapi file invoice final yang sudah TTD + materai belum tersedia.
+        </p>
+      </section>
+
+      <section class="section" id="implementation">
+        <div class="section-head">
+          <div>
+            <div class="kicker">Implementation</div>
+            <h2>Breakdown Scope</h2>
+            <p class="lead">Urutan ini adalah technical implementation direction, bukan perubahan baru terhadap business requirement.</p>
+          </div>
+          <span class="badge blue">RECOMMENDATION</span>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Area</th>
+                <th>Scope</th>
+                <th>Direction</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><b>Credit Control</b></td>
+                <td>NET 30/45/60, grace 15d, filter/badge, popup warning &amp; blocking</td>
+                <td><span class="badge red">HIGH</span></td>
+              </tr>
+              <tr>
+                <td><b>B2B Customer Master</b></td>
+                <td>Mandatory Finance/AP contact &amp; email</td>
+                <td><span class="badge red">HIGH</span></td>
+              </tr>
+              <tr>
+                <td><b>Signed Invoice Upload</b></td>
+                <td>Upload file invoice final + trigger Invoice Email</td>
+                <td><span class="badge red">HIGH</span></td>
+              </tr>
+              <tr>
+                <td><b>Tax Invoice Cron</b></td>
+                <td>Daily H+1 eligible unsent processing</td>
+                <td><span class="badge red">HIGH</span></td>
+              </tr>
+              <tr>
+                <td><b>Email Delivery History</b></td>
+                <td>Invoice-centric list, status, resend, retry, changed-after-sent, audit trail</td>
+                <td><span class="badge red">HIGH</span></td>
+              </tr>
+              <tr>
+                <td><b>Pending Invoice Filter</b></td>
+                <td>Delivery Memo uploaded + Signed Invoice missing</td>
+                <td><span class="badge blue">MEDIUM</span></td>
+              </tr>
+              <tr>
+                <td><b>TTE / e-Meterai</b></td>
+                <td>Optional provider integration</td>
+                <td><span class="badge purple">FUTURE</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <details class="tech-only">
+          <summary>Suggested technical data model — recommendation</summary>
+          <div>
+            <div class="callout info">
+              <strong>Technical recommendation only</strong>
+              Field names berikut adalah arah desain, bukan nama schema final.
+            </div>
+            <div class="grid-2">
+              <div class="mini-card">
+                <div class="label">Customer</div>
+                <ul class="clean">
+                  <li>finance_ap_name</li>
+                  <li>finance_ap_email</li>
+                  <li>purchasing_name</li>
+                  <li>purchasing_email</li>
+                  <li>credit_term_days</li>
+                </ul>
+              </div>
+              <div class="mini-card">
+                <div class="label">Invoice / Delivery</div>
+                <ul class="clean">
+                  <li>signed_invoice_file</li>
+                  <li>signed_invoice_uploaded_at</li>
+                  <li>tax_invoice_file</li>
+                  <li>tax_invoice_uploaded_at</li>
+                  <li>invoice_email_state</li>
+                  <li>tax_email_state</li>
+                </ul>
+              </div>
+            </div>
+            <div class="mini-card" style="margin-top:12px">
+              <div class="label">Email Delivery Log</div>
+              <p class="lead">
+                Simpan setiap send attempt sebagai record baru: invoice, email type, recipient,
+                file/version, status, sent_at, error, retry/resend metadata, triggered_by, dan created_at.
+                Jangan overwrite history lama saat resend.
+              </p>
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <section class="section" id="open">
+        <div class="section-head">
+          <div>
+            <div class="kicker">Open Questions</div>
+            <h2>Hal yang masih perlu dikunci sebelum development final</h2>
+          </div>
+          <span class="badge amber">OPEN</span>
+        </div>
+
+        <div class="decision-list">
+          <div class="decision">
+            <span class="badge amber">OPEN</span>
+            <div><b>Jam eksekusi daily Tax Invoice cron job.</b></div>
+          </div>
+          <div class="decision">
+            <span class="badge amber">OPEN</span>
+            <div><b>Apakah Purchasing Email perlu otomatis di-CC</b> saat Invoice / Tax Invoice dikirim.</div>
+          </div>
+          <div class="decision">
+            <span class="badge amber">OPEN</span>
+            <div><b>Final email subject &amp; body template</b> untuk Invoice Email dan Tax Invoice Email.</div>
+          </div>
+          <div class="decision">
+            <span class="badge amber">OPEN</span>
+            <div><b>Role yang boleh manual resend</b> dan apakah resend wajib mengisi alasan.</div>
+          </div>
+          <div class="decision">
+            <span class="badge amber">OPEN</span>
+            <div><b>Retry policy</b> ketika email provider gagal.</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="decision-register">
+        <div class="section-head">
+          <div>
+            <div class="kicker">Decision Register</div>
+            <h2>Confirmed vs Recommendation vs Future</h2>
+            <p class="lead">Bagian ini menjaga agar hasil meeting tidak tercampur dengan technical recommendation.</p>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Classification</th>
+                <th>Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>NET 30 / 45 / 60</td><td><span class="badge green">CONFIRMED</span></td><td>Applicable credit terms</td></tr>
+              <tr><td>Invoice Date as base date</td><td><span class="badge green">CONFIRMED</span></td><td>Due date calculation</td></tr>
+              <tr><td>Grace period 15 days</td><td><span class="badge green">CONFIRMED</span></td><td>After normal due date</td></tr>
+              <tr><td>Jurnal.id source of truth</td><td><span class="badge green">CONFIRMED</span></td><td>Accounting source of truth</td></tr>
+              <tr><td>Partial / underpaid can continue</td><td><span class="badge green">CONFIRMED</span></td><td>Warning required</td></tr>
+              <tr><td>Credit Block prevents order</td><td><span class="badge green">CONFIRMED</span></td><td>Blocking state only</td></tr>
+              <tr><td>Finance/AP email mandatory</td><td><span class="badge green">CONFIRMED</span></td><td>Primary recipient direction</td></tr>
+              <tr><td>Signed Invoice upload triggers email</td><td><span class="badge green">CONFIRMED</span></td><td>Invoice Email</td></tr>
+              <tr><td>Tax email H+1 daily cron</td><td><span class="badge green">CONFIRMED</span></td><td>Tax Invoice Email</td></tr>
+              <tr><td>Invoice-centric Delivery History</td><td><span class="badge green">CONFIRMED</span></td><td>Status + resend + audit trail</td></tr>
+              <tr><td>No Slack notification</td><td><span class="badge green">CONFIRMED</span></td><td>Use B2B Sales filter</td></tr>
+              <tr><td>Backend re-validation</td><td><span class="badge blue">RECOMMENDATION</span></td><td>Technical enforcement</td></tr>
+              <tr><td>Cron queries eligible + unsent</td><td><span class="badge blue">RECOMMENDATION</span></td><td>Protect against missed jobs</td></tr>
+              <tr><td>Digital Signature / e-Meterai</td><td><span class="badge purple">FUTURE</span></td><td>Separate project/phase</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <div class="footer">
+        Meeting Notes · Putu Mei — Accounting · 21 September 2026 · Sensatia Botanicals / StockWizz
+      </div>
+    </main>
+  </div>
+</div>
+
+<script>
+  const sections = [...document.querySelectorAll('section[id]')];
+  const navLinks = [...document.querySelectorAll('.nav-link')];
+
+  function updateProgress(){
+    const doc = document.documentElement;
+    const max = doc.scrollHeight - doc.clientHeight;
+    const pct = max > 0 ? (doc.scrollTop / max) * 100 : 0;
+    document.getElementById('progress').style.width = pct + '%';
+  }
+
+  function updateActiveNav(){
+    let current = sections[0]?.id;
+    const y = window.scrollY + 120;
+    for(const s of sections){
+      if(s.offsetTop <= y) current = s.id;
+    }
+    navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + current));
+  }
+
+  function toggleTech(){
+    document.body.classList.toggle('hide-tech');
+    const hidden = document.body.classList.contains('hide-tech');
+    document.getElementById('techToggle').textContent = hidden ? 'Show Technical Notes' : 'Hide Technical Notes';
+  }
+
+  function expandAll(){
+    document.querySelectorAll('details').forEach(d => d.open = true);
+  }
+
+  function collapseAll(){
+    document.querySelectorAll('details').forEach(d => d.open = false);
+  }
+
+  addEventListener('scroll', () => { updateProgress(); updateActiveNav(); }, {passive:true});
+  updateProgress();
+  updateActiveNav();
+</script>
+</body>
+</html>

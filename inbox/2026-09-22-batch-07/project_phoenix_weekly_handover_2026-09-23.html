@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Project Phoenix Weekly Knowledge Transfer #1 — Widi × Colin, 23 September 2026" />
+  <title>Project Phoenix — Weekly Handover #1</title>
+  <style>
+    :root{
+      --ink:#202720;
+      --ink-soft:#556057;
+      --forest:#3f5643;
+      --forest-deep:#2d3d31;
+      --sage:#9aaa91;
+      --sage-soft:#dfe6db;
+      --ivory:#f7f4ed;
+      --paper:#fffdf8;
+      --sand:#eae2d4;
+      --clay:#b67b5f;
+      --clay-soft:#f0dfd4;
+      --gold:#b49b66;
+      --line:rgba(32,39,32,.12);
+      --shadow:0 20px 60px rgba(43,54,44,.09);
+      --radius:22px;
+      --radius-sm:14px;
+      --max:1220px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      background:
+        radial-gradient(circle at 90% 3%, rgba(154,170,145,.18), transparent 28rem),
+        radial-gradient(circle at 5% 25%, rgba(234,226,212,.7), transparent 30rem),
+        var(--ivory);
+      color:var(--ink);
+      font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height:1.58;
+      letter-spacing:-.01em;
+    }
+
+    a{color:inherit}
+    button,input,textarea{font:inherit}
+
+    .topbar{
+      position:sticky; top:0; z-index:40;
+      backdrop-filter:blur(18px);
+      background:rgba(247,244,237,.86);
+      border-bottom:1px solid rgba(32,39,32,.08);
+    }
+    .topbar-inner{
+      max-width:var(--max); margin:auto; min-height:76px;
+      display:flex; align-items:center; justify-content:space-between; gap:24px;
+      padding:12px 28px;
+    }
+    .brand{display:flex;align-items:center;gap:14px;min-width:0}
+    .brand img{width:138px;max-height:42px;object-fit:contain;display:block}
+    .brand-fallback{display:none;font-family:Georgia,serif;font-size:24px;letter-spacing:.05em}
+    .brand-sep{width:1px;height:30px;background:var(--line)}
+    .brand-label{font-size:12px;text-transform:uppercase;letter-spacing:.13em;color:var(--ink-soft);white-space:nowrap}
+    .top-actions{display:flex;align-items:center;gap:10px}
+    .btn{
+      border:1px solid var(--line); background:rgba(255,253,248,.78); color:var(--ink);
+      border-radius:999px; padding:10px 15px; cursor:pointer; transition:.18s ease;
+      font-size:13px; font-weight:650;
+    }
+    .btn:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(43,54,44,.08)}
+    .btn.primary{background:var(--forest);border-color:var(--forest);color:white}
+
+    .shell{max-width:var(--max);margin:auto;padding:36px 28px 80px}
+
+    .hero{
+      position:relative; overflow:hidden;
+      border:1px solid var(--line); border-radius:34px;
+      background:linear-gradient(135deg, rgba(255,253,248,.96), rgba(234,226,212,.78));
+      box-shadow:var(--shadow); padding:56px 56px 44px;
+    }
+    .hero:before,.hero:after{content:"";position:absolute;border-radius:50%;pointer-events:none}
+    .hero:before{width:340px;height:340px;right:-105px;top:-150px;border:1px solid rgba(63,86,67,.18)}
+    .hero:after{width:210px;height:210px;right:18px;top:-86px;background:rgba(154,170,145,.11)}
+    .kicker{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.16em;color:var(--forest);margin-bottom:16px}
+    h1,h2,h3,h4{margin:0;line-height:1.08;letter-spacing:-.035em}
+    h1{font-family:Georgia,"Times New Roman",serif;font-weight:500;font-size:clamp(42px,6vw,76px);max-width:900px}
+    .hero-sub{max-width:760px;font-size:18px;color:var(--ink-soft);margin:22px 0 0}
+    .meta-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+    .pill{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(63,86,67,.15);background:rgba(255,253,248,.75);border-radius:999px;padding:9px 13px;font-size:13px;color:var(--ink-soft)}
+    .dot{width:8px;height:8px;background:var(--forest);border-radius:50%;display:inline-block}
+    .hero-foot{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:36px;padding-top:26px;border-top:1px solid var(--line)}
+    .hero-note{font-size:14px;color:var(--ink-soft)}
+    .hero-note strong{color:var(--ink)}
+
+    .layout{display:grid;grid-template-columns:230px minmax(0,1fr);gap:34px;margin-top:34px}
+    .nav-card{position:sticky;top:102px;align-self:start;border:1px solid var(--line);border-radius:20px;background:rgba(255,253,248,.72);padding:15px;box-shadow:0 12px 34px rgba(43,54,44,.05)}
+    .nav-title{font-size:11px;text-transform:uppercase;letter-spacing:.14em;color:var(--ink-soft);font-weight:800;padding:7px 8px 9px}
+    .nav-card a{display:flex;gap:10px;align-items:center;text-decoration:none;padding:10px 10px;border-radius:11px;font-size:13px;color:var(--ink-soft);transition:.15s ease}
+    .nav-card a:hover{background:var(--sage-soft);color:var(--forest-deep)}
+    .nav-num{font-size:10px;color:var(--sage);width:18px;font-variant-numeric:tabular-nums}
+
+    main{min-width:0}
+    section{scroll-margin-top:106px;margin-bottom:26px}
+    .section-card{border:1px solid var(--line);background:rgba(255,253,248,.86);border-radius:var(--radius);padding:32px;box-shadow:0 12px 34px rgba(43,54,44,.045)}
+    .section-head{display:flex;justify-content:space-between;gap:24px;align-items:flex-end;margin-bottom:22px}
+    .eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:.14em;color:var(--forest);font-weight:800;margin-bottom:9px}
+    h2{font-size:32px;font-weight:650}
+    .section-intro{color:var(--ink-soft);max-width:720px;font-size:15px;margin:10px 0 0}
+
+    .focus-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+    .focus-card{position:relative;border:1px solid var(--line);background:var(--paper);border-radius:18px;padding:22px;min-height:190px;overflow:hidden}
+    .focus-card:after{content:"";position:absolute;width:96px;height:96px;border-radius:50%;right:-36px;top:-38px;background:var(--sage-soft);opacity:.8}
+    .focus-no{font-size:12px;font-weight:800;color:var(--forest);letter-spacing:.12em;text-transform:uppercase}
+    .focus-card h3{font-size:21px;margin-top:20px;margin-bottom:9px}
+    .focus-card p{margin:0;color:var(--ink-soft);font-size:14px}
+    .focus-tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:18px}
+    .tag{font-size:11px;border-radius:999px;padding:6px 9px;background:var(--ivory);color:var(--ink-soft);border:1px solid var(--line)}
+
+    .evidence-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+    .metric{border-radius:16px;padding:19px;background:linear-gradient(155deg,var(--forest-deep),var(--forest));color:white;min-height:132px}
+    .metric:nth-child(2){background:linear-gradient(155deg,#71654e,#927c5c)}
+    .metric:nth-child(3){background:linear-gradient(155deg,#6d7765,#89937f)}
+    .metric:nth-child(4){background:linear-gradient(155deg,#8c604f,#b67b5f)}
+    .metric-label{font-size:11px;opacity:.72;text-transform:uppercase;letter-spacing:.12em}
+    .metric-value{font-family:Georgia,serif;font-size:30px;margin-top:12px}
+    .metric-note{font-size:12px;opacity:.8;margin-top:6px}
+
+    .outcomes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+    .checkline{display:flex;gap:12px;align-items:flex-start;padding:14px 15px;border-radius:14px;background:var(--ivory);border:1px solid rgba(32,39,32,.07)}
+    .checkline input{margin-top:3px;accent-color:var(--forest);width:17px;height:17px}
+    .checkline span{font-size:14px}
+
+    .segmented{display:inline-flex;border:1px solid var(--line);background:var(--ivory);border-radius:999px;padding:4px;gap:4px}
+    .segmented button{border:0;background:transparent;border-radius:999px;padding:8px 13px;font-size:12px;font-weight:750;color:var(--ink-soft);cursor:pointer}
+    .segmented button.active{background:var(--forest);color:white;box-shadow:0 4px 12px rgba(63,86,67,.18)}
+
+    .timeline{position:relative;margin-top:10px}
+    .timeline:before{content:"";position:absolute;left:22px;top:10px;bottom:10px;width:1px;background:var(--line)}
+    .agenda-item{position:relative;display:grid;grid-template-columns:46px minmax(0,1fr);gap:18px;padding:12px 0}
+    .agenda-dot{width:46px;height:46px;border-radius:50%;background:var(--paper);border:1px solid rgba(63,86,67,.22);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:850;color:var(--forest);z-index:1}
+    .agenda-body{border:1px solid var(--line);background:var(--paper);border-radius:16px;padding:18px 20px}
+    .agenda-top{display:flex;justify-content:space-between;gap:16px;align-items:center}
+    .agenda-title{font-weight:760;font-size:16px}
+    .agenda-time{font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--forest);white-space:nowrap}
+    .agenda-body p{margin:8px 0 0;color:var(--ink-soft);font-size:13.5px}
+    .deliverable{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);font-size:12.5px;color:var(--ink-soft)}
+    .deliverable strong{color:var(--ink)}
+    [data-extended="true"]{display:none}
+    body.show-extended [data-extended="true"]{display:grid}
+
+    .accordion{border-top:1px solid var(--line)}
+    details{border-bottom:1px solid var(--line);padding:0}
+    summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 0;font-weight:720}
+    summary::-webkit-details-marker{display:none}
+    summary:after{content:"+";width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:1px solid var(--line);color:var(--forest);font-size:18px;line-height:1}
+    details[open] summary:after{content:"−"}
+    details ul{margin:0 0 20px;padding-left:20px;color:var(--ink-soft)}
+    details li{margin:8px 0}
+
+    .workstreams{width:100%;border-collapse:separate;border-spacing:0;overflow:hidden;border:1px solid var(--line);border-radius:16px;background:var(--paper)}
+    .workstreams th,.workstreams td{text-align:left;padding:14px 14px;border-bottom:1px solid var(--line);vertical-align:top;font-size:13px}
+    .workstreams th{font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-soft);background:var(--ivory)}
+    .workstreams tr:last-child td{border-bottom:0}
+    .status{display:inline-flex;border-radius:999px;padding:5px 9px;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;background:var(--sage-soft);color:var(--forest-deep)}
+    .status.todo{background:var(--clay-soft);color:#7a4b38}
+
+    .demo-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+    .demo{border:1px solid var(--line);border-radius:16px;padding:18px;background:var(--paper)}
+    .demo-label{font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--forest);font-weight:800}
+    .demo h4{font-size:16px;margin:8px 0}
+    .demo p{font-size:13px;color:var(--ink-soft);margin:0}
+
+    .reverse{
+      border-radius:20px;background:var(--forest-deep);color:white;padding:28px;position:relative;overflow:hidden
+    }
+    .reverse:after{content:"";position:absolute;width:240px;height:240px;border:1px solid rgba(255,255,255,.12);border-radius:50%;right:-90px;top:-90px}
+    .reverse .eyebrow{color:#cdd7c8}
+    .reverse h2{max-width:650px}
+    .reverse p{color:rgba(255,255,255,.74);max-width:760px}
+    .reverse-fields{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:20px;position:relative;z-index:2}
+    .reverse-field{border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.06);border-radius:14px;padding:14px}
+    .reverse-field label{font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.6);display:block;margin-bottom:6px}
+    .editable-dark{min-height:26px;outline:0;color:white;font-size:13px}
+    .editable-dark:empty:before{content:attr(data-placeholder);color:rgba(255,255,255,.35)}
+
+    .notes-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .notes-box{border:1px solid var(--line);background:var(--paper);border-radius:16px;padding:18px}
+    .notes-box h4{font-size:14px;margin-bottom:10px}
+    .editable{min-height:150px;border-radius:12px;background:var(--ivory);border:1px dashed rgba(63,86,67,.25);padding:14px;outline:0;font-size:13px;color:var(--ink-soft);white-space:pre-wrap}
+    .editable:focus{border-style:solid;border-color:var(--sage);box-shadow:0 0 0 3px rgba(154,170,145,.12)}
+    .editable:empty:before{content:attr(data-placeholder);color:#9a9f9a}
+    .save-indicator{display:flex;justify-content:flex-end;gap:7px;align-items:center;margin-top:9px;font-size:11px;color:var(--ink-soft)}
+    .save-dot{width:7px;height:7px;border-radius:50%;background:var(--sage)}
+
+    .callout{border-radius:18px;padding:22px;background:linear-gradient(135deg,var(--sage-soft),rgba(255,253,248,.9));border:1px solid rgba(63,86,67,.12)}
+    .callout strong{color:var(--forest-deep)}
+
+    .refs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+    .ref{display:flex;justify-content:space-between;gap:12px;text-decoration:none;padding:13px 14px;border:1px solid var(--line);border-radius:13px;background:var(--paper);font-size:12.5px;transition:.15s ease}
+    .ref:hover{border-color:rgba(63,86,67,.3);transform:translateY(-1px)}
+    .ref small{color:var(--ink-soft)}
+
+    footer{padding:32px 6px 0;color:var(--ink-soft);font-size:11px;display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}
+
+    @media (max-width: 980px){
+      .layout{grid-template-columns:1fr}
+      .nav-card{position:relative;top:auto;display:none}
+      .hero{padding:42px 32px 32px}
+      .evidence-strip{grid-template-columns:1fr 1fr}
+      .topbar-inner{padding-inline:18px}
+    }
+    @media (max-width: 700px){
+      .shell{padding:20px 14px 50px}
+      .hero{border-radius:24px;padding:34px 22px 26px}
+      h1{font-size:43px}
+      .hero-sub{font-size:16px}
+      .hero-foot,.focus-grid,.outcomes,.demo-grid,.notes-grid,.reverse-fields,.refs{grid-template-columns:1fr}
+      .evidence-strip{grid-template-columns:1fr 1fr}
+      .section-card{padding:24px 18px}
+      .section-head{align-items:flex-start;flex-direction:column}
+      h2{font-size:28px}
+      .brand-label,.brand-sep{display:none}
+      .brand img{width:120px}
+      .top-actions .btn:not(.primary){display:none}
+      .workstreams{display:block;overflow:auto}
+    }
+    @media print{
+      .topbar,.nav-card,.top-actions,.segmented,.save-indicator{display:none!important}
+      body{background:white}
+      .shell{max-width:none;padding:0}
+      .hero,.section-card{box-shadow:none;break-inside:avoid}
+      .layout{display:block;margin-top:20px}
+      section{break-inside:auto}
+      [data-extended="true"]{display:grid!important}
+      .editable,.editable-dark{min-height:60px}
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <img src="/sensatia-logo.svg" alt="Sensatia" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" />
+        <span class="brand-fallback">sensatia</span>
+        <span class="brand-sep"></span>
+        <span class="brand-label">Project Phoenix</span>
+      </div>
+      <div class="top-actions">
+        <button class="btn" onclick="window.print()">Print / PDF</button>
+        <a class="btn primary" href="https://widhysensatia.atlassian.net/wiki/spaces/SENS/pages/20676640/Project+Phoenix+Weekly+KT+1+Colin+Widi+23+September+2026" target="_blank" rel="noreferrer">Open Confluence ↗</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="shell">
+    <section class="hero" id="overview">
+      <div class="kicker">Project Phoenix · Weekly Knowledge Transfer #01</div>
+      <h1>Handover that turns knowledge into capability.</h1>
+      <p class="hero-sub">Widi × Colin — first weekly handover session focused on current production reality, active work, and the knowledge that must stop being Colin-dependent.</p>
+      <div class="meta-row">
+        <span class="pill"><span class="dot"></span> 23 September 2026</span>
+        <span class="pill">Widi + Colin</span>
+        <span class="pill">Slack Huddle / Zoom</span>
+        <span class="pill">Screen sharing required</span>
+      </div>
+      <div class="hero-foot">
+        <div class="hero-note"><strong>Primary objective</strong><br>Move a small number of critical areas from <em>Planned</em> toward <em>Explained / Documented / Practiced</em>.</div>
+        <div class="hero-note"><strong>Working principle</strong><br>Widi increasingly does & learns; Colin explains, reviews, validates, and reduces routine implementation.</div>
+      </div>
+    </section>
+
+    <div class="layout">
+      <aside class="nav-card">
+        <div class="nav-title">Session Guide</div>
+        <a href="#priorities"><span class="nav-num">01</span>Focus areas</a>
+        <a href="#evidence"><span class="nav-num">02</span>Evidence snapshot</a>
+        <a href="#outcomes"><span class="nav-num">03</span>Success criteria</a>
+        <a href="#agenda"><span class="nav-num">04</span>Agenda</a>
+        <a href="#questions"><span class="nav-num">05</span>Questions for Colin</a>
+        <a href="#hands-on"><span class="nav-num">06</span>Screen-share tasks</a>
+        <a href="#workstreams"><span class="nav-num">07</span>Current work</a>
+        <a href="#reverse"><span class="nav-num">08</span>Reverse handover</a>
+        <a href="#notes"><span class="nav-num">09</span>Live notes</a>
+        <a href="#references"><span class="nav-num">10</span>References</a>
+      </aside>
+
+      <main>
+        <section id="priorities" class="section-card">
+          <div class="section-head">
+            <div>
+              <div class="eyebrow">What matters tomorrow</div>
+              <h2>Four priorities. No handover theatre.</h2>
+              <p class="section-intro">Do not try to cover the entire six-month handover in one meeting. Use the first session to establish a reliable technical baseline and create a clear next practice step.</p>
+            </div>
+          </div>
+
+          <div class="focus-grid">
+            <article class="focus-card">
+              <div class="focus-no">Priority 01</div>
+              <h3>System landscape & StockWizz architecture</h3>
+              <p>Confirm the actual repositories, production source, frontend/backend boundaries, MongoDB, background jobs, environment map, and active vs legacy components.</p>
+              <div class="focus-tags"><span class="tag">SENS-158</span><span class="tag">SENS-159</span><span class="tag">Architecture</span></div>
+            </article>
+            <article class="focus-card">
+              <div class="focus-no">Priority 02</div>
+              <h3>Actual deploy, release & rollback flow</h3>
+              <p>Use the 22 Sep production release as evidence. Learn the exact repo/branch, deploy mechanism, environment handling, Better Stack checks, and real rollback path.</p>
+              <div class="focus-tags"><span class="tag">22 Sep release</span><span class="tag">Reverse handover</span><span class="tag">Runbook</span></div>
+            </article>
+            <article class="focus-card">
+              <div class="focus-no">Priority 03</div>
+              <h3>Jubelio integration & reliability</h3>
+              <p>Trace delta adjustment and the sales/order webhook, then clarify idempotency, retries, reconciliation, warehouse assignment, cancel/return/refund, and credential ownership.</p>
+              <div class="focus-tags"><span class="tag">SENS-56</span><span class="tag">SENS-145</span><span class="tag">SENS-149</span></div>
+            </article>
+            <article class="focus-card">
+              <div class="focus-no">Priority 04</div>
+              <h3>Accounting as hands-on development</h3>
+              <p>Widi presents the Putu Mei requirements and implementation direction. Colin reviews code touchpoints, data rules, cron/email approach, and safety before Sandbox.</p>
+              <div class="focus-tags"><span class="tag">SENS-151</span><span class="tag">SENS-152–155</span><span class="tag">Review</span></div>
+            </article>
+          </div>
+        </section>
+
+        <section id="evidence" class="section-card">
+          <div class="section-head">
+            <div>
+              <div class="eyebrow">Audit snapshot</div>
+              <h2>Why these topics come first</h2>
+            </div>
+          </div>
+          <div class="evidence-strip">
+            <div class="metric"><div class="metric-label">Phoenix baseline</div><div class="metric-value">6+</div><div class="metric-note">core baseline / access / recovery Jira items still open or To Do</div></div>
+            <div class="metric"><div class="metric-label">KT Tracker</div><div class="metric-value">Planned</div><div class="metric-note">all core handover domains are still at the starting state in Notion</div></div>
+            <div class="metric"><div class="metric-label">Critical gaps</div><div class="metric-value">Access</div><div class="metric-note">hosting, CMS, DNS/SSL, credentials, restore and system landscape still need Colin input</div></div>
+            <div class="metric"><div class="metric-label">Live work</div><div class="metric-value">2× P0</div><div class="metric-note">Project Phoenix handover + Jubelio / E-Commerce remain the strongest operational priorities</div></div>
+          </div>
+          <div class="callout" style="margin-top:16px">
+            <strong>Important:</strong> the goal is not to mark topics “done” because they were discussed. The handover model is <strong>Explained → Documented → Access Ready → Practiced → Verified</strong>.
+          </div>
+        </section>
+
+        <section id="outcomes" class="section-card">
+          <div class="section-head">
+            <div>
+              <div class="eyebrow">End-of-session target</div>
+              <h2>Leave with evidence, not just notes.</h2>
+            </div>
+          </div>
+          <div class="outcomes">
+            <label class="checkline"><input type="checkbox" data-persist="outcome-1"><span>Verified first-pass map of active StockWizz architecture and system boundaries.</span></label>
+            <label class="checkline"><input type="checkbox" data-persist="outcome-2"><span>Actual deployment / release flow documented from Colin's current process.</span></label>
+            <label class="checkline"><input type="checkbox" data-persist="outcome-3"><span>Concrete list of access / MFA / recovery dependencies still tied to Colin.</span></label>
+            <label class="checkline"><input type="checkbox" data-persist="outcome-4"><span>Jubelio production/pilot boundary and key reliability risks clarified.</span></label>
+            <label class="checkline"><input type="checkbox" data-persist="outcome-5"><span>Colin review direction for Accounting / Putu Mei implementation.</span></label>
+            <label class="checkline"><input type="checkbox" data-persist="outcome-6"><span>One reverse-handover task selected for Widi to perform.</span></label>
+            <label class="checkline"><input type="checkbox" data-persist="outcome-7"><span>Next KT topic agreed with owner + target date for unresolved questions.</span></label>
+          </div>
+        </section>
+
+        <section id="agenda" class="section-card">
+          <div class="section-head">
+            <div>
+              <div class="eyebrow">Meeting flow</div>
+              <h2>Recommended agenda</h2>
+              <p class="section-intro">Use the 60-minute core if the invite is short. If you have the full two hours, continue into Jubelio and Accounting hands-on review.</p>
+            </div>
+            <div class="segmented" aria-label="Agenda length">
+              <button id="coreBtn" class="active" onclick="setAgenda(false)">Core 60m</button>
+              <button id="extendedBtn" onclick="setAgenda(true)">Full 120m</button>
+            </div>
+          </div>
+
+          <div class="timeline">
+            <div class="agenda-item">
+              <div class="agenda-dot">01</div>
+              <div class="agenda-body"><div class="agenda-top"><div class="agenda-title">Handover status & September baseline</div><div class="agenda-time">~10 min</div></div><p>Confirm what is genuinely transferred, what is only explained, and what still depends on Colin.</p><div class="deliverable"><strong>Capture:</strong> top 3–5 September gaps and current evidence state.</div></div>
+            </div>
+            <div class="agenda-item">
+              <div class="agenda-dot">02</div>
+              <div class="agenda-body"><div class="agenda-top"><div class="agenda-title">System landscape + StockWizz architecture</div><div class="agenda-time">~20 min</div></div><p>Walk the real applications, repos, production source, frontend/API/MongoDB/jobs/integrations and active/legacy/deprecated boundaries.</p><div class="deliverable"><strong>Capture:</strong> inputs for SENS-158 / SENS-159 and system registry.</div></div>
+            </div>
+            <div class="agenda-item">
+              <div class="agenda-dot">03</div>
+              <div class="agenda-body"><div class="agenda-top"><div class="agenda-title">Actual deployment / release / rollback</div><div class="agenda-time">~20 min</div></div><p>Reconstruct the 22 Sep production release: branch, build/deploy, environment variables, checks, Better Stack, service restart, rollback.</p><div class="deliverable"><strong>Capture:</strong> verified deploy flow + reverse-handover candidate.</div></div>
+            </div>
+            <div class="agenda-item">
+              <div class="agenda-dot">04</div>
+              <div class="agenda-body"><div class="agenda-top"><div class="agenda-title">Access, MFA & recovery dependencies</div><div class="agenda-time">~10 min</div></div><p>Identify GitHub, hosting, DB, domain/DNS, Better Stack and provider accounts still personally dependent on Colin. Record references, never secrets.</p><div class="deliverable"><strong>Capture:</strong> owner + recovery/transfer action per gap.</div></div>
+            </div>
+
+            <div class="agenda-item" data-extended="true">
+              <div class="agenda-dot">05</div>
+              <div class="agenda-body"><div class="agenda-top"><div class="agenda-title">Jubelio integration deep dive</div><div class="agenda-time">~20 min</div></div><p>Trace StockWizz → Jubelio delta adjustment and Jubelio → StockWizz sales/order webhook. Review status handling, duplicates, retries, reconciliation, warehouse routing and failure recovery.</p><div class="deliverable"><strong>Capture:</strong> production/pilot boundary and remaining reliability questions.</div></div>
+            </div>
+            <div class="agenda-item" data-extended="true">
+              <div class="agenda-dot">06</div>
+              <div class="agenda-body"><div class="agenda-top"><div class="agenda-title">Accounting / Putu Mei technical review</div><div class="agenda-time">~20 min</div></div><p>Review credit control, separate Invoice/Tax Invoice delivery, H+1 cron, Pending Signed Invoice Upload filter, WEB ID trace and Widi's first implementation increment.</p><div class="deliverable"><strong>Capture:</strong> safe code touchpoints + Sandbox-ready next step.</div></div>
+            </div>
+            <div class="agenda-item" data-extended="true">
+              <div class="agenda-dot">07</div>
+              <div class="agenda-body"><div class="agenda-top"><div class="agenda-title">Legacy / recurring incident knowledge</div><div class="agenda-time">~10 min</div></div><p>Ask for hidden rules, manual corrections, recurring incidents and “do not touch without checking X” areas that are still tribal knowledge.</p><div class="deliverable"><strong>Capture:</strong> only genuinely undocumented legacy/risk notes.</div></div>
+            </div>
+            <div class="agenda-item" data-extended="true">
+              <div class="agenda-dot">08</div>
+              <div class="agenda-body"><div class="agenda-top"><div class="agenda-title">Reverse handover + next KT</div><div class="agenda-time">~10 min</div></div><p>Select one task Widi performs independently with Colin review, then choose the next KT domain based on highest remaining risk.</p><div class="deliverable"><strong>Capture:</strong> task, environment, evidence, reviewer and target date.</div></div>
+            </div>
+          </div>
+        </section>
+
+        <section id="questions" class="section-card">
+          <div class="section-head">
+            <div><div class="eyebrow">Discussion prompts</div><h2>Questions worth asking Colin</h2><p class="section-intro">Use these as prompts—not a rigid questionnaire. Open only the group relevant to what you are screen-sharing.</p></div>
+          </div>
+          <div class="accordion">
+            <details open>
+              <summary>System landscape & architecture</summary>
+              <ul>
+                <li>What are all active applications/services you currently support for Sensatia beyond StockWizz?</li>
+                <li>Which repository and branch is the actual production source for each application?</li>
+                <li>Are there personal forks, local-only scripts, or tools production still depends on?</li>
+                <li>What cron jobs, workers, queues or scheduled processes are currently active?</li>
+                <li>Which components are legacy-but-used versus genuinely deprecated?</li>
+                <li>Can we trace one real StockWizz flow end-to-end: frontend → API → MongoDB → job/integration?</li>
+              </ul>
+            </details>
+            <details>
+              <summary>Deployment, release & rollback</summary>
+              <ul>
+                <li>For the 22 Sep release, what exact steps did you perform from approved change to production?</li>
+                <li>Which repo/branch and build/deploy mechanism is used?</li>
+                <li>What is different between local, Sandbox/SB and Production?</li>
+                <li>Where are environment variables managed and who owns them?</li>
+                <li>Which Better Stack queries / health checks do you normally use after deploy?</li>
+                <li>What jobs/services need restart or verification after a release?</li>
+                <li>What is the actual rollback procedure if code is bad—and what changes if data has already been mutated?</li>
+                <li>Which safe change can I deploy next under your review?</li>
+              </ul>
+            </details>
+            <details>
+              <summary>Jubelio integration</summary>
+              <ul>
+                <li>Where are the StockWizz → Jubelio adjustment code and Jubelio → StockWizz webhook handlers?</li>
+                <li>What identifier prevents duplicate transaction / stock deduction?</li>
+                <li>Which Jubelio statuses are accepted in Production versus Sandbox?</li>
+                <li>What happens on webhook retry, duplicate delivery, partial failure or timeout?</li>
+                <li>How should cancel, partial cancel, return and refund affect StockWizz stock?</li>
+                <li>How does the reconciliation route work, and should it run automatically each day?</li>
+                <li>What is the actual Bali/Jakarta fulfillment-assignment rule today?</li>
+                <li>Who owns Jubelio/API credentials and what is the recovery/rotation path?</li>
+              </ul>
+            </details>
+            <details>
+              <summary>Accounting / Putu Mei</summary>
+              <ul>
+                <li>Where is the safest backend enforcement point for credit validation before Quote/Order conversion?</li>
+                <li>Which fields/collections are source of truth for payment term, due date, outstanding balance and partial payment?</li>
+                <li>Which existing email provider/service/queue should be reused for Invoice and Tax Invoice delivery?</li>
+                <li>What cron/job framework should run the H+1 Tax Invoice delivery?</li>
+                <li>How are uploaded files stored/versioned, and how should “updated after sent” be detected?</li>
+                <li>Which small implementation should I complete first so you can review it before Sandbox?</li>
+              </ul>
+            </details>
+            <details>
+              <summary>Access & ownership</summary>
+              <ul>
+                <li>Which critical accounts still use your personal email, phone, MFA or recovery method?</li>
+                <li>Which accounts already have Sensatia-controlled admin/recovery access?</li>
+                <li>What access do I need now to troubleshoot and deploy to Sandbox independently?</li>
+                <li>Which access should involve Agus because it belongs to infrastructure/recovery rather than application development?</li>
+              </ul>
+            </details>
+          </div>
+        </section>
+
+        <section id="hands-on" class="section-card">
+          <div class="section-head"><div><div class="eyebrow">Screen-share checklist</div><h2>Make the session practical</h2></div></div>
+          <div class="demo-grid">
+            <article class="demo"><div class="demo-label">Demo 01 · Colin leads</div><h4>Open the actual production repo / branch</h4><p>Map the top-level StockWizz code areas and replace architecture assumptions with current evidence.</p></article>
+            <article class="demo"><div class="demo-label">Demo 02 · Colin leads</div><h4>Reconstruct the 22 Sep deploy</h4><p>Walk the exact release steps, checks and rollback boundary while Widi updates the runbook.</p></article>
+            <article class="demo"><div class="demo-label">Demo 03 · Colin → Widi</div><h4>Trace one issue in Better Stack</h4><p>Colin demonstrates a real query/correlation path, then Widi repeats it if safe.</p></article>
+            <article class="demo"><div class="demo-label">Demo 04 · Widi leads</div><h4>Trace one Jubelio flow</h4><p>Widi investigates a refill/order through code + data/log; Colin validates the interpretation.</p></article>
+            <article class="demo"><div class="demo-label">Demo 05 · Widi leads</div><h4>Present Accounting implementation direction</h4><p>Colin reviews safety, data/source-of-truth choices, job/email architecture and first Sandbox increment.</p></article>
+          </div>
+        </section>
+
+        <section id="workstreams" class="section-card">
+          <div class="section-head"><div><div class="eyebrow">Current work</div><h2>Workstreams to reference during KT</h2></div></div>
+          <table class="workstreams">
+            <thead><tr><th>Workstream</th><th>Jira state</th><th>Use in KT</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Project Phoenix baseline</strong></td><td><span class="status">SENS-121 / 122 active</span> <span class="status todo">SENS-123 To Do</span></td><td>Anchor the meeting and record evidence.</td></tr>
+              <tr><td><strong>DTAR / Architecture / Recovery</strong></td><td><span class="status todo">SENS-158–161 To Do</span></td><td>Collect verified inputs; do not try to finish every register live.</td></tr>
+              <tr><td><strong>Access / credentials</strong></td><td><span class="status todo">SENS-126 To Do</span> <span class="status">SENS-138 / 143 active</span></td><td>Identify personal dependencies and transfer/recovery path.</td></tr>
+              <tr><td><strong>Jubelio</strong></td><td><span class="status">SENS-56 / 114 / 137 / 145 / 148 / 149 active</span></td><td>Practical integration + reliability + troubleshooting learning.</td></tr>
+              <tr><td><strong>Accounting / Putu Mei</strong></td><td><span class="status">SENS-151 active</span> <span class="status todo">SENS-152–155 To Do</span></td><td>Widi-led implementation with Colin as technical reviewer.</td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="reverse" class="reverse">
+          <div class="eyebrow">Critical output</div>
+          <h2>Select one reverse-handover task before ending the call.</h2>
+          <p>Documentation alone does not prove transfer. Widi should perform a real task in the appropriate environment while Colin reviews the result.</p>
+          <div class="reverse-fields">
+            <div class="reverse-field"><label>Task Widi will perform</label><div class="editable-dark" contenteditable="true" data-store="reverse-task" data-placeholder="e.g. Sandbox deployment of a reviewed Accounting increment"></div></div>
+            <div class="reverse-field"><label>Environment</label><div class="editable-dark" contenteditable="true" data-store="reverse-env" data-placeholder="Local / Sandbox / Production under review"></div></div>
+            <div class="reverse-field"><label>Evidence required</label><div class="editable-dark" contenteditable="true" data-store="reverse-evidence" data-placeholder="Test result, log trace, screenshot, Jira / Confluence update"></div></div>
+            <div class="reverse-field"><label>Colin review + target date</label><div class="editable-dark" contenteditable="true" data-store="reverse-review" data-placeholder="Reviewer / date / acceptance condition"></div></div>
+          </div>
+        </section>
+
+        <section id="notes" class="section-card" style="margin-top:26px">
+          <div class="section-head"><div><div class="eyebrow">Live meeting workspace</div><h2>Notes that save in your browser</h2><p class="section-intro">Type directly into these boxes during the Huddle/Zoom. Notes are stored locally in this browser automatically.</p></div></div>
+          <div class="notes-grid">
+            <div class="notes-box"><h4>✓ Confirmed today</h4><div class="editable" contenteditable="true" data-store="confirmed" data-placeholder="Current production facts, verified flows, ownership, repo/branch, environment behavior..."></div><div class="save-indicator"><span class="save-dot"></span>Auto-saved locally</div></div>
+            <div class="notes-box"><h4>? Unknown / need verification</h4><div class="editable" contenteditable="true" data-store="unknowns" data-placeholder="Unknown + owner + target date. Keep assumptions visible..."></div><div class="save-indicator"><span class="save-dot"></span>Auto-saved locally</div></div>
+            <div class="notes-box"><h4>🔐 Access / dependency found</h4><div class="editable" contenteditable="true" data-store="access" data-placeholder="System → current dependency → target owner → recovery reference → action. Never paste secrets."></div><div class="save-indicator"><span class="save-dot"></span>Auto-saved locally</div></div>
+            <div class="notes-box"><h4>→ Actions / next KT</h4><div class="editable" contenteditable="true" data-store="actions" data-placeholder="Action → owner → target date → expected evidence. Next KT topic based on biggest remaining risk..."></div><div class="save-indicator"><span class="save-dot"></span>Auto-saved locally</div></div>
+          </div>
+        </section>
+
+        <section class="section-card">
+          <div class="section-head"><div><div class="eyebrow">Documentation guardrails</div><h2>Keep the evidence boundary clean</h2></div></div>
+          <div class="focus-grid">
+            <div class="focus-card" style="min-height:auto"><div class="focus-no">Confirmed</div><h3>Demonstrated current state</h3><p>Verified against current system, config, code, provider, logs or a live operational walkthrough.</p></div>
+            <div class="focus-card" style="min-height:auto"><div class="focus-no">Need verification</div><h3>Likely, but not checked</h3><p>Memory, old documentation or working assumptions stay unconfirmed until checked.</p></div>
+            <div class="focus-card" style="min-height:auto"><div class="focus-no">Unknown</div><h3>Keep it visible</h3><p>Do not silently fill gaps. Add owner and target date, then resolve systematically.</p></div>
+            <div class="focus-card" style="min-height:auto"><div class="focus-no">Security</div><h3>References, never secrets</h3><p>No passwords, tokens, MFA codes or recovery codes in Jira, Confluence, Notion or Slack.</p></div>
+          </div>
+        </section>
+
+        <section id="references" class="section-card">
+          <div class="section-head"><div><div class="eyebrow">Source material</div><h2>Open the supporting records</h2></div></div>
+          <div class="refs">
+            <a class="ref" href="https://widhysensatia.atlassian.net/wiki/spaces/SENS/pages/12812289/Project+Phoenix+Digital+Capability+Transition+Program+StockWizz+Internalization" target="_blank" rel="noreferrer"><span>Project Phoenix overview</span><small>Confluence ↗</small></a>
+            <a class="ref" href="https://widhysensatia.atlassian.net/wiki/spaces/SENS/pages/20676612/Project+Phoenix+Handover+Progress+Current+Priorities+22+September+2026" target="_blank" rel="noreferrer"><span>Current handover priorities</span><small>Confluence ↗</small></a>
+            <a class="ref" href="https://widhysensatia.atlassian.net/wiki/spaces/SENS/pages/12615683/StockWizz+Gambaran+Sistem+Arsitektur" target="_blank" rel="noreferrer"><span>StockWizz architecture</span><small>Confluence ↗</small></a>
+            <a class="ref" href="https://widhysensatia.atlassian.net/wiki/spaces/SENS/pages/12812314/StockWizz+Panduan+Deployment+Release+Rollback" target="_blank" rel="noreferrer"><span>Deployment / rollback runbook</span><small>Confluence ↗</small></a>
+            <a class="ref" href="https://widhysensatia.atlassian.net/wiki/spaces/SENS/pages/12812339/E-Commerce+Jubelio+Integrasi+Saat+Ini+Alur+Operasional" target="_blank" rel="noreferrer"><span>Jubelio integration flow</span><small>Confluence ↗</small></a>
+            <a class="ref" href="https://widhysensatia.atlassian.net/wiki/spaces/SENS/pages/19693571/Meeting+Notes+Putu+Mei+B2B+Credit+Control+Invoice+Delivery+21+September+2026" target="_blank" rel="noreferrer"><span>Putu Mei requirements</span><small>Confluence ↗</small></a>
+            <a class="ref" href="https://widhysensatia.atlassian.net/wiki/spaces/SENS/pages/20578305/StockWizz+Production+Release+22+September+2026" target="_blank" rel="noreferrer"><span>22 Sep production release</span><small>Confluence ↗</small></a>
+            <a class="ref" href="https://widhysensatia.atlassian.net/browse/SENS-121" target="_blank" rel="noreferrer"><span>SENS-121 Project Phoenix Epic</span><small>Jira ↗</small></a>
+            <a class="ref" href="https://widhysensatia.atlassian.net/browse/SENS-123" target="_blank" rel="noreferrer"><span>SENS-123 Weekly KT</span><small>Jira ↗</small></a>
+            <a class="ref" href="https://app.notion.com/p/3d55bbd644b3819997d8f4f10ece940f" target="_blank" rel="noreferrer"><span>Handover Control Center</span><small>Notion ↗</small></a>
+            <a class="ref" href="https://app.notion.com/p/c7d0f2bde9bc4a698c96bcaba59b7d47" target="_blank" rel="noreferrer"><span>Knowledge Gaps</span><small>Notion ↗</small></a>
+            <a class="ref" href="https://app.notion.com/p/3b8e4e6b66514bcea9ec673f8128bb1b" target="_blank" rel="noreferrer"><span>KT Tracker</span><small>Notion ↗</small></a>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <footer>
+      <span>Project Phoenix · Sensatia internal handover brief · prepared for 23 Sep 2026</span>
+      <span>Brand direction & logo reference: sensatia.com · current Sensatia identity</span>
+    </footer>
+  </div>
+
+  <script>
+    function setAgenda(extended){
+      document.body.classList.toggle('show-extended', extended);
+      document.getElementById('coreBtn').classList.toggle('active', !extended);
+      document.getElementById('extendedBtn').classList.toggle('active', extended);
+      localStorage.setItem('phoenix-agenda-extended', extended ? '1' : '0');
+    }
+
+    function storageKey(el){ return 'phoenix-kt1-' + el.dataset.store; }
+
+    document.querySelectorAll('[contenteditable][data-store]').forEach(el => {
+      const saved = localStorage.getItem(storageKey(el));
+      if(saved !== null) el.innerHTML = saved;
+      el.addEventListener('input', () => localStorage.setItem(storageKey(el), el.innerHTML));
+    });
+
+    document.querySelectorAll('input[type="checkbox"][data-persist]').forEach(cb => {
+      const key = 'phoenix-kt1-' + cb.dataset.persist;
+      cb.checked = localStorage.getItem(key) === '1';
+      cb.addEventListener('change', () => localStorage.setItem(key, cb.checked ? '1' : '0'));
+    });
+
+    setAgenda(localStorage.getItem('phoenix-agenda-extended') === '1');
+  </script>
+</body>
+</html>

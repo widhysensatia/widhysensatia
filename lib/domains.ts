@@ -37,6 +37,8 @@ export const domains: KnowledgeDomain[] = [
         description:
           "Assessment customer order, credit control, invoice delivery, dan fulfillment automation.",
         documentSlugs: [
+          "putu-mei-stockwizz-three-feature-blueprint",
+          "putu-mei-accounting-meeting-notes-2026-09-21",
           "putu-mei-accounting-meeting-pack-2026-09-21",
           "stockwizz-putu-mei-assessment",
         ],
@@ -117,7 +119,11 @@ export const domains: KnowledgeDomain[] = [
         name: "Digital Capability Transition",
         description:
           "Program transisi, knowledge transfer, evidence, dan readiness menuju internal ownership.",
-        documentSlugs: ["project-phoenix-command-center", "project-phoenix-dctp-guide"],
+        documentSlugs: [
+          "project-phoenix-weekly-handover-2026-09-23",
+          "project-phoenix-command-center",
+          "project-phoenix-dctp-guide",
+        ],
       },
     ],
   },
