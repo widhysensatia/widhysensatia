@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Guanta AI × StockWizz — PR/PO Automation</title>
+<style>
+:root{--bg:#f6f7f4;--card:#fff;--ink:#18211c;--muted:#6a756f;--line:#dfe5df;--green:#1f6047;--green2:#2f7b5d;--soft:#e9f3ed;--sand:#f1eadf;--amber:#aa6818;--red:#a54438;--blue:#315f8a;--r:20px;--shadow:0 18px 50px rgba(28,55,40,.08)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:radial-gradient(circle at 8% 0,rgba(47,123,93,.09),transparent 30rem),var(--bg);color:var(--ink);line-height:1.65}a{color:var(--green);text-decoration:none}a:hover{text-decoration:underline}.wrap{max-width:1200px;margin:auto;padding:0 22px}
+.top{position:sticky;top:0;z-index:20;background:rgba(246,247,244,.9);backdrop-filter:blur(14px);border-bottom:1px solid rgba(223,229,223,.9)}.topin{height:66px;display:flex;align-items:center;justify-content:space-between;gap:18px}.brand{display:flex;align-items:center;gap:13px;font-weight:850;letter-spacing:-.02em}.brand img{display:block;width:112px;height:auto}.brand span{padding-left:13px;border-left:1px solid var(--line)}.nav{display:flex;gap:5px;overflow:auto;white-space:nowrap}.nav a{font-size:13px;font-weight:750;color:var(--muted);padding:8px 10px;border-radius:999px}.nav a:hover{background:#fff;text-decoration:none;color:var(--ink)}
+.hero{padding:80px 0 42px}.pill{display:inline-flex;align-items:center;gap:8px;border:1px solid #cfe0d6;border-radius:999px;background:#fff;padding:7px 11px;color:var(--green);font-size:12px;font-weight:850;text-transform:uppercase;letter-spacing:.08em}.pill:before{content:"";width:7px;height:7px;border-radius:50%;background:var(--green2)}h1,h2,h3{line-height:1.12;letter-spacing:-.035em;margin:0}h1{font-size:clamp(42px,7vw,78px);max-width:1000px;margin-top:22px}.lead{max-width:790px;font-size:clamp(18px,2vw,23px);color:var(--muted);margin:22px 0 0}
+.heroGrid{display:grid;grid-template-columns:1.35fr .65fr;gap:18px;margin-top:38px}.panel{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:26px;box-shadow:var(--shadow)}.panel.dark{background:linear-gradient(140deg,#183d2e,#245d45);color:#fff;border:none}.panel.dark p{color:#cfe1d7}.eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:.08em;font-weight:850;color:var(--muted)}.dark .eyebrow{color:#bdd7c7}.take{font-size:28px;font-weight:850;letter-spacing:-.03em;line-height:1.2;margin-top:10px}
+.quick{display:grid;gap:12px;margin-top:12px}.quick div{display:flex;gap:10px;align-items:flex-start}.quick i{font-style:normal;background:var(--soft);color:var(--green);width:30px;height:30px;display:grid;place-items:center;border-radius:10px;font-weight:900}
+section{padding:52px 0}.secHead{display:flex;align-items:end;justify-content:space-between;gap:24px;margin-bottom:22px}.secHead h2{font-size:clamp(30px,4.5vw,50px)}.secHead p{max-width:620px;color:var(--muted);margin:0}.kicker{color:var(--green);font-weight:850;font-size:13px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:21px;box-shadow:0 10px 30px rgba(28,55,40,.045)}.card h3{font-size:20px;margin-bottom:9px}.card p,.card li{color:var(--muted)}.ico{width:42px;height:42px;border-radius:13px;background:var(--soft);color:var(--green);display:grid;place-items:center;font-weight:900;margin-bottom:14px}.note{background:var(--sand);border:1px solid #e6d8c6;border-radius:16px;padding:19px 21px;margin-top:16px}
+.flow{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:24px;box-shadow:var(--shadow)}.flowrow{display:flex;flex-wrap:wrap;gap:8px;align-items:center}.node{padding:12px 14px;border-radius:12px;background:#f1f4f0;border:1px solid var(--line);font-size:14px;font-weight:780}.node.ai{background:var(--soft);border-color:#c8decf;color:var(--green)}.node.human{background:#fff1dc;border-color:#edd4ac;color:#7b5019}.arrow{color:#93a098;font-weight:900}
+.badge{display:inline-flex;padding:5px 9px;border-radius:999px;font-size:11px;font-weight:850;text-transform:uppercase;letter-spacing:.06em}.bgreen{background:var(--soft);color:var(--green)}.bblue{background:#eaf1f7;color:var(--blue)}.bamber{background:#fff1dc;color:var(--amber)}.bred{background:#faece9;color:var(--red)}
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:16px}.compare ul{padding-left:19px}.tabs{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px}.tab{border:1px solid var(--line);background:#fff;padding:8px 13px;border-radius:999px;font:inherit;font-size:13px;font-weight:800;cursor:pointer;color:var(--muted)}.tab.on{background:var(--green);border-color:var(--green);color:#fff}.tabp{display:none}.tabp.on{display:block}
+.table{overflow:auto;background:#fff;border:1px solid var(--line);border-radius:16px;margin-top:18px}table{border-collapse:collapse;width:100%;min-width:760px}th,td{padding:14px 15px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line);font-size:14px}th{background:#fafbf9;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.06em}tr:last-child td{border-bottom:none}.yes{color:var(--green);font-weight:800}.maybe{color:var(--amber);font-weight:800}.no{color:var(--red);font-weight:800}
+.road{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.phase{position:relative;padding-top:26px}.phase:before{content:"";position:absolute;left:21px;top:13px;width:56px;height:4px;border-radius:10px;background:var(--green)}.phase h3{font-size:24px}.phase ul{padding-left:19px}
+details{background:#fff;border:1px solid var(--line);border-radius:14px;padding:0 17px;margin-bottom:10px}summary{cursor:pointer;font-weight:800;padding:15px 0}details p{margin:0 0 17px;color:var(--muted)}
+.callout{background:linear-gradient(135deg,#173d2d,#28634a);color:#fff;border-radius:26px;padding:34px;box-shadow:var(--shadow)}.callout p{color:#cfe2d8}.quote{font-size:clamp(24px,4vw,39px);font-weight:850;line-height:1.22;letter-spacing:-.03em;margin-top:10px;max-width:920px}
+.sources{display:grid;gap:10px}.source{display:flex;align-items:center;justify-content:space-between;gap:16px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:15px 17px}.source small{color:var(--muted)}footer{padding:45px 0 68px;color:var(--muted);font-size:13px}.reveal{opacity:0;transform:translateY(13px);transition:.5s ease}.reveal.show{opacity:1;transform:none}
+@media(max-width:900px){.nav{display:none}.heroGrid,.grid3,.grid2,.compare,.road{grid-template-columns:1fr}.secHead{display:block}.secHead p{margin-top:10px}.hero{padding-top:56px}}
+@media print{.top{display:none}.reveal{opacity:1!important;transform:none!important}.panel,.card,.flow,.callout{box-shadow:none}}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap topin"><div class="brand"><img src="/sensatia-logo.svg" alt="Sensatia Botanicals"><span>Guanta AI × StockWizz</span></div><nav class="nav"><a href="#what">Guanta</a><a href="#why">PR/PO</a><a href="#arch">Architecture</a><a href="#road">Roadmap</a><a href="#risk">Risks</a><a href="#next">Next Step</a></nav></div></header>
+<main>
+<section class="hero"><div class="wrap">
+<div class="pill">Research note · 21 Sep 2026</div>
+<h1>Guanta AI sebagai referensi untuk otomasi PR/PO Sensatia.</h1>
+<p class="lead">Bukan sekadar chatbot dan bukan aplikasi Purchase Order khusus. Yang menarik adalah pola arsitekturnya: <strong>AI + workflow + integration + company data + human approval + observability</strong>.</p>
+<div class="heroGrid">
+<div class="panel dark"><div class="eyebrow">Kesimpulan utama</div><div class="take">Yang relevan untuk Sensatia bukan “membeli AI agent”, tetapi memisahkan proses yang harus deterministic dari titik yang benar-benar mendapat leverage dari AI.</div><p>StockWizz sudah punya fondasi bisnis—item, vendor, purchase, inventory, approval, history. AI dapat menjadi lapisan bantuan di atas workflow terkontrol, bukan menggantikan workflow inti.</p></div>
+<div class="panel"><div class="eyebrow">Status</div><div class="quick"><div><i>✓</i><span><strong>Worth studying</strong><br><small>Benchmark desain yang relevan.</small></span></div><div><i>!</i><span><strong>Bukan keputusan vendor</strong><br><small>Belum ada approval memakai Guanta.</small></span></div><div><i>→</i><span><strong>Next step</strong><br><small>Bandingkan pattern dengan roadmap StockWizz.</small></span></div></div></div>
+</div></div></section>
+
+<section id="what" class="reveal"><div class="wrap">
+<div class="secHead"><div><div class="kicker">01 · Apa itu Guanta?</div><h2>Platform untuk business process yang dibantu AI.</h2></div><p>Guanta memosisikan produknya sebagai platform untuk membangun, menjalankan, dan memantau AI-driven processes—mulai dari agents hingga integrations, applications, scheduled execution, data, dan observability.</p></div>
+<div class="grid3">
+<div class="card"><div class="ico">A</div><h3>AI Agents</h3><p>Prompt, knowledge, tools, objectives, dan execution boundaries yang bisa dikontrol.</p></div>
+<div class="card"><div class="ico">↔</div><h3>Integrations</h3><p>API, CRM, ERP, internal tools, documents, browser automation, dan data pipelines.</p></div>
+<div class="card"><div class="ico">▣</div><h3>Custom Apps</h3><p>Data model, screens, UI, business logic, workflow state, dan approval path bila proses membutuhkannya.</p></div>
+<div class="card"><div class="ico">◷</div><h3>Scheduled Process</h3><p>Workflow bisa berjalan event-based atau terjadwal, tidak harus menunggu user membuka chat.</p></div>
+<div class="card"><div class="ico">◎</div><h3>Observability</h3><p>Trace input, output, model, tools, latency, failure, review, dan business outcome.</p></div>
+<div class="card"><div class="ico">⌁</div><h3>Production Controls</h3><p>Permission, retries, queues, secrets, human review, deployment controls, dan auditability.</p></div>
+</div>
+<div class="note"><strong>Yang menarik:</strong> Guanta sendiri menekankan bahwa banyak workflow bisnis tidak membutuhkan agent untuk menjalankan semuanya. Trigger, validation, routing, retry, dan storage sebaiknya tetap deterministic; AI dipakai ketika understanding, extraction, reasoning, comparison, atau recommendation memang memberi nilai.</div>
+</div></section>
+
+<section id="why" class="reveal"><div class="wrap">
+<div class="secHead"><div><div class="kicker">02 · Kenapa relevan?</div><h2>PR/PO bukan cuma form. Ia adalah rangkaian keputusan dan data.</h2></div><p>Waktu banyak terbuang untuk membaca request, melengkapi data, mencari histori pembelian, vendor, harga, lead time, approval, dan follow-up.</p></div>
+<div class="compare">
+<div class="card"><span class="badge bamber">Manual-heavy</span><h3 style="margin-top:12px">PR → Approval → Procurement → PO</h3><ul><li>User input kebutuhan manual.</li><li>Procurement cek kelengkapan.</li><li>Cari vendor / histori harga.</li><li>Susun PO.</li><li>Follow-up approval/status.</li><li>Banyak exception hidup di chat/manual context.</li></ul></div>
+<div class="card"><span class="badge bgreen">AI-assisted</span><h3 style="margin-top:12px">Request → Structured draft → Approval → Execution</h3><ul><li>AI extract item, qty, needed date, purpose.</li><li>Sistem cek item master, stock, open PO, vendor, last price.</li><li>AI bantu draft PR / comparison / PO.</li><li>Human tetap approval keputusan penting.</li><li>Workflow deterministic menyimpan status dan audit.</li><li>Exception ambigu diarahkan ke manusia.</li></ul></div>
+</div>
+<div class="flow" style="margin-top:16px"><strong>Contoh flow</strong><div class="flowrow" style="margin-top:15px"><div class="node">Request kebutuhan</div><span class="arrow">→</span><div class="node ai">AI extract</div><span class="arrow">→</span><div class="node">Check StockWizz</div><span class="arrow">→</span><div class="node ai">Draft / recommendation</div><span class="arrow">→</span><div class="node human">Human approval</div><span class="arrow">→</span><div class="node">Create PR/PO</div><span class="arrow">→</span><div class="node">Track & audit</div></div></div>
+</div></section>
+
+<section id="arch" class="reveal"><div class="wrap">
+<div class="secHead"><div><div class="kicker">03 · Architecture principle</div><h2>AI jangan menjadi orchestrator untuk semuanya.</h2></div><p>Rule yang sudah jelas harus menjadi code/workflow biasa. AI masuk di titik yang membutuhkan language understanding, extraction, reasoning, atau recommendation.</p></div>
+<div class="tabs"><button class="tab on" data-tab="d">Deterministic</button><button class="tab" data-tab="a">AI-assisted</button><button class="tab" data-tab="h">Human-only</button></div>
+<div class="tabp on" id="tab-d"><div class="grid3"><div class="card"><h3>Validation</h3><p>Mandatory fields, quantity, permission, status transition, duplicate request.</p></div><div class="card"><h3>Workflow</h3><p>Trigger, routing, notification, retries, SLA timer, schedule, API/database writes.</p></div><div class="card"><h3>Audit</h3><p>Actor, timestamp, before/after, approval, document version, integration result.</p></div></div></div>
+<div class="tabp" id="tab-a"><div class="grid3"><div class="card"><h3>Unstructured request</h3><p>Extract kebutuhan dari email/chat/document menjadi data terstruktur.</p></div><div class="card"><h3>Recommendation</h3><p>Bandingkan stock, open PO, historical price, vendor, lead time.</p></div><div class="card"><h3>Drafting</h3><p>Draft PR/PO, comparison summary, reminder, dan exception summary.</p></div></div></div>
+<div class="tabp" id="tab-h"><div class="grid3"><div class="card"><h3>Approval</h3><p>Financial commitment tetap punya accountable human owner.</p></div><div class="card"><h3>Exception</h3><p>Harga tidak wajar, vendor baru, lead time kritis, compliance issue.</p></div><div class="card"><h3>Override</h3><p>Perubahan kritis butuh reason, permission, dan audit trail.</p></div></div></div>
+<div class="table"><table><thead><tr><th>Aktivitas</th><th>Deterministic</th><th>AI</th><th>Human</th><th>Catatan</th></tr></thead><tbody>
+<tr><td>Mandatory validation</td><td class="yes">Primary</td><td class="no">Tidak perlu</td><td>Exception</td><td>Rule jelas → code.</td></tr>
+<tr><td>Extract email/chat</td><td>Schema check</td><td class="yes">Primary</td><td>Review low confidence</td><td>AI cocok untuk input tidak terstruktur.</td></tr>
+<tr><td>Check stock/open PO</td><td class="yes">Primary</td><td class="no">Tidak perlu</td><td>—</td><td>Database/API query.</td></tr>
+<tr><td>Compare quotation</td><td>Calculation</td><td class="yes">Assist</td><td class="yes">Decision</td><td>AI summary, human decide.</td></tr>
+<tr><td>Budget approval</td><td>Routing</td><td class="no">Tidak approve</td><td class="yes">Primary</td><td>Accountability.</td></tr>
+<tr><td>Create PO</td><td class="yes">Primary</td><td class="maybe">Draft only</td><td>Approval gate</td><td>Controlled write action.</td></tr>
+<tr><td>Audit trail</td><td class="yes">Primary</td><td class="no">Tidak opsional</td><td>Review</td><td>System-owned evidence.</td></tr>
+</tbody></table></div>
+</div></section>
+
+<section class="reveal"><div class="wrap">
+<div class="secHead"><div><div class="kicker">04 · Contoh penggunaan</div><h2>Dari email sederhana sampai Draft PR.</h2></div><p>Ini contoh penerapan pattern Guanta ke konteks Sensatia, bukan klaim bahwa Guanta memiliki flow PO persis seperti ini.</p></div>
+<div class="flow"><div class="note" style="margin:0">“Please purchase 100 pcs Bottle ABC, needed next Friday.”</div><div class="flowrow" style="margin-top:18px"><div class="node ai">Extract item · qty · date</div><span class="arrow">→</span><div class="node">Current stock</div><span class="arrow">→</span><div class="node">Open PO</div><span class="arrow">→</span><div class="node">Vendor / last price</div><span class="arrow">→</span><div class="node ai">Recommendation</div><span class="arrow">→</span><div class="node human">Procurement review</div></div></div>
+</div></section>
+
+<section id="road" class="reveal"><div class="wrap">
+<div class="secHead"><div><div class="kicker">05 · Roadmap</div><h2>Jangan mulai dari AI. Mulai dari workflow yang benar.</h2></div><p>Bangun state, approval, data, permission, dan audit yang reliable dulu. Setelah itu baru tambahkan AI secara bertahap.</p></div>
+<div class="road">
+<div class="card phase"><div class="eyebrow">Phase 1</div><h3>Reliable PR → PO</h3><ul><li>PR creation</li><li>Approval matrix</li><li>Convert PR → PO</li><li>Vendor/item data</li><li>Tracking & audit trail</li><li>Permission/status rules</li></ul><span class="badge bgreen">Foundation</span></div>
+<div class="card phase"><div class="eyebrow">Phase 2</div><h3>AI Assistance</h3><ul><li>Extract request</li><li>Draft PR/PO</li><li>Summarize quotation</li><li>Price/vendor context</li><li>Exception summary</li><li>Smart reminders</li></ul><span class="badge bblue">Assist</span></div>
+<div class="card phase"><div class="eyebrow">Phase 3</div><h3>Procurement Copilot</h3><ul><li>Cross-system recommendation</li><li>Lead-time planning</li><li>Vendor comparison support</li><li>Reorder suggestions</li><li>Human-in-loop execution</li><li>Evaluation/observability</li></ul><span class="badge bamber">Controlled AI</span></div>
+</div>
+</div></section>
+
+<section class="reveal"><div class="wrap">
+<div class="secHead"><div><div class="kicker">06 · Build vs Buy</div><h2>Apa yang sebaiknya tetap di StockWizz?</h2></div><p>Guanta bisa menjadi vendor candidate, tapi value langsungnya adalah sebagai benchmark architecture.</p></div>
+<div class="grid3">
+<div class="card"><span class="badge bgreen">Build in StockWizz</span><h3 style="margin-top:11px">Core workflow</h3><p>PR/PO state, approval, permissions, inventory dependency, vendor records, audit trail, reports, dan company-specific business rules.</p></div>
+<div class="card"><span class="badge bblue">Platform candidate</span><h3 style="margin-top:11px">AI runtime layer</h3><p>Agent management, evaluations, tracing, model management, reusable connectors, observability, rapid AI app prototyping.</p></div>
+<div class="card"><span class="badge bamber">Hybrid</span><h3 style="margin-top:11px">Likely sweet spot</h3><p>StockWizz tetap source of truth/workflow engine; AI/service layer membantu extraction, comparison, recommendation, drafting, dan exception handling.</p></div>
+</div>
+</div></section>
+
+<section id="risk" class="reveal"><div class="wrap">
+<div class="secHead"><div><div class="kicker">07 · Guardrails</div><h2>AI procurement tanpa kontrol bisa lebih berbahaya daripada manual.</h2></div><p>PO menyentuh uang, vendor, item, stock, approval, dan audit. Jadi “AI bisa” tidak sama dengan “AI boleh”.</p></div>
+<details open><summary>Wrong recommendation / hallucination</summary><p>AI tidak boleh menciptakan vendor, harga, stock, lead time, atau approval state. Fakta operasional harus berasal dari source data yang bisa ditrace.</p></details>
+<details><summary>Irreversible write action</summary><p>Create PO, cancel purchase, mengubah approved price, atau mengirim dokumen ke vendor harus punya permission, validation, approval gate, dan audit trail.</p></details>
+<details><summary>Sensitive procurement data</summary><p>Vendor pricing, finance data, negotiation, approval, dan credential integration perlu scoped access, secret handling, retention, dan due diligence.</p></details>
+<details><summary>Automation hides a broken process</summary><p>Kalau approval matrix dan source of truth belum jelas, AI hanya mempercepat proses yang salah. Business rule harus dibersihkan dulu.</p></details>
+<details><summary>Lack of observability</summary><p>Harus bisa dilihat input, sources, model/tool calls, output, failure, approver, dan business outcome.</p></details>
+</div></section>
+
+<section class="reveal"><div class="wrap">
+<div class="secHead"><div><div class="kicker">08 · Kalau vendor benar-benar dievaluasi</div><h2>Pertanyaan due diligence.</h2></div><p>Mulai dari satu workflow nyata, bukan demo general.</p></div>
+<div class="grid2">
+<div class="card"><h3>Technical</h3><ul><li>Integration ke custom API / Mongo-backed app?</li><li>Approval gate dan idempotency untuk write action?</li><li>Secret management?</li><li>Deployment/self-host/control options?</li><li>Retry, queue, versioning, rollback?</li><li>Observability untuk prompt/tool/model changes?</li></ul></div>
+<div class="card"><h3>Business / Governance</h3><ul><li>Pricing model?</li><li>Ownership atas workflow/code/config?</li><li>Data retention/privacy?</li><li>Exit strategy?</li><li>Dependency ke FDE setelah go-live?</li><li>Measurable outcome untuk pilot?</li></ul></div>
+</div>
+</div></section>
+
+<section id="next" class="reveal"><div class="wrap">
+<div class="callout"><div class="eyebrow" style="color:#bdd7c7">Conclusion untuk Michael</div><div class="quote">“Guanta menarik bukan karena sekadar AI agent, tapi karena mereka menggabungkan AI dengan business workflow, integration, scheduled process, control, dan observability. Untuk Sensatia, pattern ini bisa kita jadikan referensi: PR/PO core tetap deterministic di StockWizz, sementara AI membantu extraction, recommendation, vendor/price context, dan draft PO sebelum human approval.”</div><p>Next step yang paling masuk akal: pilih satu narrow pilot—misalnya <strong>request → Draft PR</strong> atau <strong>approved PR → assisted Draft PO</strong>—kemudian ukur time saved, error rate, exception rate, dan user acceptance sebelum diperluas.</p></div>
+</div></section>
+
+<section class="reveal"><div class="wrap">
+<div class="secHead"><div><div class="kicker">Sources</div><h2>Official references.</h2></div><p>Research/reference input, bukan vendor approval. Detail produk dapat berubah.</p></div>
+<div class="sources">
+<a class="source" href="https://www.guanta.ai/en/" target="_blank"><span><strong>Guanta — Homepage</strong><br><small>Build, run, track AI-assisted processes</small></span><span>↗</span></a>
+<a class="source" href="https://www.guanta.ai/en/product/" target="_blank"><span><strong>Guanta — Product</strong><br><small>Agents, integrations, models, observability</small></span><span>↗</span></a>
+<a class="source" href="https://www.guanta.ai/en/services/" target="_blank"><span><strong>Guanta — Services / FDE</strong><br><small>Operational apps, integrations, approval paths</small></span><span>↗</span></a>
+<a class="source" href="https://www.guanta.ai/en/blog/most-ai-workflows-do-not-need-an-agent/" target="_blank"><span><strong>Most AI Workflows Do Not Need an Agent</strong><br><small>Deterministic workflow + selective AI</small></span><span>↗</span></a>
+<a class="source" href="https://guanta.ai/en/about/" target="_blank"><span><strong>Guanta — About</strong><br><small>Company/founder context</small></span><span>↗</span></a>
+</div>
+</div></section>
+</main>
+<footer><div class="wrap"><strong>Guanta AI × Sensatia StockWizz</strong><br>Internal research explainer · 21 September 2026 · Analysis/reference, not a vendor or implementation decision.</div></footer>
+<script>
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));document.querySelectorAll('.tabp').forEach(x=>x.classList.remove('on'));b.classList.add('on');document.getElementById('tab-'+b.dataset.tab).classList.add('on')}))
+const ob=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('show')}),{threshold:.08});document.querySelectorAll('.reveal').forEach(x=>ob.observe(x));
+</script>
+</body></html>

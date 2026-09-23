@@ -19,6 +19,19 @@ export type KnowledgeDocument = {
 
 export const documents: KnowledgeDocument[] = [
   {
+    slug: "guanta-ai-pr-po-stockwizz-analysis",
+    title: "Guanta AI × StockWizz — PR/PO Automation Analysis",
+    shortTitle: "Guanta AI × StockWizz",
+    summary:
+      "Analisis pola AI-assisted procurement untuk PR/PO, pemisahan workflow deterministic dan AI, human approval, observability, guardrails, serta roadmap implementasi bertahap di StockWizz.",
+    category: "StockWiz",
+    type: "Research & Analysis",
+    updated: "2026-09-23",
+    updatedLabel: "23 Sep 2026",
+    tags: ["Guanta AI", "PR/PO", "Procurement Automation"],
+    accent: "blue",
+  },
+  {
     slug: "project-phoenix-weekly-handover-2026-09-23",
     title: "Project Phoenix — Weekly Handover #1",
     shortTitle: "Phoenix Weekly Handover #1",

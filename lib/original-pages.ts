@@ -21,6 +21,7 @@ const sourceFiles: Record<string, string> = {
   "b2b-smart-order-intake": "2026-09-11-batch-01/b2b-smart-order-intake.html",
   "bali-ecommerce-fulfillment-presentation": "2026-09-11-batch-01/bali_ecommerce_presentation.html",
   "bali-ecommerce-shared-stock-model": "2026-09-11-batch-01/bali_ecommerce_shared_stock_model.html",
+  "guanta-ai-pr-po-stockwizz-analysis": "2026-09-23-batch-08/guanta_ai_pr_po_stockwizz_analysis.html",
   "google-review-qr-rollout-guide": "2026-09-14-batch-02/google_review_qr_ask_for_reviews_guide_updated.html",
   "michael-widhy-meeting-brief": "2026-09-11-batch-01/preview.html",
   "project-phoenix-weekly-handover-2026-09-23": "2026-09-22-batch-07/project_phoenix_weekly_handover_2026-09-23.html",

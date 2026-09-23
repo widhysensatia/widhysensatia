@@ -44,6 +44,12 @@ export const domains: KnowledgeDomain[] = [
         ],
       },
       {
+        name: "AI & Procurement Automation",
+        description:
+          "Research dan rancangan pemanfaatan AI untuk procurement dengan workflow terkontrol, human approval, dan auditability.",
+        documentSlugs: ["guanta-ai-pr-po-stockwizz-analysis"],
+      },
+      {
         name: "Strategy & Direction",
         description: "Pilihan arah dan keputusan strategis untuk evolusi StockWiz.",
         documentSlugs: ["stockwiz-future-strategy-options"],
