@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Accounting IdeaBox — Detailed Improvement Proposal</title>
+  <meta name="description" content="10 ide improvement Accounting lengkap dengan kondisi saat ini, akar masalah, solusi, implementasi, risiko, manfaat, dan KPI." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#f4f7f8;
+      --card:#ffffff;
+      --text:#172033;
+      --muted:#667085;
+      --line:#e6ebef;
+      --primary:#1d6f5f;
+      --primary2:#2b8a78;
+      --soft:#ecf7f3;
+      --soft2:#f6faf8;
+      --blue:#2563eb;
+      --blue-soft:#eff6ff;
+      --amber:#b7791f;
+      --amber-soft:#fff8e8;
+      --red:#b42318;
+      --red-soft:#fff2f0;
+      --dark:#111827;
+      --shadow:0 12px 36px rgba(15, 23, 42, .07);
+      --radius:20px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at top right, rgba(43,138,120,.10), transparent 30%),
+        linear-gradient(180deg,#f9fbfb 0%,var(--bg) 100%);
+      line-height:1.65;
+    }
+
+    .container{width:min(1220px, calc(100% - 32px)); margin:auto}
+
+    .topbar{
+      position:sticky;
+      top:0;
+      z-index:30;
+      border-bottom:1px solid rgba(230,235,239,.92);
+      background:rgba(249,251,251,.90);
+      backdrop-filter:blur(16px);
+    }
+    .topbar-inner{
+      min-height:68px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:24px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      color:var(--text);
+      font-size:13px;
+      font-weight:800;
+      text-decoration:none;
+      letter-spacing:-.01em;
+    }
+    .brand img{display:block;width:112px;height:auto}
+    .brand span{padding-left:14px;border-left:1px solid var(--line)}
+    .top-nav{display:flex;align-items:center;gap:5px}
+    .top-nav a{
+      padding:8px 11px;
+      border-radius:999px;
+      color:var(--muted);
+      font-size:12px;
+      font-weight:700;
+      text-decoration:none;
+    }
+    .top-nav a:hover{background:#fff;color:var(--primary)}
+
+    .hero{padding:64px 0 34px}
+    .hero-grid{
+      display:grid;
+      grid-template-columns:1.6fr .75fr;
+      gap:24px;
+    }
+    .hero-card,.hero-side{
+      border-radius:28px;
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+    .hero-card{
+      background:rgba(255,255,255,.95);
+      border:1px solid rgba(255,255,255,.9);
+      padding:40px;
+      position:relative;
+    }
+    .hero-card:after{
+      content:"";
+      position:absolute;
+      width:300px;height:300px;
+      border-radius:50%;
+      right:-110px;top:-120px;
+      background:linear-gradient(135deg,rgba(29,111,95,.15),rgba(37,99,235,.08));
+    }
+    .eyebrow{
+      display:inline-flex;
+      padding:8px 12px;
+      border-radius:999px;
+      background:var(--soft);
+      color:var(--primary);
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:.09em;
+      text-transform:uppercase;
+      margin-bottom:18px;
+    }
+    h1{
+      margin:0;
+      font-size:clamp(36px,5vw,60px);
+      line-height:1.04;
+      letter-spacing:-.045em;
+      max-width:900px;
+    }
+    .hero-card p{
+      margin:20px 0 0;
+      max-width:820px;
+      color:var(--muted);
+      font-size:17px;
+    }
+    .hero-side{
+      padding:28px;
+      background:linear-gradient(155deg,#143f35,#1d6f5f);
+      color:white;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+    }
+    .hero-side small{
+      opacity:.72;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      font-weight:700;
+    }
+    .hero-side .big{
+      font-size:52px;
+      font-weight:800;
+      line-height:1;
+      margin:8px 0 12px;
+    }
+    .hero-side p{margin:0;color:rgba(255,255,255,.8);font-size:14px}
+
+    .intro{
+      margin:22px 0 34px;
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:12px;
+    }
+    .intro-item{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:16px;
+    }
+    .intro-item strong{
+      display:block;
+      color:var(--primary);
+      font-size:13px;
+      margin-bottom:4px;
+    }
+    .intro-item span{font-size:12px;color:var(--muted)}
+
+    .section-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:end;
+      gap:20px;
+      margin:26px 0 20px;
+    }
+    .section-head h2{
+      margin:0;
+      font-size:30px;
+      letter-spacing:-.03em;
+    }
+    .section-head p{
+      margin:0;
+      max-width:620px;
+      text-align:right;
+      color:var(--muted);
+      font-size:14px;
+    }
+
+    .ideas{display:flex; flex-direction:column; gap:22px; padding-bottom:46px}
+    .idea{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:0 8px 28px rgba(15,23,42,.04);
+      overflow:hidden;
+    }
+    .idea-header{
+      padding:24px 26px;
+      border-bottom:1px solid var(--line);
+      display:flex;
+      gap:16px;
+      align-items:flex-start;
+      background:linear-gradient(180deg,#fff,#fbfcfc);
+    }
+    .number{
+      width:48px;height:48px;flex:0 0 48px;
+      display:grid;place-items:center;
+      border-radius:14px;
+      background:var(--soft);
+      color:var(--primary);
+      font-size:18px;
+      font-weight:800;
+    }
+    .idea-header h3{
+      margin:0 0 6px;
+      font-size:23px;
+      letter-spacing:-.025em;
+    }
+    .subtitle{color:var(--muted);font-size:13px}
+    .badge{
+      display:inline-flex;
+      margin-top:8px;
+      padding:5px 9px;
+      border-radius:999px;
+      background:#eff8f5;
+      color:var(--primary);
+      font-size:11px;
+      font-weight:800;
+      text-transform:uppercase;
+      letter-spacing:.05em;
+    }
+
+    .idea-content{
+      padding:24px 26px 28px;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:18px;
+    }
+    .panel{
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:17px;
+      background:#fff;
+    }
+    .panel.full{grid-column:1/-1}
+    .panel-title{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      margin-bottom:8px;
+      font-size:12px;
+      font-weight:800;
+      color:#475467;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+    }
+    .dot{
+      width:9px;height:9px;border-radius:50%;
+      background:var(--primary);
+    }
+    .dot.red{background:var(--red)}
+    .dot.amber{background:var(--amber)}
+    .dot.blue{background:var(--blue)}
+    .panel p{
+      margin:0;
+      font-size:14px;
+      color:#4b5565;
+    }
+    .panel ul{
+      margin:9px 0 0;
+      padding-left:18px;
+      color:#4b5565;
+      font-size:14px;
+    }
+    .panel li{margin:5px 0}
+
+    .impact{background:var(--red-soft);border-color:#ffd7d2}
+    .solution{background:var(--soft2);border-color:#dceee8}
+    .implementation{background:var(--blue-soft);border-color:#dce9ff}
+    .risk{background:var(--amber-soft);border-color:#f5dfaa}
+
+    .flow{
+      margin-top:11px;
+      padding:13px 14px;
+      border-radius:12px;
+      border:1px dashed #cbd5df;
+      background:#fbfcfd;
+      font-size:13px;
+      font-weight:700;
+      color:#344054;
+      text-align:center;
+    }
+
+    .step-list{
+      counter-reset:step;
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:10px;
+      margin-top:12px;
+    }
+    .step{
+      min-height:105px;
+      padding:13px;
+      border-radius:13px;
+      border:1px solid #dce7ff;
+      background:white;
+    }
+    .step:before{
+      counter-increment:step;
+      content:counter(step);
+      display:grid;
+      place-items:center;
+      width:24px;height:24px;
+      border-radius:50%;
+      background:var(--blue-soft);
+      color:var(--blue);
+      font-size:11px;font-weight:800;
+      margin-bottom:8px;
+    }
+    .step strong{display:block;font-size:12px;margin-bottom:4px}
+    .step span{font-size:11.5px;color:var(--muted);line-height:1.45}
+
+    .chip-wrap{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+    .chip{
+      display:inline-flex;
+      padding:7px 10px;
+      border-radius:10px;
+      border:1px solid #e4e9ef;
+      background:#f8fafb;
+      color:#475467;
+      font-size:12px;
+      font-weight:600;
+    }
+    .chip.kpi{
+      background:#eef5ff;
+      border-color:#d7e5ff;
+      color:#2757ad;
+    }
+    .chip.data{
+      background:#f1f8f5;
+      border-color:#dbeee6;
+      color:#236858;
+    }
+
+    .priority{
+      margin:12px 0 28px;
+      padding:30px;
+      border-radius:24px;
+      background:var(--dark);
+      color:white;
+      box-shadow:var(--shadow);
+    }
+    .priority h2{margin:0 0 8px;font-size:28px}
+    .priority>p{margin:0;color:#aeb8c7;max-width:860px}
+    .priority-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:14px;
+      margin-top:20px;
+    }
+    .priority-card{
+      padding:18px;
+      border-radius:15px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.05);
+    }
+    .priority-card strong{display:block;font-size:15px;margin-bottom:7px}
+    .priority-card span{font-size:12.5px;line-height:1.5;color:#b9c2cf}
+
+    .framework{
+      margin:0 0 60px;
+      background:white;
+      border:1px solid var(--line);
+      border-radius:20px;
+      padding:26px;
+    }
+    .framework h2{margin:0 0 8px;font-size:26px}
+    .framework p{margin:0;color:var(--muted)}
+    .framework-grid{
+      display:grid;
+      grid-template-columns:repeat(5,1fr);
+      gap:10px;
+      margin-top:18px;
+    }
+    .framework-item{
+      background:#f8fafb;
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:15px;
+    }
+    .framework-item strong{
+      display:block;
+      font-size:12px;
+      color:var(--primary);
+      margin-bottom:5px;
+    }
+    .framework-item span{font-size:11.5px;color:var(--muted);line-height:1.45}
+
+    footer{
+      padding:0 0 36px;
+      text-align:center;
+      font-size:12px;
+      color:#8b95a5;
+    }
+
+    @media(max-width:900px){
+      .hero-grid,.intro,.idea-content,.priority-grid,.framework-grid{grid-template-columns:1fr}
+      .section-head{align-items:flex-start;flex-direction:column}
+      .section-head p{text-align:left}
+      .step-list{grid-template-columns:1fr 1fr}
+      .panel.full{grid-column:auto}
+      .hero{padding-top:32px}
+    }
+    @media(max-width:560px){
+      .container{width:min(100% - 20px,1220px)}
+      .topbar-inner{min-height:60px}.brand img{width:94px}.brand span{display:none}.top-nav{display:none}
+      .hero-card{padding:24px}
+      .idea-header,.idea-content{padding-left:18px;padding-right:18px}
+      .step-list{grid-template-columns:1fr}
+      h1{font-size:37px}
+    }
+    @media print{
+      body{background:#fff}
+      .hero{padding-top:20px}
+      .hero-card,.hero-side,.idea,.priority{box-shadow:none}
+      .idea{break-inside:avoid}
+    }
+  </style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="container topbar-inner">
+    <a class="brand" href="#overview"><img src="/sensatia-logo.svg" alt="Sensatia Botanicals"><span>Accounting IdeaBox</span></a>
+    <nav class="top-nav" aria-label="Navigasi dokumen">
+      <a href="#ideas">10 Ideas</a>
+      <a href="#priority">Prioritas</a>
+      <a href="#framework">Framework</a>
+    </nav>
+  </div>
+</div>
+
+<header class="hero" id="overview">
+  <div class="container">
+    <div class="hero-grid">
+      <section class="hero-card">
+        <div class="eyebrow">Accounting Improvement • IdeaBox</div>
+        <h1>10 Detailed Accounting Improvement Ideas</h1>
+        <p>
+          Proposal ide improvement yang dirancang agar mudah dipahami oleh tim Accounting,
+          Finance, user operasional, dan management. Setiap ide menjelaskan kondisi saat ini,
+          akar masalah, dampak bisnis, solusi, kebutuhan sistem, tahapan implementasi,
+          risiko, manfaat, dan KPI keberhasilan.
+        </p>
+      </section>
+      <aside class="hero-side">
+        <small>Improvement Opportunities</small>
+        <div class="big">10</div>
+        <p>
+          Fokus pada efisiensi proses, kontrol internal, automasi, transparansi data,
+          audit readiness, dan pengurangan human error.
+        </p>
+      </aside>
+    </div>
+
+    <div class="intro">
+      <div class="intro-item">
+        <strong>01. Identify</strong>
+        <span>Temukan proses manual, bottleneck, dan risiko kesalahan.</span>
+      </div>
+      <div class="intro-item">
+        <strong>02. Standardize</strong>
+        <span>Buat rule, workflow, approval, dan ownership yang jelas.</span>
+      </div>
+      <div class="intro-item">
+        <strong>03. Automate</strong>
+        <span>Otomatiskan validasi, matching, reminder, dan monitoring.</span>
+      </div>
+      <div class="intro-item">
+        <strong>04. Measure</strong>
+        <span>Pastikan hasil improvement dapat diukur melalui KPI.</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="container" id="ideas">
+
+  <div class="section-head">
+    <div><h2>Detailed IdeaBox</h2></div>
+    <p>
+      Format dibuat seperti mini business case sehingga setiap ide tidak berhenti di level “fitur”,
+      tetapi menjelaskan masalah, nilai bisnis, dan bagaimana ide tersebut dapat diterapkan.
+    </p>
+  </div>
+
+  <section class="ideas">
+
+    <!-- 1 -->
+    <article class="idea">
+      <div class="idea-header">
+        <div class="number">01</div>
+        <div>
+          <h3>Automatic Invoice Matching</h3>
+          <div class="subtitle">Otomatisasi pengecekan Purchase Order, penerimaan barang, dan invoice vendor.</div>
+          <span class="badge">Accounts Payable • Internal Control</span>
+        </div>
+      </div>
+
+      <div class="idea-content">
+        <div class="panel">
+          <div class="panel-title"><span class="dot"></span>Kondisi Saat Ini</div>
+          <p>Accounting perlu membandingkan invoice vendor dengan PO dan penerimaan barang secara manual. Jika jumlah transaksi besar, pengecekan membutuhkan waktu dan sangat bergantung pada ketelitian staf.</p>
+        </div>
+
+        <div class="panel">
+          <div class="panel-title"><span class="dot red"></span>Akar Masalah</div>
+          <ul>
+            <li>Data PO, receiving, dan invoice berada di proses yang berbeda.</li>
+            <li>Tidak ada automatic validation sebelum invoice dibayar.</li>
+            <li>Perbedaan quantity, harga, tax, dan discount harus dicari manual.</li>
+            <li>Accounting memeriksa semua invoice, termasuk invoice yang sebenarnya normal.</li>
+          </ul>
+        </div>
+
+        <div class="panel impact">
+          <div class="panel-title"><span class="dot red"></span>Dampak Bisnis</div>
+          <ul>
+            <li>Risiko overpayment atau pembayaran barang yang belum diterima.</li>
+            <li>Invoice processing menjadi lambat.</li>
+            <li>Potensi dispute dengan vendor.</li>
+            <li>Audit membutuhkan waktu lebih lama.</li>
+          </ul>
+        </div>
+
+        <div class="panel solution">
+          <div class="panel-title"><span class="dot"></span>Solusi yang Diusulkan</div>
+          <p>Menerapkan 3-Way Matching otomatis. Sistem hanya meminta review manual apabila ditemukan perbedaan antara PO, Goods Receipt, dan Vendor Invoice.</p>
+          <div class="flow">Purchase Order → Goods Receipt → Vendor Invoice → Matching Engine → Matched / Exception</div>
+        </div>
+
+        <div class="panel full implementation">
+          <div class="panel-title"><span class="dot blue"></span>Tahapan Implementasi</div>
+          <div class="step-list">
+            <div class="step"><strong>Mapping Data</strong><span>Identifikasi field PO, receiving, invoice, supplier, SKU, quantity, price, discount, tax.</span></div>
+            <div class="step"><strong>Define Rules</strong><span>Tentukan tolerance harga, quantity, pajak, dan skenario partial receiving.</span></div>
+            <div class="step"><strong>Build Matching</strong><span>Sistem mencocokkan transaksi dan menghasilkan matched atau exception.</span></div>
+            <div class="step"><strong>Exception Review</strong><span>Accounting hanya mengecek invoice yang gagal memenuhi rule.</span></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-title"><span class="dot"></span>Data / Kebutuhan Sistem</div>
+          <div class="chip-wrap">
+            <span class="chip data">Purchase Order</span>
+            <span class="chip data">Goods Receipt</span>
+            <span class="chip data">Vendor Invoice</span>
+            <span class="chip data">Supplier Master</span>
+            <span class="chip data">Tax & Discount</span>
+          </div>
+        </div>
+
+        <div class="panel risk">
+          <div class="panel-title"><span class="dot amber"></span>Risiko & Mitigasi</div>
+          <p>Jika master data atau receiving belum disiplin, sistem dapat menghasilkan banyak exception. Mitigasi: standardisasi proses receiving, tolerance rule, dan monitoring kualitas data.</p>
+        </div>
+
+        <div class="panel">
+          <div class="panel-title"><span class="dot"></span>Manfaat</div>
+          <div class="chip-wrap">
+            <span class="chip">Mengurangi salah bayar</span>
+            <span class="chip">Verifikasi lebih cepat</span>
+            <span class="chip">Audit trail lebih kuat</span>
+            <span class="chip">Fokus pada exception</span>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-title"><span class="dot blue"></span>KPI</div>
+          <div class="chip-wrap">
+            <span class="chip kpi">% invoice auto-matched</span>
+            <span class="chip kpi">Average processing time</span>
+            <span class="chip kpi">Jumlah mismatch</span>
+            <span class="chip kpi">Payment error rate</span>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- 2 -->
+    <article class="idea">
+      <div class="idea-header">
+        <div class="number">02</div>
+        <div>
+          <h3>Automated Bank Reconciliation</h3>
+          <div class="subtitle">Mencocokkan mutasi bank dengan transaksi internal secara otomatis.</div>
+          <span class="badge">Reconciliation • Month-End Closing</span>
+        </div>
+      </div>
+
+      <div class="idea-content">
+        <div class="panel">
+          <div class="panel-title"><span class="dot"></span>Kondisi Saat Ini</div>
+          <p>Mutasi rekening bank perlu dibandingkan dengan transaksi pembayaran, penerimaan customer, marketplace settlement, transfer internal, refund, dan bank fee.</p>
+        </div>
+        <div class="panel">
+          <div class="panel-title"><span class="dot red"></span>Akar Masalah</div>
+          <ul>
+            <li>Volume transaksi tinggi.</li>
+            <li>Reference bank tidak selalu sama dengan nomor transaksi internal.</li>
+            <li>Satu settlement dapat mewakili beberapa transaksi.</li>
+            <li>Pengecekan dilakukan menggunakan Excel dan pencarian manual.</li>
+          </ul>
+        </div>
+        <div class="panel impact">
+          <div class="panel-title"><span class="dot red"></span>Dampak Bisnis</div>
+          <ul>
+            <li>Closing bulanan menjadi lebih lama.</li>
+            <li>Unreconciled balance menumpuk.</li>
+            <li>Risiko transaksi terlewat atau tercatat dua kali.</li>
+          </ul>
+        </div>
+        <div class="panel solution">
+          <div class="panel-title"><span class="dot"></span>Solusi yang Diusulkan</div>
+          <p>Membuat matching engine berdasarkan amount, date, reference, rekening, invoice, dan configurable tolerance.</p>
+          <div class="flow">Bank Statement → Matching Rules → Auto Match / Suggested Match / Unmatched → Review</div>
+        </div>
+        <div class="panel full implementation">
+          <div class="panel-title"><span class="dot blue"></span>Tahapan Implementasi</div>
+          <div class="step-list">
+            <div class="step"><strong>Import Bank</strong><span>CSV, XLSX, atau API bank bila tersedia.</span></div>
+            <div class="step"><strong>Rule Matching</strong><span>Exact match, date tolerance, reference similarity, split/merge settlement.</span></div>
+            <div class="step"><strong>Review Queue</strong><span>Unmatched transaction masuk antrian review.</span></div>
+            <div class="step"><strong>Reconcile</strong><span>Setelah match dikonfirmasi, transaksi ditandai reconciled.</span></div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-title"><span class="dot"></span>Data / Kebutuhan Sistem</div>
+          <div class="chip-wrap">
+            <span class="chip data">Bank Statement</span>
+            <span class="chip data">AR Receipt</span>
+            <span class="chip data">AP Payment</span>
+            <span class="chip data">Settlement Data</span>
+            <span class="chip data">Bank Fee</span>
+          </div>
+        </div>
+        <div class="panel risk">
+          <div class="panel-title"><span class="dot amber"></span>Risiko & Mitigasi</div>
+          <p>Auto-match yang terlalu agresif dapat salah mencocokkan transaksi. Mitigasi: confidence score, threshold, suggested match, dan mandatory review untuk transaksi bernilai besar.</p>
+        </div>
+        <div class="panel">
+          <div class="panel-title"><span class="dot"></span>Manfaat</div>
+          <div class="chip-wrap">
+            <span class="chip">Mengurangi Excel manual</span>
+            <span class="chip">Saldo lebih akurat</span>
+            <span class="chip">Closing lebih cepat</span>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-title"><span class="dot blue"></span>KPI</div>
+          <div class="chip-wrap">
+            <span class="chip kpi">% auto-match</span>
+            <span class="chip kpi">Unmatched count</span>
+            <span class="chip kpi">Reconciliation hours</span>
+            <span class="chip kpi">Days to close</span>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- 3 -->
+    <article class="idea">
+      <div class="idea-header">
+        <div class="number">03</div>
+        <div>
+          <h3>Real-Time Budget vs Actual Monitoring</h3>
+          <div class="subtitle">Memberikan visibility penggunaan budget sebelum terjadi overspending.</div>
+          <span class="badge">Budgeting • Cost Control</span>
+        </div>
+      </div>
+      <div class="idea-content">
+        <div class="panel"><div class="panel-title"><span class="dot"></span>Kondisi Saat Ini</div><p>Budget tersedia, tetapi actual spending baru terlihat setelah laporan periodik dibuat sehingga department tidak mengetahui posisi budget secara langsung.</p></div>
+        <div class="panel"><div class="panel-title"><span class="dot red"></span>Akar Masalah</div><ul><li>Budget dan actual berada di sumber data berbeda.</li><li>Tidak ada commitment tracking.</li><li>Tidak ada threshold alert.</li><li>Cost center coding belum konsisten.</li></ul></div>
+        <div class="panel impact"><div class="panel-title"><span class="dot red"></span>Dampak Bisnis</div><ul><li>Overspending baru diketahui terlambat.</li><li>Management sulit mengontrol biaya.</li><li>Department sulit merencanakan sisa budget.</li></ul></div>
+        <div class="panel solution"><div class="panel-title"><span class="dot"></span>Solusi yang Diusulkan</div><p>Dashboard real-time yang menampilkan Budget, Actual, Open Commitment, Remaining Budget, dan Variance per department/cost center.</p><div class="flow">Approved Budget → PO / Expense / Journal → Actual & Commitment → Variance → Alert</div></div>
+        <div class="panel full implementation"><div class="panel-title"><span class="dot blue"></span>Tahapan Implementasi</div><div class="step-list">
+          <div class="step"><strong>Budget Structure</strong><span>Tentukan department, account, project, dan cost center.</span></div>
+          <div class="step"><strong>Transaction Coding</strong><span>Pastikan setiap expense memiliki dimensi budget.</span></div>
+          <div class="step"><strong>Dashboard</strong><span>Tampilkan utilization dan variance.</span></div>
+          <div class="step"><strong>Alert</strong><span>Notifikasi pada 70%, 90%, dan 100% utilization.</span></div>
+        </div></div>
+        <div class="panel"><div class="panel-title"><span class="dot"></span>Manfaat</div><div class="chip-wrap"><span class="chip">Kontrol biaya proaktif</span><span class="chip">Visibility management</span><span class="chip">Budget ownership</span></div></div>
+        <div class="panel"><div class="panel-title"><span class="dot blue"></span>KPI</div><div class="chip-wrap"><span class="chip kpi">Budget variance</span><span class="chip kpi">Over-budget count</span><span class="chip kpi">% spending coded correctly</span></div></div>
+      </div>
+    </article>
+
+    <!-- 4 -->
+    <article class="idea">
+      <div class="idea-header"><div class="number">04</div><div><h3>Duplicate Invoice & Payment Detection</h3><div class="subtitle">Mencegah invoice yang sama diproses atau dibayar lebih dari satu kali.</div><span class="badge">Payment Control • Fraud Prevention</span></div></div>
+      <div class="idea-content">
+        <div class="panel"><div class="panel-title"><span class="dot"></span>Kondisi Saat Ini</div><p>Invoice dapat diterima melalui email, chat, hardcopy, atau dikirim ulang oleh vendor sehingga kemungkinan duplicate entry meningkat.</p></div>
+        <div class="panel"><div class="panel-title"><span class="dot red"></span>Akar Masalah</div><ul><li>Tidak ada unique invoice validation.</li><li>Format nomor invoice berbeda-beda.</li><li>Pengecekan vendor history dilakukan manual.</li><li>Duplicate baru ditemukan setelah payment atau reconciliation.</li></ul></div>
+        <div class="panel impact"><div class="panel-title"><span class="dot red"></span>Dampak Bisnis</div><ul><li>Double payment.</li><li>Proses refund memakan waktu.</li><li>Cash flow terganggu.</li><li>Risiko kontrol internal.</li></ul></div>
+        <div class="panel solution"><div class="panel-title"><span class="dot"></span>Solusi yang Diusulkan</div><p>Duplicate detection dengan exact match dan fuzzy similarity untuk vendor, nomor invoice, amount, date, PO, dan rekening.</p><div class="flow">Invoice Input → Duplicate Scan → Similarity Score → Warning → Approve / Reject</div></div>
+        <div class="panel full implementation"><div class="panel-title"><span class="dot blue"></span>Tahapan Implementasi</div><div class="step-list">
+          <div class="step"><strong>Normalize</strong><span>Hilangkan spasi, dash, dan perbedaan format nomor invoice.</span></div>
+          <div class="step"><strong>Compare</strong><span>Bandingkan vendor, nominal, tanggal, PO, dan bank account.</span></div>
+          <div class="step"><strong>Score</strong><span>Buat confidence score untuk potential duplicate.</span></div>
+          <div class="step"><strong>Block / Review</strong><span>High risk dapat diblok, medium risk masuk review.</span></div>
+        </div></div>
+        <div class="panel"><div class="panel-title"><span class="dot"></span>Manfaat</div><div class="chip-wrap"><span class="chip">Mencegah double payment</span><span class="chip">Mengurangi refund</span><span class="chip">Kontrol AP lebih baik</span></div></div>
+        <div class="panel"><div class="panel-title"><span class="dot blue"></span>KPI</div><div class="chip-wrap"><span class="chip kpi">Duplicate detected</span><span class="chip kpi">Value prevented</span><span class="chip kpi">False positive rate</span></div></div>
+      </div>
+    </article>
+
+    <!-- 5 -->
+    <article class="idea">
+      <div class="idea-header"><div class="number">05</div><div><h3>Accounts Payable Due-Date & Payment Planning</h3><div class="subtitle">Mengatur prioritas pembayaran berdasarkan due date dan kebutuhan cash flow.</div><span class="badge">AP • Cash Management</span></div></div>
+      <div class="idea-content">
+        <div class="panel"><div class="panel-title"><span class="dot"></span>Kondisi Saat Ini</div><p>Invoice vendor memiliki payment terms berbeda sehingga tim perlu memantau due date satu per satu.</p></div>
+        <div class="panel"><div class="panel-title"><span class="dot red"></span>Akar Masalah</div><ul><li>Reminder dilakukan manual.</li><li>Payment terms tidak selalu terstruktur.</li><li>Prioritas pembayaran belum mempertimbangkan cash position.</li></ul></div>
+        <div class="panel impact"><div class="panel-title"><span class="dot red"></span>Dampak Bisnis</div><ul><li>Late payment dan supplier complaint.</li><li>Payment terlalu cepat sehingga kas keluar lebih awal.</li><li>Kesulitan membuat weekly cash plan.</li></ul></div>
+        <div class="panel solution"><div class="panel-title"><span class="dot"></span>Solusi yang Diusulkan</div><p>AP calendar dengan automatic due date calculation, aging, reminder, dan payment scheduling.</p><div class="flow">Invoice Date + Terms → Due Date → Aging Bucket → Payment Priority → Scheduled Payment</div></div>
+        <div class="panel full implementation"><div class="panel-title"><span class="dot blue"></span>Tahapan Implementasi</div><div class="step-list">
+          <div class="step"><strong>Terms Master</strong><span>Standardisasi NET 7, 14, 30, 45, dsb.</span></div>
+          <div class="step"><strong>Due Calculation</strong><span>Hitung due date otomatis.</span></div>
+          <div class="step"><strong>Calendar</strong><span>Tampilkan Due Today, 7 Days, 14 Days, Overdue.</span></div>
+          <div class="step"><strong>Payment Plan</strong><span>Kelompokkan payment batch sesuai cash availability.</span></div>
+        </div></div>
+        <div class="panel"><div class="panel-title"><span class="dot"></span>Manfaat</div><div class="chip-wrap"><span class="chip">Mengurangi overdue</span><span class="chip">Cash flow lebih sehat</span><span class="chip">Supplier relationship</span></div></div>
+        <div class="panel"><div class="panel-title"><span class="dot blue"></span>KPI</div><div class="chip-wrap"><span class="chip kpi">Late payment rate</span><span class="chip kpi">AP aging</span><span class="chip kpi">On-time payment %</span></div></div>
+      </div>
+    </article>
+
+    <!-- 6 -->
+    <article class="idea">
+      <div class="idea-header"><div class="number">06</div><div><h3>Cash Flow Forecast 30 / 60 / 90 Days</h3><div class="subtitle">Proyeksi posisi kas berdasarkan penerimaan dan kewajiban yang akan datang.</div><span class="badge">Treasury • Financial Planning</span></div></div>
+      <div class="idea-content">
+        <div class="panel"><div class="panel-title"><span class="dot"></span>Kondisi Saat Ini</div><p>Keputusan pembayaran sering menggunakan saldo bank saat ini tanpa gambaran lengkap kebutuhan kas beberapa minggu ke depan.</p></div>
+        <div class="panel"><div class="panel-title"><span class="dot red"></span>Akar Masalah</div><ul><li>AR, AP, payroll, tax, rent, dan CapEx belum dikonsolidasikan.</li><li>Forecast dibuat manual dan cepat menjadi outdated.</li><li>Tidak ada baseline forecast accuracy.</li></ul></div>
+        <div class="panel impact"><div class="panel-title"><span class="dot red"></span>Dampak Bisnis</div><ul><li>Risiko cash shortage.</li><li>Payment planning sulit.</li><li>Keputusan investasi atau pembelian kurang informed.</li></ul></div>
+        <div class="panel solution"><div class="panel-title"><span class="dot"></span>Solusi yang Diusulkan</div><p>Membuat rolling cash flow forecast mingguan untuk 30, 60, dan 90 hari.</p><div class="flow">Opening Cash + Expected Receipts − Expected Payments = Projected Closing Cash</div></div>
+        <div class="panel full implementation"><div class="panel-title"><span class="dot blue"></span>Tahapan Implementasi</div><div class="step-list">
+          <div class="step"><strong>Map Inflow</strong><span>AR, retail, marketplace, wholesale, other income.</span></div>
+          <div class="step"><strong>Map Outflow</strong><span>AP, payroll, tax, rental, utilities, CapEx.</span></div>
+          <div class="step"><strong>Forecast</strong><span>Proyeksi per minggu dan scenario best/base/worst.</span></div>
+          <div class="step"><strong>Variance</strong><span>Bandingkan forecast dengan actual untuk meningkatkan akurasi.</span></div>
+        </div></div>
+        <div class="panel"><div class="panel-title"><span class="dot"></span>Manfaat</div><div class="chip-wrap"><span class="chip">Antisipasi kebutuhan kas</span><span class="chip">Payment planning</span><span class="chip">Management decision support</span></div></div>
+        <div class="panel"><div class="panel-title"><span class="dot blue"></span>KPI</div><div class="chip-wrap"><span class="chip kpi">Forecast accuracy</span><span class="chip kpi">Cash shortage incidents</span><span class="chip kpi">Min cash threshold breach</span></div></div>
+      </div>
+    </article>
+
+    <!-- 7 -->
+    <article class="idea">
+      <div class="idea-header"><div class="number">07</div><div><h3>Digital Reimbursement & Expense Claim</h3><div class="subtitle">Digitalisasi proses expense claim dari submission hingga pembayaran.</div><span class="badge">Employee Expense • Workflow</span></div></div>
+      <div class="idea-content">
+        <div class="panel"><div class="panel-title"><span class="dot"></span>Kondisi Saat Ini</div><p>Claim dapat masuk melalui chat, email, spreadsheet, atau bukti fisik sehingga status dan dokumen pendukung sulit dilacak.</p></div>
+        <div class="panel"><div class="panel-title"><span class="dot red"></span>Akar Masalah</div><ul><li>Tidak ada satu pintu submission.</li><li>Approval tidak terdokumentasi konsisten.</li><li>Receipt mudah hilang.</li><li>Employee tidak memiliki visibility status claim.</li></ul></div>
+        <div class="panel impact"><div class="panel-title"><span class="dot red"></span>Dampak Bisnis</div><ul><li>Processing time lama.</li><li>Banyak follow-up manual.</li><li>Potensi claim ganda atau tanpa bukti.</li></ul></div>
+        <div class="panel solution"><div class="panel-title"><span class="dot"></span>Solusi yang Diusulkan</div><p>Workflow digital dengan status end-to-end dan attachment receipt.</p><div class="flow">Employee Submit → Manager Approval → Accounting Verification → Payment Schedule → Paid</div></div>
+        <div class="panel full implementation"><div class="panel-title"><span class="dot blue"></span>Tahapan Implementasi</div><div class="step-list">
+          <div class="step"><strong>Form</strong><span>Tanggal, category, amount, department, description, receipt.</span></div>
+          <div class="step"><strong>Approval</strong><span>Approval berdasarkan manager dan threshold.</span></div>
+          <div class="step"><strong>Accounting</strong><span>Validasi GL account, tax, dan policy.</span></div>
+          <div class="step"><strong>Payment</strong><span>Claim masuk payment batch dan status menjadi paid.</span></div>
+        </div></div>
+        <div class="panel"><div class="panel-title"><span class="dot"></span>Manfaat</div><div class="chip-wrap"><span class="chip">Paperless</span><span class="chip">Traceable</span><span class="chip">Lebih cepat</span><span class="chip">Employee transparency</span></div></div>
+        <div class="panel"><div class="panel-title"><span class="dot blue"></span>KPI</div><div class="chip-wrap"><span class="chip kpi">Average processing days</span><span class="chip kpi">Outstanding claims</span><span class="chip kpi">Missing receipt rate</span></div></div>
+      </div>
+    </article>
+
+    <!-- 8 -->
+    <article class="idea">
+      <div class="idea-header"><div class="number">08</div><div><h3>Monthly Closing Control Center</h3><div class="subtitle">Mengelola semua aktivitas closing melalui dashboard yang terstruktur.</div><span class="badge">Month-End Closing • Governance</span></div></div>
+      <div class="idea-content">
+        <div class="panel"><div class="panel-title"><span class="dot"></span>Kondisi Saat Ini</div><p>Closing melibatkan berbagai reconciliation, journal, depreciation, accrual, tax, dan review yang sering dikelola melalui checklist terpisah.</p></div>
+        <div class="panel"><div class="panel-title"><span class="dot red"></span>Akar Masalah</div><ul><li>Task tersebar di berbagai file.</li><li>Ownership dan deadline kurang terlihat.</li><li>Management sulit mengetahui progress closing.</li></ul></div>
+        <div class="panel impact"><div class="panel-title"><span class="dot red"></span>Dampak Bisnis</div><ul><li>Closing terlambat.</li><li>Task dapat terlewat.</li><li>Post-closing adjustment meningkat.</li></ul></div>
+        <div class="panel solution"><div class="panel-title"><span class="dot"></span>Solusi yang Diusulkan</div><p>Membuat control center dengan task, PIC, due date, dependency, progress, attachment, dan review status.</p><div class="flow">Checklist → PIC → Work in Progress → Review → Completed → Period Close</div></div>
+        <div class="panel full implementation"><div class="panel-title"><span class="dot blue"></span>Tahapan Implementasi</div><div class="step-list">
+          <div class="step"><strong>Task Library</strong><span>Daftar aktivitas closing standar.</span></div>
+          <div class="step"><strong>Ownership</strong><span>Tentukan PIC dan reviewer.</span></div>
+          <div class="step"><strong>Progress</strong><span>Status Not Started, WIP, Review, Completed.</span></div>
+          <div class="step"><strong>Analytics</strong><span>Ukur bottleneck dan days to close.</span></div>
+        </div></div>
+        <div class="panel"><div class="panel-title"><span class="dot"></span>Manfaat</div><div class="chip-wrap"><span class="chip">Closing terstruktur</span><span class="chip">PIC jelas</span><span class="chip">Progress visible</span><span class="chip">Audit trail</span></div></div>
+        <div class="panel"><div class="panel-title"><span class="dot blue"></span>KPI</div><div class="chip-wrap"><span class="chip kpi">Days to close</span><span class="chip kpi">% tasks on-time</span><span class="chip kpi">Post-close adjustment</span></div></div>
+      </div>
+    </article>
+
+    <!-- 9 -->
+    <article class="idea">
+      <div class="idea-header"><div class="number">09</div><div><h3>Accounting Document Digital Archive</h3><div class="subtitle">Menghubungkan dokumen pendukung langsung ke transaksi accounting.</div><span class="badge">Audit • Documentation</span></div></div>
+      <div class="idea-content">
+        <div class="panel"><div class="panel-title"><span class="dot"></span>Kondisi Saat Ini</div><p>PO, invoice, faktur pajak, approval, dan bukti transfer dapat berada di folder, email, atau aplikasi yang berbeda.</p></div>
+        <div class="panel"><div class="panel-title"><span class="dot red"></span>Akar Masalah</div><ul><li>Tidak ada document linkage berdasarkan transaction ID.</li><li>Folder naming tidak selalu konsisten.</li><li>Pencarian dokumen bergantung pada orang yang menyimpan.</li></ul></div>
+        <div class="panel impact"><div class="panel-title"><span class="dot red"></span>Dampak Bisnis</div><ul><li>Audit preparation lama.</li><li>Dokumen sulit ditemukan.</li><li>Risiko supporting document tidak lengkap.</li></ul></div>
+        <div class="panel solution"><div class="panel-title"><span class="dot"></span>Solusi yang Diusulkan</div><p>Setiap transaksi memiliki digital folder dan mandatory supporting document checklist.</p><div class="flow">Transaction ID → PO → Receiving → Invoice → Tax → Approval → Payment Proof</div></div>
+        <div class="panel full implementation"><div class="panel-title"><span class="dot blue"></span>Tahapan Implementasi</div><div class="step-list">
+          <div class="step"><strong>Document Types</strong><span>Tetapkan tipe dokumen per transaksi.</span></div>
+          <div class="step"><strong>Linking</strong><span>Gunakan transaction ID sebagai referensi.</span></div>
+          <div class="step"><strong>Search</strong><span>Vendor, PO, invoice, date, amount.</span></div>
+          <div class="step"><strong>Completeness</strong><span>Tampilkan document completeness score.</span></div>
+        </div></div>
+        <div class="panel"><div class="panel-title"><span class="dot"></span>Manfaat</div><div class="chip-wrap"><span class="chip">Audit ready</span><span class="chip">Dokumen cepat ditemukan</span><span class="chip">Traceability</span></div></div>
+        <div class="panel"><div class="panel-title"><span class="dot blue"></span>KPI</div><div class="chip-wrap"><span class="chip kpi">Document retrieval time</span><span class="chip kpi">Missing document rate</span><span class="chip kpi">Completeness %</span></div></div>
+      </div>
+    </article>
+
+    <!-- 10 -->
+    <article class="idea">
+      <div class="idea-header"><div class="number">10</div><div><h3>Accounting Exception & Anomaly Dashboard</h3><div class="subtitle">Mengubah proses review dari “cek semua transaksi” menjadi “fokus pada transaksi berisiko”.</div><span class="badge">Internal Control • Risk Monitoring</span></div></div>
+      <div class="idea-content">
+        <div class="panel"><div class="panel-title"><span class="dot"></span>Kondisi Saat Ini</div><p>Accounting memproses volume transaksi yang besar, tetapi sulit mengetahui transaksi mana yang abnormal tanpa pengecekan manual atau audit.</p></div>
+        <div class="panel"><div class="panel-title"><span class="dot red"></span>Akar Masalah</div><ul><li>Tidak ada centralized exception rules.</li><li>Threshold review belum otomatis.</li><li>Perubahan master vendor tidak selalu dikaitkan dengan payment risk.</li><li>Historical pattern belum digunakan sebagai baseline.</li></ul></div>
+        <div class="panel impact"><div class="panel-title"><span class="dot red"></span>Dampak Bisnis</div><ul><li>Error atau fraud terlambat ditemukan.</li><li>Tim menghabiskan waktu mengecek transaksi normal.</li><li>Internal control bersifat reaktif.</li></ul></div>
+        <div class="panel solution"><div class="panel-title"><span class="dot"></span>Solusi yang Diusulkan</div><p>Membuat rule-based exception dashboard yang memberi risk level dan alert kepada Accounting.</p><div class="flow">Transaction → Control Rules → Risk Score → Alert → Investigation → Resolved</div></div>
+        <div class="panel full implementation"><div class="panel-title"><span class="dot blue"></span>Contoh Control Rule</div><div class="step-list">
+          <div class="step"><strong>Duplicate</strong><span>Invoice atau payment mirip dengan transaksi sebelumnya.</span></div>
+          <div class="step"><strong>Vendor Change</strong><span>Rekening vendor berubah sebelum payment.</span></div>
+          <div class="step"><strong>High Value</strong><span>Manual journal/payment melewati threshold.</span></div>
+          <div class="step"><strong>Behavior</strong><span>Expense jauh di atas historical average.</span></div>
+        </div></div>
+        <div class="panel">
+          <div class="panel-title"><span class="dot"></span>Manfaat</div>
+          <div class="chip-wrap">
+            <span class="chip">Proactive control</span>
+            <span class="chip">Fraud/error detection</span>
+            <span class="chip">Review lebih fokus</span>
+            <span class="chip">Risk visibility</span>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-title"><span class="dot blue"></span>KPI</div>
+          <div class="chip-wrap">
+            <span class="chip kpi">Exceptions detected</span>
+            <span class="chip kpi">Value prevented</span>
+            <span class="chip kpi">Resolution time</span>
+            <span class="chip kpi">Repeat exception rate</span>
+          </div>
+        </div>
+      </div>
+    </article>
+
+  </section>
+
+  <section class="priority" id="priority">
+    <h2>Recommended Starting Point</h2>
+    <p>
+      Jika implementasi dilakukan bertahap, tiga ide berikut memberikan kombinasi yang baik antara
+      efisiensi operasional, kontrol internal, dan dampak yang mudah diukur.
+    </p>
+    <div class="priority-grid">
+      <div class="priority-card">
+        <strong>Automatic Invoice Matching</strong>
+        <span>Cocok untuk mengurangi workload AP dan risiko invoice/payment error.</span>
+      </div>
+      <div class="priority-card">
+        <strong>Automated Bank Reconciliation</strong>
+        <span>Cocok untuk mempercepat month-end closing dan mengurangi pekerjaan manual.</span>
+      </div>
+      <div class="priority-card">
+        <strong>Exception & Anomaly Dashboard</strong>
+        <span>Cocok untuk memperkuat internal control dan membuat review lebih risk-based.</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="framework" id="framework">
+    <h2>Suggested Evaluation Framework</h2>
+    <p>Sebelum sebuah IdeaBox masuk development, setiap ide dapat dinilai menggunakan 5 aspek berikut.</p>
+    <div class="framework-grid">
+      <div class="framework-item"><strong>Business Impact</strong><span>Seberapa besar pengaruhnya terhadap biaya, risiko, waktu, atau kualitas data?</span></div>
+      <div class="framework-item"><strong>Effort</strong><span>Berapa besar effort development, process change, dan data preparation?</span></div>
+      <div class="framework-item"><strong>Data Readiness</strong><span>Apakah data yang diperlukan sudah tersedia dan cukup bersih?</span></div>
+      <div class="framework-item"><strong>User Adoption</strong><span>Seberapa besar perubahan kebiasaan user yang diperlukan?</span></div>
+      <div class="framework-item"><strong>Measurability</strong><span>Apakah hasil improvement dapat dibuktikan melalui KPI?</span></div>
+    </div>
+  </section>
+
+</main>
+
+<footer>Accounting IdeaBox • Detailed Improvement Proposal</footer>
+</body>
+</html>

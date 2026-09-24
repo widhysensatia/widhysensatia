@@ -19,6 +19,32 @@ export type KnowledgeDocument = {
 
 export const documents: KnowledgeDocument[] = [
   {
+    slug: "accounting-ideabox-detailed",
+    title: "Accounting IdeaBox — 10 Detailed Improvement Proposals",
+    shortTitle: "Accounting IdeaBox",
+    summary:
+      "Sepuluh mini business case untuk invoice matching, bank reconciliation, budget monitoring, payment control, cash flow, reimbursement, closing, document archive, dan anomaly detection.",
+    category: "Ideas",
+    type: "IdeaBox",
+    updated: "2026-09-24",
+    updatedLabel: "24 Sep 2026",
+    tags: ["Accounting", "Finance Automation", "Internal Control"],
+    accent: "amber",
+  },
+  {
+    slug: "michael-weekly-meeting-2026-09-25",
+    title: "Michael × Widi — Weekly Meeting 25 September 2026",
+    shortTitle: "Weekly Meeting Michael × Widi — 25 Sep",
+    summary:
+      "Management brief mengenai progres Project Phoenix, reverse handover melalui project Accounting, kesiapan Bali E-Commerce menuju Distribution Center, dan standardisasi delivery IT.",
+    category: "Meeting & Handover",
+    type: "Weekly Meeting",
+    updated: "2026-09-23",
+    updatedLabel: "23 Sep 2026",
+    tags: ["Michael", "Project Phoenix", "Weekly Meeting"],
+    accent: "plum",
+  },
+  {
     slug: "guanta-ai-pr-po-stockwizz-analysis",
     title: "Guanta AI × StockWizz — PR/PO Automation Analysis",
     shortTitle: "Guanta AI × StockWizz",
@@ -33,15 +59,15 @@ export const documents: KnowledgeDocument[] = [
   },
   {
     slug: "project-phoenix-weekly-handover-2026-09-23",
-    title: "Project Phoenix — Weekly Handover #1",
-    shortTitle: "Phoenix Weekly Handover #1",
+    title: "Project Phoenix — Weekly KT #1",
+    shortTitle: "Project Phoenix Weekly KT #1",
     summary:
-      "Workspace KT pertama untuk StockWizz architecture, deployment dan rollback, Jubelio reliability, hands-on development, evidence capture, dan reverse handover.",
+      "Technical baseline hasil knowledge transfer pertama: system landscape, architecture, runtime, CI/CD, data, identity, integrations, access risk, Jubelio, dan langkah reverse handover.",
     category: "Meeting & Handover",
     type: "KT & Handover",
-    updated: "2026-09-22",
-    updatedLabel: "22 Sep 2026",
-    tags: ["Project Phoenix", "Knowledge Transfer", "Colin"],
+    updated: "2026-09-23",
+    updatedLabel: "23 Sep 2026",
+    tags: ["Project Phoenix", "Knowledge Transfer", "Architecture"],
     accent: "plum",
   },
   {

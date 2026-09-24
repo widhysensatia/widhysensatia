@@ -1,0 +1,817 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="theme-color" content="#243f35" />
+<title>Weekly Meeting Michael × Widi · 25 September 2026</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Libre+Caslon+Display&display=swap');
+
+:root{
+  /* Palette intentionally aligned to the current Sensatia visual direction:
+     warm whites, botanical sage, deep natural green, soft mineral neutrals. */
+  --ink:#1d2823;
+  --ink-2:#314139;
+  --muted:#6e7b74;
+  --green:#243f35;
+  --green-2:#355749;
+  --sage:#dbe3d7;
+  --sage-2:#eef2eb;
+  --sage-3:#c8d5c4;
+  --stone:#e9e7de;
+  --paper:#fffef9;
+  --canvas:#f4f2eb;
+  --warm:#e7ddd0;
+  --clay:#b77d60;
+  --amber:#c19a56;
+  --danger:#a65b50;
+  --blue:#66848a;
+  --line:rgba(29,40,35,.12);
+  --line-strong:rgba(29,40,35,.22);
+  --shadow:0 26px 80px rgba(36,63,53,.10);
+  --max:1320px;
+  --radius:28px;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;background:var(--canvas)}
+body{
+  margin:0;color:var(--ink);background:var(--canvas);
+  font-family:"DM Sans","Avenir Next","Segoe UI",system-ui,sans-serif;
+  line-height:1.55;
+  overflow-x:hidden;
+}
+a{color:inherit}
+button{font:inherit}
+.wrap{width:min(var(--max),calc(100% - 48px));margin:auto}
+.serif,h1,h2{font-family:"Libre Caslon Display",Georgia,serif;font-weight:400;letter-spacing:-.025em}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+.progress{position:fixed;z-index:200;inset:0 auto auto 0;height:3px;width:0;background:var(--green)}
+
+.topbar{
+  position:sticky;top:0;z-index:150;
+  background:rgba(244,242,235,.88);
+  backdrop-filter:blur(18px) saturate(1.2);
+  border-bottom:1px solid rgba(29,40,35,.07);
+}
+.nav{height:76px;display:flex;align-items:center;justify-content:space-between;gap:26px}
+.brand{display:flex;align-items:center;text-decoration:none;min-width:148px}
+.brand img{display:block;width:130px;height:auto;max-height:34px;object-fit:contain;object-position:left center}
+.brand-word{display:none;font-size:30px;letter-spacing:-.06em;font-weight:600}
+.navlinks{display:flex;align-items:center;gap:4px;flex-wrap:wrap}
+.navlinks a{
+  text-decoration:none;font-size:12px;font-weight:700;letter-spacing:.02em;color:var(--muted);
+  padding:9px 11px;border-radius:999px;transition:.2s ease;
+}
+.navlinks a:hover,.navlinks a.active{color:var(--green);background:rgba(219,227,215,.65)}
+.presenter{
+  border:1px solid var(--line-strong);border-radius:999px;background:transparent;color:var(--green);
+  padding:9px 14px;cursor:pointer;font-size:12px;font-weight:700;
+}
+
+/* hero */
+.hero{
+  min-height:760px;position:relative;overflow:hidden;
+  background:
+    radial-gradient(circle at 82% 28%,rgba(200,213,196,.78),transparent 23rem),
+    linear-gradient(180deg,#f8f7f2 0%,var(--canvas) 100%);
+  border-bottom:1px solid var(--line);
+}
+.hero:before{
+  content:"";position:absolute;right:-170px;top:-170px;width:520px;height:520px;border-radius:50%;
+  border:1px solid rgba(36,63,53,.10);
+}
+.hero-grid{
+  min-height:760px;display:grid;grid-template-columns:minmax(0,1.08fr) minmax(390px,.92fr);
+  gap:72px;align-items:center;padding:82px 0 76px;
+}
+.kicker{
+  display:flex;align-items:center;gap:12px;color:var(--green);
+  font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+}
+.kicker:before{content:"";width:34px;height:1px;background:var(--green)}
+h1{font-size:clamp(62px,7vw,108px);line-height:.92;margin:25px 0 22px;max-width:850px}
+h1 i{font-style:italic;color:var(--green-2)}
+.hero-copy{max-width:760px;font-size:20px;color:var(--ink-2);margin:0 0 30px}
+.hero-tags{display:flex;flex-wrap:wrap;gap:8px}
+.hero-tag{
+  padding:8px 11px;border-radius:999px;background:rgba(255,254,249,.62);border:1px solid var(--line);
+  font-size:12px;font-weight:600;
+}
+.hero-panel{
+  min-height:545px;border-radius:42px;background:var(--green);color:#fff;position:relative;overflow:hidden;
+  padding:36px 34px;box-shadow:var(--shadow);
+}
+.hero-panel:after{
+  content:"";position:absolute;right:-95px;bottom:-95px;width:300px;height:300px;border-radius:50%;
+  border:1px solid rgba(255,255,255,.12);
+}
+.hero-panel .date{
+  display:flex;justify-content:space-between;align-items:flex-start;border-bottom:1px solid rgba(255,255,255,.15);
+  padding-bottom:22px;margin-bottom:20px;
+}
+.hero-panel .date small{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.65)}
+.hero-panel .date b{font-size:13px}
+.hero-topics{display:grid;gap:8px}
+.hero-topic{
+  display:grid;grid-template-columns:42px 1fr;gap:14px;padding:15px 0;border-bottom:1px solid rgba(255,255,255,.11);
+}
+.hero-topic:last-child{border-bottom:0}
+.hero-topic .num{font-size:10px;font-weight:700;color:#b8c9bb;padding-top:3px}
+.hero-topic strong{font-size:15px;display:block;margin-bottom:3px}
+.hero-topic span{font-size:12.5px;color:rgba(255,255,255,.64)}
+.hero-quote{
+  position:absolute;left:34px;right:34px;bottom:28px;font-family:"Libre Caslon Display",Georgia,serif;
+  font-size:22px;line-height:1.25;color:#e8eee6;
+}
+.leaf-art{position:absolute;width:360px;height:360px;right:-110px;top:70px;opacity:.12;pointer-events:none}
+
+/* overview ribbon */
+.ribbon{
+  background:var(--paper);border-bottom:1px solid var(--line);
+}
+.ribbon-inner{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:0;
+}
+.ribbon-item{padding:25px 24px;border-right:1px solid var(--line)}
+.ribbon-item:first-child{padding-left:0}
+.ribbon-item:last-child{border-right:0;padding-right:0}
+.ribbon-item small{display:block;color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.12em;margin-bottom:7px}
+.ribbon-item strong{font-size:15px;line-height:1.3;display:block}
+.ribbon-item .status{margin-top:8px;font-size:11px;color:var(--green-2)}
+
+/* sections */
+section.content{padding:110px 0;border-bottom:1px solid var(--line)}
+.section-grid{display:grid;grid-template-columns:190px 1fr;gap:50px}
+.section-index{position:sticky;top:105px;align-self:start}
+.section-index .n{font-family:"Libre Caslon Display",Georgia,serif;font-size:58px;line-height:1;color:var(--sage-3)}
+.section-index .label{margin-top:10px;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.section-head{max-width:960px;margin-bottom:44px}
+.section-head h2{font-size:clamp(44px,4.5vw,72px);line-height:.99;margin:0 0 18px}
+.section-head p{font-size:18px;color:var(--muted);margin:0;max-width:880px}
+
+/* cards */
+.grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.grid-4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px}
+.card{
+  background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);
+  padding:25px;position:relative;overflow:hidden;
+}
+.card.flat{box-shadow:none}
+.card.soft{background:var(--sage-2)}
+.card.dark{background:var(--green);color:white;border-color:transparent}
+.card.dark p{color:rgba(255,255,255,.68)}
+.card .eyebrow{
+  font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);
+  margin-bottom:20px;
+}
+.card.dark .eyebrow{color:#afc1b3}
+.card h3{font-size:17px;margin:0 0 8px;letter-spacing:-.02em}
+.card p{margin:0;color:var(--muted);font-size:14px}
+.badge{
+  display:inline-flex;padding:6px 9px;border-radius:999px;background:var(--sage);font-size:10px;font-weight:700;
+  letter-spacing:.05em;text-transform:uppercase;color:var(--green);
+}
+.badge.warn{background:#f2e8d5;color:#78571c}
+.badge.risk{background:#f0deda;color:#81483f}
+.badge.blue{background:#e2eaeb;color:#486b71}
+
+/* Knowledge landscape */
+.landscape{
+  display:grid;grid-template-columns:1.15fr .85fr;gap:18px;margin-top:20px;
+}
+.system-map{
+  background:var(--green);color:white;border-radius:34px;padding:28px;min-height:380px;
+}
+.system-map-title{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;margin-bottom:24px}
+.system-map-title b{font-size:13px}
+.system-map-title span{font-size:11px;color:rgba(255,255,255,.58)}
+.layers{display:grid;gap:8px}
+.layer{
+  display:grid;grid-template-columns:118px 1fr;gap:12px;align-items:stretch;
+}
+.layer-label{
+  display:flex;align-items:center;font-size:9px;font-weight:700;letter-spacing:.10em;text-transform:uppercase;
+  color:#b5c6b8;
+}
+.layer-items{display:flex;gap:7px;flex-wrap:wrap}
+.chip{
+  padding:10px 11px;border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.06);
+  border-radius:11px;font-size:11px;color:#fff;
+}
+.maturity{
+  background:var(--paper);border:1px solid var(--line);border-radius:34px;padding:28px;display:flex;flex-direction:column;
+}
+.maturity h3{font-size:19px;margin:0 0 24px}
+.maturity-steps{display:grid;gap:8px;flex:1}
+.maturity-step{
+  display:grid;grid-template-columns:32px 1fr auto;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line);
+}
+.maturity-step:last-child{border-bottom:0}
+.maturity-step .circle{
+  width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--sage-2);font-size:10px;font-weight:700;
+}
+.maturity-step.active .circle{background:var(--green);color:white}
+.maturity-step strong{font-size:12px}
+.maturity-step span{font-size:10px;color:var(--muted)}
+.maturity-step .state{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--green-2)}
+
+/* flows */
+.flowline{
+  display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px;align-items:stretch;margin-top:24px;
+}
+.flowbox{
+  background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:16px 14px;min-height:115px;position:relative;
+}
+.flowbox:after{
+  content:"→";position:absolute;right:-13px;top:50%;transform:translateY(-50%);color:var(--green-2);font-size:17px;z-index:2;
+}
+.flowbox:last-child:after{display:none}
+.flowbox .step{font-size:9px;color:var(--muted);font-weight:700;letter-spacing:.08em;margin-bottom:18px}
+.flowbox b{font-size:12px;display:block;line-height:1.25}
+.flowbox span{display:block;font-size:10px;color:var(--muted);margin-top:6px}
+.flowbox.key{background:var(--green);color:white}
+.flowbox.key span,.flowbox.key .step{color:rgba(255,255,255,.62)}
+.flowbox.focus{background:#f8f4ed;border-color:rgba(183,125,96,.32)}
+
+/* accounting ownership shift */
+.shift{
+  display:grid;grid-template-columns:1fr 64px 1fr;gap:18px;align-items:center;margin:24px 0;
+}
+.shift-box{border:1px solid var(--line);border-radius:28px;background:var(--paper);padding:26px}
+.shift-box.target{background:var(--sage-2)}
+.shift-box small{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.shift-box h3{font-size:21px;margin:10px 0 18px}
+.shift-mini{display:flex;align-items:center;gap:8px}
+.shift-node{flex:1;padding:13px 12px;border-radius:13px;background:white;border:1px solid var(--line);font-size:11px;font-weight:600;text-align:center}
+.shift-arrow{color:var(--green-2)}
+.shift-mid{height:1px;background:var(--line);position:relative}
+.shift-mid:after{content:"→";position:absolute;left:50%;top:50%;transform:translate(-50%,-55%);background:var(--canvas);padding:0 9px;color:var(--clay);font-size:24px}
+
+/* Jubelio diagram */
+.jubelio-hero{
+  margin-top:26px;display:grid;grid-template-columns:.82fr 1.18fr;gap:18px;
+}
+.target-date{
+  background:var(--green);color:white;border-radius:34px;padding:34px;min-height:360px;display:flex;flex-direction:column;justify-content:space-between;
+}
+.target-date small{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#b8c8bb}
+.target-date .big{font-family:"Libre Caslon Display",Georgia,serif;font-size:76px;line-height:.85;margin-top:12px}
+.target-date .month{font-size:17px;margin-top:5px}
+.target-date p{color:rgba(255,255,255,.67);font-size:13px;max-width:300px}
+.architecture{
+  border:1px solid var(--line);border-radius:34px;background:var(--paper);padding:28px;
+}
+.architecture-head{display:flex;justify-content:space-between;gap:15px;align-items:start;margin-bottom:26px}
+.architecture-head h3{font-size:20px;margin:0}
+.architecture-head span{font-size:10px;color:var(--muted)}
+.lanes{display:grid;gap:16px}
+.lane{display:grid;grid-template-columns:125px 1fr;gap:12px;align-items:center}
+.lane-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.10em;color:var(--muted)}
+.lane-line{display:flex;align-items:center;gap:8px}
+.lane-node{flex:1;border:1px solid var(--line);background:var(--sage-2);padding:11px;border-radius:12px;text-align:center;font-size:10px;font-weight:600}
+.lane-node.dark{background:var(--green);color:white}
+.lane-arrow{font-size:14px;color:var(--green-2)}
+
+.blocker{
+  margin-top:18px;border-radius:34px;background:#242d29;color:white;padding:30px;
+  display:grid;grid-template-columns:260px 1fr;gap:30px;align-items:center;
+}
+.blocker small{font-size:9px;color:#ddb9a8;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+.blocker h3{font-family:"Libre Caslon Display",Georgia,serif;font-weight:400;font-size:34px;line-height:1.05;margin:9px 0 0}
+.blocker p{margin:0;color:rgba(255,255,255,.66);font-size:13px}
+.share{
+  margin-top:18px;display:grid;grid-template-columns:1fr 72px 1fr;gap:8px;align-items:center;
+}
+.share-box{padding:13px;border:1px solid rgba(255,255,255,.14);border-radius:12px;background:rgba(255,255,255,.05)}
+.share-box b{display:block;font-size:11px}
+.share-box span{font-size:9.5px;color:rgba(255,255,255,.56)}
+.share-mid{text-align:center;color:#e2bba8;font-size:9px;font-weight:700;text-transform:uppercase}
+
+/* deployment rhythm */
+.rhythm{
+  display:grid;grid-template-columns:1.1fr .9fr;gap:18px;margin-top:28px;
+}
+.day{
+  border:1px solid var(--line);border-radius:32px;background:var(--paper);padding:28px;
+}
+.day h3{font-size:20px;margin:0 0 8px}
+.day p{font-size:13px;color:var(--muted);margin:0}
+.day-track{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:22px}
+.slot{padding:15px;border-radius:13px;background:var(--sage-2);min-height:92px}
+.slot.dark{background:var(--green);color:white}
+.slot b{display:block;font-size:10px;margin-bottom:8px}
+.slot span{font-size:9.5px;color:var(--muted)}
+.slot.dark span{color:rgba(255,255,255,.62)}
+.exception{
+  border-radius:32px;background:var(--warm);padding:28px;border:1px solid rgba(183,125,96,.12);
+}
+.exception small{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#8a614e}
+.exception h3{font-size:22px;margin:10px 0}
+.exception p{font-size:13px;color:#765d51;margin:0}
+
+/* alignment / ending */
+.align-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.align-item{
+  display:grid;grid-template-columns:38px 1fr;gap:14px;padding:22px;background:var(--paper);border:1px solid var(--line);border-radius:22px;
+}
+.align-item .num{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:var(--sage-2);font-size:10px;font-weight:700}
+.align-item h3{font-size:15px;margin:0 0 5px}
+.align-item p{font-size:12px;color:var(--muted);margin:0}
+.closing{
+  margin-top:20px;background:var(--green);color:white;border-radius:38px;padding:42px;display:grid;grid-template-columns:.9fr 1.1fr;gap:44px;
+}
+.closing .quote{
+  font-family:"Libre Caslon Display",Georgia,serif;font-size:37px;line-height:1.12;
+}
+.closing .quote em{color:#cdd9cf}
+.closing-points{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.closing-point{padding:15px;border:1px solid rgba(255,255,255,.13);border-radius:13px;background:rgba(255,255,255,.04)}
+.closing-point b{display:block;font-size:11px;margin-bottom:4px}
+.closing-point span{font-size:10px;color:rgba(255,255,255,.61)}
+
+/* presenter notes */
+.notes{padding:75px 0 100px;background:#eceae2}
+.notes h2{font-size:48px;margin:0 0 28px}
+details{border-top:1px solid var(--line-strong)}
+details:last-child{border-bottom:1px solid var(--line-strong)}
+summary{cursor:pointer;padding:18px 0;font-size:13px;font-weight:700}
+.note-body{max-width:950px;padding:0 0 20px;color:var(--muted);font-size:14px}
+
+/* micro interaction */
+.reveal{opacity:0;transform:translateY(14px);transition:.6s ease}
+.reveal.in{opacity:1;transform:none}
+.card,.align-item,.flowbox,.shift-box{transition:transform .25s ease,box-shadow .25s ease}
+.card:hover,.align-item:hover,.shift-box:hover{transform:translateY(-3px);box-shadow:0 18px 44px rgba(36,63,53,.07)}
+.footer{padding:34px 0 48px;color:var(--muted);font-size:11px}
+.footer-inner{border-top:1px solid var(--line);padding-top:24px;display:flex;justify-content:space-between;gap:20px;align-items:center}
+.footer-brand img{width:90px;max-height:28px;object-fit:contain;object-position:left center}
+
+@media(max-width:1100px){
+  .hero-grid{grid-template-columns:1fr}.hero{min-height:auto}.hero-grid{min-height:auto}
+  .ribbon-inner{grid-template-columns:repeat(2,1fr)}.ribbon-item:nth-child(2){border-right:0}
+  .section-grid{grid-template-columns:130px 1fr}
+  .grid-4{grid-template-columns:repeat(2,1fr)}
+  .landscape,.jubelio-hero{grid-template-columns:1fr}
+  .flowline{grid-template-columns:repeat(4,1fr)}.flowbox:after{display:none}
+}
+@media(max-width:820px){
+  .wrap{width:min(var(--max),calc(100% - 28px))}
+  .navlinks{display:none}.brand img{width:110px}
+  .hero-grid{padding:56px 0}.hero-panel{min-height:510px}
+  h1{font-size:56px}
+  .ribbon-inner{grid-template-columns:1fr}.ribbon-item{border-right:0;border-bottom:1px solid var(--line);padding-left:0}.ribbon-item:last-child{border-bottom:0}
+  section.content{padding:74px 0}
+  .section-grid{grid-template-columns:1fr;gap:20px}.section-index{position:static;display:flex;gap:10px;align-items:end}.section-index .n{font-size:38px}.section-index .label{margin:0 0 4px}
+  .grid-2,.grid-3,.grid-4,.rhythm,.closing{grid-template-columns:1fr}
+  .shift{grid-template-columns:1fr}.shift-mid{height:48px;width:1px;margin:auto}.shift-mid:after{content:"↓"}
+  .flowline{grid-template-columns:repeat(2,1fr)}
+  .blocker{grid-template-columns:1fr}
+  .align-grid{grid-template-columns:1fr}
+  .closing-points{grid-template-columns:1fr}
+}
+@media print{
+  .topbar,.progress,.presenter{display:none!important}
+  body{background:white}
+  .hero,section.content,.notes{break-inside:avoid-page}
+  .reveal{opacity:1!important;transform:none!important}
+  .card:hover,.align-item:hover,.shift-box:hover{transform:none;box-shadow:none}
+}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+
+<header class="topbar">
+  <div class="wrap nav">
+    <a class="brand" href="#top" aria-label="Sensatia">
+      <img id="sensatiaLogo" src="/sensatia-logo.svg" alt="Sensatia">
+      <span id="brandFallback" class="brand-word">sensatia</span>
+    </a>
+    <nav class="navlinks">
+      <a href="#phoenix">Phoenix</a>
+      <a href="#accounting">Accounting</a>
+      <a href="#jubelio">Jubelio</a>
+      <a href="#workflow">Alur IT</a>
+      <a href="#alignment">Alignment</a>
+    </nav>
+    <button class="presenter" id="presentBtn">Presentasi</button>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="reveal">
+        <div class="kicker">Weekly Meeting · Michael × Widi · Jumat, 25 September 2026</div>
+        <h1>Dari handover menuju <i>ownership.</i></h1>
+        <p class="hero-copy">
+          Minggu ini fokusnya bukan hanya “apa yang selesai”, tetapi bagaimana kita mulai mengubah knowledge transfer menjadi capability nyata: saya mulai mengambil pekerjaan StockWiz, Jubelio bergerak menuju model Distribution Center, dan proses delivery IT dibuat lebih terstruktur.
+        </p>
+        <div class="hero-tags">
+          <span class="hero-tag">Project Phoenix KT #1 selesai</span>
+          <span class="hero-tag">Accounting = first reverse-handover trial</span>
+          <span class="hero-tag">Bali DC target: 1 Oktober, jika aman</span>
+        </div>
+      </div>
+
+      <aside class="hero-panel reveal">
+        <div class="date">
+          <div><small>Weekly IT / Project Phoenix</small><br><b>Empat percakapan utama</b></div>
+          <div style="text-align:right"><small>Meeting date</small><br><b>25.09.2026</b></div>
+        </div>
+        <div class="hero-topics">
+          <div class="hero-topic"><div class="num">01</div><div><strong>Project Phoenix</strong><span>Baseline knowledge yang sudah berhasil dipetakan.</span></div></div>
+          <div class="hero-topic"><div class="num">02</div><div><strong>Accounting / Putu Mei</strong><span>Percobaan pertama: saya implement, Colin review.</span></div></div>
+          <div class="hero-topic"><div class="num">03</div><div><strong>Jubelio / Bali E-Commerce</strong><span>Kesiapan menuju Distribution Center dan blocker stock sharing.</span></div></div>
+          <div class="hero-topic"><div class="num">04</div><div><strong>Alur kerja IT</strong><span>Request → Jira → prioritas → deploy → announcement.</span></div></div>
+        </div>
+        <div class="hero-quote">“Bukan hanya transfer informasi—targetnya adalah transfer kemampuan.”</div>
+        <svg class="leaf-art" viewBox="0 0 400 400" fill="none" aria-hidden="true">
+          <path d="M187 389C178 309 179 222 204 94" stroke="white" stroke-width="2"/>
+          <path d="M198 252C145 246 112 213 96 170C150 171 190 199 198 252Z" stroke="white" stroke-width="2"/>
+          <path d="M205 191C259 181 291 150 312 107C257 110 218 141 205 191Z" stroke="white" stroke-width="2"/>
+          <path d="M185 319C143 310 114 280 98 245C141 247 175 272 185 319Z" stroke="white" stroke-width="2"/>
+        </svg>
+      </aside>
+    </div>
+  </section>
+
+  <section class="ribbon">
+    <div class="wrap ribbon-inner">
+      <div class="ribbon-item"><small>Phoenix</small><strong>Baseline sistem sudah lebih jelas</strong><div class="status">→ berikutnya: hands-on transfer</div></div>
+      <div class="ribbon-item"><small>Accounting</small><strong>Widi jadi implementer pertama</strong><div class="status">→ Colin sebagai reviewer</div></div>
+      <div class="ribbon-item"><small>Jubelio</small><strong>1 Oktober tetap target</strong><div class="status">→ go-live hanya jika routing aman</div></div>
+      <div class="ribbon-item"><small>IT Delivery</small><strong>Flow harian mulai distandarkan</strong><div class="status">→ batch release bila memungkinkan</div></div>
+    </div>
+  </section>
+
+  <section class="content" id="phoenix">
+    <div class="wrap section-grid">
+      <aside class="section-index">
+        <div class="n">01</div>
+        <div class="label">Project Phoenix</div>
+      </aside>
+      <div>
+        <div class="section-head reveal">
+          <h2>KT pertama memberi kita <em>technical baseline</em> yang nyata.</h2>
+          <p>
+            Colin sudah menjelaskan landscape sistem, environment, deployment, database, jobs, integrasi dan access dependency. Sekarang langkah berikutnya adalah mengubah knowledge itu menjadi kemampuan yang saya praktikkan sendiri.
+          </p>
+        </div>
+
+        <div class="grid-4 reveal">
+          <div class="card"><div class="eyebrow">Mapped</div><h3>Sistem & environment</h3><p>StockWiz, Website, web-api, customer-app, newsletter-app, WordPress, Production dan Sandbox.</p></div>
+          <div class="card"><div class="eyebrow">Mapped</div><h3>Data & infrastructure</h3><p>Mongo Production/Sandbox/Web, Redis, GCS, DigitalOcean, Netlify dan scheduled jobs.</p></div>
+          <div class="card"><div class="eyebrow">Mapped</div><h3>Integrasi & access</h3><p>Auth0, payments, SendGrid, Jubelio, observability dan access yang masih perlu diklasifikasi.</p></div>
+          <div class="card soft"><div class="eyebrow">Still open</div><h3>Continuity gaps</h3><p>Ownership repository, recovery access, backup/restore, rollback dan dependency personal Colin.</p></div>
+        </div>
+
+        <div class="landscape reveal">
+          <div class="system-map">
+            <div class="system-map-title"><b>System landscape yang sudah dipetakan</b><span>first-pass verified map</span></div>
+            <div class="layers">
+              <div class="layer"><div class="layer-label">Experience</div><div class="layer-items"><span class="chip">StockWiz</span><span class="chip">Website</span><span class="chip">Kiosk</span><span class="chip">WordPress</span></div></div>
+              <div class="layer"><div class="layer-label">Services</div><div class="layer-items"><span class="chip">web-api</span><span class="chip">customer-app</span><span class="chip">newsletter-app</span><span class="chip">cron / bash jobs</span></div></div>
+              <div class="layer"><div class="layer-label">Data</div><div class="layer-items"><span class="chip">Mongo Prod</span><span class="chip">Mongo Sandbox</span><span class="chip">Mongo Web</span><span class="chip">Redis</span><span class="chip">GCS</span></div></div>
+              <div class="layer"><div class="layer-label">Integrations</div><div class="layer-items"><span class="chip">Jubelio</span><span class="chip">Auth0</span><span class="chip">SendGrid</span><span class="chip">Payments</span><span class="chip">Monitoring</span></div></div>
+              <div class="layer"><div class="layer-label">Hosting</div><div class="layer-items"><span class="chip">DigitalOcean</span><span class="chip">Netlify</span><span class="chip">Google Cloud</span></div></div>
+            </div>
+          </div>
+
+          <div class="maturity">
+            <h3>Model handover yang ingin dicapai</h3>
+            <div class="maturity-steps">
+              <div class="maturity-step"><div class="circle">1</div><div><strong>Explained</strong><span>Colin menjelaskan</span></div><div class="state">started</div></div>
+              <div class="maturity-step active"><div class="circle">2</div><div><strong>Documented</strong><span>Knowledge masuk ke Phoenix</span></div><div class="state">active</div></div>
+              <div class="maturity-step active"><div class="circle">3</div><div><strong>Access Ready</strong><span>Access/recovery diverifikasi</span></div><div class="state">in progress</div></div>
+              <div class="maturity-step active"><div class="circle">4</div><div><strong>Practiced</strong><span>Saya menjalankan sendiri</span></div><div class="state">next</div></div>
+              <div class="maturity-step"><div class="circle">5</div><div><strong>Verified</strong><span>Colin hanya mereview</span></div><div class="state">target</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid-2 reveal" style="margin-top:18px">
+          <div class="card dark">
+            <div class="eyebrow">Temuan continuity</div>
+            <h3>Repository Sensatia masih berada di akun GitHub personal Colin.</h3>
+            <p>Arah yang dibahas: pindahkan repository ke Sensatia-controlled GitHub, lalu validasi ulang koneksi deployment DigitalOcean/Netlify serta secrets dan hooks yang terkait.</p>
+          </div>
+          <div class="card">
+            <span class="badge blue">Management takeaway</span>
+            <h3 style="margin-top:16px">Project Phoenix mulai masuk ke fase yang bisa diukur.</h3>
+            <p>Progress berikutnya bukan berapa banyak topik yang “sudah dibahas”, tapi berapa area yang sudah bisa saya kerjakan atau operasikan sendiri dengan review minimal dari Colin.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="content" id="accounting">
+    <div class="wrap section-grid">
+      <aside class="section-index">
+        <div class="n">02</div>
+        <div class="label">Accounting</div>
+      </aside>
+      <div>
+        <div class="section-head reveal">
+          <h2>Project Putu Mei menjadi percobaan pertama <em>reverse handover.</em></h2>
+          <p>
+            Rencananya saya yang mengerjakan perubahan StockWiz. Colin tidak langsung mengambil implementasinya, tetapi mereview approach dan code saya sebelum perubahan masuk ke Sandbox.
+          </p>
+        </div>
+
+        <div class="shift reveal">
+          <div class="shift-box">
+            <small>Pola sebelumnya</small>
+            <h3>Request → Colin implement</h3>
+            <div class="shift-mini">
+              <div class="shift-node">Request</div><span class="shift-arrow">→</span><div class="shift-node">Colin builds</div>
+            </div>
+          </div>
+          <div class="shift-mid"></div>
+          <div class="shift-box target">
+            <small>Percobaan Phoenix</small>
+            <h3>Widi implement → Colin review</h3>
+            <div class="shift-mini">
+              <div class="shift-node">Widi builds</div><span class="shift-arrow">→</span><div class="shift-node">Colin reviews</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="flowline reveal">
+          <div class="flowbox"><div class="step">01</div><b>Kebutuhan Putu Mei</b><span>Requirement Accounting sudah dikonfirmasi</span></div>
+          <div class="flowbox focus"><div class="step">02</div><b>Widi implementasi</b><span>Design + code change</span></div>
+          <div class="flowbox"><div class="step">03</div><b>Review Colin</b><span>Technical feedback</span></div>
+          <div class="flowbox"><div class="step">04</div><b>Sandbox</b><span>Controlled test</span></div>
+          <div class="flowbox"><div class="step">05</div><b>Validasi Putu Mei</b><span>Business acceptance</span></div>
+          <div class="flowbox key"><div class="step">06</div><b>Production</b><span>Release setelah aman</span></div>
+          <div class="flowbox"><div class="step">07</div><b>Capture knowledge</b><span>Update Phoenix/Jira</span></div>
+        </div>
+
+        <div class="grid-3 reveal" style="margin-top:18px">
+          <div class="card"><div class="eyebrow">Tujuan 1</div><h3>Selesaikan kebutuhan Accounting</h3><p>Fitur tetap harus memenuhi kebutuhan Putu Mei dengan aman.</p></div>
+          <div class="card soft"><div class="eyebrow">Tujuan 2</div><h3>Buktikan model handover</h3><p>Saya mulai mengambil responsibility teknis, bukan hanya koordinasi request.</p></div>
+          <div class="card"><div class="eyebrow">Tujuan 3</div><h3>Ubah peran Colin</h3><p>Secara bertahap dari implementer utama menjadi reviewer/mentor untuk pekerjaan tertentu.</p></div>
+        </div>
+
+        <div class="card dark reveal" style="margin-top:18px">
+          <div class="eyebrow">Kalimat untuk Michael</div>
+          <h3 style="font-family:'Libre Caslon Display',Georgia,serif;font-weight:400;font-size:30px;line-height:1.14;max-width:920px">
+            “Saya ingin menggunakan project Accounting ini bukan hanya untuk menyelesaikan request, tapi sebagai test pertama bahwa saya sudah mulai bisa melakukan perubahan StockWiz sendiri dengan Colin sebagai reviewer.”
+          </h3>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="content" id="jubelio">
+    <div class="wrap section-grid">
+      <aside class="section-index">
+        <div class="n">03</div>
+        <div class="label">Jubelio</div>
+      </aside>
+      <div>
+        <div class="section-head reveal">
+          <h2>Targetnya: Bali E-Commerce mulai memakai Distribution Center.</h2>
+          <p>
+            Saya ingin melihat apakah implementasi ini bisa dilakukan pada 1 Oktober jika memungkinkan. Setelah migrasi, Bali E-Commerce tidak lagi diperlakukan sebagai shop, tetapi menggunakan model Distribution Center / warehouse untuk fulfillment.
+          </p>
+        </div>
+
+        <div class="jubelio-hero reveal">
+          <div class="target-date">
+            <div>
+              <small>Conditional target</small>
+              <div class="big">01</div>
+              <div class="month">Oktober 2026</div>
+            </div>
+            <div>
+              <p>Target ini hanya diteruskan jika warehouse routing dan end-to-end transaction behavior sudah terverifikasi aman.</p>
+              <span class="badge" style="background:#d9e4da;color:#243f35">Target, bukan janji mutlak</span>
+            </div>
+          </div>
+
+          <div class="architecture">
+            <div class="architecture-head"><div><h3>Perubahan operating model</h3><span>dari shop context ke Distribution Center</span></div><span>BEFORE → TARGET</span></div>
+            <div class="lanes">
+              <div class="lane"><div class="lane-label">Saat ini</div><div class="lane-line"><div class="lane-node">Bali E-Commerce</div><div class="lane-arrow">→</div><div class="lane-node">Shop / mixed stock context</div><div class="lane-arrow">→</div><div class="lane-node">Manual / mixed handling</div></div></div>
+              <div class="lane"><div class="lane-label">Target</div><div class="lane-line"><div class="lane-node dark">Bali E-Commerce</div><div class="lane-arrow">→</div><div class="lane-node dark">Distribution Center</div><div class="lane-arrow">→</div><div class="lane-node dark">Warehouse → Pack → Ship</div></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="architecture reveal" style="margin-top:18px">
+          <div class="architecture-head"><div><h3>Validasi yang sedang disiapkan</h3><span>real production-originated event, safe sandbox validation</span></div><span>SENS-197</span></div>
+          <div class="flowline" style="margin-top:0;grid-template-columns:repeat(5,1fr)">
+            <div class="flowbox key"><div class="step">A</div><b>Jubelio Production</b><span>Webhook event nyata</span></div>
+            <div class="flowbox"><div class="step">B</div><b>Sandbox web-api</b><span>Receive & validate</span></div>
+            <div class="flowbox focus"><div class="step">C</div><b>Sandbox websales</b><span>Create / update sale</span></div>
+            <div class="flowbox"><div class="step">D</div><b>Status history</b><span>Previous → new status</span></div>
+            <div class="flowbox"><div class="step">E</div><b>Retest Widi</b><span>Trace end-to-end</span></div>
+          </div>
+          <p style="margin:14px 0 0;font-size:11px;color:var(--muted)">
+            Safety boundary: Sandbox tidak boleh menyebabkan side effect yang tidak aman ke stock production, marketplace status, shipment, atau notifikasi customer real.
+          </p>
+        </div>
+
+        <div class="blocker reveal">
+          <div>
+            <small>Blocker saat ini</small>
+            <h3>Stock masih sharing dengan Web Sales.</h3>
+          </div>
+          <div>
+            <p>Jubelio masih berada pada warehouse/stock context yang sama dengan Web Sales. Sebelum Bali benar-benar memakai DC, kita perlu memastikan order marketplace mengurangi stock pada fulfillment warehouse yang tepat dan tidak mencampur ownership stock dengan Web Sales.</p>
+            <div class="share">
+              <div class="share-box"><b>Web Sales</b><span>website order stock context</span></div>
+              <div class="share-mid">shared<br>context</div>
+              <div class="share-box"><b>Marketplace / Jubelio</b><span>target: Bali E-Commerce DC</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid-3 reveal" style="margin-top:18px">
+          <div class="card"><span class="badge">Colin</span><h3 style="margin-top:15px">Update webhook + status history</h3><p>Production Jubelio webhook → StockWiz Sandbox untuk test realistis.</p></div>
+          <div class="card"><span class="badge blue">Widi</span><h3 style="margin-top:15px">Retest dan evidence</h3><p>Trace real transaction end-to-end setelah implementasi Colin siap.</p></div>
+          <div class="card soft"><span class="badge warn">Widi + Colin</span><h3 style="margin-top:15px">Warehouse routing decision</h3><p>Validasi pemisahan Web Sales vs Bali E-Commerce/DC.</p></div>
+        </div>
+
+        <div class="grid-2 reveal" style="margin-top:18px">
+          <div class="card soft"><span class="badge">Jika aman</span><h3 style="margin-top:15px">Lanjut mengejar 1 Oktober</h3><p>Routing, stock deduction dan status lifecycle sudah lolos validation.</p></div>
+          <div class="card"><span class="badge risk">Jika belum aman</span><h3 style="margin-top:15px">Tahan go-live, bukan memaksakan tanggal</h3><p>Lebih baik mempertahankan 1 Oktober sebagai target daripada menciptakan stock discrepancy.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="content" id="workflow">
+    <div class="wrap section-grid">
+      <aside class="section-index">
+        <div class="n">04</div>
+        <div class="label">IT Delivery</div>
+      </aside>
+      <div>
+        <div class="section-head reveal">
+          <h2>Saya juga mulai menstandarkan alur request sampai production.</h2>
+          <p>
+            Request tidak langsung dilempar menjadi development. Kita analisa dulu, konfirmasi requester, dokumentasikan di Jira, prioritaskan, baru masuk development, validation, release dan announcement.
+          </p>
+        </div>
+
+        <div class="flowline reveal">
+          <div class="flowbox"><div class="step">01</div><b>Request masuk</b><span>Slack / email / meeting</span></div>
+          <div class="flowbox"><div class="step">02</div><b>Analisa & klarifikasi</b><span>Scope, impact, expected result</span></div>
+          <div class="flowbox"><div class="step">03</div><b>Jira</b><span>Ticket + evidence</span></div>
+          <div class="flowbox focus"><div class="step">04</div><b>Prioritas</b><span>Critical / blocker / improvement</span></div>
+          <div class="flowbox"><div class="step">05</div><b>Development</b><span>Colin / Widi</span></div>
+          <div class="flowbox"><div class="step">06</div><b>Sandbox / review</b><span>Technical + user validation</span></div>
+          <div class="flowbox key"><div class="step">07</div><b>Production + announcement</b><span>Deploy, verify, communicate</span></div>
+        </div>
+
+        <div class="rhythm reveal">
+          <div class="day">
+            <h3>Normal changes: satu ritme release yang lebih rapi.</h3>
+            <p>Kalau memungkinkan, perubahan normal yang sudah siap dibatch menjadi satu production deploy dan satu announcement per hari.</p>
+            <div class="day-track">
+              <div class="slot"><b>Pagi</b><span>collect · analyse · prioritize</span></div>
+              <div class="slot"><b>Siang</b><span>build · sandbox · verify</span></div>
+              <div class="slot dark"><b>Release</b><span>one production deployment</span></div>
+              <div class="slot"><b>Sesudah</b><span>announcement · monitor</span></div>
+            </div>
+          </div>
+          <div class="exception">
+            <small>Exception rule</small>
+            <h3>Critical production issue tidak perlu menunggu daily batch.</h3>
+            <p>Urgent operational blocker tetap bisa di-handle segera. Daily batching adalah target untuk normal change, bukan aturan yang menghambat incident response.</p>
+          </div>
+        </div>
+
+        <div class="grid-4 reveal" style="margin-top:18px">
+          <div class="card"><div class="eyebrow">Benefit</div><h3>Lebih mudah trace</h3><p>Lebih jelas perubahan mana yang masuk ke release tertentu.</p></div>
+          <div class="card"><div class="eyebrow">Benefit</div><h3>Lebih sedikit production touchpoint</h3><p>Mengurangi deploy kecil yang tersebar sepanjang hari.</p></div>
+          <div class="card"><div class="eyebrow">Benefit</div><h3>Announcement lebih bersih</h3><p>User menerima satu ringkasan yang jelas, bukan banyak update kecil.</p></div>
+          <div class="card"><div class="eyebrow">Benefit</div><h3>Release history lebih kuat</h3><p>Jira + Confluence + announcement lebih mudah direkonsiliasi.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="content" id="alignment">
+    <div class="wrap section-grid">
+      <aside class="section-index">
+        <div class="n">05</div>
+        <div class="label">Alignment</div>
+      </aside>
+      <div>
+        <div class="section-head reveal">
+          <h2>Yang saya butuhkan dari meeting ini adalah alignment, bukan sekadar status report.</h2>
+          <p>Empat arah ini akan menentukan pekerjaan saya dan Colin untuk minggu berikutnya.</p>
+        </div>
+
+        <div class="align-grid reveal">
+          <div class="align-item"><div class="num">1</div><div><h3>Project Phoenix</h3><p>Lanjutkan practical handover: saya praktik, Colin review.</p></div></div>
+          <div class="align-item"><div class="num">2</div><div><h3>Accounting</h3><p>Gunakan project Putu Mei sebagai reverse-handover test pertama.</p></div></div>
+          <div class="align-item"><div class="num">3</div><div><h3>Jubelio / Bali</h3><p>Pertahankan 1 Oktober sebagai conditional target dan prioritaskan warehouse-routing blocker.</p></div></div>
+          <div class="align-item"><div class="num">4</div><div><h3>Daily IT flow</h3><p>Standarkan request → Jira → priority → validation → batch deploy → announcement.</p></div></div>
+        </div>
+
+        <div class="closing reveal">
+          <div class="quote">
+            “Fokus saya sekarang adalah bergerak dari <em>coordinating Colin’s work</em> menjadi secara bertahap mengambil ownership sendiri.”
+          </div>
+          <div class="closing-points">
+            <div class="closing-point"><b>Learn</b><span>Pahami arsitektur dan dependency lewat Phoenix.</span></div>
+            <div class="closing-point"><b>Practice</b><span>Ambil real implementation dengan review Colin.</span></div>
+            <div class="closing-point"><b>Deliver</b><span>Selesaikan operational priority seperti Jubelio.</span></div>
+            <div class="closing-point"><b>Standardize</b><span>Buat proses IT lebih repeatable dan traceable.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="notes">
+    <div class="wrap">
+      <div class="kicker">Presenter notes</div>
+      <h2>Versi singkat kalau waktu meeting terbatas.</h2>
+
+      <details open>
+        <summary>Opening 60–90 detik</summary>
+        <div class="note-body">
+          “Hari ini saya punya empat update utama. Pertama, Project Phoenix: KT pertama dengan Colin sudah memberi kita gambaran yang jauh lebih jelas tentang sistem dan dependency yang masih ada. Kedua, saya ingin menggunakan project Accounting dari Putu Mei sebagai percobaan pertama saya mengerjakan perubahan StockWiz sendiri, dengan Colin sebagai reviewer sebelum masuk Sandbox. Ketiga, untuk Jubelio saya ingin melihat apakah Bali E-Commerce bisa mulai memakai Distribution Center pada 1 Oktober, tetapi saat ini masih ada blocker karena stock context masih sharing dengan Web Sales. Keempat, saya mulai menstandarkan alur kerja IT dari request dan Jira sampai deployment dan announcement.”
+        </div>
+      </details>
+
+      <details>
+        <summary>Wording 1 Oktober — supaya tidak terdengar overpromise</summary>
+        <div class="note-body">
+          “Tanggal 1 Oktober adalah target kalau warehouse routing bisa kita selesaikan dan validasi dengan aman. Kalau belum siap, saya lebih memilih mempertahankannya sebagai target daripada memaksakan go-live yang bisa menciptakan discrepancy stock.”
+        </div>
+      </details>
+
+      <details>
+        <summary>Wording Project Phoenix — management level</summary>
+        <div class="note-body">
+          “KT pertama berjalan baik. Sekarang kita punya baseline yang jauh lebih jelas terkait sistem, deployment, database, integrasi dan access dependency. Berikutnya saya ingin fokus ke hands-on transfer: saya yang menjalankan atau mengerjakan, Colin yang mereview, lalu ada evidence bahwa area itu sudah bisa saya handle secara lebih mandiri.”
+        </div>
+      </details>
+
+      <details>
+        <summary>Wording Accounting — inti reverse handover</summary>
+        <div class="note-body">
+          “Saya ingin request Putu Mei menjadi first practical test. Saya implement sendiri, Colin review sebelum Sandbox, lalu Putu Mei validasi. Jadi outputnya bukan hanya feature selesai, tapi juga bukti bahwa knowledge transfer mulai menghasilkan kemampuan teknis yang bisa saya pegang.”
+        </div>
+      </details>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-inner">
+    <div class="footer-brand">
+      <img src="/sensatia-logo.svg" alt="Sensatia" onerror="this.style.display='none'">
+    </div>
+    <div>Weekly IT / Project Phoenix · Michael × Widi · 25 September 2026</div>
+  </div>
+</footer>
+
+<script>
+const p=document.getElementById('progress');
+function progress(){
+  const d=document.documentElement.scrollHeight-innerHeight;
+  p.style.width=(d>0?scrollY/d*100:0)+'%';
+}
+addEventListener('scroll',progress,{passive:true});progress();
+
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),{threshold:.08});
+document.querySelectorAll('.reveal').forEach(e=>io.observe(e));
+
+const btn=document.getElementById('presentBtn');
+btn.addEventListener('click',async()=>{
+  try{
+    if(!document.fullscreenElement) await document.documentElement.requestFullscreen();
+    else await document.exitFullscreen();
+  }catch(e){}
+});
+document.addEventListener('fullscreenchange',()=>btn.textContent=document.fullscreenElement?'Keluar':'Presentasi');
+document.addEventListener('keydown',e=>{if(e.key.toLowerCase()==='f')btn.click()});
+
+const logo=document.getElementById('sensatiaLogo');
+const fallback=document.getElementById('brandFallback');
+logo.addEventListener('error',()=>{logo.style.display='none';fallback.style.display='inline-block'});
+
+const sections=[...document.querySelectorAll('section[id]')];
+const nav=[...document.querySelectorAll('.navlinks a')];
+const navIo=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      nav.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+e.target.id));
+    }
+  });
+},{rootMargin:'-35% 0px -55% 0px'});
+sections.forEach(s=>navIo.observe(s));
+</script>
+</body>
+</html>

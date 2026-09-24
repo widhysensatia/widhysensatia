@@ -108,6 +108,7 @@ export const domains: KnowledgeDomain[] = [
         name: "Meeting Briefs",
         description: "Persiapan diskusi, fokus pembahasan, dan tindak lanjut.",
         documentSlugs: [
+          "michael-weekly-meeting-2026-09-25",
           "sensatia-weekly-meeting-presentation-2026-09-17",
           "sensatia-weekly-meeting-brief-2026-09-17",
           "michael-widhy-meeting-brief",
@@ -142,6 +143,12 @@ export const domains: KnowledgeDomain[] = [
       "Ruang untuk peluang baru, eksperimen workflow, dan otomasi proses kerja yang layak dikembangkan.",
     accent: "amber",
     children: [
+      {
+        name: "Accounting & Finance Improvement",
+        description:
+          "Ide terstruktur untuk efisiensi Accounting, kontrol internal, automasi Finance, dan pengurangan human error.",
+        documentSlugs: ["accounting-ideabox-detailed"],
+      },
       {
         name: "Customer Experience & Store Operations",
         description:

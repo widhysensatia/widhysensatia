@@ -18,13 +18,15 @@ export type OriginalPage = {
 };
 
 const sourceFiles: Record<string, string> = {
+  "accounting-ideabox-detailed": "2026-09-24-batch-10/accounting-ideabox-detailed.html",
   "b2b-smart-order-intake": "2026-09-11-batch-01/b2b-smart-order-intake.html",
   "bali-ecommerce-fulfillment-presentation": "2026-09-11-batch-01/bali_ecommerce_presentation.html",
   "bali-ecommerce-shared-stock-model": "2026-09-11-batch-01/bali_ecommerce_shared_stock_model.html",
   "guanta-ai-pr-po-stockwizz-analysis": "2026-09-23-batch-08/guanta_ai_pr_po_stockwizz_analysis.html",
   "google-review-qr-rollout-guide": "2026-09-14-batch-02/google_review_qr_ask_for_reviews_guide_updated.html",
+  "michael-weekly-meeting-2026-09-25": "2026-09-23-batch-09/michael_weekly_meeting_2026-09-25_ID_sensatia_redesign.html",
   "michael-widhy-meeting-brief": "2026-09-11-batch-01/preview.html",
-  "project-phoenix-weekly-handover-2026-09-23": "2026-09-22-batch-07/project_phoenix_weekly_handover_2026-09-23.html",
+  "project-phoenix-weekly-handover-2026-09-23": "2026-09-23-batch-09/project_phoenix_weekly_kt1_2026-09-23_redesign.html",
   "putu-mei-accounting-meeting-pack-2026-09-21": "2026-09-20-batch-06/putu_mei_accounting_meeting_pack_2026-09-21_v2.html",
   "putu-mei-accounting-meeting-notes-2026-09-21": "2026-09-22-batch-07/meeting_notes_putu_mei_2026-09-21.html",
   "putu-mei-stockwizz-three-feature-blueprint": "2026-09-22-batch-07/perancangan_3_feature_putu_mei_stockwizz_visual.html",
