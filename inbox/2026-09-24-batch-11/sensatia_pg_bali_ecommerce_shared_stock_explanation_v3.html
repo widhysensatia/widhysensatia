@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sensatia — Shared Stock Analysis: DC Padang Galak × Bali Ecommerce</title>
+<style>
+  :root{
+    --ink:#171717;
+    --ink-2:#313131;
+    --muted:#76716c;
+    --faint:#a39c96;
+    --paper:#ffffff;
+    --canvas:#f8f6f3;
+    --soft:#f3eee9;
+    --soft-2:#fbf9f7;
+    --line:#e2ddd8;
+    --line-dark:#c9c1b9;
+    --brand:#d69771;
+    --brand-deep:#a06243;
+    --brand-soft:#f5e8df;
+    --green:#6d8174;
+    --green-soft:#edf2ee;
+    --blue:#71808b;
+    --blue-soft:#eef2f4;
+    --red:#ad6258;
+    --red-soft:#f8ece9;
+  }
+
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    background:var(--canvas);
+    color:var(--ink);
+    font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    font-weight:300;
+    line-height:1.62;
+    letter-spacing:.003em;
+  }
+  a{color:inherit}
+  strong{font-weight:520}
+  .page{max-width:1320px;margin:0 auto;padding:24px 28px 72px}
+
+  /* brand */
+  .brandbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+    padding:16px 0 19px;
+    border-bottom:1px solid var(--line-dark);
+  }
+  .wordmark{
+    display:flex;
+    align-items:center;
+  }
+  .wordmark img{display:block;width:132px;height:auto}
+  .brandmeta{
+    text-align:right;
+    font-size:10px;
+    line-height:1.45;
+    letter-spacing:.15em;
+    text-transform:uppercase;
+    color:var(--muted);
+  }
+  .brand-dot{display:inline-block;width:7px;height:7px;background:var(--brand);margin-right:7px;vertical-align:1px}
+
+  .hero{
+    background:var(--paper);
+    display:grid;
+    grid-template-columns:minmax(0,1.55fr) minmax(280px,.45fr);
+    gap:54px;
+    padding:52px 0 43px;
+    border-bottom:1px solid var(--line);
+  }
+  .kicker{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--brand-deep);font-weight:520;margin-bottom:17px}
+  h1{font-size:48px;line-height:1.06;letter-spacing:-.045em;font-weight:280;margin:0 0 18px;max-width:930px}
+  .lead{font-size:17px;line-height:1.72;color:#59544f;max-width:900px;margin:0}
+  .hero-side{border-left:1px solid var(--line-dark);padding-left:24px;align-self:end}
+  .hero-side .small-title{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--brand-deep);margin-bottom:8px;font-weight:520}
+  .hero-side .quote{font-size:16px;line-height:1.55;color:var(--ink-2);font-weight:320}
+
+  .toc{display:flex;flex-wrap:wrap;gap:0;border-bottom:1px solid var(--line);background:var(--canvas)}
+  .toc a{text-decoration:none;font-size:11px;color:#635e59;padding:14px 18px 12px 0;margin-right:22px;border-bottom:2px solid transparent}
+  .toc a:hover{color:var(--brand-deep);border-color:var(--brand)}
+
+  section{padding:42px 0 6px}
+  .section-head{display:grid;grid-template-columns:68px 1fr;gap:14px;margin-bottom:20px;align-items:start}
+  .sec-no{font-size:10px;letter-spacing:.16em;color:var(--brand-deep);padding-top:7px}
+  h2{font-size:29px;line-height:1.2;letter-spacing:-.025em;font-weight:310;margin:0;max-width:970px}
+  h3{font-size:16px;font-weight:500;margin:0 0 7px;letter-spacing:-.01em}
+  p{margin:0 0 10px}
+  .muted{color:var(--muted)}
+  .caption{font-size:11px;color:var(--faint);margin-top:9px}
+  .label{font-size:9px;letter-spacing:.17em;text-transform:uppercase;color:var(--faint);font-weight:560;margin-bottom:7px}
+  .big{font-size:27px;line-height:1.25;letter-spacing:-.025em;font-weight:300;margin-bottom:7px}
+  .rule{height:1px;background:var(--line);margin:16px 0}
+
+  .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:14px}
+  .span-3{grid-column:span 3}.span-4{grid-column:span 4}.span-5{grid-column:span 5}.span-6{grid-column:span 6}.span-7{grid-column:span 7}.span-8{grid-column:span 8}.span-9{grid-column:span 9}.span-12{grid-column:span 12}
+  .panel{background:var(--paper);border:1px solid var(--line);padding:21px}
+  .panel.soft{background:var(--soft-2)}
+  .panel.brand{background:var(--brand-soft);border-color:#ead6c8}
+
+  /* warehouse plan */
+  .warehouse-map{background:var(--paper);border:1px solid var(--line);padding:22px}
+  .roof{font-size:10px;text-transform:uppercase;letter-spacing:.16em;color:var(--faint);padding-bottom:11px;border-bottom:1px solid var(--line)}
+  .floor{display:grid;grid-template-columns:1.6fr 2px .8fr;min-height:295px;margin-top:14px;border:1px solid var(--line-dark);background:white}
+  .zone{padding:23px;position:relative}
+  .zone-title{font-size:21px;font-weight:330;margin-bottom:5px}
+  .zone-meta{font-size:12px;color:var(--muted);max-width:390px}
+  .divider{background:#bb6659;position:relative}
+  .divider span{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-90deg);background:#fff;padding:4px 9px;white-space:nowrap;color:#a85448;font-size:9px;letter-spacing:.13em;text-transform:uppercase}
+  .rack-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:22px}
+  .rack{height:62px;border:1px solid var(--line);background:#faf9f7;display:grid;place-items:center;font-size:9px;color:#89837e;text-transform:uppercase;letter-spacing:.1em}
+  .zone.ecom .rack-grid{grid-template-columns:repeat(2,1fr)}
+  .zone.ecom .rack{background:#f7f3f0}
+  .floor-note{margin-top:11px;font-size:11px;color:var(--muted);display:flex;gap:12px;align-items:center}
+  .red-key{width:20px;height:2px;background:#bb6659;display:inline-block}
+
+  /* diagrams */
+  .diagram{background:var(--paper);border:1px solid var(--line);padding:23px}
+  .flow-row{display:flex;align-items:stretch;justify-content:center;gap:0;flex-wrap:wrap}
+  .box{min-width:168px;max-width:245px;border:1px solid var(--line-dark);padding:14px 15px;background:#fff;position:relative}
+  .box.brand{border-top:3px solid var(--brand)}
+  .box.black{border-top:3px solid #222}
+  .box.green{border-top:3px solid var(--green)}
+  .box.blue{border-top:3px solid var(--blue)}
+  .box.red{border-top:3px solid var(--red)}
+  .box-title{font-size:13px;font-weight:520;margin-bottom:3px}
+  .box-sub{font-size:10.5px;color:var(--muted);line-height:1.45}
+  .arrow{width:45px;display:grid;place-items:center;color:#a29c96;font-size:18px;font-weight:300}
+  .split-grid{display:grid;grid-template-columns:repeat(2,minmax(165px,1fr));gap:9px;min-width:350px}
+
+  .swimlane{border:1px solid var(--line);background:white}
+  .lane{display:grid;grid-template-columns:190px 1fr;border-bottom:1px solid var(--line)}
+  .lane:last-child{border-bottom:0}
+  .lane-name{padding:14px 16px;background:#faf8f6;border-right:1px solid var(--line);font-size:11px;font-weight:520;color:#504c48}
+  .lane-body{padding:12px 14px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .mini{border:1px solid var(--line-dark);padding:8px 10px;background:#fff;font-size:10.5px;color:#4f4b47}
+  .mini.brand{background:var(--brand-soft);border-color:#e6cdbd}
+  .mini.green{background:var(--green-soft);border-color:#cad7ce}
+  .mini.blue{background:var(--blue-soft);border-color:#cbd5da}
+  .mini.red{background:var(--red-soft);border-color:#e6c9c2}
+  .mini-arrow{color:#aaa29c;font-size:14px}
+
+  .meter-row{display:grid;grid-template-columns:128px 1fr 68px;gap:12px;align-items:center;margin:12px 0}
+  .meter-label{font-size:11px;color:#5c5752}
+  .meter{height:9px;background:#eeeae6;position:relative}
+  .meter-fill{position:absolute;inset:0 auto 0 0;background:var(--brand)}
+  .meter-fill.red{background:var(--red)}
+  .meter-fill.green{background:var(--green)}
+  .meter-value{text-align:right;font-size:11px;color:#5e5954}
+
+  /* volume cards */
+  .metric-grid{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);background:#fff}
+  .metric{padding:20px;border-right:1px solid var(--line);min-height:135px}
+  .metric:last-child{border-right:0}
+  .metric .n{font-size:35px;letter-spacing:-.04em;font-weight:270;line-height:1;color:var(--ink);margin-bottom:9px}
+  .metric .n span{font-size:12px;letter-spacing:0;color:var(--faint)}
+  .metric .t{font-size:11px;font-weight:520;margin-bottom:4px}
+  .metric .d{font-size:10px;color:var(--muted);line-height:1.5}
+  .metric.brand .n{color:var(--brand-deep)}
+
+  .loadbar{border:1px solid var(--line);background:#fff;padding:22px}
+  .load-track{height:14px;background:#eeeae6;position:relative;margin:14px 0 8px}
+  .load-safe{position:absolute;left:0;top:0;bottom:0;background:var(--brand);width:.47%;min-width:5px}
+  .load-marker{position:absolute;right:0;top:-17px;font-size:9px;color:var(--faint);letter-spacing:.08em;text-transform:uppercase}
+  .load-labels{display:flex;justify-content:space-between;gap:10px;font-size:10px;color:var(--muted)}
+
+  .event-map{display:grid;grid-template-columns:1fr 58px 1fr;align-items:stretch}
+  .event-mid{display:grid;place-items:center;color:#aaa29c;font-size:18px}
+  .event-col{border:1px solid var(--line);background:#fff;padding:19px}
+  .event-row{display:grid;grid-template-columns:115px 1fr;gap:12px;padding:9px 0;border-bottom:1px solid var(--line)}
+  .event-row:last-child{border-bottom:0}
+  .event-name{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--faint)}
+  .event-desc{font-size:11px;color:#59544f}
+
+  .risk-grid{display:grid;grid-template-columns:repeat(5,1fr);border:1px solid var(--line);background:#fff}
+  .risk{padding:18px;border-right:1px solid var(--line)}
+  .risk:last-child{border-right:0}
+  .risk-no{font-size:23px;font-weight:280;color:var(--brand-deep);margin-bottom:5px}
+  .risk-title{font-size:11px;font-weight:520;margin-bottom:5px}
+  .risk p{font-size:10px;color:var(--muted);line-height:1.5}
+
+  .equation{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12px;background:#f3efeb;border:1px solid var(--line);padding:14px;color:#46413d;white-space:nowrap;overflow:auto}
+  .decision{border-left:3px solid var(--brand);background:#fff;border-top:1px solid var(--line);border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:19px 21px}
+  .decision.good{border-left-color:var(--green)}
+
+  .compare{display:grid;grid-template-columns:1fr 54px 1fr;align-items:stretch}
+  .compare-col{border:1px solid var(--line);background:#fff;padding:20px}
+  .compare-mid{display:grid;place-items:center;color:#a59d97;font-size:20px}
+  .bullet{display:grid;grid-template-columns:12px 1fr;gap:8px;font-size:11px;color:#5b5651;margin:8px 0}.bullet:before{content:"—";color:var(--brand)}
+
+  .steps{display:grid;grid-template-columns:repeat(6,1fr);border:1px solid var(--line);background:#fff}
+  .step{padding:17px;border-right:1px solid var(--line);min-height:180px}
+  .step:last-child{border-right:0}
+  .step-no{font-size:9px;letter-spacing:.14em;color:var(--brand-deep);text-transform:uppercase;margin-bottom:11px}
+  .step h3{font-size:12px}
+  .step p{font-size:10px;color:var(--muted);line-height:1.55}
+
+  .sync-arch{display:grid;grid-template-columns:1fr 42px 1fr 42px 1fr 42px 1fr;align-items:stretch}
+  .sync-block{border:1px solid var(--line-dark);background:#fff;padding:16px;min-height:115px}
+  .sync-block .head{font-size:11px;font-weight:520;margin-bottom:5px}
+  .sync-block .desc{font-size:10px;color:var(--muted);line-height:1.5}
+  .sync-arrow{display:grid;place-items:center;color:#aaa29c}
+
+
+  .sources{margin-top:44px;border-top:1px solid var(--line-dark);padding-top:18px;display:flex;justify-content:space-between;gap:30px;align-items:flex-start}
+  .sources .left{font-size:10px;letter-spacing:.11em;text-transform:uppercase;color:var(--faint)}
+  .sources .right{font-size:10px;color:var(--muted);text-align:right;max-width:700px}
+  .sources a{text-decoration:none;border-bottom:1px solid #cfc7c0}
+
+  @media(max-width:980px){
+    .page{padding:18px 18px 58px}
+    .hero{grid-template-columns:1fr;gap:26px;padding-top:38px}
+    h1{font-size:37px}
+    .hero-side{border-left:0;border-top:1px solid var(--line);padding:18px 0 0}
+    .span-3,.span-4,.span-5,.span-6,.span-7,.span-8,.span-9{grid-column:span 12}
+    .floor{grid-template-columns:1fr}.divider{height:2px}.divider span{transform:translate(-50%,-50%);top:50%}.rack-grid{grid-template-columns:repeat(2,1fr)}
+    .flow-row{flex-direction:column;align-items:stretch}.arrow{width:auto;height:32px;transform:rotate(90deg)}.box{max-width:none}.split-grid{width:100%;min-width:0}
+    .lane{grid-template-columns:1fr}.lane-name{border-right:0;border-bottom:1px solid var(--line)}
+    .metric-grid,.risk-grid,.steps{grid-template-columns:1fr}.metric,.risk,.step{border-right:0;border-bottom:1px solid var(--line)}.metric:last-child,.risk:last-child,.step:last-child{border-bottom:0}
+    .event-map,.compare{grid-template-columns:1fr}.event-mid,.compare-mid{height:38px;transform:rotate(90deg)}
+    .sync-arch{grid-template-columns:1fr}.sync-arrow{height:34px;transform:rotate(90deg)}
+    .sources{flex-direction:column}.sources .right{text-align:left}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="brandbar">
+    <div class="wordmark"><img src="/sensatia-logo.svg" alt="Sensatia Botanicals"></div>
+    <div class="brandmeta"><span class="brand-dot"></span>Internal Architecture Note<br>24 September 2026</div>
+  </div>
+
+  <header class="hero">
+    <div>
+      <div class="kicker">DC Padang Galak × Bali Ecommerce × Jubelio × Web Sales</div>
+      <h1>Kalau stock disatukan, apakah secara sistem memungkinkan?</h1>
+      <p class="lead">Ya — dari sisi volume transaksi dan kapasitas API, arahnya sangat memungkinkan. Tantangan utamanya bukan beban sistem, tetapi bagaimana menjaga <strong>reservation, urutan event, idempotency, dan source-of-truth</strong> agar Web Sales, Marketplace, dan refill retail tidak saling mengurangi stock dua kali atau menjanjikan unit yang sama.</p>
+    </div>
+    <div class="hero-side">
+      <div class="small-title">Recommended direction</div>
+      <div class="quote">One physical stock di Padang Galak, lalu semua demand memakai logical reservation / Available-to-Sell. Bali Ecommerce tetap bisa menjadi area operasional pick-pack, tanpa harus menjadi inventory owner terpisah.</div>
+    </div>
+  </header>
+
+  <nav class="toc">
+    <a href="#physical">Kondisi fisik</a>
+    <a href="#current">Current flow</a>
+    <a href="#volume">Volume & load</a>
+    <a href="#doublecount">Double counting</a>
+    <a href="#sync">Sync architecture</a>
+    <a href="#target">Target model</a>
+    <a href="#migration">Migration</a>
+  </nav>
+
+  <section id="physical">
+    <div class="section-head"><div class="sec-no">01</div><h2>Secara fisik, Padang Galak dan Bali Ecommerce sudah hampir seperti satu warehouse.</h2></div>
+    <div class="grid">
+      <div class="span-8 warehouse-map">
+        <div class="roof">Padang Galak · simplified floor view</div>
+        <div class="floor">
+          <div class="zone">
+            <div class="zone-title">DC Padang Galak</div>
+            <div class="zone-meta">Stockroom utama. Melayani refill toko retail, distribusi, dan menjadi upstream stock untuk kebutuhan online.</div>
+            <div class="rack-grid">
+              <div class="rack">Rack A</div><div class="rack">Rack B</div><div class="rack">Rack C</div>
+              <div class="rack">Rack D</div><div class="rack">Rack E</div><div class="rack">Rack F</div>
+            </div>
+          </div>
+          <div class="divider"><span>garis merah / area boundary</span></div>
+          <div class="zone ecom">
+            <div class="zone-title">Bali Ecommerce</div>
+            <div class="zone-meta">Masih satu gedung. Secara fisik dipisahkan beberapa rack/area, tetapi di StockWizz menjadi inventory pool tersendiri.</div>
+            <div class="rack-grid">
+              <div class="rack">Ecom 1</div><div class="rack">Ecom 2</div>
+              <div class="rack">Ecom 3</div><div class="rack">Ecom 4</div>
+            </div>
+          </div>
+        </div>
+        <div class="floor-note"><span class="red-key"></span> Pembatas operasional ringan, bukan lokasi warehouse yang benar-benar terpisah.</div>
+      </div>
+      <div class="span-4 panel soft">
+        <div class="label">Core observation</div>
+        <div class="big">Physical stock dekat, system stock terfragmentasi.</div>
+        <div class="rule"></div>
+        <p class="muted">Ini yang membuat konsep Luh Soma tentang satu stock DC relevan. Kalau quality/lot/expiry tetap traceable, pemisahan area tidak harus berarti pemisahan inventory ownership.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="current">
+    <div class="section-head"><div class="sec-no">02</div><h2>Kondisi sekarang: PG menjadi upstream source, lalu Bali Ecommerce masih dibagi lagi untuk Web Sales dan Marketplace.</h2></div>
+    <div class="diagram">
+      <div class="flow-row">
+        <div class="box black"><div class="box-title">DC Padang Galak</div><div class="box-sub">StockWizz<br>WH-PTSB-PDG</div></div>
+        <div class="arrow">→</div>
+        <div class="box brand"><div class="box-title">Refill / Transfer</div><div class="box-sub">Physical stock dipindahkan secara system</div></div>
+        <div class="arrow">→</div>
+        <div class="box black"><div class="box-title">Bali Ecommerce</div><div class="box-sub">Separate on-hand<br>smaller pool</div></div>
+        <div class="arrow">→</div>
+        <div class="split-grid">
+          <div class="box blue"><div class="box-title">Web Sales</div><div class="box-sub">Website orders fulfilled from Bali</div></div>
+          <div class="box blue"><div class="box-title">Marketplace</div><div class="box-sub">Jubelio → Shopee / TikTok / others</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="swimlane" style="margin-top:14px">
+      <div class="lane"><div class="lane-name">Retail Shops</div><div class="lane-body"><span class="mini blue">refill request</span><span class="mini-arrow">→</span><span class="mini brand">PG commitment</span><span class="mini-arrow">→</span><span class="mini blue">shop stock +N</span></div></div>
+      <div class="lane"><div class="lane-name">Bali Ecommerce</div><div class="lane-body"><span class="mini brand">PG → Ecom refill</span><span class="mini-arrow">→</span><span class="mini green">separate Ecom stock</span></div></div>
+      <div class="lane"><div class="lane-name">Web Sales</div><div class="lane-body"><span class="mini blue">web order</span><span class="mini-arrow">→</span><span class="mini blue">deduct / fulfil</span></div></div>
+      <div class="lane"><div class="lane-name">Marketplace / Jubelio</div><div class="lane-body"><span class="mini blue">marketplace order</span><span class="mini-arrow">→</span><span class="mini blue">Jubelio</span><span class="mini-arrow">→</span><span class="mini brand">stock adjustment / allocation</span></div></div>
+    </div>
+    <div class="caption">PG bukan source untuk E-Commerce saja. Ia juga punya kewajiban stock ke toko-toko retail. Itu sebabnya shared stock perlu reservation, bukan pure FCFS.</div>
+  </section>
+
+  <section id="volume">
+    <div class="section-head"><div class="sec-no">03</div><h2>Sample Juli–Agustus menunjukkan volume rendah. System load bukan blocker.</h2></div>
+    <div class="metric-grid">
+      <div class="metric"><div class="n">48 <span>/hari</span></div><div class="t">PO toko / B2B</div><div class="d">Order/PO yang berpotensi mengurangi atau meng-commit stock PG.</div></div>
+      <div class="metric"><div class="n">5 <span>/hari</span></div><div class="t">Web Sales</div><div class="d">Order website yang memengaruhi online availability.</div></div>
+      <div class="metric brand"><div class="n">68 <span>/hari</span></div><div class="t">Mutasi DC Padang Galak</div><div class="d">Stock history / movements pada source utama.</div></div>
+      <div class="metric brand"><div class="n">42 <span>/hari</span></div><div class="t">Mutasi Bali Ecommerce</div><div class="d">Movement pada pool Ecommerce saat ini.</div></div>
+    </div>
+
+    <div class="grid" style="margin-top:14px">
+      <div class="span-5 panel brand">
+        <div class="label">Gross count</div>
+        <div class="big">≈163 records / events per day</div>
+        <p class="muted">Ini adalah penjumlahan mentah. Angka business event unik kemungkinan lebih rendah karena satu transaksi bisa memunculkan PO + stock history sekaligus.</p>
+      </div>
+      <div class="span-7 loadbar">
+        <div class="label">Worst-case API throughput</div>
+        <div class="big" style="font-size:23px">1,500–2,000 item-level operations/day masih sangat kecil.</div>
+        <p class="muted" style="font-size:11px">Jika dipaksa menjadi HTTP request terpisah dan aktivitas efektif 12 jam, rata-rata hanya sekitar <strong>2.1–2.8 request/menit</strong>. Published Jubelio API rate limit: <strong>600 request/menit</strong>.</p>
+        <div class="load-track"><div class="load-safe"></div><div class="load-marker">600 req/min</div></div>
+        <div class="load-labels"><span>≈2.8 req/min worst average</span><span>&lt;0.5% dari published limit</span></div>
+      </div>
+    </div>
+
+    <div class="decision good" style="margin-top:14px"><strong>Feasibility:</strong> secara throughput, one-stock + ATS sync sangat feasible. Tetap perlu queue/backoff karena traffic nyata bisa burst, tetapi capacity bukan concern utama.</div>
+  </section>
+
+  <section id="doublecount">
+    <div class="section-head"><div class="sec-no">04</div><h2>Namun angka 163 tidak boleh langsung diterjemahkan menjadi 163 trigger API.</h2></div>
+    <div class="event-map">
+      <div class="event-col">
+        <div class="label">Satu business event</div>
+        <div class="event-row"><div class="event-name">Example</div><div class="event-desc">Retail PO diproses untuk refill toko.</div></div>
+        <div class="event-row"><div class="event-name">Business action</div><div class="event-desc">PG commit / deduct 10 pcs.</div></div>
+        <div class="event-row"><div class="event-name">Derived record</div><div class="event-desc">StockHistory PG mencatat movement yang sama.</div></div>
+      </div>
+      <div class="event-mid">≠</div>
+      <div class="event-col">
+        <div class="label">Bukan dua trigger berbeda</div>
+        <div class="event-row"><div class="event-name">Wrong</div><div class="event-desc">PO trigger Jubelio, lalu StockHistory trigger Jubelio lagi → double deduction.</div></div>
+        <div class="event-row"><div class="event-name">Correct</div><div class="event-desc">Satu canonical inventory event menghasilkan satu ATS change.</div></div>
+        <div class="event-row"><div class="event-name">Benefit</div><div class="event-desc">Request count turun dan reconciliation jauh lebih mudah.</div></div>
+      </div>
+    </div>
+
+    <div class="panel soft" style="margin-top:14px">
+      <div class="label">Another reduction after merge</div>
+      <div class="compare">
+        <div class="compare-col"><h3>Current</h3><div class="bullet">PG -20</div><div class="bullet">Bali Ecommerce +20</div><div class="bullet">Jubelio allocation/adjustment</div></div>
+        <div class="compare-mid">→</div>
+        <div class="compare-col"><h3>One-stock target</h3><div class="bullet">PG stays as single on-hand</div><div class="bullet">Only ATS / reservation changes</div><div class="bullet">Artificial PG → Ecom transfer disappears</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="sync">
+    <div class="section-head"><div class="sec-no">05</div><h2>Main risk bukan load, tetapi sync correctness: event origin harus jelas.</h2></div>
+    <div class="grid">
+      <div class="span-7 diagram">
+        <div class="sync-arch">
+          <div class="sync-block"><div class="head">Business Event</div><div class="desc">Retail refill, Web Sale, inbound, marketplace webhook, cancellation.</div></div>
+          <div class="sync-arrow">→</div>
+          <div class="sync-block"><div class="head">StockWizz Inventory</div><div class="desc">Canonical on-hand + reservation + source warehouse.</div></div>
+          <div class="sync-arrow">→</div>
+          <div class="sync-block"><div class="head">ATS / Outbox</div><div class="desc">Deduplicate, preserve ordering, retry safely, batch/coalesce where safe.</div></div>
+          <div class="sync-arrow">→</div>
+          <div class="sync-block"><div class="head">Jubelio</div><div class="desc">Receive only availability changes that originated outside the same marketplace event.</div></div>
+        </div>
+      </div>
+      <div class="span-5 panel soft">
+        <div class="label">Minimum event metadata</div>
+        <div class="equation">event_id · origin · reference · sku · delta · warehouse · timestamp · sync_status</div>
+        <div class="rule"></div>
+        <p class="muted" style="font-size:11px">Kalau <strong>origin = JUBELIO_MARKETPLACE</strong>, StockWizz boleh update reservation/on-hand internal, tetapi jangan echo movement yang sama kembali ke Jubelio.</p>
+      </div>
+    </div>
+
+    <div class="risk-grid" style="margin-top:14px">
+      <div class="risk"><div class="risk-no">01</div><div class="risk-title">Double deduction</div><p>Marketplace event dipush balik ke Jubelio untuk movement yang sama.</p></div>
+      <div class="risk"><div class="risk-no">02</div><div class="risk-title">Race condition</div><p>Web dan Marketplace reserve SKU yang sama pada waktu hampir bersamaan.</p></div>
+      <div class="risk"><div class="risk-no">03</div><div class="risk-title">Out-of-order</div><p>Retry lama datang setelah event baru dan mengembalikan stock ke nilai salah.</p></div>
+      <div class="risk"><div class="risk-no">04</div><div class="risk-title">Cancellation</div><p>Reservation release tidak kembali atau malah ter-release dua kali.</p></div>
+      <div class="risk"><div class="risk-no">05</div><div class="risk-title">SKU mapping</div><p>Unmapped barcode membuat partial sync dan availability berbeda.</p></div>
+    </div>
+  </section>
+
+  <section id="target">
+    <div class="section-head"><div class="sec-no">06</div><h2>Target architecture: one physical stock, one ATS engine, many demand channels.</h2></div>
+    <div class="diagram">
+      <div class="flow-row">
+        <div class="box black"><div class="box-title">DC Padang Galak</div><div class="box-sub">ONE physical on-hand<br>source of truth</div></div>
+        <div class="arrow">→</div>
+        <div class="box brand"><div class="box-title">Reservation / ATS</div><div class="box-sub">committed orders · campaign · QA block · safety buffer</div></div>
+        <div class="arrow">→</div>
+        <div class="split-grid" style="grid-template-columns:repeat(2,minmax(185px,1fr))">
+          <div class="box blue"><div class="box-title">Web Sales</div><div class="box-sub">reserve from shared PG ATS</div></div>
+          <div class="box blue"><div class="box-title">Marketplace / Jubelio</div><div class="box-sub">publish marketplace-safe availability</div></div>
+          <div class="box blue"><div class="box-title">Retail Refill</div><div class="box-sub">commit stock before dispatch</div></div>
+          <div class="box blue"><div class="box-title">Campaign</div><div class="box-sub">logical allocation, not separate physical pool</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid" style="margin-top:14px">
+      <div class="span-7 panel">
+        <div class="label">Availability formula</div>
+        <div class="equation">ATS = On Hand − Reserved Orders − Retail Commitments − Campaign Allocation − QA/Blocked − Safety Buffer</div>
+      </div>
+      <div class="span-5 panel brand">
+        <div class="label">Design principle</div>
+        <div class="big" style="font-size:23px">Warehouse owns inventory. Channel owns orders.</div>
+        <p class="muted" style="font-size:11px">Bali Ecommerce dapat tetap menjadi staging / pick-pack zone tanpa harus menjadi stock owner terpisah.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="migration">
+    <div class="section-head"><div class="sec-no">07</div><h2>Rekomendasi rollout: jangan merge database dulu. Bangun kontrolnya, lalu kurangi fragmentation.</h2></div>
+    <div class="steps">
+      <div class="step"><div class="step-no">01 · Observe</div><h3>Map event source</h3><p>Trace PG, Bali Ecommerce, Web Sales, Jubelio, retail refill: kapan reserve, deduct, cancel, return.</p></div>
+      <div class="step"><div class="step-no">02 · Instrument</div><h3>Canonical event log</h3><p>Tambahkan event_id, origin, reference, warehouse, delta, sync status dan reconciliation.</p></div>
+      <div class="step"><div class="step-no">03 · Shadow</div><h3>Calculate ATS only</h3><p>Hitung ATS PG tanpa mengubah live Jubelio. Bandingkan hasil beberapa hari.</p></div>
+      <div class="step"><div class="step-no">04 · Queue</div><h3>Outbox + retry</h3><p>Push ATS melalui queue dengan idempotency, ordering, backoff dan error visibility.</p></div>
+      <div class="step"><div class="step-no">05 · Pilot</div><h3>Selected SKUs</h3><p>Uji Web + Marketplace + Retail refill bersamaan pada SKU terkontrol.</p></div>
+      <div class="step"><div class="step-no">06 · Simplify</div><h3>Retire artificial pool</h3><p>Setelah stabil, ubah Bali Ecommerce menjadi operational zone dan kurangi PG→Ecom stock transfer.</p></div>
+    </div>
+
+    <div class="decision" style="margin-top:14px"><strong>Saran akhir:</strong> lanjutkan direction one-stock. Data volume menunjukkan beban teknis kecil; manfaat simplifikasi cukup besar. Tetapi go-live hanya setelah reservation/ATS, origin-aware sync, dan reconciliation berjalan stabil.</div>
+  </section>
+
+  <div class="sources">
+    <div class="left">Sensatia · Internal draft · 24 Sep 2026</div>
+    <div class="right">Brand reference: current Sensatia site uses the simplified “Sensatia” identity and black wordmark on a clean light layout. Technical reference: Jubelio API documentation publishes a 600 requests/minute rate limit. Sources: <a href="https://www.sensatia.com/en" target="_blank">sensatia.com</a> · <a href="https://docs-wms.jubelio.com/" target="_blank">Jubelio API Reference</a></div>
+  </div>
+</div>
+</body>
+</html>

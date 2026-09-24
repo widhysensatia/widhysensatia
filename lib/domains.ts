@@ -91,7 +91,10 @@ export const domains: KnowledgeDomain[] = [
       {
         name: "Jubelio & Shared Stock",
         description: "Integrasi website, marketplace routing, dan target operating model.",
-        documentSlugs: ["bali-ecommerce-shared-stock-model"],
+        documentSlugs: [
+          "padang-galak-bali-ecommerce-shared-stock-architecture",
+          "bali-ecommerce-shared-stock-model",
+        ],
       },
     ],
   },

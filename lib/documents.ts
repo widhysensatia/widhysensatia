@@ -19,6 +19,19 @@ export type KnowledgeDocument = {
 
 export const documents: KnowledgeDocument[] = [
   {
+    slug: "padang-galak-bali-ecommerce-shared-stock-architecture",
+    title: "DC Padang Galak × Bali E-Commerce — One-Stock & ATS Architecture",
+    shortTitle: "Padang Galak Shared Stock Architecture",
+    summary:
+      "Analisis kelayakan penyatuan stok DC Padang Galak dan Bali E-Commerce melalui reservation, Available-to-Sell, canonical inventory events, origin-aware sync, dan rollout bertahap.",
+    category: "E-Commerce",
+    type: "Architecture Note",
+    updated: "2026-09-24",
+    updatedLabel: "24 Sep 2026",
+    tags: ["Shared Stock", "Available-to-Sell", "Jubelio"],
+    accent: "forest",
+  },
+  {
     slug: "accounting-ideabox-detailed",
     title: "Accounting IdeaBox — 10 Detailed Improvement Proposals",
     shortTitle: "Accounting IdeaBox",
