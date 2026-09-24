@@ -23,12 +23,12 @@ export const documents: KnowledgeDocument[] = [
     title: "DC Padang Galak × Bali E-Commerce — One-Stock & ATS Architecture",
     shortTitle: "Padang Galak Shared Stock Architecture",
     summary:
-      "Analisis kelayakan penyatuan stok DC Padang Galak dan Bali E-Commerce melalui reservation, Available-to-Sell, canonical inventory events, origin-aware sync, dan rollout bertahap.",
+      "Analisis current StockWizz model untuk Bali/Jakarta E-Commerce, kelayakan one-stock DC, reservation, Available-to-Sell, canonical inventory events, origin-aware sync, dan rollout bertahap.",
     category: "E-Commerce",
     type: "Architecture Note",
     updated: "2026-09-24",
     updatedLabel: "24 Sep 2026",
-    tags: ["Shared Stock", "Available-to-Sell", "Jubelio"],
+    tags: ["Shared Stock", "Retail Shop Stock", "Jubelio"],
     accent: "forest",
   },
   {

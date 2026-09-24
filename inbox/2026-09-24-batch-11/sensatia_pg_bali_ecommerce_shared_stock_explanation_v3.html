@@ -249,6 +249,7 @@
 
   <nav class="toc">
     <a href="#physical">Kondisi fisik</a>
+    <a href="#system">Model StockWizz saat ini</a>
     <a href="#current">Current flow</a>
     <a href="#volume">Volume & load</a>
     <a href="#doublecount">Double counting</a>
@@ -292,8 +293,55 @@
     </div>
   </section>
 
+  <section id="system">
+    <div class="section-head"><div class="sec-no">02</div><h2>Poin penting di sisi sistem: Bali Ecommerce dan Jakarta Ecommerce saat ini masih memakai <em>Retail Shop stock model</em>, bukan Distribution Center stock model.</h2></div>
+
+    <div class="grid">
+      <div class="span-6 panel">
+        <div class="label">Bali · current StockWizz model</div>
+        <div class="flow-row" style="justify-content:flex-start">
+          <div class="box black" style="flex:1;max-width:none"><div class="box-title">DC Padang Galak</div><div class="box-sub">Distribution Center domain<br><strong>warehouse stock / warehouse movements</strong><br>WH-PTSB-PDG</div></div>
+          <div class="arrow">→</div>
+          <div class="box brand" style="flex:1;max-width:none"><div class="box-title">Bali Ecommerce</div><div class="box-sub">Masih Retail Shop domain<br><strong>shop stock / shop stock history</strong><br>bukan DC inventory pool</div></div>
+        </div>
+        <div class="rule"></div>
+        <p class="muted" style="font-size:11px">Jadi walaupun secara fisik masih satu gedung dan hanya dipisahkan area/rak, StockWizz memperlakukannya sebagai perpindahan inventory dari <strong>warehouse</strong> ke sebuah <strong>shop</strong>.</p>
+      </div>
+
+      <div class="span-6 panel">
+        <div class="label">Jakarta · current StockWizz model</div>
+        <div class="flow-row" style="justify-content:flex-start">
+          <div class="box black" style="flex:1;max-width:none"><div class="box-title">DC Pulo Gadung</div><div class="box-sub">Distribution Center domain<br><strong>warehouse stock / warehouse movements</strong><br>source stock Jakarta</div></div>
+          <div class="arrow">→</div>
+          <div class="box brand" style="flex:1;max-width:none"><div class="box-title">Jakarta Ecommerce</div><div class="box-sub">Masih Retail Shop domain<br><strong>shop stock / shop stock history</strong><br>bukan DC inventory pool</div></div>
+        </div>
+        <div class="rule"></div>
+        <p class="muted" style="font-size:11px">Prinsipnya sama: stock Ecommerce masih dimiliki secara sistem seperti stock toko offline, walaupun operasionalnya adalah fulfillment Ecommerce.</p>
+      </div>
+    </div>
+
+    <div class="grid" style="margin-top:14px">
+      <div class="span-8 diagram">
+        <div class="label">Apa arti satu refill saat ini?</div>
+        <div class="swimlane">
+          <div class="lane"><div class="lane-name">Source DC</div><div class="lane-body"><span class="mini brand">warehouse stock -N</span><span class="mini-arrow">→</span><span class="mini">warehouse movement / history</span></div></div>
+          <div class="lane"><div class="lane-name">Ecommerce location</div><div class="lane-body"><span class="mini green">shop stock +N</span><span class="mini-arrow">→</span><span class="mini">shopstockhistory</span></div></div>
+          <div class="lane"><div class="lane-name">Online channel</div><div class="lane-body"><span class="mini blue">Web Sales / Marketplace</span><span class="mini-arrow">→</span><span class="mini brand">consume Ecommerce shop stock</span></div></div>
+        </div>
+      </div>
+      <div class="span-4 panel brand">
+        <div class="label">Migration implication</div>
+        <div class="big" style="font-size:22px">One-stock bukan sekadar menggabungkan angka.</div>
+        <p class="muted" style="font-size:11px">Kalau direction baru dipakai, Ecommerce akan berubah dari <strong>inventory owner berbasis shop stock</strong> menjadi <strong>sales / fulfilment channel yang reserve stock langsung dari DC</strong>. Ini perubahan model inventory, bukan hanya perubahan rak.</p>
+      </div>
+    </div>
+
+    <div class="decision" style="margin-top:14px"><strong>Design boundary:</strong> jangan langsung memindahkan quantity dari <code>shop stock</code> ke <code>warehouse stock</code>. Pertama harus dipetakan semua consumer yang masih membaca Bali/Jakarta Ecommerce sebagai shop location: Web Sales, Jubelio sync, refill, reporting, alert, stock history, dan proses operasional lain.</div>
+    <div class="caption">Internal evidence: request 3 Aug 2026 menegaskan Bali Ecommerce & Jakarta Ecommerce belum aktif di DC workflow dan stock akuratnya masih dipelihara melalui Retail Shop workflow. Thread 24 Sep 2026 juga menegaskan DC Padang Galak / Pulo Gadung sebagai source DC, sementara Ecommerce masih punya stock sendiri seperti toko offline.</div>
+  </section>
+
   <section id="current">
-    <div class="section-head"><div class="sec-no">02</div><h2>Kondisi sekarang: PG menjadi upstream source, lalu Bali Ecommerce masih dibagi lagi untuk Web Sales dan Marketplace.</h2></div>
+    <div class="section-head"><div class="sec-no">03</div><h2>Kondisi sekarang: PG menjadi upstream source, lalu Bali Ecommerce masih dibagi lagi untuk Web Sales dan Marketplace.</h2></div>
     <div class="diagram">
       <div class="flow-row">
         <div class="box black"><div class="box-title">DC Padang Galak</div><div class="box-sub">StockWizz<br>WH-PTSB-PDG</div></div>
@@ -319,7 +367,7 @@
   </section>
 
   <section id="volume">
-    <div class="section-head"><div class="sec-no">03</div><h2>Sample Juli–Agustus menunjukkan volume rendah. System load bukan blocker.</h2></div>
+    <div class="section-head"><div class="sec-no">04</div><h2>Sample Juli–Agustus menunjukkan volume rendah. System load bukan blocker.</h2></div>
     <div class="metric-grid">
       <div class="metric"><div class="n">48 <span>/hari</span></div><div class="t">PO toko / B2B</div><div class="d">Order/PO yang berpotensi mengurangi atau meng-commit stock PG.</div></div>
       <div class="metric"><div class="n">5 <span>/hari</span></div><div class="t">Web Sales</div><div class="d">Order website yang memengaruhi online availability.</div></div>
@@ -346,7 +394,7 @@
   </section>
 
   <section id="doublecount">
-    <div class="section-head"><div class="sec-no">04</div><h2>Namun angka 163 tidak boleh langsung diterjemahkan menjadi 163 trigger API.</h2></div>
+    <div class="section-head"><div class="sec-no">05</div><h2>Namun angka 163 tidak boleh langsung diterjemahkan menjadi 163 trigger API.</h2></div>
     <div class="event-map">
       <div class="event-col">
         <div class="label">Satu business event</div>
@@ -374,7 +422,7 @@
   </section>
 
   <section id="sync">
-    <div class="section-head"><div class="sec-no">05</div><h2>Main risk bukan load, tetapi sync correctness: event origin harus jelas.</h2></div>
+    <div class="section-head"><div class="sec-no">06</div><h2>Main risk bukan load, tetapi sync correctness: event origin harus jelas.</h2></div>
     <div class="grid">
       <div class="span-7 diagram">
         <div class="sync-arch">
@@ -405,7 +453,7 @@
   </section>
 
   <section id="target">
-    <div class="section-head"><div class="sec-no">06</div><h2>Target architecture: one physical stock, one ATS engine, many demand channels.</h2></div>
+    <div class="section-head"><div class="sec-no">07</div><h2>Target architecture: one physical stock, one ATS engine, many demand channels.</h2></div>
     <div class="diagram">
       <div class="flow-row">
         <div class="box black"><div class="box-title">DC Padang Galak</div><div class="box-sub">ONE physical on-hand<br>source of truth</div></div>
@@ -435,10 +483,10 @@
   </section>
 
   <section id="migration">
-    <div class="section-head"><div class="sec-no">07</div><h2>Rekomendasi rollout: jangan merge database dulu. Bangun kontrolnya, lalu kurangi fragmentation.</h2></div>
+    <div class="section-head"><div class="sec-no">08</div><h2>Rekomendasi rollout: jangan merge database dulu. Bangun kontrolnya, lalu kurangi fragmentation.</h2></div>
     <div class="steps">
-      <div class="step"><div class="step-no">01 · Observe</div><h3>Map event source</h3><p>Trace PG, Bali Ecommerce, Web Sales, Jubelio, retail refill: kapan reserve, deduct, cancel, return.</p></div>
-      <div class="step"><div class="step-no">02 · Instrument</div><h3>Canonical event log</h3><p>Tambahkan event_id, origin, reference, warehouse, delta, sync status dan reconciliation.</p></div>
+      <div class="step"><div class="step-no">01 · Observe</div><h3>Map stock domains</h3><p>Trace warehouse stock vs shop stock, lalu PG/Pulo Gadung, Bali/Jakarta Ecommerce, Web Sales, Jubelio dan retail refill: siapa membaca dan menulis stock di mana.</p></div>
+      <div class="step"><div class="step-no">02 · Instrument</div><h3>Canonical event log</h3><p>Normalisasi event lintas <em>warehouse stock</em> dan <em>shop stock</em>; tambahkan event_id, origin, reference, warehouse, delta, sync status dan reconciliation.</p></div>
       <div class="step"><div class="step-no">03 · Shadow</div><h3>Calculate ATS only</h3><p>Hitung ATS PG tanpa mengubah live Jubelio. Bandingkan hasil beberapa hari.</p></div>
       <div class="step"><div class="step-no">04 · Queue</div><h3>Outbox + retry</h3><p>Push ATS melalui queue dengan idempotency, ordering, backoff dan error visibility.</p></div>
       <div class="step"><div class="step-no">05 · Pilot</div><h3>Selected SKUs</h3><p>Uji Web + Marketplace + Retail refill bersamaan pada SKU terkontrol.</p></div>
