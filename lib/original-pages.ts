@@ -43,6 +43,7 @@ const sourceFiles: Record<string, string> = {
   "stockwiz-future-strategy-options": "2026-09-11-batch-01/stockwiz-future-strategy-options.html",
   "stockwiz-option-3-implementation-blueprint": "2026-09-11-batch-01/stockwiz-option-3-implementation-blueprint.html",
   "stockwiz-stabilization-remediation-playbook": "2026-09-11-batch-01/stockwiz-stabilization-remediation-playbook.html",
+  "stockwizz-retail-performance-management-blueprint": "2026-09-28-batch-12/sensatia_perancangan_kinerja_retail.html",
   "stockwizz-putu-mei-assessment": "2026-09-14-batch-02/stockwizz_putu_mei_assessment.html",
 };
 

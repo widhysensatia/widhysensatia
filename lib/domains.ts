@@ -33,6 +33,12 @@ export const domains: KnowledgeDomain[] = [
         ],
       },
       {
+        name: "Retail Performance & Payroll Readiness",
+        description:
+          "BEP bulanan, target toko dan staf penjualan, pencapaian Retail, serta data siap Gaji Worksheet.",
+        documentSlugs: ["stockwizz-retail-performance-management-blueprint"],
+      },
+      {
         name: "Order & Fulfillment Automation",
         description:
           "Assessment customer order, credit control, invoice delivery, dan fulfillment automation.",

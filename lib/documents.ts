@@ -19,6 +19,19 @@ export type KnowledgeDocument = {
 
 export const documents: KnowledgeDocument[] = [
   {
+    slug: "stockwizz-retail-performance-management-blueprint",
+    title: "StockWizz Retail Performance Management — BEP, Target & Payroll Readiness",
+    shortTitle: "Retail Performance Management Blueprint",
+    summary:
+      "Blueprint end-to-end untuk BEP bulanan, target toko dan staf penjualan, pencapaian Retail, data siap Gaji Worksheet, governance, serta roadmap implementasi bertahap.",
+    category: "StockWiz",
+    type: "Feature Blueprint",
+    updated: "2026-09-28",
+    updatedLabel: "28 Sep 2026",
+    tags: ["Retail Performance", "BEP & Target", "Payroll Readiness"],
+    accent: "blue",
+  },
+  {
     slug: "padang-galak-bali-ecommerce-shared-stock-architecture",
     title: "DC Padang Galak × Bali E-Commerce — One-Stock & ATS Architecture",
     shortTitle: "Padang Galak Shared Stock Architecture",

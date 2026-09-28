@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+
+<html lang="id">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Sensatia — Perancangan Manajemen Kinerja Retail</title>
+<meta content="Perancangan lengkap Manajemen Kinerja Retail di StockWizz: BEP bulanan, target toko dan staf penjualan, pencapaian penjualan, serta ekspor data untuk Gaji Worksheet." name="description"/>
+<style>
+    :root{
+      --ink:#1f211d;
+      --muted:#6f756c;
+      --paper:#f7f5ef;
+      --card:#fffdfa;
+      --line:#dedbd2;
+      --green:#536a55;
+      --green-2:#7d9279;
+      --green-3:#b8c4ae;
+      --sand:#d7ccba;
+      --sand-2:#ebe4d7;
+      --rust:#9c694c;
+      --amber:#b68c4f;
+      --red:#a8584d;
+      --shadow:0 20px 50px rgba(31,33,29,.08);
+      --radius:24px;
+      --radius-sm:16px;
+      --max:1480px;
+      --font:'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:var(--font);
+      color:var(--ink);
+      background:
+        radial-gradient(circle at 12% 0%, rgba(125,146,121,.11), transparent 28rem),
+        linear-gradient(180deg,#fbfaf7 0%,var(--paper) 100%);
+      line-height:1.55;
+      -webkit-font-smoothing:antialiased;
+    }
+    a{color:inherit}
+    .page{max-width:var(--max); margin:0 auto; padding:24px 28px 80px}
+    .topbar{
+      position:sticky; top:12px; z-index:30;
+      display:flex; align-items:center; justify-content:space-between; gap:20px;
+      padding:13px 16px; margin-bottom:26px;
+      border:1px solid rgba(83,106,85,.18);
+      border-radius:999px;
+      background:rgba(255,253,250,.86);
+      backdrop-filter:blur(18px);
+      box-shadow:0 10px 30px rgba(31,33,29,.05);
+    }
+    .brand{display:flex; align-items:center; gap:14px; min-width:0}
+    .brand img{height:28px; width:auto; display:block}
+    .brand-fallback{font-weight:700; letter-spacing:.16em; text-transform:uppercase; display:none}
+    .brand-sep{width:1px;height:24px;background:var(--line)}
+    .brand-meta{font-size:12px; color:var(--muted); white-space:nowrap}
+    .top-actions{display:flex;gap:8px;align-items:center}
+    .pill{
+      border:1px solid var(--line); background:#fff; padding:8px 12px; border-radius:999px;
+      font-size:12px; text-decoration:none; transition:.2s ease;
+    }
+    .pill:hover{transform:translateY(-1px); border-color:var(--green-2)}
+    .hero{
+      min-height:560px;
+      border:1px solid rgba(83,106,85,.18);
+      border-radius:34px;
+      padding:54px;
+      position:relative;
+      overflow:hidden;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.92), rgba(246,243,235,.90)),
+        linear-gradient(90deg, rgba(83,106,85,.04), rgba(156,105,76,.04));
+      box-shadow:var(--shadow);
+      display:grid;
+      grid-template-columns:minmax(0,1.15fr) minmax(360px,.85fr);
+      gap:46px;
+      align-items:center;
+    }
+    .hero:before{
+      content:""; position:absolute; inset:auto -120px -140px auto; width:460px; height:460px;
+      border-radius:50%; border:80px solid rgba(125,146,121,.07);
+    }
+    .eyebrow{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--green);font-weight:700}
+    h1{font-size:clamp(42px,6vw,76px);line-height:1.02;letter-spacing:-.04em;margin:16px 0 20px;max-width:860px}
+    .hero p{font-size:18px;color:#50564e;max-width:780px;margin:0}
+    .hero-chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}
+    .hero-chip{padding:9px 13px;border-radius:999px;background:#fff;border:1px solid var(--line);font-size:13px}
+    .hero-card{
+      position:relative; z-index:2;
+      background:#20241f;color:#f7f4ec;border-radius:28px;padding:28px;box-shadow:0 24px 60px rgba(31,33,29,.18)
+    }
+    .hero-card .title{font-size:12px;text-transform:uppercase;letter-spacing:.15em;color:#bec8b9;margin-bottom:18px}
+    .flow-mini{display:grid;gap:10px}
+    .flow-mini .step{display:grid;grid-template-columns:34px 1fr;gap:12px;align-items:start}
+    .flow-mini .num{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:#7d9279;color:#fff;font-size:12px;font-weight:700}
+    .flow-mini strong{display:block;font-size:14px}.flow-mini span{display:block;font-size:12px;color:#c7ccc4;margin-top:2px}
+    .hero-note{margin-top:20px;padding:14px 15px;border:1px solid rgba(255,255,255,.12);border-radius:14px;background:rgba(255,255,255,.04);font-size:12px;color:#d7dbd3}
+
+    .section{margin-top:28px; border:1px solid var(--line); border-radius:var(--radius); background:rgba(255,253,250,.92); box-shadow:0 12px 36px rgba(31,33,29,.04); overflow:hidden}
+    .section-head{display:flex;justify-content:space-between;gap:24px;align-items:flex-end;padding:30px 32px 16px}
+    .section-head h2{font-size:30px;letter-spacing:-.025em;margin:6px 0 0}
+    .section-head p{max-width:720px;color:var(--muted);margin:0;font-size:14px}
+    .section-body{padding:16px 32px 32px}
+    .grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+    .grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+    .grid-4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+    .card{border:1px solid var(--line);background:#fff;border-radius:var(--radius-sm);padding:20px;position:relative;overflow:hidden}
+    .card.soft{background:linear-gradient(180deg,#fff,#f8f5ee)}
+    .card.dark{background:#20241f;color:#f8f5ef;border-color:#20241f}
+    .card h3{font-size:18px;margin:0 0 8px}.card p{font-size:13px;color:var(--muted);margin:0}
+    .card.dark p{color:#c8cec5}
+    .metric{font-size:34px;line-height:1;font-weight:720;letter-spacing:-.035em;margin:12px 0 7px}
+    .metric.small{font-size:28px}
+    .label{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);font-weight:700}
+    .tag{display:inline-flex;align-items:center;gap:7px;padding:6px 9px;border-radius:999px;background:#edf1ea;color:#445646;font-size:11px;font-weight:700}
+    .tag.warn{background:#f4ecdf;color:#795f3b}.tag.stop{background:#f4e6e4;color:#7a433b}
+    .dot{width:7px;height:7px;border-radius:50%;background:currentColor}
+    .rule{height:1px;background:var(--line);margin:16px 0}
+
+    .donut-wrap{display:grid;grid-template-columns:260px 1fr;gap:30px;align-items:center}
+    .donut{width:240px;height:240px;margin:auto;position:relative;border-radius:50%;background:conic-gradient(var(--green) 0 60%, var(--sand) 60% 85%, var(--green-3) 85% 100%)}
+    .donut:after{content:"Rp16.56B\A Total BEP";white-space:pre;position:absolute;inset:50%;transform:translate(-50%,-50%);width:132px;height:132px;border-radius:50%;background:#fff;display:grid;place-items:center;text-align:center;font-weight:700;font-size:17px;line-height:1.2;color:var(--ink);box-shadow:inset 0 0 0 1px var(--line)}
+    .legend{display:grid;gap:10px}.legend-row{display:grid;grid-template-columns:12px 1fr auto;gap:10px;align-items:center;font-size:13px}.legend-swatch{width:10px;height:10px;border-radius:3px}.legend strong{font-size:13px}
+    .legend small{color:var(--muted)}
+
+    .bars{display:grid;gap:14px}
+    .bar-row{display:grid;grid-template-columns:150px 1fr 108px;gap:12px;align-items:center;font-size:12px}
+    .bar-track{height:14px;border-radius:999px;background:#ebe8df;overflow:hidden;position:relative}
+    .bar-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--green),var(--green-2));width:0;transition:width 900ms cubic-bezier(.2,.7,.2,1)}
+    .bar-fill.sand{background:linear-gradient(90deg,#c7ae83,var(--sand))}
+    .bar-fill.rust{background:linear-gradient(90deg,#8f6048,var(--rust))}
+    .bar-value{text-align:right;font-weight:700}
+
+    .pipeline{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px;align-items:stretch}
+    .pipe-step{padding:16px;border:1px solid var(--line);border-radius:14px;background:#fff;min-height:118px;position:relative}
+    .pipe-step:not(:last-child):after{content:"→";position:absolute;right:-15px;top:44%;z-index:2;color:var(--green-2);font-size:20px;font-weight:700}
+    .pipe-step .n{font-size:11px;color:var(--green);font-weight:700;letter-spacing:.12em}.pipe-step strong{display:block;margin-top:8px;font-size:14px;line-height:1.25}.pipe-step span{display:block;font-size:11px;color:var(--muted);margin-top:6px}
+
+    .macro-flow{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px;margin-bottom:22px}
+    .macro-step{position:relative;padding:18px 16px;border-radius:16px;border:1px solid var(--line);background:linear-gradient(180deg,#fff,#faf8f2);min-height:132px}
+    .macro-step:not(:last-child):after{content:"→";position:absolute;right:-15px;top:48%;transform:translateY(-50%);z-index:3;color:var(--green-2);font-size:21px;font-weight:800}
+    .macro-step .kicker{font-size:9px;text-transform:uppercase;letter-spacing:.13em;color:var(--green);font-weight:800}
+    .macro-step strong{display:block;font-size:14px;line-height:1.25;margin:9px 0 6px}.macro-step p{font-size:11px;color:var(--muted);margin:0;line-height:1.45}
+    .macro-step.future{background:#f4f1f7;border-color:#ddd7e7}.macro-step.future .kicker{color:#6d607d}
+
+    .e2e-flow{display:grid;gap:0;margin-top:18px;border:1px solid var(--line);border-radius:20px;background:#fff;overflow:hidden}
+    .flow-line{display:grid;grid-template-columns:58px minmax(0,1.15fr) minmax(0,1fr) minmax(0,.9fr);gap:16px;align-items:center;padding:18px 20px;border-bottom:1px solid #ece9e1;position:relative}
+    .flow-line:last-child{border-bottom:none}
+    .flow-line:before{content:"";position:absolute;left:47px;top:-1px;bottom:-1px;width:2px;background:#dfe5dc}
+    .flow-line:first-child:before{top:50%}.flow-line:last-child:before{bottom:50%}
+    .flow-index{width:38px;height:38px;border-radius:50%;background:#eef2ec;border:1px solid #cfd8cc;display:grid;place-items:center;font-size:11px;font-weight:800;color:var(--green);position:relative;z-index:2}
+    .flow-main strong{font-size:14px;display:block;margin-bottom:4px}.flow-main span{font-size:11px;color:var(--muted);line-height:1.45;display:block}
+    .flow-input{font-size:11px;color:#596057;line-height:1.45;padding:10px 12px;border-radius:11px;background:#f8f6f0;border:1px solid #ebe7de}
+    .flow-output{font-size:11px;color:#465446;line-height:1.45;padding:10px 12px;border-radius:11px;background:#eef3ec;border:1px solid #dbe5d8}
+    .flow-line.decision .flow-index{background:#f7efe4;border-color:#e6d5ba;color:#8a6a3f}.flow-line.decision .flow-output{background:#faf1e4;border-color:#ead9bd;color:#765a36}
+    .flow-line.future .flow-index{background:#f0edf4;border-color:#dcd5e5;color:#6d607d}.flow-line.future .flow-output{background:#f5f2f7;border-color:#e2dce9;color:#665a73}
+    .flow-owner{display:inline-flex;align-items:center;margin-top:7px;padding:4px 7px;border-radius:999px;background:#f0f2ed;color:#5a6558;font-size:9px;font-weight:800;letter-spacing:.05em;text-transform:uppercase}
+    .flow-note-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px}
+    .flow-note{padding:16px;border-radius:14px;border:1px solid var(--line);background:#fff}.flow-note strong{font-size:13px;display:block;margin-bottom:5px}.flow-note span{font-size:11px;color:var(--muted);line-height:1.45;display:block}
+    .monthly-loop{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:18px}
+    .loop-card{padding:16px;border-radius:14px;background:#20241f;color:#f7f4ed;min-height:120px}.loop-card .month-k{font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:#b8c4b4;font-weight:800}.loop-card strong{display:block;font-size:14px;margin:8px 0}.loop-card span{display:block;font-size:11px;color:#cbd0c7;line-height:1.45}
+
+    .mockup{border:1px solid var(--line);border-radius:22px;overflow:hidden;background:#f2f0ea;box-shadow:0 18px 40px rgba(31,33,29,.08)}
+    .mock-browser{display:flex;align-items:center;gap:7px;padding:11px 14px;background:#20241f}.mock-dot{width:9px;height:9px;border-radius:50%;background:#c9c9c1}.mock-url{margin-left:8px;padding:5px 10px;background:#2e342d;border-radius:7px;color:#cbd0c7;font-size:10px;flex:1}
+    .mock-body{padding:20px;background:#faf9f5}
+    .mock-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}.mock-header h4{margin:0;font-size:18px}.mock-tabs{display:flex;gap:7px}.mock-tab{padding:6px 9px;border-radius:8px;background:#fff;border:1px solid var(--line);font-size:10px}.mock-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}.mock-kpi{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px}.mock-kpi span{font-size:9px;color:var(--muted);text-transform:uppercase}.mock-kpi strong{display:block;font-size:18px;margin-top:4px}.mock-table{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden}.mock-tr{display:grid;grid-template-columns:1.35fr .8fr .8fr .8fr .8fr;gap:8px;padding:10px 12px;border-bottom:1px solid #eeece6;font-size:10px;align-items:center}.mock-tr.head{background:#f5f3ec;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em}.mock-tr:last-child{border-bottom:none}.mini-progress{height:6px;border-radius:999px;background:#ece9e1;overflow:hidden;margin-top:4px}.mini-progress b{display:block;height:100%;background:var(--green);border-radius:999px}
+
+    table{width:100%;border-collapse:collapse;font-size:13px;background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+    th,td{padding:12px 14px;border-bottom:1px solid #ece9e1;text-align:left;vertical-align:top}th{background:#f4f2eb;color:#5f655c;font-size:11px;text-transform:uppercase;letter-spacing:.08em}tr:last-child td{border-bottom:none}
+    .status{font-size:10px;padding:5px 8px;border-radius:999px;font-weight:700;display:inline-block}.status.confirmed{background:#e8efe6;color:#425643}.status.open{background:#f3eadc;color:#7b603b}.status.future{background:#ebe7f2;color:#635777}
+
+    .roadmap{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.phase{border:1px solid var(--line);border-radius:18px;padding:20px;background:#fff;min-height:300px}.phase .phase-no{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--green);font-weight:700}.phase h3{font-size:18px;margin:8px 0 12px}.phase ul{padding-left:18px;margin:0;color:#5f655c;font-size:12px}.phase li{margin:8px 0}.phase.recommended{outline:2px solid rgba(83,106,85,.18);box-shadow:0 10px 30px rgba(83,106,85,.06)}
+
+    .callout{border-left:4px solid var(--green);background:#f0f4ee;border-radius:12px;padding:16px 18px;font-size:13px;color:#4f5b4d}.callout.warn{border-color:var(--amber);background:#f7f0e6;color:#6a5a43}.callout.stop{border-color:var(--red);background:#f6eae8;color:#6e4a45}
+    .checklist{display:grid;gap:10px}.check{display:flex;gap:11px;align-items:flex-start;padding:12px;border:1px solid var(--line);border-radius:12px;background:#fff;font-size:12px}.check i{width:18px;height:18px;border-radius:5px;border:1px solid #aab4a5;display:grid;place-items:center;font-style:normal;color:var(--green);font-size:11px;flex:0 0 auto}
+    .source-list{display:grid;gap:8px}.source{display:flex;justify-content:space-between;gap:12px;align-items:center;border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:#fff;font-size:12px;text-decoration:none}.source:hover{border-color:var(--green-2)}.source span:last-child{color:var(--green);font-weight:700}
+    .footer{padding:34px 8px 0;color:var(--muted);font-size:11px;display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}
+
+    .reveal{opacity:0; transform:translateY(12px); transition:opacity .6s ease, transform .6s ease}.reveal.in{opacity:1;transform:none}
+    .toc{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}.toc a{font-size:11px;text-decoration:none;padding:7px 10px;border-radius:999px;border:1px solid var(--line);background:#fff;color:#596057}.toc a:hover{border-color:var(--green-2);color:var(--green)}
+
+    @media (max-width:1080px){
+      .hero{grid-template-columns:1fr;padding:38px}.hero-card{max-width:720px}
+      .grid-4{grid-template-columns:repeat(2,1fr)}
+      .pipeline{grid-template-columns:repeat(3,1fr)}
+      .pipe-step:nth-child(3):after{display:none}
+      .macro-flow{grid-template-columns:repeat(3,1fr)}
+      .macro-step:nth-child(3):after{display:none}
+      .flow-line{grid-template-columns:52px 1fr 1fr}
+      .flow-output{grid-column:2 / -1}
+      .flow-note-grid{grid-template-columns:1fr}
+      .monthly-loop{grid-template-columns:repeat(2,1fr)}
+      .roadmap{grid-template-columns:repeat(2,1fr)}
+      .donut-wrap{grid-template-columns:1fr}
+    }
+    @media (max-width:720px){
+      .page{padding:14px 12px 50px}.topbar{top:6px;border-radius:18px}.brand-meta,.brand-sep,.top-actions .pill:nth-child(2){display:none}
+      .hero{padding:28px 20px;border-radius:24px;min-height:auto}.hero p{font-size:15px}
+      .section-head{padding:24px 20px 12px;display:block}.section-head p{margin-top:8px}.section-body{padding:12px 20px 24px}
+      .grid-2,.grid-3,.grid-4,.roadmap{grid-template-columns:1fr}
+      .pipeline{grid-template-columns:1fr}.pipe-step:not(:last-child):after{content:"↓";right:auto;left:50%;top:auto;bottom:-20px}.pipe-step:nth-child(3):after{display:block}
+      .bar-row{grid-template-columns:92px 1fr 70px}.mock-kpis{grid-template-columns:repeat(2,1fr)}.mock-tr{grid-template-columns:1.2fr .8fr .8fr}.mock-tr > :nth-child(4),.mock-tr > :nth-child(5){display:none}
+      .donut{width:210px;height:210px}.donut:after{width:118px;height:118px}
+    }
+    @media print{
+      body{background:#fff}.topbar{position:static}.pill{display:none}.section,.hero{box-shadow:none;break-inside:avoid}.reveal{opacity:1!important;transform:none!important}
+      .page{max-width:none;padding:0}.section{margin-top:18px}
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+<header class="topbar">
+<div class="brand">
+<img alt="Sensatia Botanicals" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" src="/sensatia-logo.svg"/>
+<div class="brand-fallback">Sensatia</div>
+<div class="brand-sep"></div>
+<div class="brand-meta">Perancangan Manajemen Kinerja Retail</div>
+</div>
+<div class="top-actions">
+<a class="pill" href="/domains/stockwiz-erp/">StockWiz &amp; ERP</a>
+<a class="pill" href="#recommendation">Rekomendasi</a>
+</div>
+</header>
+<section class="hero reveal">
+<div>
+<div class="eyebrow">Perancangan StockWizz · Fondasi kinerja Retail</div>
+<h1>Fondasi kinerja Retail yang terukur, akurat, dan siap berkembang.</h1>
+<p>Perancangan StockWizz untuk menyatukan BEP bulanan, target per toko dan staf penjualan, pencapaian harian dan bulanan, serta data siap Gaji Worksheet dalam satu alur yang konsisten — tanpa mengunci formula bonus sebelum kebijakan final disepakati.</p>
+<div class="hero-chips">
+<span class="hero-chip">BEP Bulanan</span>
+<span class="hero-chip">BEP &amp; Target Toko</span>
+<span class="hero-chip">Target Harian / Bulanan Staf Penjualan</span>
+<span class="hero-chip">Kinerja Khusus Retail</span>
+<span class="hero-chip">Ekspor Gaji</span>
+</div>
+<nav aria-label="Bagian halaman" class="toc">
+<a href="#summary">Ringkasan</a><a href="#bep">Model BEP</a><a href="#flow">Alur Operasional</a><a href="#ui">Usulan Tampilan</a><a href="#data">Perancangan Data</a><a href="#roadmap">Tahapan</a><a href="#recommendation">Rekomendasi</a>
+</nav>
+</div>
+<aside class="hero-card">
+<div class="title">Urutan implementasi yang disarankan</div>
+<div class="flow-mini">
+<div class="step"><div class="num">1</div><div><strong>Sumber BEP &amp; riwayat versi</strong><span>BEP perusahaan bulanan + alokasi kanal yang dapat dikonfigurasi.</span></div></div>
+<div class="step"><div class="num">2</div><div><strong>BEP &amp; Target Toko</strong><span>Nilai berdasarkan periode dengan riwayat perubahan.</span></div></div>
+<div class="step"><div class="num">3</div><div><strong>Target staf penjualan &amp; penjualan aktual</strong><span>Kinerja harian + bulanan, khusus Retail.</span></div></div>
+<div class="step"><div class="num">4</div><div><strong>Ekspor siap Gaji Worksheet</strong><span>Persentase pencapaian siap digunakan HR/Gaji Worksheet.</span></div></div>
+</div>
+<div class="hero-note"><strong>Batasan ruang lingkup:</strong> tingkatan bonus masih bersifat eksperimen. Bangun fondasi pengukuran terlebih dahulu; logika pembayaran baru ditambahkan setelah Manajemen + HR menetapkan aturan final.</div>
+</aside>
+</section>
+<section class="section reveal" id="summary">
+<div class="section-head">
+<div><div class="eyebrow">01 · Ringkasan eksekutif</div><h2>Arah pengembangan StockWizz</h2></div>
+<p>Bukan hanya laporan bulanan. Targetnya adalah membangun fondasi operasional yang menghubungkan BEP dari Gaji Worksheet, target toko, kinerja staf penjualan, dan output yang siap dipakai HR.</p>
+</div>
+<div class="section-body">
+<div class="grid-4">
+<div class="card soft"><div class="label">Pemilik kebutuhan bisnis</div><div class="metric small">Manajemen</div><p>Arah pengembangan kinerja Retail + integrasi data gaji.</p></div>
+<div class="card soft"><div class="label">Target Retail</div><div class="metric small">Rp18,75 Miliar</div><p>Target Retail bulanan terbaru yang digunakan Erlin sebagai referensi.</p></div>
+<div class="card soft"><div class="label">BEP Retail Agustus 2026</div><div class="metric small">Rp9,94 Miliar</div><p>60% dari BEP perusahaan bulanan yang bersumber dari Gaji Worksheet.</p></div>
+<div class="card dark"><div class="label" style="color:#b9c5b5">Prinsip utama</div><div class="metric small">Data terlebih dahulu</div><p>Jangan mengunci formula bonus yang belum final ke dalam kode.</p></div>
+</div>
+<div class="rule"></div>
+<div class="grid-3">
+<div class="card"><span class="tag"><span class="dot"></span>Terkonfirmasi</span><h3 style="margin-top:12px">Kinerja staf penjualan khusus Retail</h3><p>Laporan per toko harus menampilkan kontribusi penjualan serta pencapaian target harian/bulanan. Staf E-Commerce harus dikecualikan dengan aturan yang konsisten.</p></div>
+<div class="card"><span class="tag"><span class="dot"></span>Terkonfirmasi</span><h3 style="margin-top:12px">BEP berubah setiap bulan</h3><p>BEP perusahaan bulanan berasal dari Gaji Worksheet. BEP Retail kemudian dihitung berdasarkan alokasi kanal yang berlaku.</p></div>
+<div class="card"><span class="tag warn"><span class="dot"></span>Masih perlu keputusan</span><h3 style="margin-top:12px">Aturan alokasi toko &amp; staf penjualan</h3><p>Formula pembagian BEP/Target Retail ke masing-masing toko dan staf penjualan belum dikonfirmasi dan tidak boleh diasumsikan.</p></div>
+</div>
+</div>
+</section>
+<section class="section reveal" id="bep">
+<div class="section-head">
+<div><div class="eyebrow">02 · Model BEP terkonfirmasi</div><h2>BEP bulanan bersifat dinamis, bukan angka tetap</h2></div>
+<p>Manajemen menegaskan bahwa Rp9,6 Miliar tidak boleh dianggap sebagai BEP Retail tetap. Sumbernya harus berasal dari Gaji Worksheet aktual setiap bulan.</p>
+</div>
+<div class="section-body">
+<div class="grid-2">
+<div class="card soft">
+<div class="donut-wrap">
+<div aria-label="Alokasi BEP Agustus 2026" class="donut"></div>
+<div>
+<div class="label">Contoh Agustus 2026</div>
+<h3 style="font-size:24px;margin:8px 0 16px">Alokasi BEP perusahaan</h3>
+<div class="legend">
+<div class="legend-row"><span class="legend-swatch" style="background:var(--green)"></span><div><strong>Retail · 60%</strong><br/><small>Rp9.937.632.536</small></div><strong>60%</strong></div>
+<div class="legend-row"><span class="legend-swatch" style="background:var(--sand)"></span><div><strong>B2B · 25%</strong><br/><small>Rp4.140.680.223</small></div><strong>25%</strong></div>
+<div class="legend-row"><span class="legend-swatch" style="background:var(--green-3)"></span><div><strong>E-Commerce · 15%</strong><br/><small>Rp2.484.408.134</small></div><strong>15%</strong></div>
+</div>
+</div>
+</div>
+</div>
+<div class="card">
+<div class="label">Interpretasi bisnis</div>
+<h3 style="font-size:24px;margin-top:8px">Data yang harus dapat dikonfigurasi</h3>
+<div class="checklist">
+<div class="check"><i>✓</i><div><strong>BEP Perusahaan Bulanan</strong><br/>Disimpan berdasarkan periode dan tidak menimpa data historis.</div></div>
+<div class="check"><i>✓</i><div><strong>Persentase alokasi kanal</strong><br/>Aturan 60/25/15 saat ini sebaiknya disimpan sebagai data konfigurasi, bukan ditanam langsung sebagai kode permanen.</div></div>
+<div class="check"><i>✓</i><div><strong>Hasil BEP Retail</strong><br/>Dihitung dari BEP bulanan aktif dan alokasi kanal yang berlaku.</div></div>
+<div class="check"><i>!</i><div><strong>Pembagian Retail → Toko</strong><br/>Masih membutuhkan formula bisnis yang dikonfirmasi.</div></div>
+</div>
+</div>
+</div>
+<div class="callout warn" style="margin-top:18px"><strong>Aturan desain:</strong>persentase dan nilai BEP harus memiliki versi berdasarkan periode. Jika Oktober berubah dari Agustus, laporan historis Agustus harus tetap menggunakan nilai Agustus.</div>
+</div>
+</section>
+<section class="section reveal" id="flow">
+<div class="section-head">
+<div><div class="eyebrow">03 · Alur end-to-end</div><h2>Dari penetapan BEP bulanan hingga data siap Gaji Worksheet</h2></div>
+<p>Alur ini memisahkan dengan jelas proses bulanan, pembagian target, transaksi harian, rekonsiliasi, dan keluaran akhir. Setiap tahap harus dapat ditelusuri kembali ke sumber data dan periode yang digunakan.</p>
+</div>
+<div class="section-body">
+<div class="macro-flow">
+<div class="macro-step"><div class="kicker">Tahap 1</div><strong>Tentukan BEP Bulanan</strong><p>Ambil BEP perusahaan dari Gaji Worksheet dan simpan berdasarkan periode.</p></div>
+<div class="macro-step"><div class="kicker">Tahap 2</div><strong>Distribusikan ke Retail</strong><p>Terapkan alokasi kanal lalu tentukan BEP dan Target Retail bulan tersebut.</p></div>
+<div class="macro-step"><div class="kicker">Tahap 3</div><strong>Turunkan ke Toko &amp; Staf</strong><p>Alokasikan BEP/Target ke toko aktif lalu target staf penjualan sesuai aturan yang disepakati.</p></div>
+<div class="macro-step"><div class="kicker">Tahap 4</div><strong>Pantau Penjualan Harian</strong><p>Hubungkan transaksi Retail ke staf dan hitung aktual, pencapaian, serta sisa target.</p></div>
+<div class="macro-step"><div class="kicker">Tahap 5</div><strong>Tutup &amp; Rekonsiliasi Periode</strong><p>Validasi transaksi, pengecualian, dan total toko sebelum periode diselesaikan.</p></div>
+<div class="macro-step future"><div class="kicker">Tahap 6</div><strong>Ekspor &amp; Bonus</strong><p>Ekspor pencapaian ke Gaji Worksheet. Mesin bonus baru setelah kebijakan final disetujui.</p></div>
+</div>
+
+<div class="callout"><strong>Prinsip utama:</strong> satu angka pencapaian staf harus bisa ditelusuri kembali ke <strong>BEP bulan yang benar → target toko → target staf → transaksi Retail yang valid</strong>. Tidak boleh ada angka yang berubah karena target bulan berikutnya menimpa data historis.</div>
+
+<div class="e2e-flow">
+<div class="flow-line">
+<div class="flow-index">01</div>
+<div class="flow-main"><strong>Finalisasi BEP perusahaan bulan berjalan</strong><span>Accounting menyiapkan nilai BEP berdasarkan Gaji Worksheet aktual. Nilai ini menjadi sumber awal periode tersebut.</span><span class="flow-owner">Accounting</span></div>
+<div class="flow-input"><strong>Input</strong><br/>Gaji Worksheet + total BEP perusahaan.</div>
+<div class="flow-output"><strong>Output</strong><br/>BEP perusahaan untuk bulan/periode tertentu.</div>
+</div>
+<div class="flow-line">
+<div class="flow-index">02</div>
+<div class="flow-main"><strong>Buat Master BEP Bulanan di StockWizz</strong><span>Simpan nilai BEP berdasarkan periode, sumber, tanggal efektif, dan siapa yang melakukan update. Revisi tidak boleh menghapus nilai historis.</span><span class="flow-owner">StockWizz / Authorized User</span></div>
+<div class="flow-input"><strong>Kontrol</strong><br/>Period ID · effective date · updated by · revision reason.</div>
+<div class="flow-output"><strong>Output</strong><br/>Master BEP bulanan yang auditable.</div>
+</div>
+<div class="flow-line">
+<div class="flow-index">03</div>
+<div class="flow-main"><strong>Terapkan alokasi kanal</strong><span>Terapkan persentase Retail / B2B / E-Commerce yang berlaku untuk periode tersebut. Persentase harus dapat dikonfigurasi dan memiliki versi.</span><span class="flow-owner">Business Configuration</span></div>
+<div class="flow-input"><strong>Contoh Agustus</strong><br/>Retail 60% · B2B 25% · E-Commerce 15%.</div>
+<div class="flow-output"><strong>Output</strong><br/>BEP Retail, B2B, dan E-Commerce per periode.</div>
+</div>
+<div class="flow-line">
+<div class="flow-index">04</div>
+<div class="flow-main"><strong>Tetapkan BEP &amp; Target Retail bulanan</strong><span>BEP Retail berasal dari alokasi BEP perusahaan. Target Retail adalah referensi bisnis terpisah yang disimpan untuk bulan tersebut.</span><span class="flow-owner">Retail / Management</span></div>
+<div class="flow-input"><strong>Contoh referensi</strong><br/>BEP Retail Agustus ≈ Rp9,94 Miliar · Target Retail Rp18,75 Miliar.</div>
+<div class="flow-output"><strong>Output</strong><br/>Dasar kinerja Retail bulan berjalan.</div>
+</div>
+<div class="flow-line decision">
+<div class="flow-index">05</div>
+<div class="flow-main"><strong>Alokasikan BEP &amp; Target Retail ke setiap toko aktif</strong><span>Sistem harus menyimpan nilai per toko berdasarkan periode. Formula pembagiannya belum boleh diasumsikan sebelum aturan bisnis disepakati.</span><span class="flow-owner">Keputusan Bisnis</span></div>
+<div class="flow-input"><strong>Perlu keputusan</strong><br/>Revenue share? target share? headcount/payroll? atau metode lain.</div>
+<div class="flow-output"><strong>Output</strong><br/>Shop BEP + Shop Target per bulan.</div>
+</div>
+<div class="flow-line">
+<div class="flow-index">06</div>
+<div class="flow-main"><strong>Validasi daftar toko &amp; periode efektif</strong><span>Toko baru, tutup, atau perubahan kondisi harus tercermin tanpa merusak data bulan sebelumnya.</span><span class="flow-owner">Retail Operations</span></div>
+<div class="flow-input"><strong>Validasi</strong><br/>Shop aktif · open/close date · effective period.</div>
+<div class="flow-output"><strong>Output</strong><br/>Daftar toko eligible yang valid untuk periode.</div>
+</div>
+<div class="flow-line decision">
+<div class="flow-index">07</div>
+<div class="flow-main"><strong>Turunkan target toko ke staf penjualan</strong><span>Tentukan target bulanan dan target harian masing-masing staf. Aturannya harus bisa menangani staf pindah toko, masuk/keluar di tengah bulan, cuti, dan perubahan jadwal.</span><span class="flow-owner">Keputusan Bisnis + HR/Retail</span></div>
+<div class="flow-input"><strong>Perlu keputusan</strong><br/>Pembagian rata? hari kerja? shift? weekday/weekend? bobot campaign?</div>
+<div class="flow-output"><strong>Output</strong><br/>Target harian &amp; bulanan per staf dengan tanggal efektif.</div>
+</div>
+<div class="flow-line">
+<div class="flow-index">08</div>
+<div class="flow-main"><strong>Catat transaksi Retail dan atribusi staf</strong><span>Setiap transaksi yang eligible harus memiliki hubungan yang dapat dipercaya ke toko dan staf penjualan. Staf E-Commerce tidak boleh tercampur.</span><span class="flow-owner">StockWizz POS / Retail Sales</span></div>
+<div class="flow-input"><strong>Input harian</strong><br/>Sale · shop · clerk · tanggal · nilai transaksi · status transaksi.</div>
+<div class="flow-output"><strong>Output</strong><br/>Actual Sales per staf, per toko, per hari.</div>
+</div>
+<div class="flow-line">
+<div class="flow-index">09</div>
+<div class="flow-main"><strong>Hitung pencapaian harian &amp; bulanan</strong><span>StockWizz menghitung actual, target, achievement, contribution, dan remaining-to-target secara konsisten.</span><span class="flow-owner">StockWizz Calculation</span></div>
+<div class="flow-input"><strong>Formula inti</strong><br/>Achievement % = Actual ÷ Target × 100<br/>Remaining = max(Target − Actual, 0)</div>
+<div class="flow-output"><strong>Output</strong><br/>Daily % · MTD % · contribution % · remaining target.</div>
+</div>
+<div class="flow-line">
+<div class="flow-index">10</div>
+<div class="flow-main"><strong>Tampilkan dashboard per toko</strong><span>Shop Reports menampilkan target toko, actual MTD, pencapaian, sisa target, serta tabel kinerja setiap staf.</span><span class="flow-owner">Retail Shop Reports</span></div>
+<div class="flow-input"><strong>Tampilan</strong><br/>Hari ini · MTD · periode historis · per staf.</div>
+<div class="flow-output"><strong>Output</strong><br/>Tim toko melihat posisi kinerja dan gap ke target secara langsung.</div>
+</div>
+<div class="flow-line">
+<div class="flow-index">11</div>
+<div class="flow-main"><strong>Rekonsiliasi akhir bulan</strong><span>Sebelum hasil dipakai untuk payroll, validasi total staf terhadap total toko dan cek transaksi pengecualian seperti return, cancellation, refund, koreksi, atau transaksi nol.</span><span class="flow-owner">Retail + Finance / HR</span></div>
+<div class="flow-input"><strong>Checkpoint</strong><br/>Clerk total = eligible Retail shop sales untuk periode yang sama.</div>
+<div class="flow-output"><strong>Output</strong><br/>Dataset periode yang sudah tervalidasi / siap ditutup.</div>
+</div>
+<div class="flow-line">
+<div class="flow-index">12</div>
+<div class="flow-main"><strong>Kunci snapshot periode</strong><span>Setelah rekonsiliasi, nilai target dan pencapaian periode disimpan sebagai snapshot/versi historis sehingga perubahan bulan berikutnya tidak mengubah hasil lama.</span><span class="flow-owner">StockWizz Period Control</span></div>
+<div class="flow-input"><strong>Kontrol</strong><br/>Period status · closed at · closed by · audit history.</div>
+<div class="flow-output"><strong>Output</strong><br/>Riwayat kinerja yang konsisten dan dapat diaudit.</div>
+</div>
+<div class="flow-line">
+<div class="flow-index">13</div>
+<div class="flow-main"><strong>Ekspor data siap Gaji Worksheet</strong><span>Ekspor baris per staf dengan periode, toko, target, aktual, dan persentase pencapaian untuk dipakai HR/Payroll.</span><span class="flow-owner">HR / Payroll Export</span></div>
+<div class="flow-input"><strong>Minimum export</strong><br/>Period · Shop · Clerk · Target · Actual · Achievement %.</div>
+<div class="flow-output"><strong>Output</strong><br/>CSV/XLSX siap copy-paste/import ke Gaji Worksheet.</div>
+</div>
+<div class="flow-line future">
+<div class="flow-index">14</div>
+<div class="flow-main"><strong>Mesin bonus — tahap berikutnya</strong><span>Setelah kebijakan bonus, payroll rule, dan exception handling disetujui, StockWizz dapat menghitung tier/bonus secara otomatis dari dataset yang sama.</span><span class="flow-owner">Future Phase</span></div>
+<div class="flow-input"><strong>Prasyarat</strong><br/>Formula final + persetujuan HR/Management + test payroll.</div>
+<div class="flow-output"><strong>Output</strong><br/>Bonus calculation yang dapat diaudit — bukan scope implementasi saat ini.</div>
+</div>
+</div>
+
+<div class="monthly-loop">
+<div class="loop-card"><div class="month-k">Awal Bulan</div><strong>Set BEP &amp; Target</strong><span>Finalisasi BEP, alokasi kanal, Shop BEP/Target, dan target staf untuk periode baru.</span></div>
+<div class="loop-card"><div class="month-k">Setiap Hari</div><strong>Capture &amp; Monitor</strong><span>Penjualan Retail masuk otomatis, dashboard menghitung actual dan gap menuju target.</span></div>
+<div class="loop-card"><div class="month-k">Akhir Bulan</div><strong>Rekonsiliasi</strong><span>Validasi clerk vs shop, cek return/cancellation, lalu lock snapshot periode.</span></div>
+<div class="loop-card"><div class="month-k">Setelah Close</div><strong>Export ke Gaji</strong><span>Hasil pencapaian per staf diekspor untuk proses HR/Payroll dan analisis historis.</span></div>
+</div>
+
+<div class="flow-note-grid">
+<div class="flow-note"><strong>🟢 Terkonfirmasi</strong><span>BEP berasal dari Gaji Worksheet bulanan; alokasi kanal saat ini 60/25/15; laporan harus Retail-only; data perlu siap ekspor ke Gaji Worksheet.</span></div>
+<div class="flow-note"><strong>🟠 Perlu keputusan</strong><span>Formula pembagian Retail → toko, pembagian toko → staf, aturan target harian, leave/partial month, serta format final Gaji Worksheet.</span></div>
+<div class="flow-note"><strong>🟣 Tahap berikutnya</strong><span>Bonus engine hanya dibangun setelah aturan HR/Payroll benar-benar final. Fondasi data sekarang harus cukup fleksibel untuk menampungnya.</span></div>
+</div>
+</div>
+</section>
+<section class="section reveal" id="ui">
+<div class="section-head">
+<div><div class="eyebrow">04 · Usulan tampilan Shop Reports</div><h2>Tampilkan kinerja di tempat yang memang digunakan toko</h2></div>
+<p>Lokasi yang disarankan adalah pada setiap halaman Retail Shop Reports: di bawah “Totals per Month” dan di atas “10 Best Sellers”. Tampilan utama berfokus pada kinerja per toko.</p>
+</div>
+<div class="section-body">
+<div class="grid-2">
+<div class="mockup">
+<div class="mock-browser"><span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span><div class="mock-url">stockwiz.apps.sensatia.com / retail / shops / … / reports</div></div>
+<div class="mock-body">
+<div class="mock-header"><div><div class="label">Laporan Toko Retail</div><h4>Kinerja Staf Penjualan</h4></div><div class="mock-tabs"><span class="mock-tab">Hari Ini</span><span class="mock-tab">MTD</span><span class="mock-tab">Ekspor</span></div></div>
+<div class="mock-kpis">
+<div class="mock-kpi"><span>Target Toko</span><strong>Rp950 jt</strong></div>
+<div class="mock-kpi"><span>Aktual MTD</span><strong>Rp812 jt</strong></div>
+<div class="mock-kpi"><span>Pencapaian</span><strong>85,5%</strong></div>
+<div class="mock-kpi"><span>Sisa ke Target</span><strong>Rp138 jt</strong></div>
+</div>
+<div class="mock-table">
+<div class="mock-tr head"><div>Staf Penjualan</div><div>Aktual MTD</div><div>Pencapaian</div><div>Hari Ini</div><div>Kontribusi</div></div>
+<div class="mock-tr"><div><strong>Clerk A</strong><div class="mini-progress"><b style="width:70%"></b></div></div><div>Rp184 jt</div><div>70%</div><div>82%</div><div>22,7%</div></div>
+<div class="mock-tr"><div><strong>Clerk B</strong><div class="mini-progress"><b style="width:90%"></b></div></div><div>Rp236 jt</div><div>90%</div><div>95%</div><div>29,1%</div></div>
+<div class="mock-tr"><div><strong>Clerk C</strong><div class="mini-progress"><b style="width:100%"></b></div></div><div>Rp315 jt</div><div>120%</div><div>108%</div><div>38,8%</div></div>
+</div>
+<div style="font-size:9px;color:var(--muted);margin-top:9px">Rancangan tampilan ini hanya ilustrasi. Persentase dan nilai rupiah pada mockup hanya contoh untuk menggambarkan desain tampilan.</div>
+</div>
+</div>
+<div class="card soft">
+<div class="label">Pengalaman penggunaan yang disarankan</div>
+<h3 style="font-size:24px;margin-top:8px">Buat langkah berikutnya mudah dipahami</h3>
+<div class="checklist">
+<div class="check"><i>1</i><div><strong>Tampilan harian</strong><br/>Target hari ini, aktual hari ini, persentase pencapaian, dan sisa penjualan menuju target.</div></div>
+<div class="check"><i>2</i><div><strong>Tampilan bulanan / MTD</strong><br/>Target bulanan, aktual MTD, persentase pencapaian, dan kontribusi terhadap penjualan toko.</div></div>
+<div class="check"><i>3</i><div><strong>Pemilihan periode</strong><br/>Bisa memilih bulan berjalan maupun periode historis tanpa kehilangan nilai target historis.</div></div>
+<div class="check"><i>4</i><div><strong>Indikator kelayakan Retail</strong><br/>Jelaskan mengapa seorang staf masuk/dikecualikan; hindari penanaman nama langsung di dalam kode.</div></div>
+<div class="check"><i>5</i><div><strong>Ekspor</strong><br/>Hasilkan data per staf penjualan yang rapi dan siap CSV/XLSX untuk HR.</div></div>
+</div>
+</div>
+</div>
+<div class="grid-2" style="margin-top:18px">
+<div class="card">
+<div class="label">Ilustrasi pencapaian</div>
+<h3 style="font-size:22px;margin-top:8px">Contoh output yang dapat diterima HR</h3>
+<div class="bars" style="margin-top:18px">
+<div class="bar-row"><span>Clerk A</span><div class="bar-track"><div class="bar-fill achievement" data-width="58.3"></div></div><div class="bar-value">70%</div></div>
+<div class="bar-row"><span>Clerk B</span><div class="bar-track"><div class="bar-fill achievement" data-width="75"></div></div><div class="bar-value">90%</div></div>
+<div class="bar-row"><span>Clerk C</span><div class="bar-track"><div class="bar-fill achievement rust" data-width="100"></div></div><div class="bar-value">120%</div></div>
+</div>
+<p style="margin-top:14px;font-size:11px;color:var(--muted)">Hanya ilustrasi; 70% / 90% / 120% adalah contoh ilustratif, bukan kinerja staf aktual saat ini.</p>
+</div>
+<div class="card">
+<div class="label">Aturan laporan</div>
+<h3 style="font-size:22px;margin-top:8px">Khusus Retail — staf E-Commerce tidak boleh tercampur</h3>
+<p>Laporan Month-to-Date saat ini dapat menampilkan staf E-Commerce. Logika baru harus menggunakan klasifikasi staf/toko/transaksi yang dapat diandalkan dan tidak menggunakan daftar nama yang ditanam langsung di kode.</p>
+<div class="rule"></div>
+<div class="callout"><strong>Aturan rekonsiliasi:</strong>total penjualan seluruh staf penjualan yang memenuhi kriteria untuk toko/periode tertentu harus sama dengan total penjualan Retail toko untuk periode yang sama setelah menerapkan aturan retur/pembatalan yang sama.</div>
+</div>
+</div>
+</div>
+</section>
+<section class="section reveal" id="data">
+<div class="section-head">
+<div><div class="eyebrow">05 · Usulan perancangan data</div><h2>Master data dengan riwayat versi + kinerja yang dihitung</h2></div>
+<p>Desain yang baik memisahkan input bisnis yang dapat diedit dari transaksi penjualan dan hasil perhitungan laporan. Ini mengurangi risiko perubahan histori dan memudahkan rekonsiliasi data gaji.</p>
+</div>
+<div class="section-body">
+<div class="grid-3">
+<div class="card">
+<div class="label">A · Master BEP Bulanan</div>
+<h3>Level perusahaan / kanal</h3>
+<p><strong>Kolom data yang disarankan</strong></p>
+<div class="rule"></div>
+<p>period · companyBEP · retailPct · b2bPct · ecommercePct · sourceRef · effectiveFrom · updatedBy · updatedAt · revisionReason</p>
+</div>
+<div class="card">
+<div class="label">B · Target Kinerja Toko</div>
+<h3>Level toko Retail</h3>
+<p><strong>Kolom data yang disarankan</strong></p>
+<div class="rule"></div>
+<p>shopId · period · shopBEP · shopTarget · effectiveFrom · effectiveTo · status · updatedBy · updatedAt</p>
+</div>
+<div class="card">
+<div class="label">C · Penetapan Target Staf Penjualan</div>
+<h3>Level kinerja individu</h3>
+<p><strong>Kolom data yang disarankan</strong></p>
+<div class="rule"></div>
+<p>employeeId · shopId · period · dailyTarget · monthlyTarget · individualBEP? · effectiveFrom · effectiveTo · status</p>
+</div>
+</div>
+<div class="grid-2" style="margin-top:18px">
+<div class="card soft">
+<div class="label">Dihitung otomatis, hindari penyimpanan manual jika tidak perlu</div>
+<h3>Ringkasan perhitungan kinerja</h3>
+<table>
+<thead><tr><th>Metrik</th><th>Perhitungan yang disarankan</th></tr></thead>
+<tbody>
+<tr><td>Aktual Harian</td><td>Penjualan Retail yang memenuhi kriteria berdasarkan staf penjualan + toko + hari bisnis</td></tr>
+<tr><td>Aktual MTD</td><td>Penjualan Retail yang memenuhi kriteria dari awal periode sampai tanggal berjalan</td></tr>
+<tr><td>Pencapaian Harian %</td><td>Aktual Harian ÷ Target Harian × 100</td></tr>
+<tr><td>Pencapaian Bulanan %</td><td>Aktual MTD ÷ Target Bulanan × 100</td></tr>
+<tr><td>Kontribusi %</td><td>Penjualan MTD staf penjualan ÷ penjualan MTD toko × 100</td></tr>
+<tr><td>Sisa ke Target</td><td>maks(Target − Aktual, 0)</td></tr>
+</tbody>
+</table>
+</div>
+<div class="card">
+<div class="label">Hal yang harus diteliti sebelum pengembangan</div>
+<h3>Pertanyaan kualitas data</h3>
+<div class="checklist">
+<div class="check"><i>?</i><div>Kolom staf penjualan yang menjadi sumber utama pada transaksi Retail.</div></div>
+<div class="check"><i>?</i><div>Konsistensi atribusi staf penjualan pada data historis.</div></div>
+<div class="check"><i>?</i><div>Perlakuan retur, pengembalian dana, pembatalan, diskon, diskon 100%, dan transaksi bernilai 0.</div></div>
+<div class="check"><i>?</i><div>Batas waktu harian / zona waktu serta hari operasional toko.</div></div>
+<div class="check"><i>?</i><div>Perpindahan staf antar toko dalam bulan yang sama.</div></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="section reveal">
+<div class="section-head">
+<div><div class="eyebrow">06 · Hak akses &amp; tata kelola</div><h2>Batasi hak edit, perluas hak lihat</h2></div>
+<p>Laporan kinerja dapat terlihat luas, sementara hak edit master BEP dan target tetap terbatas serta dapat diaudit.</p>
+</div>
+<div class="section-body">
+<table>
+<thead><tr><th>Peran</th><th>BEP Bulanan</th><th>BEP / Target Toko</th><th>Target Staf Penjualan</th><th>Tampilan Kinerja</th><th>Ekspor Gaji</th></tr></thead>
+<tbody>
+<tr><td><strong>Accounting</strong></td><td><span class="status open">Sumber / konfirmasi</span></td><td>Lihat</td><td>Lihat</td><td>Lihat</td><td>Lihat</td></tr>
+<tr><td><strong>Erlin / Pengendali Retail</strong></td><td>Lihat</td><td><span class="status confirmed">Pemilik referensi</span></td><td><span class="status open">Belum ditentukan</span></td><td>Lihat seluruh Retail</td><td>Ekspor</td></tr>
+<tr><td><strong>ROS / Penanggung Jawab Toko</strong></td><td>Lihat</td><td><span class="status open">Edit jika berwenang?</span></td><td><span class="status open">Edit jika berwenang?</span></td><td>Toko sendiri</td><td>Toko sendiri / belum ditentukan</td></tr>
+<tr><td><strong>HR</strong></td><td>Lihat</td><td>Lihat</td><td>Lihat</td><td>Lihat</td><td><span class="status confirmed">Pengguna utama</span></td></tr>
+<tr><td><strong>Staf Penjualan</strong></td><td>—</td><td>—</td><td>Lihat sendiri</td><td>Lihat sendiri / sesuai kebijakan toko</td><td>—</td></tr>
+</tbody>
+</table>
+<div class="callout warn" style="margin-top:14px">Matriks ini merupakan usulan tata kelola. Hak akses final perlu dikonfirmasi dengan manajemen / Retail / HR sebelum implementasi.</div>
+</div>
+</section>
+<section class="section reveal" id="roadmap">
+<div class="section-head">
+<div><div class="eyebrow">07 · Tahapan implementasi</div><h2>Pisahkan pengembangan menjadi fase yang fokus</h2></div>
+<p>Membangun semuanya sekaligus akan mencampur kebutuhan laporan yang sudah jelas dengan kebijakan bonus yang masih berubah. Pendekatan paling aman adalah merilis manfaat secara bertahap.</p>
+</div>
+<div class="section-body">
+<div class="roadmap">
+<div class="phase recommended"><div class="phase-no">Fase 1 · Disarankan pertama</div><h3>Fondasi Data</h3><ul><li>BEP Perusahaan Bulanan</li><li>Alokasi kanal dengan riwayat versi</li><li>Retail BEP</li><li>Shop BEP + Target</li><li>Aturan klasifikasi Retail/E-Commerce</li><li>Model target staf penjualan</li><li>Audit / tanggal efektif</li></ul></div>
+<div class="phase"><div class="phase-no">Fase 2</div><h3>Kinerja Staf Penjualan Retail</h3><ul><li>Penjualan staf penjualan per toko</li><li>Target / aktual / % harian</li><li>Target / MTD / % bulanan</li><li>Kontribusi %</li><li>Sisa ke target</li><li>Perbaikan global MTD khusus Retail</li></ul></div>
+<div class="phase"><div class="phase-no">Fase 3</div><h3>Ekspor Gaji</h3><ul><li>Filter periode &amp; toko</li><li>Baris data per staf penjualan</li><li>Target + aktual + pencapaian</li><li>Rekonsiliasi</li><li>Struktur siap CSV/XLSX</li><li>Pemetaan kolom final untuk HR</li></ul></div>
+<div class="phase"><div class="phase-no">Fase 4 · Setelah persetujuan HR</div><h3>Mesin Perhitungan Bonus</h3><ul><li>Batas BEP</li><li>Aturan tingkatan bonus</li><li>Persentase bonus bertingkat</li><li>Perhitungan gaji</li><li>Alur persetujuan / pengecualian</li><li>Audit + validasi</li></ul></div>
+</div>
+</div>
+</section>
+<section class="section reveal">
+<div class="section-head">
+<div><div class="eyebrow">08 · Validasi</div><h2>Pengujian penting sebelum masuk Production</h2></div>
+<p>Fitur harus divalidasi terhadap kondisi Retail nyata, bukan hanya dari tampilan.</p>
+</div>
+<div class="section-body">
+<div class="grid-2">
+<div class="checklist">
+<div class="check"><i>A</i><div><strong>Staf penjualan Retail normal</strong><br/>Penjualan harian + MTD dan pencapaiannya sesuai perhitungan manual.</div></div>
+<div class="check"><i>B</i><div><strong>Pengecualian E-Commerce</strong><br/>Staff/transaksi E-Commerce tidak muncul dalam kinerja Retail.</div></div>
+<div class="check"><i>C</i><div><strong>Staf penjualan pindah toko</strong><br/>Penjualan historis tetap terkait dengan transaksi/toko/periode yang benar.</div></div>
+</div>
+<div class="checklist">
+<div class="check"><i>D</i><div><strong>Perubahan target</strong><br/>Tidak ada overwrite diam-diam terhadap hasil periode sebelumnya.</div></div>
+<div class="check"><i>E</i><div><strong>Perubahan BEP bulanan</strong><br/>Laporan Agustus tetap menggunakan BEP Agustus setelah data September dimuat.</div></div>
+<div class="check"><i>F</i><div><strong>Rekonsiliasi ekspor</strong><br/>Total ekspor sesuai dengan Shop Reports yang memenuhi kriteria pada periode yang sama.</div></div>
+</div>
+</div>
+</div>
+</section>
+<section class="section reveal">
+<div class="section-head">
+<div><div class="eyebrow">09 · Keputusan bisnis yang masih terbuka</div><h2>Pertanyaan yang perlu diselesaikan sebelum implementasi lebih jauh</h2></div>
+<p>Bagian ini sengaja dibiarkan terbuka. Jawabannya perlu datang dari tim bisnis/HR, bukan diasumsikan oleh IT.</p>
+</div>
+<div class="section-body">
+<div class="grid-2">
+<div class="card soft">
+<h3>Aturan alokasi</h3>
+<div class="checklist">
+<div class="check"><i>?</i><div>Bagaimana tepatnya BEP Retail dibagi ke masing-masing toko?</div></div>
+<div class="check"><i>?</i><div>Bagaimana target / BEP toko dibagi ke masing-masing staf penjualan?</div></div>
+<div class="check"><i>?</i><div>Apakah Target Harian mengikuti hari kerja, shift, bobot hari biasa/akhir pekan, atau penyesuaian kampanye?</div></div>
+<div class="check"><i>?</i><div>Bagaimana cuti, absensi, atau bekerja hanya sebagian bulan memengaruhi target?</div></div>
+</div>
+</div>
+<div class="card soft">
+<h3>Gaji &amp; hak akses</h3>
+<div class="checklist">
+<div class="check"><i>?</i><div>Kolom dan urutan Gaji Worksheet final setelah penyelarasan dengan HR/Payroll.</div></div>
+<div class="check"><i>?</i><div>Alur impor CSV/XLSX atau salin-tempel.</div></div>
+<div class="check"><i>?</i><div>Siapa yang dapat mengedit BEP Perusahaan, target toko, dan target staf penjualan?</div></div>
+<div class="check"><i>?</i><div>Apakah logika gaji final hanya memakai pencapaian bulanan atau juga mempertimbangkan kinerja harian.</div></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="section reveal" id="recommendation">
+<div class="section-head">
+<div><div class="eyebrow">10 · Rekomendasi</div><h2>Bangun fondasi pengelolaan kinerja, bukan sekadar laporan sekali pakai</h2></div>
+<p>Kebutuhan ini dapat berkembang menjadi otomatisasi gaji di masa depan, sehingga fondasinya harus dapat digunakan kembali, dapat diaudit, dan memahami periode sejak awal.</p>
+</div>
+<div class="section-body">
+<div class="grid-3">
+<div class="card dark"><div class="label" style="color:#b9c5b5">Rekomendasi 01</div><h3 style="font-size:22px;margin-top:10px">Mulai dari master data berversi</h3><p>BEP bulanan, alokasi kanal, BEP/Target toko, dan target staf penjualan sebaiknya disimpan sebagai data berbasis periode dengan kolom audit.</p></div>
+<div class="card"><div class="label">Rekomendasi 02</div><h3 style="font-size:22px;margin-top:10px">Gunakan sumber transaksi utama, jangan menggandakan total</h3><p>Aktual staf penjualan harus dihitung dari sumber transaksi Retail utama menggunakan satu aturan kelayakan agar tampilan dan hasil ekspor selalu konsisten.</p></div>
+<div class="card"><div class="label">Rekomendasi 03</div><h3 style="font-size:22px;margin-top:10px">Jangan masukkan aturan bonus ke MVP</h3><p>Tampilkan persentase pencapaian dan sisa ke target terlebih dahulu. Logika pembayaran/tingkatan baru ditambahkan setelah HR mengonfirmasi kebijakan.</p></div>
+</div>
+<div class="grid-2" style="margin-top:18px">
+<div class="callout"><strong>MVP yang disarankan:</strong>Master BEP bulanan + alokasi kanal Retail + BEP/Target toko + aktual staf penjualan khusus Retail + kolom target harian/bulanan + ekspor CSV.</div>
+<div class="callout warn"><strong>Meeting berikutnya yang disarankan:</strong>Retail + HR/Accounting + IT untuk menyelesaikan aturan alokasi toko, alokasi staf penjualan, kolom Gaji Worksheet, dan hak akses dalam satu sesi.</div>
+</div>
+<div class="callout stop" style="margin-top:18px"><strong>Belum perlu dibangun:</strong>pembayaran gaji/bonus otomatis, tingkatan tetap 50→150%, atau aturan gaji yang sulit diubah sebelum formula HR/bisnis disetujui secara final.</div>
+</div>
+</section>
+<footer class="footer">
+<div>Sensatia · Perancangan Manajemen Kinerja Retail</div>
+<div>Arah visual mengikuti identitas Sensatia saat ini.</div>
+</footer>
+</div>
+<script>
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.classList.add('in');
+        e.target.querySelectorAll('[data-width]').forEach(el=>{el.style.width=el.dataset.width+'%'});
+      }
+    })
+  },{threshold:.08});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+  window.addEventListener('load',()=>document.querySelectorAll('.hero.reveal').forEach(el=>el.classList.add('in')));
+</script>
+</body>
+</html>
