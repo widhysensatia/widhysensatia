@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="en">
+<html lang="id">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="color-scheme" content="light" />
-<title>E-Commerce & Jubelio Integration Roadmap | Sensatia</title>
+<title>Roadmap Integrasi E-Commerce & Jubelio | Sensatia</title>
 <style>
 :root{
   --brand:#567169;
@@ -79,14 +79,14 @@ footer{border-top:1px solid var(--line);padding:26px 0 42px;color:var(--muted);f
 <header class="topbar">
   <div class="shell topbar-inner">
     <div class="brand-lockup">
-      <a href="/domains/ecommerce-fulfillment/" aria-label="Back to E-Commerce &amp; Fulfillment">
+      <a href="/domains/ecommerce-fulfillment/" aria-label="Kembali ke E-Commerce &amp; Fulfillment">
         <img class="brand-logo" src="/sensatia-logo.svg" alt="Sensatia Botanicals" onerror="this.style.display='none';document.getElementById('brandFallback').style.display='block'" />
         <span id="brandFallback" class="brand-fallback">SENSATIA</span>
       </a>
-      <span class="topbar-title">E-Commerce Integration Roadmap</span>
+      <span class="topbar-title">Roadmap Integrasi E-Commerce</span>
     </div>
-    <nav class="nav" aria-label="Page navigation">
-      <a href="#roadmap">Roadmap</a><a href="#architecture">Architecture</a><a href="#bali">Bali</a><a href="#validation">Validation</a><a href="#jakarta">Jakarta</a><a href="#ats">ATS</a><a href="#actions">Actions</a>
+    <nav class="nav" aria-label="Navigasi halaman">
+      <a href="#roadmap">Roadmap</a><a href="#architecture">Arsitektur</a><a href="#bali">Bali</a><a href="#validation">Validasi</a><a href="#jakarta">Jakarta</a><a href="#ats">ATS</a><a href="#actions">Tindak Lanjut</a>
     </nav>
   </div>
 </header>
@@ -94,106 +94,106 @@ footer{border-top:1px solid var(--line);padding:26px 0 42px;color:var(--muted);f
 <section class="hero">
   <div class="shell hero-grid">
     <div class="reveal">
-      <div class="eyebrow"><span class="eyebrow-dot"></span> Planning / Phased Rollout</div>
-      <h1>E-Commerce &amp;<br>Jubelio Integration Roadmap</h1>
-      <p class="hero-lede">A controlled path from Jubelio transaction sync and E-Commerce Shop-to-DC migration, toward unified digital inventory and ultimately one physical stock source governed by Reservation / Available-To-Sell.</p>
-      <div class="hero-actions"><a class="btn btn-primary" href="#roadmap">Explore roadmap ↓</a><a class="btn btn-secondary" href="#architecture">View target architecture</a></div>
+      <div class="eyebrow"><span class="eyebrow-dot"></span> Perencanaan / Implementasi Bertahap</div>
+      <h1>Roadmap Integrasi <br>E-Commerce &amp; Jubelio</h1>
+      <p class="hero-lede">Jalur terkontrol dari sinkronisasi transaksi Jubelio dan migrasi E-Commerce Shop ke DC, menuju satu digital inventory terpadu dan pada akhirnya satu sumber stok fisik yang dikelola melalui Reservation / Available-To-Sell.</p>
+      <div class="hero-actions"><a class="btn btn-primary" href="#roadmap">Jelajahi roadmap ↓</a><a class="btn btn-secondary" href="#architecture">Lihat target arsitektur</a></div>
     </div>
-    <aside class="hero-visual reveal" aria-label="Roadmap architecture illustration">
-      <div class="label">Master sequence · Bali → Jakarta → Main DC</div>
-      <svg viewBox="0 0 640 400" role="img" aria-label="Four phase systems roadmap">
+    <aside class="hero-visual reveal" aria-label="Ilustrasi arsitektur roadmap">
+      <div class="label">Urutan utama · Bali → Jakarta → Main DC</div>
+      <svg viewBox="0 0 640 400" role="img" aria-label="Roadmap sistem empat fase">
         <path class="botanical" d="M548 58c-34 30-47 70-37 119M512 94c-32-12-48-32-51-58M518 112c33-9 54-27 67-53M507 145c-31 4-55 17-71 40"/>
         <path class="botanical" d="M92 334c28-28 41-61 36-101M127 304c28 10 45 27 51 51M122 284c-29 7-48 22-60 44"/>
         <path class="svg-line-strong" d="M126 204 C195 204 205 115 275 115 S350 204 418 204 S494 293 560 293"/>
         <path class="svg-line" d="M126 204 C196 204 210 293 280 293"/>
         <circle cx="126" cy="204" r="18" class="svg-node-strong pulse"/><circle cx="275" cy="115" r="18" class="svg-node"/><circle cx="418" cy="204" r="18" class="svg-node"/><circle cx="560" cy="293" r="18" class="svg-node-strong pulse"/>
-        <rect x="48" y="154" rx="18" ry="18" width="155" height="96" class="svg-node"/><text x="68" y="180" class="svg-small">PHASE 1</text><text x="68" y="208" class="svg-node-text">Bali Pilot</text><text x="68" y="227" class="svg-node-text">&amp; Migration</text>
-        <rect x="208" y="65" rx="18" ry="18" width="150" height="96" class="svg-node"/><text x="228" y="91" class="svg-small">PHASE 2</text><text x="228" y="119" class="svg-node-text">Stabilize</text><text x="228" y="138" class="svg-node-text">&amp; Validate</text>
-        <rect x="365" y="154" rx="18" ry="18" width="145" height="96" class="svg-node"/><text x="385" y="180" class="svg-small">PHASE 3</text><text x="385" y="208" class="svg-node-text">Jakarta</text><text x="385" y="227" class="svg-node-text">Rollout</text>
-        <rect x="492" y="246" rx="18" ry="18" width="122" height="96" class="svg-node-strong"/><text x="510" y="272" class="svg-small" style="fill:#6f8a81">PHASE 4</text><text x="510" y="299" class="svg-node-text-dark">Shared Stock</text><text x="510" y="318" class="svg-node-text-dark">+ ATS</text>
-        <rect x="215" y="260" rx="15" ry="15" width="130" height="65" class="svg-node"/><text x="231" y="283" class="svg-small">CONTROL</text><text x="231" y="306" class="svg-node-text">Reconcile</text>
+        <rect x="48" y="154" rx="18" ry="18" width="155" height="96" class="svg-node"/><text x="68" y="180" class="svg-small">FASE 1</text><text x="68" y="208" class="svg-node-text">Pilot Bali</text><text x="68" y="227" class="svg-node-text">&amp; Migrasi</text>
+        <rect x="208" y="65" rx="18" ry="18" width="150" height="96" class="svg-node"/><text x="228" y="91" class="svg-small">FASE 2</text><text x="228" y="119" class="svg-node-text">Stabilisasi</text><text x="228" y="138" class="svg-node-text">&amp; Validasi</text>
+        <rect x="365" y="154" rx="18" ry="18" width="145" height="96" class="svg-node"/><text x="385" y="180" class="svg-small">FASE 3</text><text x="385" y="208" class="svg-node-text">Implementasi</text><text x="385" y="227" class="svg-node-text">Jakarta</text>
+        <rect x="492" y="246" rx="18" ry="18" width="122" height="96" class="svg-node-strong"/><text x="510" y="272" class="svg-small" style="fill:#6f8a81">FASE 4</text><text x="510" y="299" class="svg-node-text-dark">Shared Stock</text><text x="510" y="318" class="svg-node-text-dark">+ ATS</text>
+        <rect x="215" y="260" rx="15" ry="15" width="130" height="65" class="svg-node"/><text x="231" y="283" class="svg-small">KONTROL</text><text x="231" y="306" class="svg-node-text">Rekonsiliasi</text>
       </svg>
-      <div class="metric-strip"><div class="metric"><strong>4</strong><span>Controlled phases</span></div><div class="metric"><strong>2</strong><span>Regions</span></div><div class="metric"><strong>1</strong><span>Digital stock model</span></div><div class="metric"><strong>1</strong><span>End-state pool</span></div></div>
+      <div class="metric-strip"><div class="metric"><strong>4</strong><span>Fase terkontrol</span></div><div class="metric"><strong>2</strong><span>Wilayah</span></div><div class="metric"><strong>1</strong><span>Model stok digital</span></div><div class="metric"><strong>1</strong><span>Target pool akhir</span></div></div>
     </aside>
   </div>
 </section>
 
 <section id="roadmap">
   <div class="shell">
-    <div class="section-head reveal"><div><div class="kicker">01 / Roadmap</div><h2 class="section-title">Four phases. One controlled direction.</h2></div><p class="section-copy">The rollout keeps the blast radius small: prove Bali, validate the data and stock lifecycle, replicate to Jakarta, then connect E-Commerce to the Main DC using Reservation / ATS.</p></div>
+    <div class="section-head reveal"><div><div class="kicker">01 / Roadmap</div><h2 class="section-title">Empat fase. Satu arah yang terkontrol.</h2></div><p class="section-copy">Implementasi bertahap menjaga blast radius tetap kecil: buktikan model Bali, validasi data dan siklus stok, replikasi ke Jakarta, lalu hubungkan E-Commerce ke Main DC menggunakan Reservation / ATS.</p></div>
     <div class="phase-timeline reveal">
-      <article class="phase-card current" data-target="#bali"><div class="phase-dot">1</div><h3>Bali Pilot &amp; Migration</h3><p>Jubelio sync, Shop → DC/Warehouse, unified Web + Marketplace stock pool.</p></article>
-      <article class="phase-card" data-target="#validation"><div class="phase-dot">2</div><h3>Stabilization &amp; Validation</h3><p>Idempotency, oversell protection, cancellation, reconciliation, observability.</p></article>
-      <article class="phase-card" data-target="#jakarta"><div class="phase-dot">3</div><h3>Jakarta Rollout</h3><p>Replicate the proven Bali model with correct local warehouse routing.</p></article>
-      <article class="phase-card" data-target="#ats"><div class="phase-dot">4</div><h3>Main DC Shared Stock / ATS</h3><p>One physical stock source, controlled commitments through Reservation and ATS.</p></article>
+      <article class="phase-card current" data-target="#bali"><div class="phase-dot">1</div><h3>Pilot &amp; Migrasi Bali</h3><p>Sinkronisasi Jubelio, Shop → DC/Warehouse, dan satu stock pool untuk Web + Marketplace.</p></article>
+      <article class="phase-card" data-target="#validation"><div class="phase-dot">2</div><h3>Stabilisasi &amp; Validasi</h3><p>Idempotency, perlindungan oversell, cancellation, rekonsiliasi, dan observability.</p></article>
+      <article class="phase-card" data-target="#jakarta"><div class="phase-dot">3</div><h3>Implementasi Jakarta</h3><p>Replikasi model Bali yang sudah terbukti dengan routing warehouse lokal yang benar.</p></article>
+      <article class="phase-card" data-target="#ats"><div class="phase-dot">4</div><h3>Shared Stock Main DC / ATS</h3><p>Satu sumber stok fisik dengan komitmen yang dikontrol melalui Reservation dan ATS.</p></article>
     </div>
   </div>
 </section>
 
 <section>
   <div class="shell">
-    <div class="section-head reveal"><div><div class="kicker">Design principles</div><h2 class="section-title">Why this rollout is phased.</h2></div><p class="section-copy">The goal is not only to ship integration code. The goal is to make every order, reservation, stock deduction, cancellation, and reconciliation explainable.</p></div>
+    <div class="section-head reveal"><div><div class="kicker">Prinsip desain</div><h2 class="section-title">Mengapa implementasinya perlu bertahap.</h2></div><p class="section-copy">Tujuannya bukan sekadar merilis kode integrasi. Setiap order, reservation, pengurangan stok, cancellation, dan rekonsiliasi harus dapat dijelaskan serta ditelusuri.</p></div>
     <div class="principles reveal">
-      <article class="principle"><div class="icon">◎</div><h3>Small blast radius</h3><p>Bali is the pilot scope. Jakarta and Main DC remain downstream until Bali is proven stable.</p></article>
-      <article class="principle"><div class="icon">⇄</div><h3>One truth per phase</h3><p>Each phase must have a clear inventory owner, transaction owner, and reconciliation path.</p></article>
-      <article class="principle"><div class="icon">◌</div><h3>No uncontrolled merge</h3><p>Shared physical stock only works when demand is protected by reservation and ATS rules.</p></article>
+      <article class="principle"><div class="icon">◎</div><h3>Blast radius kecil</h3><p>Bali menjadi cakupan pilot. Jakarta dan Main DC tetap berada di fase berikutnya sampai model Bali terbukti stabil.</p></article>
+      <article class="principle"><div class="icon">⇄</div><h3>Satu sumber kebenaran per fase</h3><p>Setiap fase harus memiliki inventory owner, transaction owner, dan jalur rekonsiliasi yang jelas.</p></article>
+      <article class="principle"><div class="icon">◌</div><h3>Tanpa penggabungan yang tidak terkontrol</h3><p>Shared physical stock hanya dapat berjalan ketika demand dilindungi oleh aturan Reservation dan ATS.</p></article>
     </div>
   </div>
 </section>
 
 <section id="architecture">
   <div class="shell">
-    <div class="section-head reveal"><div><div class="kicker">02 / Architecture shift</div><h2 class="section-title">From separated channel stock to controlled shared inventory.</h2></div><p class="section-copy">The near-term target is not Main DC yet. First, Bali Web + Marketplace should operate from one Bali E-Commerce DC source. Main DC shared stock comes only after both regions are stable.</p></div>
+    <div class="section-head reveal"><div><div class="kicker">02 / Perubahan arsitektur</div><h2 class="section-title">Dari stok per channel menuju shared inventory yang terkontrol.</h2></div><p class="section-copy">Target jangka pendek belum menuju Main DC. Web + Marketplace Bali terlebih dahulu beroperasi dari satu sumber stok E-Commerce DC Bali. Shared stock Main DC baru diterapkan setelah kedua wilayah stabil.</p></div>
     <div class="architecture reveal">
-      <article class="arch-panel current"><span class="arch-label">Current / transitional</span><h3>Separate channel logic creates operational friction.</h3><p>Web and Marketplace can reference different allocation assumptions even when physical operations are closely related.</p><div class="arch-canvas"><div class="arch-grid"><div class="arch-stack"><div class="arch-node">Web Sales</div><div class="arch-node">Marketplace</div></div><div class="arch-arrow">→</div><div class="arch-stack"><div class="arch-node">StockWizz Shop Context</div><div class="arch-node ghost">Jubelio Allocation / Buffer</div></div></div><div class="arch-note">Risk: duplicated allocation logic, harder reconciliation, and unclear ownership when stock is physically close but logically separated.</div></div></article>
+      <article class="arch-panel current"><span class="arch-label">Saat ini / transisi</span><h3>Logika stok yang terpisah per channel menambah friksi operasional.</h3><p>Web dan Marketplace dapat menggunakan asumsi alokasi yang berbeda, meskipun operasional fisiknya saling berkaitan erat.</p><div class="arch-canvas"><div class="arch-grid"><div class="arch-stack"><div class="arch-node">Web Sales</div><div class="arch-node">Marketplace</div></div><div class="arch-arrow">→</div><div class="arch-stack"><div class="arch-node">Konteks Shop StockWizz</div><div class="arch-node ghost">Alokasi / Buffer Jubelio</div></div></div><div class="arch-note">Risiko: logika alokasi terduplikasi, rekonsiliasi lebih sulit, dan ownership tidak jelas ketika stok berdekatan secara fisik tetapi terpisah secara logis.</div></div></article>
       <div class="arch-divider">→</div>
-      <article class="arch-panel target"><span class="arch-label">Target direction</span><h3>One digital inventory source, then Reservation / ATS.</h3><p>Web + Marketplace use one E-Commerce DC pool first. After Bali and Jakarta are stable, the system can safely share the Main DC physical pool.</p><div class="arch-canvas"><div class="arch-grid"><div class="arch-stack"><div class="arch-node green">Web Sales</div><div class="arch-node green">Marketplace / Jubelio</div></div><div class="arch-arrow">→</div><div class="arch-stack"><div class="arch-node green">E-Commerce DC Stock</div><div class="arch-node green">Reservation / ATS Layer</div></div></div><div class="arch-note">End state: one physical source can serve multiple demand types without allowing two channels to promise the same unit.</div></div></article>
+      <article class="arch-panel target"><span class="arch-label">Arah target</span><h3>Satu sumber digital inventory, kemudian Reservation / ATS.</h3><p>Web + Marketplace terlebih dahulu menggunakan satu pool E-Commerce DC. Setelah Bali dan Jakarta stabil, sistem dapat berbagi physical pool Main DC dengan aman.</p><div class="arch-canvas"><div class="arch-grid"><div class="arch-stack"><div class="arch-node green">Web Sales</div><div class="arch-node green">Marketplace / Jubelio</div></div><div class="arch-arrow">→</div><div class="arch-stack"><div class="arch-node green">Stok E-Commerce DC</div><div class="arch-node green">Layer Reservation / ATS</div></div></div><div class="arch-note">Target akhir: satu sumber stok fisik dapat melayani berbagai jenis demand tanpa membuat dua channel menjanjikan unit yang sama.</div></div></article>
     </div>
   </div>
 </section>
 
 <section id="bali">
   <div class="shell phase-layout">
-    <aside class="sticky-summary reveal"><div class="kicker">Phase 1</div><h3>Bali E-Commerce<br>Pilot &amp; Migration</h3><p>Isolate the architectural change to Bali and prove the complete transaction + inventory lifecycle.</p><div class="summary-list"><div class="summary-item"><b>1.1</b><div><strong>Jubelio transaction sync</strong><span>Marketplace lifecycle into StockWizz.</span></div></div><div class="summary-item"><b>1.2</b><div><strong>Shop → DC/Warehouse</strong><span>Change the business model before expanding scope.</span></div></div><div class="summary-item"><b>1.3</b><div><strong>Unified digital stock pool</strong><span>Web + Marketplace use one Bali inventory source.</span></div></div></div></aside>
+    <aside class="sticky-summary reveal"><div class="kicker">Fase 1</div><h3>E-Commerce Bali<br>Pilot &amp; Migrasi</h3><p>Batasi perubahan arsitektur di Bali dan buktikan seluruh siklus transaksi serta inventory.</p><div class="summary-list"><div class="summary-item"><b>1.1</b><div><strong>Sinkronisasi transaksi Jubelio</strong><span>Siklus Marketplace masuk ke StockWizz.</span></div></div><div class="summary-item"><b>1.2</b><div><strong>Shop → DC/Warehouse</strong><span>Ubah model bisnis sebelum memperluas cakupan.</span></div></div><div class="summary-item"><b>1.3</b><div><strong>Satu digital stock pool</strong><span>Web + Marketplace memakai satu sumber inventory Bali.</span></div></div></div></aside>
     <div class="stack reveal">
-      <article class="step"><div class="step-icon">01</div><div><h4>Jubelio → StockWizz transaction sync</h4><p>Finalize webhook / scheduled sync, SKU mapping, order create/update, fulfillment, cancellation, return/refund, and idempotency rules.</p></div><span class="tag">Integration</span></article>
-      <article class="step"><div class="step-icon">02</div><div><h4>Migrate Bali E-Commerce from Shop to DC/Warehouse model</h4><p>Define the target warehouse identity and operational flow. Do not lock implementation to a specific collection migration before technical assessment.</p></div><span class="tag warm">Architecture</span></article>
-      <article class="step"><div class="step-icon">03</div><div><h4>Unify Web + Marketplace stock pool</h4><p>Both digital channels reference the same Bali E-Commerce DC inventory and deduction lifecycle.</p></div><span class="tag">Inventory</span></article>
-      <article class="step"><div class="step-icon">04</div><div><h4>Keep replenishment safety stock separate</h4><p>Removing a channel allocation buffer does not remove minimum stock, reorder planning, safety stock, or campaign allocation.</p></div><span class="tag warm">Guardrail</span></article>
+      <article class="step"><div class="step-icon">01</div><div><h4>Sinkronisasi transaksi Jubelio → StockWizz</h4><p>Finalisasi webhook / scheduled sync, pemetaan SKU, create/update order, fulfillment, cancellation, return/refund, serta aturan idempotency.</p></div><span class="tag">Integrasi</span></article>
+      <article class="step"><div class="step-icon">02</div><div><h4>Migrasikan E-Commerce Bali dari model Shop ke DC/Warehouse</h4><p>Tentukan identitas warehouse target dan alur operasionalnya. Jangan mengunci implementasi pada migrasi collection tertentu sebelum technical assessment selesai.</p></div><span class="tag warm">Arsitektur</span></article>
+      <article class="step"><div class="step-icon">03</div><div><h4>Satukan stock pool Web + Marketplace</h4><p>Kedua channel digital mengacu pada inventory dan siklus pengurangan stok E-Commerce DC Bali yang sama.</p></div><span class="tag">Inventory</span></article>
+      <article class="step"><div class="step-icon">04</div><div><h4>Pisahkan replenishment safety stock</h4><p>Menghapus buffer alokasi per channel tidak menghapus minimum stock, reorder planning, safety stock, atau alokasi campaign.</p></div><span class="tag warm">Guardrail</span></article>
     </div>
   </div>
 </section>
 
 <section>
   <div class="shell swimlane reveal">
-    <div class="swim-head"><h3>Bali order &amp; inventory swimlane</h3><p>Illustrates how Marketplace and Web converge into one StockWizz inventory source while preserving order provenance and transaction history.</p></div>
-    <div class="lane"><div class="lane-label">Marketplace</div><div class="lane-cell active">Order Created</div><div class="lane-cell muted"></div><div class="lane-cell muted"></div><div class="lane-cell muted"></div><div class="lane-cell muted"></div></div>
+    <div class="swim-head"><h3>Swimlane order &amp; inventory Bali</h3><p>Menggambarkan bagaimana Marketplace dan Web menyatu ke satu sumber inventory StockWizz, sambil mempertahankan asal order dan riwayat transaksi.</p></div>
+    <div class="lane"><div class="lane-label">Marketplace</div><div class="lane-cell active">Order Dibuat</div><div class="lane-cell muted"></div><div class="lane-cell muted"></div><div class="lane-cell muted"></div><div class="lane-cell muted"></div></div>
     <div class="lane"><div class="lane-label">Jubelio</div><div class="lane-cell muted"></div><div class="lane-cell active">Webhook / Sync</div><div class="lane-cell active">Map SKU + External ID</div><div class="lane-cell muted"></div><div class="lane-cell muted"></div></div>
-    <div class="lane"><div class="lane-label">StockWizz</div><div class="lane-cell muted"></div><div class="lane-cell muted"></div><div class="lane-cell active">Create / Update Sale</div><div class="lane-cell active">Commit Stock</div><div class="lane-cell active">Status History</div></div>
-    <div class="lane"><div class="lane-label">Bali E-Com DC</div><div class="lane-cell muted"></div><div class="lane-cell muted"></div><div class="lane-cell muted"></div><div class="lane-cell active">Reserve / Deduct</div><div class="lane-cell active">Pick / Ship / Reconcile</div></div>
-    <div class="lane"><div class="lane-label">Web Sales</div><div class="lane-cell active">Web Order</div><div class="lane-cell active">StockWizz</div><div class="lane-cell active">Same Inventory Source</div><div class="lane-cell active">Commit Stock</div><div class="lane-cell active">Pick / Ship</div></div>
+    <div class="lane"><div class="lane-label">StockWizz</div><div class="lane-cell muted"></div><div class="lane-cell muted"></div><div class="lane-cell active">Buat / Update Sale</div><div class="lane-cell active">Commit Stock</div><div class="lane-cell active">Riwayat Status</div></div>
+    <div class="lane"><div class="lane-label">Bali E-Com DC</div><div class="lane-cell muted"></div><div class="lane-cell muted"></div><div class="lane-cell muted"></div><div class="lane-cell active">Reserve / Deduct</div><div class="lane-cell active">Pick / Ship / Rekonsiliasi</div></div>
+    <div class="lane"><div class="lane-label">Web Sales</div><div class="lane-cell active">Web Order</div><div class="lane-cell active">StockWizz</div><div class="lane-cell active">Sumber Inventory Sama</div><div class="lane-cell active">Commit Stock</div><div class="lane-cell active">Pick / Ship</div></div>
   </div>
 </section>
 
 <section>
   <div class="shell unified-pool reveal">
-    <article class="visual-card"><h3>Unified Bali digital stock pool</h3><p>The immediate target is one E-Commerce DC source for digital demand, not Main DC yet.</p><div class="pool-diagram"><div class="source-group"><div class="source-chip">Web Sales</div><div class="source-chip">Marketplace / Jubelio</div></div><div class="pool-core">ONE<br>DIGITAL<br>POOL</div><div class="target-box">Bali E-Commerce<br>DC / Warehouse</div></div><div class="buffer-note"><div class="mini-note"><strong>Remove</strong>Separate Web-vs-Marketplace channel allocation buffer after common deduction is proven.</div><div class="mini-note"><strong>Keep</strong>Safety stock, reorder point, and campaign protection as separate planning controls.</div></div></article>
-    <article class="visual-card"><h3>Migration guardrail</h3><p>The roadmap defines the business model shift. The implementation method stays open until technical mapping is complete.</p><div class="arch-stack"><div class="arch-node ghost">Shop Stock Model</div><div class="arch-arrow">↓</div><div class="arch-node green">Technical Mapping &amp; Data Assessment</div><div class="arch-arrow">↓</div><div class="arch-node green">DC / Warehouse Model</div><div class="arch-arrow">↓</div><div class="arch-node">Historical reporting remains traceable</div></div></article>
+    <article class="visual-card"><h3>Satu digital stock pool Bali</h3><p>Target terdekat adalah satu sumber E-Commerce DC untuk digital demand, belum Main DC.</p><div class="pool-diagram"><div class="source-group"><div class="source-chip">Web Sales</div><div class="source-chip">Marketplace / Jubelio</div></div><div class="pool-core">SATU<br>DIGITAL<br>POOL</div><div class="target-box">E-Commerce Bali<br>DC / Warehouse</div></div><div class="buffer-note"><div class="mini-note"><strong>Hapus</strong>Buffer alokasi terpisah Web-vs-Marketplace setelah mekanisme pengurangan bersama terbukti.</div><div class="mini-note"><strong>Pertahankan</strong>Safety stock, reorder point, dan perlindungan campaign sebagai kontrol perencanaan terpisah.</div></div></article>
+    <article class="visual-card"><h3>Guardrail migrasi</h3><p>Roadmap ini menetapkan perubahan model bisnis. Metode implementasi tetap terbuka sampai technical mapping selesai.</p><div class="arch-stack"><div class="arch-node ghost">Model Stok Shop</div><div class="arch-arrow">↓</div><div class="arch-node green">Technical Mapping &amp; Data Assessment</div><div class="arch-arrow">↓</div><div class="arch-node green">Model DC / Warehouse</div><div class="arch-arrow">↓</div><div class="arch-node">Laporan historis tetap dapat ditelusuri</div></div></article>
   </div>
 </section>
 
 <section id="validation">
   <div class="shell">
-    <div class="section-head reveal"><div><div class="kicker">Phase 2 / Control tower</div><h2 class="section-title">Stabilize before scaling.</h2></div><p class="section-copy">The gate to Jakarta is evidence, not deployment status. Every meaningful stock movement must be explainable from transaction to physical inventory.</p></div>
+    <div class="section-head reveal"><div><div class="kicker">Fase 2 / Control tower</div><h2 class="section-title">Stabilkan sebelum memperluas.</h2></div><p class="section-copy">Gerbang menuju Jakarta adalah evidence, bukan sekadar status deployment. Setiap pergerakan stok yang berarti harus dapat dijelaskan dari transaksi hingga inventory fisik.</p></div>
     <div class="validation-grid reveal">
-      <div class="control-wheel"><div class="wheel-ring"></div><div class="wheel-center">BALI<br>VALIDATION<br>GATE</div><div class="wheel-item w1">Idempotency<span>No duplicate order / deduction</span></div><div class="wheel-item w2">Concurrent Demand<span>Web + Marketplace</span></div><div class="wheel-item w3">OOS Protection<span>No unexplained oversell</span></div><div class="wheel-item w4">Reconciliation<span>Physical + system</span></div><div class="wheel-item w5">Cancel / Return<span>Deterministic release</span></div><div class="wheel-item w6">Observability<span>Failure / retry trace</span></div></div>
+      <div class="control-wheel"><div class="wheel-ring"></div><div class="wheel-center">GERBANG<br>VALIDASI<br>BALI</div><div class="wheel-item w1">Idempotency<span>Tanpa order / deduction ganda</span></div><div class="wheel-item w2">Concurrent Demand<span>Web + Marketplace</span></div><div class="wheel-item w3">Perlindungan OOS<span>Tanpa oversell tak terjelaskan</span></div><div class="wheel-item w4">Rekonsiliasi<span>Fisik + sistem</span></div><div class="wheel-item w5">Cancel / Return<span>Release deterministik</span></div><div class="wheel-item w6">Observability<span>Jejak failure / retry</span></div></div>
       <div class="gate-stack">
-        <article class="gate-card"><div class="gate-icon">01</div><div><h4>Duplicate / Idempotency</h4><p>One external order or event never creates duplicate sales or duplicate stock deductions.</p></div><span class="status-pill">Must pass</span></article>
-        <article class="gate-card"><div class="gate-icon">02</div><div><h4>Concurrent Web + Marketplace</h4><p>Two digital channels can never promise the same physical unit.</p></div><span class="status-pill">Must pass</span></article>
-        <article class="gate-card"><div class="gate-icon">03</div><div><h4>Low-stock / OOS protection</h4><p>Simultaneous demand at low stock does not create unexplained overselling.</p></div><span class="status-pill">Must pass</span></article>
-        <article class="gate-card"><div class="gate-icon">04</div><div><h4>Cancellation / Return</h4><p>Reservation release and stock restoration are deterministic and traceable.</p></div><span class="status-pill">Must pass</span></article>
-        <article class="gate-card"><div class="gate-icon">05</div><div><h4>Reconciliation</h4><p>Physical Bali stock, StockWizz movements, and Jubelio state can be reconciled.</p></div><span class="status-pill">Must pass</span></article>
-        <div class="exit-gate"><strong>Exit criteria → Phase 3</strong><p>Zero known double deduction in pilot scope, no unexplained oversell, validated cancellation/release, and reconciliation with clear evidence.</p></div>
+        <article class="gate-card"><div class="gate-icon">01</div><div><h4>Duplikasi / Idempotency</h4><p>Satu order atau event eksternal tidak boleh menghasilkan sale maupun pengurangan stok ganda.</p></div><span class="status-pill">Wajib lolos</span></article>
+        <article class="gate-card"><div class="gate-icon">02</div><div><h4>Concurrent Web + Marketplace</h4><p>Dua channel digital tidak boleh menjanjikan unit fisik yang sama.</p></div><span class="status-pill">Wajib lolos</span></article>
+        <article class="gate-card"><div class="gate-icon">03</div><div><h4>Perlindungan low-stock / OOS</h4><p>Demand bersamaan saat stok rendah tidak boleh menimbulkan overselling yang tidak dapat dijelaskan.</p></div><span class="status-pill">Wajib lolos</span></article>
+        <article class="gate-card"><div class="gate-icon">04</div><div><h4>Cancellation / Return</h4><p>Release Reservation dan pemulihan stok harus deterministik serta dapat ditelusuri.</p></div><span class="status-pill">Wajib lolos</span></article>
+        <article class="gate-card"><div class="gate-icon">05</div><div><h4>Rekonsiliasi</h4><p>Stok fisik Bali, pergerakan di StockWizz, dan status Jubelio harus dapat direkonsiliasi.</p></div><span class="status-pill">Wajib lolos</span></article>
+        <div class="exit-gate"><strong>Kriteria keluar → Fase 3</strong><p>Tidak ada double deduction yang diketahui dalam cakupan pilot, tidak ada oversell yang tidak terjelaskan, cancellation/release tervalidasi, dan rekonsiliasi didukung evidence yang jelas.</p></div>
       </div>
     </div>
   </div>
@@ -201,67 +201,67 @@ footer{border-top:1px solid var(--line);padding:26px 0 42px;color:var(--muted);f
 
 <section id="jakarta">
   <div class="shell">
-    <div class="section-head reveal"><div><div class="kicker">Phase 3 / Replication</div><h2 class="section-title">Jakarta reuses the proven Bali model.</h2></div><p class="section-copy">This is a replication phase, not a redesign. The main differences should be local warehouse mapping and operational configuration.</p></div>
+    <div class="section-head reveal"><div><div class="kicker">Fase 3 / Replikasi</div><h2 class="section-title">Jakarta menggunakan kembali model Bali yang sudah terbukti.</h2></div><p class="section-copy">Ini adalah fase replikasi, bukan redesign. Perbedaan utama seharusnya hanya pada pemetaan warehouse lokal dan konfigurasi operasional.</p></div>
     <div class="replicate reveal">
-      <article class="region-card active"><div class="region-head"><div class="region-badge">BALI</div><span class="status-pill">Pilot baseline</span></div><h3>Proven model</h3><p>Validated architecture becomes the implementation template.</p><div class="region-flow"><div class="region-step">Jubelio Sync <span>Validated</span></div><div class="region-step">Shop → DC <span>Validated</span></div><div class="region-step">Unified Web + Marketplace <span>Validated</span></div><div class="region-step">Reconciliation <span>PASS</span></div></div></article>
-      <div class="replication-arrow">→<small>replicate</small></div>
-      <article class="region-card"><div class="region-head"><div class="region-badge">JKT</div><span class="status-pill">Phase 3</span></div><h3>Jakarta rollout</h3><p>Reuse the Bali pattern with Jakarta-specific fulfillment routing.</p><div class="region-flow"><div class="region-step">Warehouse mapping <span>Define</span></div><div class="region-step">Shop → DC <span>Migrate</span></div><div class="region-step">Unified digital pool <span>Enable</span></div><div class="region-step">Parallel monitoring <span>Validate</span></div></div></article>
+      <article class="region-card active"><div class="region-head"><div class="region-badge">BALI</div><span class="status-pill">Baseline pilot</span></div><h3>Model terbukti</h3><p>Arsitektur yang tervalidasi menjadi template implementasi.</p><div class="region-flow"><div class="region-step">Sinkronisasi Jubelio <span>Tervalidasi</span></div><div class="region-step">Shop → DC <span>Tervalidasi</span></div><div class="region-step">Web + Marketplace Terpadu <span>Tervalidasi</span></div><div class="region-step">Rekonsiliasi <span>LOLOS</span></div></div></article>
+      <div class="replication-arrow">→<small>replikasi</small></div>
+      <article class="region-card"><div class="region-head"><div class="region-badge">JKT</div><span class="status-pill">Fase 3</span></div><h3>Implementasi Jakarta</h3><p>Gunakan kembali pola Bali dengan fulfillment routing khusus Jakarta.</p><div class="region-flow"><div class="region-step">Pemetaan Warehouse <span>Tentukan</span></div><div class="region-step">Shop → DC <span>Migrasikan</span></div><div class="region-step">Digital Pool Terpadu <span>Aktifkan</span></div><div class="region-step">Monitoring Paralel <span>Validasi</span></div></div></article>
     </div>
   </div>
 </section>
 
 <section id="ats">
   <div class="shell">
-    <div class="section-head reveal"><div><div class="kicker">Phase 4 / End state</div><h2 class="section-title">One physical stock source, controlled digitally.</h2></div><p class="section-copy">The end state is not a raw merge. Main DC and E-Commerce can share one physical pool only when Reservation / ATS protects each demand commitment.</p></div>
+    <div class="section-head reveal"><div><div class="kicker">Fase 4 / Target akhir</div><h2 class="section-title">Satu sumber stok fisik, dikontrol secara digital.</h2></div><p class="section-copy">Target akhirnya bukan penggabungan mentah. Main DC dan E-Commerce hanya dapat berbagi satu physical pool ketika Reservation / ATS melindungi setiap komitmen demand.</p></div>
     <div class="ats-hero reveal">
-      <article class="ats-state"><h3>Stock-state lifecycle</h3><p>Baseline state machine for online demand before the final commit rules are implemented.</p><div class="state-track"><div class="state-box"><small>01</small><strong>Available / ATS</strong></div><div class="state-arrow">→</div><div class="state-box"><small>02</small><strong>Reserved</strong></div><div class="state-arrow">→</div><div class="state-box"><small>03</small><strong>Picked</strong></div><div class="state-arrow">→</div><div class="state-box"><small>04</small><strong>Shipped</strong></div></div><div class="formula">ATS = On-Hand − Reserved − Other Protected Allocation</div><div class="reverse"><strong>Cancellation before fulfillment:</strong> Reserved → Released → Available / ATS</div></article>
-      <article class="stock-hub"><h3>Shared Main DC demand hub</h3><p>One physical pool can serve multiple demand types without letting one channel consume another channel's committed units.</p><div class="hub-canvas"><div class="hub-orbit"></div><div class="hub-line hl1"></div><div class="hub-line hl2"></div><div class="hub-line hl3"></div><div class="hub-line hl4"></div><div class="hub-core">MAIN DC<br>PHYSICAL<br>STOCK</div><div class="demand d1">Web Sales</div><div class="demand d2">Marketplace</div><div class="demand d3">Retail Refill</div><div class="demand d4">B2B / Campaign</div><div class="hub-caption">All demand respects reservation / ATS</div></div></article>
+      <article class="ats-state"><h3>Siklus status stok</h3><p>Baseline state machine untuk online demand sebelum aturan commit final diterapkan.</p><div class="state-track"><div class="state-box"><small>01</small><strong>Available / ATS</strong></div><div class="state-arrow">→</div><div class="state-box"><small>02</small><strong>Reserved</strong></div><div class="state-arrow">→</div><div class="state-box"><small>03</small><strong>Picked</strong></div><div class="state-arrow">→</div><div class="state-box"><small>04</small><strong>Shipped</strong></div></div><div class="formula">ATS = On-Hand − Reserved − Other Protected Allocation</div><div class="reverse"><strong>Cancellation sebelum fulfillment:</strong> Reserved → Released → Available / ATS</div></article>
+      <article class="stock-hub"><h3>Shared demand hub Main DC</h3><p>Satu physical pool dapat melayani berbagai jenis demand tanpa membiarkan satu channel menghabiskan unit yang sudah dikomit untuk channel lain.</p><div class="hub-canvas"><div class="hub-orbit"></div><div class="hub-line hl1"></div><div class="hub-line hl2"></div><div class="hub-line hl3"></div><div class="hub-line hl4"></div><div class="hub-core">STOK FISIK<br>MAIN DC</div><div class="demand d1">Web Sales</div><div class="demand d2">Marketplace</div><div class="demand d3">Retail Refill</div><div class="demand d4">B2B / Campaign</div><div class="hub-caption">Seluruh demand mengikuti Reservation / ATS</div></div></article>
     </div>
   </div>
 </section>
 
 <section>
   <div class="shell">
-    <div class="section-head reveal"><div><div class="kicker">System of record</div><h2 class="section-title">Decisions that must be explicit before Phase 4.</h2></div><p class="section-copy">These are architecture decisions, not implementation assumptions. They should be resolved with Colin during technical design.</p></div>
+    <div class="section-head reveal"><div><div class="kicker">System of record</div><h2 class="section-title">Keputusan yang harus eksplisit sebelum Fase 4.</h2></div><p class="section-copy">Ini adalah keputusan arsitektur, bukan asumsi implementasi. Keputusan tersebut perlu diselesaikan bersama Colin pada tahap technical design.</p></div>
     <div class="decision-grid reveal">
-      <article class="decision"><span class="q">Decision required</span><h4>Who owns On-Hand?</h4><p>Define the authoritative physical quantity source for each warehouse/DC.</p></article>
-      <article class="decision"><span class="q">Decision required</span><h4>Who owns Reservation?</h4><p>Define where reserved quantity is stored, updated, released, and audited.</p></article>
-      <article class="decision"><span class="q">Decision required</span><h4>How is ATS calculated?</h4><p>Define formula, protected allocations, and when ATS becomes visible to channels.</p></article>
-      <article class="decision"><span class="q">Decision required</span><h4>Web commit point</h4><p>At what order state does Web reduce ATS / create a reservation?</p></article>
-      <article class="decision"><span class="q">Decision required</span><h4>Jubelio commit point</h4><p>At what marketplace/Jubelio event is stock considered committed?</p></article>
-      <article class="decision"><span class="q">Decision required</span><h4>Retail / B2B priority</h4><p>How do refill, transfer, B2B, and campaign demand respect protected stock?</p></article>
+      <article class="decision"><span class="q">Perlu keputusan</span><h4>Siapa pemilik On-Hand?</h4><p>Tentukan sumber kuantitas fisik yang authoritative untuk setiap warehouse/DC.</p></article>
+      <article class="decision"><span class="q">Perlu keputusan</span><h4>Siapa pemilik Reservation?</h4><p>Tentukan lokasi reserved quantity disimpan, diperbarui, dirilis, dan diaudit.</p></article>
+      <article class="decision"><span class="q">Perlu keputusan</span><h4>Bagaimana ATS dihitung?</h4><p>Tentukan formula, protected allocation, dan kapan ATS terlihat oleh channel.</p></article>
+      <article class="decision"><span class="q">Perlu keputusan</span><h4>Commit point Web</h4><p>Pada status order apa Web mengurangi ATS atau membuat reservation?</p></article>
+      <article class="decision"><span class="q">Perlu keputusan</span><h4>Commit point Jubelio</h4><p>Pada event Marketplace/Jubelio apa stok dianggap sudah dikomit?</p></article>
+      <article class="decision"><span class="q">Perlu keputusan</span><h4>Prioritas Retail / B2B</h4><p>Bagaimana refill, transfer, B2B, dan campaign demand mengikuti protected stock?</p></article>
     </div>
   </div>
 </section>
 
 <section>
   <div class="shell">
-    <div class="section-head reveal"><div><div class="kicker">Risk controls</div><h2 class="section-title">The four failure modes to design around.</h2></div><p class="section-copy">The difficult part is not transaction volume. It is preventing two workflows from making inconsistent promises about the same physical stock.</p></div>
+    <div class="section-head reveal"><div><div class="kicker">Kontrol risiko</div><h2 class="section-title">Empat failure mode yang harus diantisipasi.</h2></div><p class="section-copy">Bagian tersulit bukan volume transaksi, tetapi mencegah dua workflow membuat komitmen yang tidak konsisten terhadap stok fisik yang sama.</p></div>
     <div class="risk-strip reveal">
-      <article class="risk"><div class="risk-index">01</div><h4>Double deduction</h4><p>Retry or duplicate webhook must not deduct the same order twice.</p></article>
-      <article class="risk"><div class="risk-index">02</div><h4>Race condition</h4><p>Concurrent Web and Marketplace orders must resolve against the same availability rule.</p></article>
-      <article class="risk"><div class="risk-index">03</div><h4>Event ordering</h4><p>Cancel, fulfill, retry, and update events must be applied in a deterministic sequence.</p></article>
-      <article class="risk"><div class="risk-index">04</div><h4>Reconciliation gap</h4><p>System balances must remain explainable against physical stock and transaction history.</p></article>
+      <article class="risk"><div class="risk-index">01</div><h4>Double deduction</h4><p>Retry atau webhook duplikat tidak boleh mengurangi stok order yang sama dua kali.</p></article>
+      <article class="risk"><div class="risk-index">02</div><h4>Race condition</h4><p>Order Web dan Marketplace yang terjadi bersamaan harus diproses dengan availability rule yang sama.</p></article>
+      <article class="risk"><div class="risk-index">03</div><h4>Urutan event</h4><p>Event cancel, fulfill, retry, dan update harus diterapkan dalam urutan yang deterministik.</p></article>
+      <article class="risk"><div class="risk-index">04</div><h4>Gap rekonsiliasi</h4><p>Balance sistem harus tetap dapat dijelaskan terhadap stok fisik dan riwayat transaksi.</p></article>
     </div>
   </div>
 </section>
 
 <section id="actions">
   <div class="shell">
-    <div class="section-head reveal"><div><div class="kicker">Immediate next actions</div><h2 class="section-title">What should happen next.</h2></div><p class="section-copy">Keep implementation focused on Bali. Jakarta and Main DC ATS stay as downstream phases, not parallel production changes.</p></div>
+    <div class="section-head reveal"><div><div class="kicker">Tindak lanjut terdekat</div><h2 class="section-title">Langkah berikutnya yang perlu dilakukan.</h2></div><p class="section-copy">Pertahankan fokus implementasi pada Bali. Jakarta dan ATS Main DC tetap menjadi fase berikutnya, bukan perubahan production yang berjalan paralel.</p></div>
     <div class="actions reveal">
-      <div class="action"><div class="check">1</div><div><strong>Finalize Bali Jubelio → StockWizz transaction lifecycle</strong><span>Create/update, fulfillment, cancel, return/refund, idempotency, and status history.</span></div></div>
-      <div class="action"><div class="check">2</div><div><strong>Technical mapping: Bali Shop → DC/Warehouse</strong><span>Define identity, stock movements, migration impact, and historical reporting continuity.</span></div></div>
-      <div class="action"><div class="check">3</div><div><strong>Define unified Web + Marketplace inventory ownership</strong><span>Clarify when the separate channel allocation buffer can safely be removed.</span></div></div>
-      <div class="action"><div class="check">4</div><div><strong>Prepare Phase 2 validation matrix</strong><span>Evidence for duplicate, oversell, cancellation, reconciliation, and observability.</span></div></div>
-      <div class="action"><div class="check">5</div><div><strong>Build Jakarta rollout checklist only after Bali PASS</strong><span>Reuse the proven pattern; isolate Jakarta-specific warehouse mapping.</span></div></div>
-      <div class="action"><div class="check">6</div><div><strong>Detail ATS before Phase 4</strong><span>System of record, commit points, canonical events, shadow ATS, and pilot criteria.</span></div></div>
+      <div class="action"><div class="check">1</div><div><strong>Finalisasi siklus transaksi Jubelio Bali → StockWizz</strong><span>Create/update, fulfillment, cancel, return/refund, idempotency, dan riwayat status.</span></div></div>
+      <div class="action"><div class="check">2</div><div><strong>Technical mapping: Shop Bali → DC/Warehouse</strong><span>Tentukan identitas, pergerakan stok, dampak migrasi, dan keberlanjutan laporan historis.</span></div></div>
+      <div class="action"><div class="check">3</div><div><strong>Tentukan ownership inventory Web + Marketplace terpadu</strong><span>Perjelas kapan buffer alokasi per channel dapat dihapus dengan aman.</span></div></div>
+      <div class="action"><div class="check">4</div><div><strong>Siapkan matriks validasi Fase 2</strong><span>Evidence untuk duplikasi, oversell, cancellation, rekonsiliasi, dan observability.</span></div></div>
+      <div class="action"><div class="check">5</div><div><strong>Buat checklist implementasi Jakarta setelah Bali LOLOS</strong><span>Gunakan kembali pola yang terbukti dan pisahkan pemetaan warehouse khusus Jakarta.</span></div></div>
+      <div class="action"><div class="check">6</div><div><strong>Detailkan ATS sebelum Fase 4</strong><span>System of record, commit point, canonical event, shadow ATS, dan kriteria pilot.</span></div></div>
     </div>
-    <div class="master-sequence reveal"><div class="sequence-row"><div class="sequence-box">Jubelio Sync Bali</div><div class="sequence-arrow">→</div><div class="sequence-box">Bali Shop → DC</div><div class="sequence-arrow">→</div><div class="sequence-box">Validate &amp; Reconcile</div><div class="sequence-arrow">→</div><div class="sequence-box">Jakarta → Main DC + ATS</div></div><p><strong>Bali first → stabilize → Jakarta → Main DC shared stock / ATS.</strong> The technical details can evolve; the risk-controlled sequence should remain stable.</p></div>
+    <div class="master-sequence reveal"><div class="sequence-row"><div class="sequence-box">Sinkronisasi Jubelio Bali</div><div class="sequence-arrow">→</div><div class="sequence-box">Shop Bali → DC</div><div class="sequence-arrow">→</div><div class="sequence-box">Validasi &amp; Rekonsiliasi</div><div class="sequence-arrow">→</div><div class="sequence-box">Jakarta → Main DC + ATS</div></div><p><strong>Bali terlebih dahulu → stabilisasi → Jakarta → shared stock Main DC / ATS.</strong> Detail teknis dapat berkembang, tetapi urutan yang terkontrol terhadap risiko harus tetap konsisten.</p></div>
   </div>
 </section>
 </main>
-<footer><div class="shell"><span>Sensatia — E-Commerce &amp; Jubelio Integration Roadmap</span><span>Sage green visual system · Phased, evidence-led rollout</span></div></footer>
+<footer><div class="shell"><span>Sensatia — Roadmap Integrasi E-Commerce &amp; Jubelio</span><span>Sistem visual sage green · Implementasi bertahap berbasis evidence</span></div></footer>
 <script>
 const phaseCards=document.querySelectorAll('.phase-card');phaseCards.forEach(card=>card.addEventListener('click',()=>{const t=document.querySelector(card.dataset.target);if(t)t.scrollIntoView({behavior:'smooth',block:'start'})}));
 const navLinks=[...document.querySelectorAll('.nav a')];const sections=navLinks.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);const observer=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(!entry.isIntersecting)return;navLinks.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+entry.target.id))})},{rootMargin:'-30% 0px -60% 0px',threshold:.01});sections.forEach(s=>observer.observe(s));

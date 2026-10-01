@@ -20,14 +20,14 @@ export type KnowledgeDocument = {
 export const documents: KnowledgeDocument[] = [
   {
     slug: "ecommerce-jubelio-integration-roadmap",
-    title: "E-Commerce & Jubelio Integration Roadmap — Bali to Main DC",
-    shortTitle: "Jubelio Integration Roadmap",
+    title: "Roadmap Integrasi E-Commerce & Jubelio — Bali hingga Main DC",
+    shortTitle: "Roadmap Integrasi Jubelio",
     summary:
-      "Roadmap empat fase dari sinkronisasi transaksi Jubelio dan migrasi Bali Shop ke DC, menuju unified digital inventory, rollout Jakarta, serta shared stock berbasis Reservation dan ATS.",
+      "Roadmap empat fase dari sinkronisasi transaksi Jubelio dan migrasi Bali Shop ke DC, menuju satu digital inventory terpadu, implementasi Jakarta, serta shared stock berbasis Reservation dan ATS.",
     category: "E-Commerce",
-    type: "Integration Roadmap",
+    type: "Roadmap Integrasi",
     updated: "2026-10-01",
-    updatedLabel: "1 Oct 2026",
+    updatedLabel: "1 Okt 2026",
     tags: ["Jubelio", "Bali E-Commerce", "Shared Stock & ATS"],
     accent: "forest",
   },
