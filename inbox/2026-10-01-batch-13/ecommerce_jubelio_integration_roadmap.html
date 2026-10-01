@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="color-scheme" content="light" />
+<title>E-Commerce & Jubelio Integration Roadmap | Sensatia</title>
+<style>
+:root{
+  --brand:#567169;
+  --brand-dark:#2e443d;
+  --brand-deep:#20342e;
+  --brand-mid:#6f8a81;
+  --brand-soft:#dce7e2;
+  --brand-pale:#edf3f0;
+  --sage:#9eaea6;
+  --cream:#f3eee5;
+  --cream-2:#faf7f1;
+  --sand:#d8c6b4;
+  --warm:#a97e61;
+  --warm-soft:#f0e5dc;
+  --yellow:#e8d5a6;
+  --red:#a45650;
+  --red-soft:#f3e3e1;
+  --ink:#202724;
+  --muted:#68716d;
+  --line:#dce3df;
+  --paper:#fbfaf7;
+  --white:#fff;
+  --shadow:0 26px 70px rgba(38,55,48,.13);
+  --shadow-soft:0 14px 38px rgba(38,55,48,.08);
+  --radius-xl:32px;
+  --radius-lg:24px;
+  --radius-md:16px;
+  --max:1280px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;color:var(--ink);background:
+  radial-gradient(circle at 8% 0%,rgba(86,113,105,.12),transparent 24rem),
+  radial-gradient(circle at 95% 18%,rgba(216,198,180,.18),transparent 25rem),
+  linear-gradient(180deg,#fcfbf8 0%,var(--paper) 45%,#f7f5ef 100%);
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden
+}
+a{color:inherit}.shell{width:min(calc(100% - 40px),var(--max));margin:0 auto}
+.topbar{position:sticky;top:0;z-index:50;backdrop-filter:blur(18px);background:rgba(251,250,247,.84);border-bottom:1px solid rgba(47,68,61,.08)}
+.topbar-inner{min-height:72px;display:flex;align-items:center;justify-content:space-between;gap:22px}
+.brand-lockup{display:flex;align-items:center;gap:14px}.brand-logo{width:128px;height:30px;object-fit:contain;object-position:left center}.brand-fallback{display:none;font-weight:800;letter-spacing:.16em}
+.topbar-title{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.14em;white-space:nowrap}.nav{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}.nav a{text-decoration:none;color:var(--muted);font-size:11px;padding:8px 11px;border-radius:999px;transition:.2s}.nav a:hover,.nav a.active{background:var(--brand-soft);color:var(--brand-dark)}
+.hero{padding:68px 0 34px}.hero-grid{display:grid;grid-template-columns:1.03fr .97fr;gap:48px;align-items:center}.eyebrow{display:inline-flex;align-items:center;gap:10px;padding:8px 12px;border:1px solid rgba(86,113,105,.18);background:var(--brand-pale);border-radius:999px;color:var(--brand-dark);font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.12em}.eyebrow-dot{width:8px;height:8px;border-radius:50%;background:var(--brand);box-shadow:0 0 0 5px rgba(86,113,105,.11)}
+h1{font-family:Georgia,"Times New Roman",serif;font-size:clamp(50px,6.3vw,86px);line-height:.96;letter-spacing:-.045em;font-weight:500;margin:22px 0 24px}.hero-lede{max-width:760px;color:var(--muted);font-size:18px}.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}.btn{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:0 18px;border-radius:999px;text-decoration:none;font-size:13px;font-weight:800;border:1px solid var(--line);transition:.2s}.btn:hover{transform:translateY(-2px)}.btn-primary{background:var(--brand-dark);color:#fff;border-color:var(--brand-dark);box-shadow:0 12px 28px rgba(47,68,61,.16)}.btn-secondary{background:rgba(255,255,255,.7);color:var(--brand-dark)}
+.hero-visual{position:relative;min-height:520px;border-radius:36px;background:linear-gradient(145deg,var(--brand-deep),#526a62);box-shadow:var(--shadow);overflow:hidden;padding:26px}.hero-visual:before,.hero-visual:after{content:"";position:absolute;border-radius:50%;border:1px solid rgba(255,255,255,.14)}.hero-visual:before{width:360px;height:360px;right:-110px;top:-125px;box-shadow:0 0 0 48px rgba(255,255,255,.025),0 0 0 96px rgba(255,255,255,.018)}.hero-visual:after{width:230px;height:230px;left:-115px;bottom:-100px}.hero-visual .label{position:relative;z-index:2;color:rgba(255,255,255,.68);font-size:10px;text-transform:uppercase;letter-spacing:.14em;font-weight:800}.hero-visual svg{position:relative;z-index:2;width:100%;height:400px;margin-top:24px;display:block}.svg-node{fill:rgba(255,255,255,.08);stroke:rgba(255,255,255,.22);stroke-width:1.2}.svg-node-strong{fill:#eef3f0;stroke:#eef3f0}.svg-node-text{font-family:Inter,Arial,sans-serif;font-size:12px;font-weight:700;fill:#fff}.svg-node-text-dark{font-family:Inter,Arial,sans-serif;font-size:12px;font-weight:800;fill:#2e443d}.svg-small{font-family:Inter,Arial,sans-serif;font-size:9px;fill:rgba(255,255,255,.58);letter-spacing:.1em;text-transform:uppercase}.svg-line{fill:none;stroke:rgba(255,255,255,.43);stroke-width:1.5;stroke-dasharray:5 7;animation:dash 13s linear infinite}.svg-line-strong{fill:none;stroke:#dce7e2;stroke-width:2;stroke-dasharray:8 7;animation:dash 10s linear infinite}.pulse{animation:pulse 2.6s ease-in-out infinite;transform-origin:center}.botanical{stroke:rgba(255,255,255,.14);fill:none;stroke-width:1.2}
+@keyframes dash{to{stroke-dashoffset:-120}}@keyframes pulse{0%,100%{opacity:.7}50%{opacity:1}}
+.metric-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:22px}.metric{border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);border-radius:16px;padding:12px}.metric strong{display:block;color:#fff;font-size:18px}.metric span{color:rgba(255,255,255,.55);font-size:9px;text-transform:uppercase;letter-spacing:.11em}
+section{padding:58px 0;scroll-margin-top:94px}.section-head{display:flex;justify-content:space-between;gap:28px;align-items:end;margin-bottom:30px}.kicker{color:var(--brand);font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.14em}.section-title{font-family:Georgia,"Times New Roman",serif;font-weight:500;font-size:clamp(36px,4.3vw,54px);line-height:1.04;letter-spacing:-.025em;margin:8px 0 0}.section-copy{max-width:560px;margin:0;color:var(--muted);font-size:15px}
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}.reveal.visible{opacity:1;transform:none}
+.phase-timeline{position:relative;display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.phase-timeline:before{content:"";position:absolute;left:8%;right:8%;top:31px;height:1px;background:linear-gradient(90deg,var(--brand),var(--brand-soft),var(--brand-soft),var(--warm));z-index:0}.phase-card{position:relative;z-index:1;background:rgba(255,255,255,.82);border:1px solid var(--line);border-radius:var(--radius-lg);padding:22px;min-height:245px;box-shadow:var(--shadow-soft);transition:.25s}.phase-card:hover{transform:translateY(-6px);border-color:rgba(86,113,105,.35)}.phase-card.current{background:var(--brand-dark);color:#fff;border-color:var(--brand-dark)}.phase-dot{width:62px;height:62px;border-radius:50%;display:grid;place-items:center;background:var(--brand-pale);color:var(--brand-dark);font-weight:900;border:8px solid var(--paper);margin-bottom:44px}.phase-card.current .phase-dot{background:#edf3f0;border-color:var(--brand-dark)}.phase-card h3{font-family:Georgia,serif;font-weight:500;font-size:23px;line-height:1.15;margin:0 0 10px}.phase-card p{font-size:13px;color:var(--muted);margin:0}.phase-card.current p{color:rgba(255,255,255,.7)}
+.principles{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.principle{background:var(--white);border:1px solid var(--line);border-radius:22px;padding:24px;box-shadow:var(--shadow-soft)}.principle .icon{width:48px;height:48px;border-radius:15px;background:var(--brand-pale);display:grid;place-items:center;color:var(--brand-dark);font-size:20px}.principle h3{font-size:17px;margin:22px 0 8px}.principle p{font-size:13px;color:var(--muted);margin:0}
+.architecture{display:grid;grid-template-columns:1fr 76px 1fr;gap:14px;align-items:stretch}.arch-panel{border-radius:30px;padding:28px;border:1px solid var(--line);background:#fff;box-shadow:var(--shadow-soft);overflow:hidden}.arch-panel.current{background:#f8f4ee}.arch-panel.target{background:linear-gradient(145deg,#f1f6f3,#fff)}.arch-label{display:inline-flex;padding:6px 9px;border-radius:999px;background:rgba(0,0,0,.05);font-size:10px;font-weight:900;letter-spacing:.1em;text-transform:uppercase}.arch-panel.target .arch-label{background:var(--brand-soft);color:var(--brand-dark)}.arch-panel h3{font-family:Georgia,serif;font-size:29px;font-weight:500;line-height:1.15;margin:18px 0 8px}.arch-panel>p{color:var(--muted);font-size:13px;margin:0 0 22px}.arch-canvas{position:relative;min-height:330px;border-radius:22px;background:rgba(255,255,255,.72);border:1px solid rgba(47,68,61,.08);padding:24px}.arch-grid{display:grid;grid-template-columns:1fr 54px 1fr;gap:10px;align-items:center}.arch-node{padding:14px;border-radius:15px;background:#fff;border:1px solid var(--line);box-shadow:0 8px 18px rgba(47,68,61,.05);font-size:12px;font-weight:800;text-align:center}.arch-node.ghost{background:var(--warm-soft);border-color:#e7d4c5}.arch-node.green{background:var(--brand-pale);border-color:#d3e1db}.arch-arrow{text-align:center;color:var(--sage);font-size:22px}.arch-stack{display:grid;gap:9px}.arch-divider{display:grid;place-items:center;color:var(--brand);font-size:30px;font-weight:300}.arch-note{margin-top:14px;padding:13px 15px;border-radius:15px;background:rgba(86,113,105,.08);font-size:12px;color:var(--brand-dark)}
+.phase-layout{display:grid;grid-template-columns:.72fr 1.28fr;gap:28px;align-items:start}.sticky-summary{position:sticky;top:96px;border-radius:30px;background:var(--cream);border:1px solid rgba(169,126,97,.18);padding:28px}.sticky-summary h3{font-family:Georgia,serif;font-size:31px;font-weight:500;line-height:1.12;margin:10px 0 12px}.sticky-summary p{color:var(--muted);font-size:13px;margin:0 0 20px}.summary-list{display:grid;gap:9px}.summary-item{display:flex;gap:10px;padding:12px 0;border-top:1px solid rgba(47,68,61,.08)}.summary-item b{font-size:11px;color:var(--brand);min-width:28px}.summary-item strong{font-size:13px;display:block}.summary-item span{font-size:11px;color:var(--muted);display:block;margin-top:3px}.stack{display:grid;gap:14px}.step{background:#fff;border:1px solid var(--line);border-radius:22px;padding:22px;display:grid;grid-template-columns:54px 1fr auto;gap:16px;align-items:start;transition:.2s}.step:hover{transform:translateX(4px);border-color:rgba(86,113,105,.35)}.step-icon{width:50px;height:50px;border-radius:15px;background:var(--brand-pale);display:grid;place-items:center;font-size:13px;font-weight:900;color:var(--brand-dark)}.step h4{font-size:17px;margin:0 0 4px}.step p{font-size:12.5px;color:var(--muted);margin:0}.tag{padding:6px 9px;border-radius:999px;background:var(--brand-pale);font-size:9px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:var(--brand-dark);white-space:nowrap}.tag.warm{background:var(--warm-soft);color:#74553f}
+.swimlane{border-radius:30px;background:var(--brand-deep);color:#fff;padding:30px;box-shadow:var(--shadow);overflow:hidden}.swim-head{display:flex;justify-content:space-between;gap:24px;align-items:end;margin-bottom:24px}.swim-head h3{font-family:Georgia,serif;font-size:31px;font-weight:500;margin:0}.swim-head p{max-width:520px;color:rgba(255,255,255,.62);font-size:12px;margin:0}.lane{display:grid;grid-template-columns:130px repeat(5,1fr);gap:8px;align-items:stretch;padding:8px 0;border-top:1px solid rgba(255,255,255,.08)}.lane:first-of-type{border-top:0}.lane-label{display:flex;align-items:center;font-size:10px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.58)}.lane-cell{min-height:64px;border-radius:13px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.09);padding:10px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:11px;color:rgba(255,255,255,.85);position:relative}.lane-cell.active{background:rgba(220,231,226,.14);border-color:rgba(220,231,226,.35)}.lane-cell.active:after{content:"→";position:absolute;right:-9px;color:rgba(255,255,255,.4);font-size:14px}.lane-cell.active:last-child:after{display:none}.lane-cell.muted{opacity:.25}
+.unified-pool{display:grid;grid-template-columns:1fr 1fr;gap:18px}.visual-card{border-radius:28px;border:1px solid var(--line);background:#fff;padding:26px;box-shadow:var(--shadow-soft)}.visual-card h3{font-family:Georgia,serif;font-weight:500;font-size:27px;margin:0 0 7px}.visual-card>p{color:var(--muted);font-size:12.5px;margin:0 0 18px}.pool-diagram{display:grid;grid-template-columns:1fr 86px 1fr;gap:12px;align-items:center}.source-group{display:grid;gap:10px}.source-chip{padding:13px;border-radius:15px;background:var(--brand-pale);text-align:center;font-size:12px;font-weight:800;color:var(--brand-dark)}.pool-core{width:86px;height:86px;border-radius:50%;background:var(--brand-dark);color:#fff;display:grid;place-items:center;text-align:center;font-size:10px;font-weight:900;line-height:1.15;box-shadow:0 12px 28px rgba(47,68,61,.22)}.target-box{padding:18px;border-radius:17px;background:#f7f9f8;border:1px dashed #cbd8d2;text-align:center;font-size:12px;font-weight:800}.buffer-note{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:15px}.mini-note{padding:12px;border-radius:14px;background:#f7f8f7;font-size:11px;color:var(--muted)}.mini-note strong{display:block;color:var(--ink);font-size:11px;margin-bottom:2px}
+.validation-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:20px}.control-wheel{position:relative;min-height:430px;border-radius:30px;background:linear-gradient(145deg,var(--brand-dark),#49635a);box-shadow:var(--shadow);overflow:hidden}.wheel-center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:145px;height:145px;border-radius:50%;display:grid;place-items:center;text-align:center;background:#edf3f0;color:var(--brand-dark);font-size:13px;font-weight:900;z-index:4;box-shadow:0 10px 30px rgba(0,0,0,.15)}.wheel-item{position:absolute;width:150px;min-height:72px;border-radius:16px;padding:12px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.13);color:#fff;text-align:center;font-size:11px;font-weight:800;z-index:3}.wheel-item span{display:block;color:rgba(255,255,255,.55);font-size:9px;font-weight:600;margin-top:3px}.w1{top:28px;left:50%;transform:translateX(-50%)}.w2{top:110px;right:24px}.w3{bottom:58px;right:34px}.w4{bottom:24px;left:50%;transform:translateX(-50%)}.w5{bottom:58px;left:34px}.w6{top:110px;left:24px}.wheel-ring{position:absolute;left:50%;top:50%;width:310px;height:310px;border-radius:50%;border:1px dashed rgba(255,255,255,.2);transform:translate(-50%,-50%);animation:rotate 28s linear infinite}.wheel-ring:before{content:"";position:absolute;left:50%;top:-5px;width:10px;height:10px;border-radius:50%;background:#dce7e2;box-shadow:0 0 0 7px rgba(220,231,226,.08)}@keyframes rotate{to{transform:translate(-50%,-50%) rotate(360deg)}}
+.gate-stack{display:grid;gap:12px}.gate-card{border-radius:20px;border:1px solid var(--line);background:rgba(255,255,255,.84);padding:19px;display:grid;grid-template-columns:40px 1fr auto;gap:13px;align-items:center}.gate-icon{width:40px;height:40px;border-radius:13px;background:var(--brand-pale);display:grid;place-items:center;color:var(--brand-dark);font-weight:900}.gate-card h4{font-size:14px;margin:0 0 3px}.gate-card p{font-size:11.5px;color:var(--muted);margin:0}.status-pill{padding:6px 8px;border-radius:999px;background:#eaf1ed;color:var(--brand-dark);font-size:8px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}.exit-gate{margin-top:14px;padding:18px 20px;border-radius:18px;background:var(--brand-dark);color:#fff}.exit-gate strong{font-size:13px}.exit-gate p{font-size:11.5px;color:rgba(255,255,255,.66);margin:4px 0 0}
+.replicate{display:grid;grid-template-columns:1fr 90px 1fr;gap:14px;align-items:center}.region-card{border-radius:28px;background:#fff;border:1px solid var(--line);padding:26px;box-shadow:var(--shadow-soft);min-height:320px}.region-card.active{background:linear-gradient(145deg,#f3f7f5,#fff);border-color:#cddbd5}.region-head{display:flex;align-items:center;justify-content:space-between}.region-badge{width:50px;height:50px;border-radius:50%;display:grid;place-items:center;background:var(--brand-dark);color:#fff;font-size:12px;font-weight:900}.region-card h3{font-family:Georgia,serif;font-size:29px;font-weight:500;margin:18px 0 4px}.region-card>p{color:var(--muted);font-size:12px;margin:0 0 20px}.region-flow{display:grid;gap:8px}.region-step{padding:12px 13px;border-radius:14px;background:#f7f9f8;border:1px solid #edf0ee;font-size:11.5px;font-weight:800;display:flex;justify-content:space-between;gap:10px}.region-step span{color:var(--muted);font-size:10px;font-weight:600}.replication-arrow{text-align:center;color:var(--brand);font-size:34px}.replication-arrow small{display:block;font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-top:8px}
+.ats-hero{display:grid;grid-template-columns:1.06fr .94fr;gap:20px}.ats-state,.stock-hub{border-radius:30px;padding:28px;border:1px solid var(--line);background:#fff;box-shadow:var(--shadow-soft)}.ats-state h3,.stock-hub h3{font-family:Georgia,serif;font-size:29px;font-weight:500;margin:0 0 6px}.ats-state>p,.stock-hub>p{color:var(--muted);font-size:12px;margin:0 0 22px}.state-track{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;align-items:center}.state-box{min-height:96px;border-radius:16px;background:var(--brand-pale);display:flex;flex-direction:column;justify-content:space-between;padding:14px}.state-box strong{font-size:12px;color:var(--brand-dark)}.state-box small{font-size:8px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}.state-arrow{text-align:center;color:var(--sage);font-size:20px}.formula{margin-top:15px;padding:14px 16px;border-radius:15px;background:#f4f7f5;border:1px dashed #c5d4cd;color:var(--brand-dark);font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px}.reverse{margin-top:10px;padding:12px 14px;border-radius:14px;background:var(--warm-soft);font-size:11px;color:#73543f}.hub-canvas{position:relative;min-height:330px}.hub-core{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:150px;height:150px;border-radius:50%;background:var(--brand-dark);color:#fff;display:grid;place-items:center;text-align:center;font-size:13px;font-weight:900;box-shadow:0 18px 38px rgba(47,68,61,.2);z-index:4}.hub-orbit{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:285px;height:285px;border:1px dashed #cbd8d2;border-radius:50%}.demand{position:absolute;width:118px;border-radius:15px;padding:11px;background:#f7f9f8;border:1px solid var(--line);font-size:10.5px;font-weight:900;text-align:center}.d1{left:50%;top:6px;transform:translateX(-50%)}.d2{right:0;top:50%;transform:translateY(-50%)}.d3{left:50%;bottom:6px;transform:translateX(-50%)}.d4{left:0;top:50%;transform:translateY(-50%)}.hub-line{position:absolute;background:#d8e2dd;height:1px;transform-origin:left center;z-index:1}.hl1{width:80px;left:50%;top:96px;transform:rotate(90deg)}.hl2{width:78px;left:calc(50% + 75px);top:50%}.hl3{width:80px;left:50%;bottom:96px;transform:rotate(90deg)}.hl4{width:78px;right:calc(50% + 75px);top:50%}.hub-caption{position:absolute;left:50%;bottom:-2px;transform:translateX(-50%);font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;white-space:nowrap}
+.decision-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.decision{border-radius:20px;padding:20px;background:#fff;border:1px solid var(--line);min-height:150px}.decision .q{display:inline-flex;padding:5px 8px;border-radius:999px;background:var(--warm-soft);color:#76553f;font-size:8px;font-weight:900;letter-spacing:.1em;text-transform:uppercase}.decision h4{font-size:14px;margin:19px 0 7px}.decision p{font-size:11.5px;color:var(--muted);margin:0}
+.risk-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.risk{padding:20px;border-radius:20px;background:#fff;border:1px solid var(--line)}.risk-index{width:34px;height:34px;border-radius:11px;background:var(--red-soft);color:var(--red);display:grid;place-items:center;font-size:11px;font-weight:900}.risk h4{font-size:14px;margin:18px 0 5px}.risk p{font-size:11.5px;color:var(--muted);margin:0}
+.actions{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.action{display:flex;gap:14px;align-items:flex-start;border:1px solid var(--line);background:rgba(255,255,255,.82);border-radius:18px;padding:18px}.check{width:28px;height:28px;border-radius:9px;border:1.5px solid rgba(86,113,105,.45);display:grid;place-items:center;flex:0 0 auto;color:var(--brand);font-size:12px}.action strong{display:block;font-size:13px}.action span{display:block;color:var(--muted);font-size:11.5px;margin-top:2px}.master-sequence{margin-top:22px;border-radius:30px;background:linear-gradient(135deg,var(--cream),#e8f0ec);border:1px solid rgba(86,113,105,.15);padding:30px}.sequence-row{display:grid;grid-template-columns:repeat(7,1fr);align-items:center;gap:9px}.sequence-box{padding:15px 11px;border-radius:15px;background:#fff;border:1px solid rgba(47,68,61,.08);text-align:center;font-size:11px;font-weight:900}.sequence-arrow{text-align:center;color:var(--brand);font-size:18px}.master-sequence p{margin:17px 0 0;color:var(--muted);font-size:12px;text-align:center}
+footer{border-top:1px solid var(--line);padding:26px 0 42px;color:var(--muted);font-size:10.5px}footer .shell{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+@media(max-width:1080px){.nav{display:none}.hero-grid,.phase-layout,.validation-grid,.ats-hero{grid-template-columns:1fr}.hero-visual{min-height:480px}.phase-timeline{grid-template-columns:repeat(2,1fr)}.phase-timeline:before{display:none}.sticky-summary{position:static}.architecture{grid-template-columns:1fr}.arch-divider{transform:rotate(90deg)}.lane{grid-template-columns:100px repeat(5,1fr)}.replicate{grid-template-columns:1fr}.replication-arrow{transform:rotate(90deg)}.principles,.decision-grid{grid-template-columns:repeat(2,1fr)}.risk-strip{grid-template-columns:repeat(2,1fr)}.sequence-row{grid-template-columns:1fr}.sequence-arrow{transform:rotate(90deg)}}
+@media(max-width:720px){.shell{width:min(calc(100% - 24px),var(--max))}.topbar-title{display:none}.hero{padding-top:46px}h1{font-size:48px}.hero-visual{padding:18px;min-height:440px}.metric-strip,.phase-timeline,.principles,.unified-pool,.decision-grid,.risk-strip,.actions{grid-template-columns:1fr}.section-head,.swim-head{display:grid;align-items:start}.step{grid-template-columns:44px 1fr}.step .tag{grid-column:2;justify-self:start}.swimlane{padding:20px}.lane{grid-template-columns:1fr;gap:6px}.lane-label{padding-top:12px}.lane-cell.active:after{content:"↓";right:50%;bottom:-13px;top:auto}.pool-diagram{grid-template-columns:1fr}.pool-core{margin:auto}.buffer-note{grid-template-columns:1fr}.state-track{grid-template-columns:1fr}.state-arrow{transform:rotate(90deg)}.hub-canvas{min-height:360px}.wheel-item{width:120px;font-size:10px}.w2{right:6px}.w3{right:10px}.w5{left:10px}.w6{left:6px}.wheel-ring{width:270px;height:270px}.wheel-center{width:125px;height:125px}.gate-card{grid-template-columns:40px 1fr}.status-pill{grid-column:2;justify-self:start}.replicate{gap:8px}}
+@media print{.topbar,.hero-actions{display:none!important}body{background:#fff}.hero-visual,.control-wheel,.swimlane{box-shadow:none}.reveal{opacity:1!important;transform:none!important}section{break-inside:avoid}}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="shell topbar-inner">
+    <div class="brand-lockup">
+      <a href="/domains/ecommerce-fulfillment/" aria-label="Back to E-Commerce &amp; Fulfillment">
+        <img class="brand-logo" src="/sensatia-logo.svg" alt="Sensatia Botanicals" onerror="this.style.display='none';document.getElementById('brandFallback').style.display='block'" />
+        <span id="brandFallback" class="brand-fallback">SENSATIA</span>
+      </a>
+      <span class="topbar-title">E-Commerce Integration Roadmap</span>
+    </div>
+    <nav class="nav" aria-label="Page navigation">
+      <a href="#roadmap">Roadmap</a><a href="#architecture">Architecture</a><a href="#bali">Bali</a><a href="#validation">Validation</a><a href="#jakarta">Jakarta</a><a href="#ats">ATS</a><a href="#actions">Actions</a>
+    </nav>
+  </div>
+</header>
+<main>
+<section class="hero">
+  <div class="shell hero-grid">
+    <div class="reveal">
+      <div class="eyebrow"><span class="eyebrow-dot"></span> Planning / Phased Rollout</div>
+      <h1>E-Commerce &amp;<br>Jubelio Integration Roadmap</h1>
+      <p class="hero-lede">A controlled path from Jubelio transaction sync and E-Commerce Shop-to-DC migration, toward unified digital inventory and ultimately one physical stock source governed by Reservation / Available-To-Sell.</p>
+      <div class="hero-actions"><a class="btn btn-primary" href="#roadmap">Explore roadmap ↓</a><a class="btn btn-secondary" href="#architecture">View target architecture</a></div>
+    </div>
+    <aside class="hero-visual reveal" aria-label="Roadmap architecture illustration">
+      <div class="label">Master sequence · Bali → Jakarta → Main DC</div>
+      <svg viewBox="0 0 640 400" role="img" aria-label="Four phase systems roadmap">
+        <path class="botanical" d="M548 58c-34 30-47 70-37 119M512 94c-32-12-48-32-51-58M518 112c33-9 54-27 67-53M507 145c-31 4-55 17-71 40"/>
+        <path class="botanical" d="M92 334c28-28 41-61 36-101M127 304c28 10 45 27 51 51M122 284c-29 7-48 22-60 44"/>
+        <path class="svg-line-strong" d="M126 204 C195 204 205 115 275 115 S350 204 418 204 S494 293 560 293"/>
+        <path class="svg-line" d="M126 204 C196 204 210 293 280 293"/>
+        <circle cx="126" cy="204" r="18" class="svg-node-strong pulse"/><circle cx="275" cy="115" r="18" class="svg-node"/><circle cx="418" cy="204" r="18" class="svg-node"/><circle cx="560" cy="293" r="18" class="svg-node-strong pulse"/>
+        <rect x="48" y="154" rx="18" ry="18" width="155" height="96" class="svg-node"/><text x="68" y="180" class="svg-small">PHASE 1</text><text x="68" y="208" class="svg-node-text">Bali Pilot</text><text x="68" y="227" class="svg-node-text">&amp; Migration</text>
+        <rect x="208" y="65" rx="18" ry="18" width="150" height="96" class="svg-node"/><text x="228" y="91" class="svg-small">PHASE 2</text><text x="228" y="119" class="svg-node-text">Stabilize</text><text x="228" y="138" class="svg-node-text">&amp; Validate</text>
+        <rect x="365" y="154" rx="18" ry="18" width="145" height="96" class="svg-node"/><text x="385" y="180" class="svg-small">PHASE 3</text><text x="385" y="208" class="svg-node-text">Jakarta</text><text x="385" y="227" class="svg-node-text">Rollout</text>
+        <rect x="492" y="246" rx="18" ry="18" width="122" height="96" class="svg-node-strong"/><text x="510" y="272" class="svg-small" style="fill:#6f8a81">PHASE 4</text><text x="510" y="299" class="svg-node-text-dark">Shared Stock</text><text x="510" y="318" class="svg-node-text-dark">+ ATS</text>
+        <rect x="215" y="260" rx="15" ry="15" width="130" height="65" class="svg-node"/><text x="231" y="283" class="svg-small">CONTROL</text><text x="231" y="306" class="svg-node-text">Reconcile</text>
+      </svg>
+      <div class="metric-strip"><div class="metric"><strong>4</strong><span>Controlled phases</span></div><div class="metric"><strong>2</strong><span>Regions</span></div><div class="metric"><strong>1</strong><span>Digital stock model</span></div><div class="metric"><strong>1</strong><span>End-state pool</span></div></div>
+    </aside>
+  </div>
+</section>
+
+<section id="roadmap">
+  <div class="shell">
+    <div class="section-head reveal"><div><div class="kicker">01 / Roadmap</div><h2 class="section-title">Four phases. One controlled direction.</h2></div><p class="section-copy">The rollout keeps the blast radius small: prove Bali, validate the data and stock lifecycle, replicate to Jakarta, then connect E-Commerce to the Main DC using Reservation / ATS.</p></div>
+    <div class="phase-timeline reveal">
+      <article class="phase-card current" data-target="#bali"><div class="phase-dot">1</div><h3>Bali Pilot &amp; Migration</h3><p>Jubelio sync, Shop → DC/Warehouse, unified Web + Marketplace stock pool.</p></article>
+      <article class="phase-card" data-target="#validation"><div class="phase-dot">2</div><h3>Stabilization &amp; Validation</h3><p>Idempotency, oversell protection, cancellation, reconciliation, observability.</p></article>
+      <article class="phase-card" data-target="#jakarta"><div class="phase-dot">3</div><h3>Jakarta Rollout</h3><p>Replicate the proven Bali model with correct local warehouse routing.</p></article>
+      <article class="phase-card" data-target="#ats"><div class="phase-dot">4</div><h3>Main DC Shared Stock / ATS</h3><p>One physical stock source, controlled commitments through Reservation and ATS.</p></article>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="shell">
+    <div class="section-head reveal"><div><div class="kicker">Design principles</div><h2 class="section-title">Why this rollout is phased.</h2></div><p class="section-copy">The goal is not only to ship integration code. The goal is to make every order, reservation, stock deduction, cancellation, and reconciliation explainable.</p></div>
+    <div class="principles reveal">
+      <article class="principle"><div class="icon">◎</div><h3>Small blast radius</h3><p>Bali is the pilot scope. Jakarta and Main DC remain downstream until Bali is proven stable.</p></article>
+      <article class="principle"><div class="icon">⇄</div><h3>One truth per phase</h3><p>Each phase must have a clear inventory owner, transaction owner, and reconciliation path.</p></article>
+      <article class="principle"><div class="icon">◌</div><h3>No uncontrolled merge</h3><p>Shared physical stock only works when demand is protected by reservation and ATS rules.</p></article>
+    </div>
+  </div>
+</section>
+
+<section id="architecture">
+  <div class="shell">
+    <div class="section-head reveal"><div><div class="kicker">02 / Architecture shift</div><h2 class="section-title">From separated channel stock to controlled shared inventory.</h2></div><p class="section-copy">The near-term target is not Main DC yet. First, Bali Web + Marketplace should operate from one Bali E-Commerce DC source. Main DC shared stock comes only after both regions are stable.</p></div>
+    <div class="architecture reveal">
+      <article class="arch-panel current"><span class="arch-label">Current / transitional</span><h3>Separate channel logic creates operational friction.</h3><p>Web and Marketplace can reference different allocation assumptions even when physical operations are closely related.</p><div class="arch-canvas"><div class="arch-grid"><div class="arch-stack"><div class="arch-node">Web Sales</div><div class="arch-node">Marketplace</div></div><div class="arch-arrow">→</div><div class="arch-stack"><div class="arch-node">StockWizz Shop Context</div><div class="arch-node ghost">Jubelio Allocation / Buffer</div></div></div><div class="arch-note">Risk: duplicated allocation logic, harder reconciliation, and unclear ownership when stock is physically close but logically separated.</div></div></article>
+      <div class="arch-divider">→</div>
+      <article class="arch-panel target"><span class="arch-label">Target direction</span><h3>One digital inventory source, then Reservation / ATS.</h3><p>Web + Marketplace use one E-Commerce DC pool first. After Bali and Jakarta are stable, the system can safely share the Main DC physical pool.</p><div class="arch-canvas"><div class="arch-grid"><div class="arch-stack"><div class="arch-node green">Web Sales</div><div class="arch-node green">Marketplace / Jubelio</div></div><div class="arch-arrow">→</div><div class="arch-stack"><div class="arch-node green">E-Commerce DC Stock</div><div class="arch-node green">Reservation / ATS Layer</div></div></div><div class="arch-note">End state: one physical source can serve multiple demand types without allowing two channels to promise the same unit.</div></div></article>
+    </div>
+  </div>
+</section>
+
+<section id="bali">
+  <div class="shell phase-layout">
+    <aside class="sticky-summary reveal"><div class="kicker">Phase 1</div><h3>Bali E-Commerce<br>Pilot &amp; Migration</h3><p>Isolate the architectural change to Bali and prove the complete transaction + inventory lifecycle.</p><div class="summary-list"><div class="summary-item"><b>1.1</b><div><strong>Jubelio transaction sync</strong><span>Marketplace lifecycle into StockWizz.</span></div></div><div class="summary-item"><b>1.2</b><div><strong>Shop → DC/Warehouse</strong><span>Change the business model before expanding scope.</span></div></div><div class="summary-item"><b>1.3</b><div><strong>Unified digital stock pool</strong><span>Web + Marketplace use one Bali inventory source.</span></div></div></div></aside>
+    <div class="stack reveal">
+      <article class="step"><div class="step-icon">01</div><div><h4>Jubelio → StockWizz transaction sync</h4><p>Finalize webhook / scheduled sync, SKU mapping, order create/update, fulfillment, cancellation, return/refund, and idempotency rules.</p></div><span class="tag">Integration</span></article>
+      <article class="step"><div class="step-icon">02</div><div><h4>Migrate Bali E-Commerce from Shop to DC/Warehouse model</h4><p>Define the target warehouse identity and operational flow. Do not lock implementation to a specific collection migration before technical assessment.</p></div><span class="tag warm">Architecture</span></article>
+      <article class="step"><div class="step-icon">03</div><div><h4>Unify Web + Marketplace stock pool</h4><p>Both digital channels reference the same Bali E-Commerce DC inventory and deduction lifecycle.</p></div><span class="tag">Inventory</span></article>
+      <article class="step"><div class="step-icon">04</div><div><h4>Keep replenishment safety stock separate</h4><p>Removing a channel allocation buffer does not remove minimum stock, reorder planning, safety stock, or campaign allocation.</p></div><span class="tag warm">Guardrail</span></article>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="shell swimlane reveal">
+    <div class="swim-head"><h3>Bali order &amp; inventory swimlane</h3><p>Illustrates how Marketplace and Web converge into one StockWizz inventory source while preserving order provenance and transaction history.</p></div>
+    <div class="lane"><div class="lane-label">Marketplace</div><div class="lane-cell active">Order Created</div><div class="lane-cell muted"></div><div class="lane-cell muted"></div><div class="lane-cell muted"></div><div class="lane-cell muted"></div></div>
+    <div class="lane"><div class="lane-label">Jubelio</div><div class="lane-cell muted"></div><div class="lane-cell active">Webhook / Sync</div><div class="lane-cell active">Map SKU + External ID</div><div class="lane-cell muted"></div><div class="lane-cell muted"></div></div>
+    <div class="lane"><div class="lane-label">StockWizz</div><div class="lane-cell muted"></div><div class="lane-cell muted"></div><div class="lane-cell active">Create / Update Sale</div><div class="lane-cell active">Commit Stock</div><div class="lane-cell active">Status History</div></div>
+    <div class="lane"><div class="lane-label">Bali E-Com DC</div><div class="lane-cell muted"></div><div class="lane-cell muted"></div><div class="lane-cell muted"></div><div class="lane-cell active">Reserve / Deduct</div><div class="lane-cell active">Pick / Ship / Reconcile</div></div>
+    <div class="lane"><div class="lane-label">Web Sales</div><div class="lane-cell active">Web Order</div><div class="lane-cell active">StockWizz</div><div class="lane-cell active">Same Inventory Source</div><div class="lane-cell active">Commit Stock</div><div class="lane-cell active">Pick / Ship</div></div>
+  </div>
+</section>
+
+<section>
+  <div class="shell unified-pool reveal">
+    <article class="visual-card"><h3>Unified Bali digital stock pool</h3><p>The immediate target is one E-Commerce DC source for digital demand, not Main DC yet.</p><div class="pool-diagram"><div class="source-group"><div class="source-chip">Web Sales</div><div class="source-chip">Marketplace / Jubelio</div></div><div class="pool-core">ONE<br>DIGITAL<br>POOL</div><div class="target-box">Bali E-Commerce<br>DC / Warehouse</div></div><div class="buffer-note"><div class="mini-note"><strong>Remove</strong>Separate Web-vs-Marketplace channel allocation buffer after common deduction is proven.</div><div class="mini-note"><strong>Keep</strong>Safety stock, reorder point, and campaign protection as separate planning controls.</div></div></article>
+    <article class="visual-card"><h3>Migration guardrail</h3><p>The roadmap defines the business model shift. The implementation method stays open until technical mapping is complete.</p><div class="arch-stack"><div class="arch-node ghost">Shop Stock Model</div><div class="arch-arrow">↓</div><div class="arch-node green">Technical Mapping &amp; Data Assessment</div><div class="arch-arrow">↓</div><div class="arch-node green">DC / Warehouse Model</div><div class="arch-arrow">↓</div><div class="arch-node">Historical reporting remains traceable</div></div></article>
+  </div>
+</section>
+
+<section id="validation">
+  <div class="shell">
+    <div class="section-head reveal"><div><div class="kicker">Phase 2 / Control tower</div><h2 class="section-title">Stabilize before scaling.</h2></div><p class="section-copy">The gate to Jakarta is evidence, not deployment status. Every meaningful stock movement must be explainable from transaction to physical inventory.</p></div>
+    <div class="validation-grid reveal">
+      <div class="control-wheel"><div class="wheel-ring"></div><div class="wheel-center">BALI<br>VALIDATION<br>GATE</div><div class="wheel-item w1">Idempotency<span>No duplicate order / deduction</span></div><div class="wheel-item w2">Concurrent Demand<span>Web + Marketplace</span></div><div class="wheel-item w3">OOS Protection<span>No unexplained oversell</span></div><div class="wheel-item w4">Reconciliation<span>Physical + system</span></div><div class="wheel-item w5">Cancel / Return<span>Deterministic release</span></div><div class="wheel-item w6">Observability<span>Failure / retry trace</span></div></div>
+      <div class="gate-stack">
+        <article class="gate-card"><div class="gate-icon">01</div><div><h4>Duplicate / Idempotency</h4><p>One external order or event never creates duplicate sales or duplicate stock deductions.</p></div><span class="status-pill">Must pass</span></article>
+        <article class="gate-card"><div class="gate-icon">02</div><div><h4>Concurrent Web + Marketplace</h4><p>Two digital channels can never promise the same physical unit.</p></div><span class="status-pill">Must pass</span></article>
+        <article class="gate-card"><div class="gate-icon">03</div><div><h4>Low-stock / OOS protection</h4><p>Simultaneous demand at low stock does not create unexplained overselling.</p></div><span class="status-pill">Must pass</span></article>
+        <article class="gate-card"><div class="gate-icon">04</div><div><h4>Cancellation / Return</h4><p>Reservation release and stock restoration are deterministic and traceable.</p></div><span class="status-pill">Must pass</span></article>
+        <article class="gate-card"><div class="gate-icon">05</div><div><h4>Reconciliation</h4><p>Physical Bali stock, StockWizz movements, and Jubelio state can be reconciled.</p></div><span class="status-pill">Must pass</span></article>
+        <div class="exit-gate"><strong>Exit criteria → Phase 3</strong><p>Zero known double deduction in pilot scope, no unexplained oversell, validated cancellation/release, and reconciliation with clear evidence.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="jakarta">
+  <div class="shell">
+    <div class="section-head reveal"><div><div class="kicker">Phase 3 / Replication</div><h2 class="section-title">Jakarta reuses the proven Bali model.</h2></div><p class="section-copy">This is a replication phase, not a redesign. The main differences should be local warehouse mapping and operational configuration.</p></div>
+    <div class="replicate reveal">
+      <article class="region-card active"><div class="region-head"><div class="region-badge">BALI</div><span class="status-pill">Pilot baseline</span></div><h3>Proven model</h3><p>Validated architecture becomes the implementation template.</p><div class="region-flow"><div class="region-step">Jubelio Sync <span>Validated</span></div><div class="region-step">Shop → DC <span>Validated</span></div><div class="region-step">Unified Web + Marketplace <span>Validated</span></div><div class="region-step">Reconciliation <span>PASS</span></div></div></article>
+      <div class="replication-arrow">→<small>replicate</small></div>
+      <article class="region-card"><div class="region-head"><div class="region-badge">JKT</div><span class="status-pill">Phase 3</span></div><h3>Jakarta rollout</h3><p>Reuse the Bali pattern with Jakarta-specific fulfillment routing.</p><div class="region-flow"><div class="region-step">Warehouse mapping <span>Define</span></div><div class="region-step">Shop → DC <span>Migrate</span></div><div class="region-step">Unified digital pool <span>Enable</span></div><div class="region-step">Parallel monitoring <span>Validate</span></div></div></article>
+    </div>
+  </div>
+</section>
+
+<section id="ats">
+  <div class="shell">
+    <div class="section-head reveal"><div><div class="kicker">Phase 4 / End state</div><h2 class="section-title">One physical stock source, controlled digitally.</h2></div><p class="section-copy">The end state is not a raw merge. Main DC and E-Commerce can share one physical pool only when Reservation / ATS protects each demand commitment.</p></div>
+    <div class="ats-hero reveal">
+      <article class="ats-state"><h3>Stock-state lifecycle</h3><p>Baseline state machine for online demand before the final commit rules are implemented.</p><div class="state-track"><div class="state-box"><small>01</small><strong>Available / ATS</strong></div><div class="state-arrow">→</div><div class="state-box"><small>02</small><strong>Reserved</strong></div><div class="state-arrow">→</div><div class="state-box"><small>03</small><strong>Picked</strong></div><div class="state-arrow">→</div><div class="state-box"><small>04</small><strong>Shipped</strong></div></div><div class="formula">ATS = On-Hand − Reserved − Other Protected Allocation</div><div class="reverse"><strong>Cancellation before fulfillment:</strong> Reserved → Released → Available / ATS</div></article>
+      <article class="stock-hub"><h3>Shared Main DC demand hub</h3><p>One physical pool can serve multiple demand types without letting one channel consume another channel's committed units.</p><div class="hub-canvas"><div class="hub-orbit"></div><div class="hub-line hl1"></div><div class="hub-line hl2"></div><div class="hub-line hl3"></div><div class="hub-line hl4"></div><div class="hub-core">MAIN DC<br>PHYSICAL<br>STOCK</div><div class="demand d1">Web Sales</div><div class="demand d2">Marketplace</div><div class="demand d3">Retail Refill</div><div class="demand d4">B2B / Campaign</div><div class="hub-caption">All demand respects reservation / ATS</div></div></article>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="shell">
+    <div class="section-head reveal"><div><div class="kicker">System of record</div><h2 class="section-title">Decisions that must be explicit before Phase 4.</h2></div><p class="section-copy">These are architecture decisions, not implementation assumptions. They should be resolved with Colin during technical design.</p></div>
+    <div class="decision-grid reveal">
+      <article class="decision"><span class="q">Decision required</span><h4>Who owns On-Hand?</h4><p>Define the authoritative physical quantity source for each warehouse/DC.</p></article>
+      <article class="decision"><span class="q">Decision required</span><h4>Who owns Reservation?</h4><p>Define where reserved quantity is stored, updated, released, and audited.</p></article>
+      <article class="decision"><span class="q">Decision required</span><h4>How is ATS calculated?</h4><p>Define formula, protected allocations, and when ATS becomes visible to channels.</p></article>
+      <article class="decision"><span class="q">Decision required</span><h4>Web commit point</h4><p>At what order state does Web reduce ATS / create a reservation?</p></article>
+      <article class="decision"><span class="q">Decision required</span><h4>Jubelio commit point</h4><p>At what marketplace/Jubelio event is stock considered committed?</p></article>
+      <article class="decision"><span class="q">Decision required</span><h4>Retail / B2B priority</h4><p>How do refill, transfer, B2B, and campaign demand respect protected stock?</p></article>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="shell">
+    <div class="section-head reveal"><div><div class="kicker">Risk controls</div><h2 class="section-title">The four failure modes to design around.</h2></div><p class="section-copy">The difficult part is not transaction volume. It is preventing two workflows from making inconsistent promises about the same physical stock.</p></div>
+    <div class="risk-strip reveal">
+      <article class="risk"><div class="risk-index">01</div><h4>Double deduction</h4><p>Retry or duplicate webhook must not deduct the same order twice.</p></article>
+      <article class="risk"><div class="risk-index">02</div><h4>Race condition</h4><p>Concurrent Web and Marketplace orders must resolve against the same availability rule.</p></article>
+      <article class="risk"><div class="risk-index">03</div><h4>Event ordering</h4><p>Cancel, fulfill, retry, and update events must be applied in a deterministic sequence.</p></article>
+      <article class="risk"><div class="risk-index">04</div><h4>Reconciliation gap</h4><p>System balances must remain explainable against physical stock and transaction history.</p></article>
+    </div>
+  </div>
+</section>
+
+<section id="actions">
+  <div class="shell">
+    <div class="section-head reveal"><div><div class="kicker">Immediate next actions</div><h2 class="section-title">What should happen next.</h2></div><p class="section-copy">Keep implementation focused on Bali. Jakarta and Main DC ATS stay as downstream phases, not parallel production changes.</p></div>
+    <div class="actions reveal">
+      <div class="action"><div class="check">1</div><div><strong>Finalize Bali Jubelio → StockWizz transaction lifecycle</strong><span>Create/update, fulfillment, cancel, return/refund, idempotency, and status history.</span></div></div>
+      <div class="action"><div class="check">2</div><div><strong>Technical mapping: Bali Shop → DC/Warehouse</strong><span>Define identity, stock movements, migration impact, and historical reporting continuity.</span></div></div>
+      <div class="action"><div class="check">3</div><div><strong>Define unified Web + Marketplace inventory ownership</strong><span>Clarify when the separate channel allocation buffer can safely be removed.</span></div></div>
+      <div class="action"><div class="check">4</div><div><strong>Prepare Phase 2 validation matrix</strong><span>Evidence for duplicate, oversell, cancellation, reconciliation, and observability.</span></div></div>
+      <div class="action"><div class="check">5</div><div><strong>Build Jakarta rollout checklist only after Bali PASS</strong><span>Reuse the proven pattern; isolate Jakarta-specific warehouse mapping.</span></div></div>
+      <div class="action"><div class="check">6</div><div><strong>Detail ATS before Phase 4</strong><span>System of record, commit points, canonical events, shadow ATS, and pilot criteria.</span></div></div>
+    </div>
+    <div class="master-sequence reveal"><div class="sequence-row"><div class="sequence-box">Jubelio Sync Bali</div><div class="sequence-arrow">→</div><div class="sequence-box">Bali Shop → DC</div><div class="sequence-arrow">→</div><div class="sequence-box">Validate &amp; Reconcile</div><div class="sequence-arrow">→</div><div class="sequence-box">Jakarta → Main DC + ATS</div></div><p><strong>Bali first → stabilize → Jakarta → Main DC shared stock / ATS.</strong> The technical details can evolve; the risk-controlled sequence should remain stable.</p></div>
+  </div>
+</section>
+</main>
+<footer><div class="shell"><span>Sensatia — E-Commerce &amp; Jubelio Integration Roadmap</span><span>Sage green visual system · Phased, evidence-led rollout</span></div></footer>
+<script>
+const phaseCards=document.querySelectorAll('.phase-card');phaseCards.forEach(card=>card.addEventListener('click',()=>{const t=document.querySelector(card.dataset.target);if(t)t.scrollIntoView({behavior:'smooth',block:'start'})}));
+const navLinks=[...document.querySelectorAll('.nav a')];const sections=navLinks.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);const observer=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(!entry.isIntersecting)return;navLinks.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+entry.target.id))})},{rootMargin:'-30% 0px -60% 0px',threshold:.01});sections.forEach(s=>observer.observe(s));
+const revealObserver=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');revealObserver.unobserve(e.target)}})},{threshold:.12});document.querySelectorAll('.reveal').forEach(el=>revealObserver.observe(el));
+</script>
+</body>
+</html>

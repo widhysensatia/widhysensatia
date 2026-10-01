@@ -19,6 +19,19 @@ export type KnowledgeDocument = {
 
 export const documents: KnowledgeDocument[] = [
   {
+    slug: "ecommerce-jubelio-integration-roadmap",
+    title: "E-Commerce & Jubelio Integration Roadmap — Bali to Main DC",
+    shortTitle: "Jubelio Integration Roadmap",
+    summary:
+      "Roadmap empat fase dari sinkronisasi transaksi Jubelio dan migrasi Bali Shop ke DC, menuju unified digital inventory, rollout Jakarta, serta shared stock berbasis Reservation dan ATS.",
+    category: "E-Commerce",
+    type: "Integration Roadmap",
+    updated: "2026-10-01",
+    updatedLabel: "1 Oct 2026",
+    tags: ["Jubelio", "Bali E-Commerce", "Shared Stock & ATS"],
+    accent: "forest",
+  },
+  {
     slug: "stockwizz-retail-performance-management-blueprint",
     title: "StockWizz Retail Performance Management — BEP, Target & Payroll Readiness",
     shortTitle: "Retail Performance Management Blueprint",
