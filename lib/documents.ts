@@ -19,6 +19,32 @@ export type KnowledgeDocument = {
 
 export const documents: KnowledgeDocument[] = [
   {
+    slug: "stockwizz-jubelio-bali-phase-1-plan",
+    title: "StockWizz × Jubelio — Rencana Phase 1 Bali",
+    shortTitle: "Jubelio Bali Phase 1 Plan",
+    summary:
+      "Rencana implementasi Phase 1 Bali untuk sinkronisasi lifecycle order Jubelio, migrasi Shop ke Distribution Center, satu inventory pool Web Sales, shadow mode, selected-SKU pilot, rekonsiliasi, cutover, dan rollback.",
+    category: "E-Commerce",
+    type: "Rencana Implementasi",
+    updated: "2026-10-02",
+    updatedLabel: "2 Okt 2026",
+    tags: ["Jubelio", "Bali Phase 1", "Cutover & Reconciliation"],
+    accent: "forest",
+  },
+  {
+    slug: "stockwizz-jubelio-bali-pilot-flow",
+    title: "StockWizz × Jubelio — Alur Pilot Phase 1 Bali",
+    shortTitle: "Jubelio Bali Pilot Flow",
+    summary:
+      "Flow visual pelaksanaan pilot Bali dari persiapan dan shadow mode, menuju rehearsal, selected-SKU live pilot, rekonsiliasi stok, go/no-go gate, stabilisasi, dan perluasan bertahap.",
+    category: "E-Commerce",
+    type: "Alur Pilot",
+    updated: "2026-10-02",
+    updatedLabel: "2 Okt 2026",
+    tags: ["Jubelio", "Pilot Flow", "Go/No-Go"],
+    accent: "forest",
+  },
+  {
     slug: "ecommerce-jubelio-integration-roadmap",
     title: "Roadmap Integrasi E-Commerce & Jubelio — Bali hingga Main DC",
     shortTitle: "Roadmap Integrasi Jubelio",

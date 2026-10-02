@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Flow visual pelaksanaan pilot Bali untuk integrasi StockWizz dan Jubelio, dari shadow mode hingga selected-SKU live pilot, stabilisasi, dan perluasan.">
+  <title>Flow Pilot Bali — StockWizz × Jubelio</title>
+  <style>
+    :root{--ink:#171717;--soft:#54544f;--paper:#f6f5f0;--white:#fff;--line:#dcdad1;--green:#3f5c49;--green-bg:#dfe8df;--blue:#294f61;--blue-bg:#dfe8ed;--amber:#765a17;--amber-bg:#f4e7c8;--red:#873e30;--red-bg:#f2ded8;--black:#101010}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.55 "Avenir Next",Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}main{max-width:1160px;margin:auto;padding:0 42px 100px}.hero{position:relative;overflow:hidden;margin:0 -42px 64px;padding:34px 42px 68px;color:#fff;background:linear-gradient(135deg,#19211e,#3d5146 60%,#817967)}.hero:after{content:"";position:absolute;right:-40px;bottom:-110px;width:430px;height:430px;background:url("/sensatia-mark.svg") center/contain no-repeat;filter:invert(1);opacity:.09}.brand{width:145px;filter:invert(1);position:relative;z-index:1}.hero-content{position:relative;z-index:1;max-width:850px;margin-top:78px}.eyebrow{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#b9b8b1;margin:0 0 10px}h1{font-size:clamp(46px,7vw,82px);line-height:.98;letter-spacing:-.055em;font-weight:560;margin:0 0 22px}.lead{font-size:21px;max-width:760px;color:#efeee9}.meta{display:flex;flex-wrap:wrap;gap:9px;margin-top:30px}.meta span{padding:7px 12px;border:1px solid #ffffff55;border-radius:999px;font-size:12px}.section{margin:0 0 70px}.head{display:grid;grid-template-columns:150px 1fr;gap:20px;align-items:start;margin-bottom:26px}.no{font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:#77766f;padding-top:7px}h2{font-size:clamp(31px,4vw,48px);line-height:1.06;letter-spacing:-.04em;margin:0}h3{font-size:21px;line-height:1.25;margin:0 0 8px}p{margin:0 0 14px}.goal{padding:26px;border-radius:18px;background:#171717;color:#fff;font-size:22px}.goal strong{color:#dce9dd}.flow{display:grid;grid-template-columns:repeat(5,1fr);gap:30px;margin-top:30px}.step{position:relative;min-height:210px;padding:21px;border:1px solid var(--line);border-radius:17px;background:#fff}.step:not(:last-child):after{content:"→";position:absolute;right:-29px;top:50%;width:28px;height:28px;display:grid;place-items:center;border-radius:50%;background:var(--ink);color:#fff;transform:translateY(-50%);z-index:2}.step-id{width:31px;height:31px;display:grid;place-items:center;border-radius:50%;background:var(--green-bg);color:var(--green);font-size:12px;font-weight:800;margin-bottom:24px}.step p{font-size:14px;color:var(--soft)}.timeline{display:grid;gap:12px}.row{display:grid;grid-template-columns:140px 190px 1fr 155px;gap:18px;align-items:center;padding:18px 20px;border:1px solid var(--line);border-radius:15px;background:#fff}.date{font-weight:800}.tag{display:inline-flex;width:max-content;padding:5px 9px;border-radius:999px;font-size:11px;text-transform:uppercase;letter-spacing:.06em;font-weight:800}.shadow{background:var(--blue-bg);color:var(--blue)}.gate{background:var(--amber-bg);color:var(--amber)}.live{background:var(--green-bg);color:var(--green)}.expand{background:#e9e5dc;color:#565047}.result{font-size:13px;color:var(--soft)}.decision{display:grid;grid-template-columns:1fr 1fr;gap:16px}.card{padding:24px;border:1px solid var(--line);border-radius:17px;background:#fff}.old{border-top:5px solid #8d8372}.new{border-top:5px solid var(--green)}.arrow-list{list-style:none;margin:18px 0 0;padding:0}.arrow-list li{position:relative;padding:9px 0 9px 26px;border-bottom:1px solid #e5e3dc}.arrow-list li:before{content:"→";position:absolute;left:0;color:var(--green);font-weight:800}.event-flow{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;align-items:stretch}.event{position:relative;padding:18px 13px;border-radius:14px;background:#fff;border:1px solid var(--line);text-align:center;font-size:13px}.event:not(:last-child):after{content:"›";position:absolute;right:-9px;top:42%;font-size:24px;font-weight:800;z-index:2}.event strong{display:block;margin-bottom:5px}.matrix{width:100%;border-collapse:separate;border-spacing:0;overflow:hidden;border:1px solid var(--line);border-radius:15px;background:#fff;font-size:14px}th{text-align:left;padding:12px 14px;background:#e8e6df;font-size:11px;letter-spacing:.05em;text-transform:uppercase}td{padding:13px 14px;border-top:1px solid var(--line);vertical-align:top}.check{list-style:none;padding:0;margin:0}.check li{position:relative;padding:11px 0 11px 34px;border-bottom:1px solid var(--line)}.check li:before{content:"✓";position:absolute;left:0;top:11px;width:21px;height:21px;display:grid;place-items:center;border-radius:50%;background:var(--green);color:#fff;font-size:11px;font-weight:900}.stop{margin-top:24px;padding:20px 22px;border-left:4px solid var(--red);border-radius:0 13px 13px 0;background:var(--red-bg)}.footer{margin-top:80px;padding-top:24px;border-top:1px solid var(--line);font-size:12px;color:#77766f}.print{display:none}@media(max-width:900px){main{padding:0 22px 70px}.hero{margin:0 -22px 50px;padding:28px 22px 55px}.flow,.event-flow{grid-template-columns:1fr}.step:not(:last-child):after,.event:not(:last-child):after{content:"↓";right:50%;top:auto;bottom:-29px;transform:translateX(50%)}.row{grid-template-columns:1fr}.decision{grid-template-columns:1fr}.head{grid-template-columns:1fr;gap:5px}}@media print{@page{size:A4;margin:14mm}body{background:#fff;font-size:10pt}main{max-width:none;padding:0}.hero{margin:0 0 12mm;padding:12mm;color:#fff;break-after:page}.hero-content{margin-top:30mm}.section{margin-bottom:12mm}.flow{grid-template-columns:repeat(5,1fr);gap:8px}.step{min-height:0;padding:10px}.step:not(:last-child):after{display:none}.row,.card,.matrix,.goal,.event{break-inside:avoid}.print{display:block}}
+  </style>
+  <style>
+    /* Visual refinement: quieter surfaces, clearer hierarchy, more whitespace. */
+    body{background:#f4f3ee;color:#191919}
+    main{max-width:1080px;padding:0 32px 110px}
+    .hero{min-height:610px;margin:0 -32px 88px;padding:34px 48px 66px;display:flex;flex-direction:column;border-radius:0 0 24px 24px}
+    .hero:after{right:-30px;bottom:-90px;width:450px;height:450px;opacity:.075}
+    .brand{width:132px}
+    .hero-content{margin-top:auto;max-width:820px}
+    .hero h1{max-width:780px;font-size:clamp(48px,6.4vw,76px);line-height:1.01}
+    .lead{max-width:680px;font-size:19px;line-height:1.55;color:#e9e9e4}
+    .meta{margin-top:34px;gap:8px}
+    .meta span{padding:7px 11px;background:rgba(255,255,255,.035);border-color:rgba(255,255,255,.26)}
+    .section{margin-bottom:88px}
+    .head{grid-template-columns:118px minmax(0,1fr);gap:24px;margin-bottom:32px;padding-bottom:20px;border-bottom:1px solid var(--line)}
+    .no{padding-top:8px;color:#85837b}
+    h2{max-width:760px;font-size:clamp(31px,4.1vw,46px);font-weight:590}
+    h3{font-size:20px}
+    .goal{padding:28px 32px;background:#1c2421;border-radius:15px;font-size:20px;line-height:1.55;box-shadow:0 14px 38px rgba(23,23,23,.08)}
+    .flow{gap:12px;margin-top:0}
+    .step{min-height:188px;padding:22px 19px;border:0;border-radius:14px;box-shadow:0 8px 26px rgba(23,23,23,.055)}
+    .step:not(:last-child):after{right:-13px;width:24px;height:24px;font-size:13px;background:#2f4739}
+    .step-id{margin-bottom:20px;background:#e5ece5}
+    .step p{line-height:1.55}
+    .timeline{gap:0;border-top:1px solid var(--line)}
+    .row{grid-template-columns:125px 170px minmax(0,1fr) 125px;gap:16px;padding:21px 8px;border:0;border-bottom:1px solid var(--line);border-radius:0;background:transparent}
+    .result{text-align:right}
+    .decision{gap:18px}
+    .card{padding:26px 28px;border:0;border-radius:15px;box-shadow:0 8px 26px rgba(23,23,23,.055)}
+    .old,.new{border-top-width:4px;border-top-style:solid}
+    .arrow-list li:last-child,.check li:last-child{border-bottom:0}
+    .event-flow{position:relative;gap:12px}
+    .event{padding:20px 12px;border:0;border-radius:13px;box-shadow:0 7px 22px rgba(23,23,23,.05)}
+    .event:not(:last-child):after{right:-10px;color:#486453}
+    .matrix{border:0;border-radius:14px;box-shadow:0 8px 26px rgba(23,23,23,.05)}
+    th{padding:14px 16px;background:#e6e5de}
+    td{padding:15px 16px}
+    .check li{padding:13px 0 13px 36px}
+    .check li:before{top:13px;background:#486453}
+    .stop{margin-top:20px;padding:19px 22px;background:#f1e2dd}
+    .footer{margin-top:96px;text-align:center}
+    @media(max-width:900px){
+      main{padding:0 20px 70px}.hero{min-height:570px;margin:0 -20px 64px;padding:28px 24px 48px;border-radius:0 0 18px 18px}.hero-content{margin-top:auto}.head{grid-template-columns:1fr;gap:4px;margin-bottom:24px}.flow,.event-flow{grid-template-columns:1fr;gap:24px}.step{min-height:0}.step:not(:last-child):after,.event:not(:last-child):after{right:50%;bottom:-24px}.row{grid-template-columns:1fr;gap:8px;padding:20px 4px}.result{text-align:left}.decision{grid-template-columns:1fr}.matrix{display:block;width:100%;max-width:100%;overflow-x:auto;font-size:12px}.matrix th,.matrix td{padding:10px 7px;overflow-wrap:anywhere}}
+    @media print{.hero{min-height:0;margin:0 0 14mm;border-radius:0}.head{grid-template-columns:28mm 1fr}.step,.card,.matrix{box-shadow:none}.section{margin-bottom:14mm}}
+  </style>
+</head>
+<body>
+  <main>
+    <header class="hero">
+      <a href="/domains/ecommerce-fulfillment/" aria-label="Kembali ke E-Commerce &amp; Fulfillment"><img class="brand" src="/sensatia-logo.svg" alt="Sensatia Botanicals"></a>
+      <div class="hero-content">
+        <p class="eyebrow">Simple execution flow</p>
+        <h1>Flow Pilot Bali<br>StockWizz × Jubelio</h1>
+        <p class="lead">Urutan sederhana dari shadow mode sampai selected-SKU live pilot, stabilisasi, dan perluasan.</p>
+        <div class="meta"><span>Shadow: 5 Oktober 2026</span><span>Rehearsal: 12 Oktober 2026</span><span>Live pilot: 19 Oktober 2026</span></div>
+      </div>
+    </header>
+
+    <section class="section">
+      <div class="head"><div class="no">01 · Tujuan</div><h2>Apa yang ingin dibuktikan</h2></div>
+      <div class="goal">Web Sales dan Marketplace/Jubelio <strong>tidak pernah menjanjikan unit fisik yang sama</strong>, setiap order hanya mengurangi stok sekali, dan seluruh selisih dapat dijelaskan.</div>
+    </section>
+
+    <section class="section">
+      <div class="head"><div class="no">02 · Overview</div><h2>Lima tahap pelaksanaan</h2></div>
+      <div class="flow">
+        <article class="step"><div class="step-id">01</div><h3>Persiapan</h3><p>Jubelio Order ID wajib, mapping lokasi, pilih SKU, dan siapkan logging.</p></article>
+        <article class="step"><div class="step-id">02</div><h3>Shadow</h3><p>Terima event tanpa mengubah order aktif atau stok.</p></article>
+        <article class="step"><div class="step-id">03</div><h3>Rehearsal</h3><p>Simulasikan seluruh lifecycle dan review acceptance matrix.</p></article>
+        <article class="step"><div class="step-id">04</div><h3>Live terbatas</h3><p>Aktifkan hanya selected SKU untuk Bali Web dan Marketplace.</p></article>
+        <article class="step"><div class="step-id">05</div><h3>Perluasan</h3><p>Perluas SKU dan kurangi buffer hanya setelah hasil stabil.</p></article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="head"><div class="no">03 · Timeline</div><h2>Apa yang dilakukan per tanggal</h2></div>
+      <div class="timeline">
+        <div class="row"><div class="date">5–11 Oktober</div><div><span class="tag shadow">Pilot 0 · Shadow</span></div><div>Catat raw webhook, matching ke manual sale, cek duplicate dan urutan status. Tidak ada operational write.</div><div class="result">Hasil: shadow report</div></div>
+        <div class="row"><div class="date">12–16 Oktober</div><div><span class="tag gate">Pilot 1 · Rehearsal</span></div><div>Review Control &amp; Acceptance Matrix serta jalankan seluruh test teknis.</div><div class="result">Hasil: go/no-go</div></div>
+        <div class="row"><div class="date">19–25 Oktober</div><div><span class="tag live">Pilot 2 · Live</span></div><div>Selected SKU masuk ke Bali DC. Reconciliation dan exception monitoring dilakukan setiap hari.</div><div class="result">Hasil: bukti live</div></div>
+        <div class="row"><div class="date">Mulai 26 Oktober</div><div><span class="tag expand">Pilot 3 · Expansion</span></div><div>Perluas SKU yang lulus, lalu kurangi buffer/allocation secara bertahap.</div><div class="result">Hasil: full Bali readiness</div></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="head"><div class="no">04 · Ownership</div><h2>Order lama dan order pilot</h2></div>
+      <div class="decision">
+        <article class="card old"><p class="eyebrow">Legacy / non-pilot</p><h3>Tetap di Shop</h3><ul class="arrow-list"><li>Manual <code>shopsales</code></li><li>Inventory owner: <code>shopstock</code></li><li>Webhook hanya memperbarui status/audit</li><li>Tidak mengurangi warehouse</li><li>Tetap muncul satu kali di unified report</li></ul></article>
+        <article class="card new"><p class="eyebrow">Selected SKU setelah cutoff</p><h3>Masuk ke Bali DC</h3><ul class="arrow-list"><li>Webhook membuat <code>websales</code></li><li>Assign hanya ke Bali Ecommerce DC</li><li>Inventory owner: <code>warehousestock</code></li><li>Movement tepat satu kali</li><li>Reconcile dengan Jubelio</li></ul></article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="head"><div class="no">05 · Order flow</div><h2>Flow satu order pilot</h2></div>
+      <div class="event-flow">
+        <div class="event"><strong>Jubelio event</strong>Order dibuat atau berubah</div>
+        <div class="event"><strong>Log &amp; dedup</strong>Simpan raw event dan canonical ID</div>
+        <div class="event"><strong>Route</strong>Selected SKU diarahkan hanya ke Bali</div>
+        <div class="event"><strong>Reserve</strong>Unit di-commit untuk order</div>
+        <div class="event"><strong>Stock-effective</strong>Kurangi on-hand sekali</div>
+        <div class="event"><strong>Reconcile</strong>Bandingkan StockWizz dan Jubelio</div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="head"><div class="no">06 · Stock states</div><h2>Perubahan stok yang diharapkan</h2></div>
+      <table class="matrix">
+        <thead><tr><th>Event</th><th>Reservation</th><th>Physical on-hand</th><th>Yang dilakukan</th></tr></thead>
+        <tbody>
+          <tr><td>Created / paid</td><td>Naik</td><td>Tetap</td><td>Commit unit; recalculasi ATS</td></tr>
+          <tr><td>Picked / packed</td><td>Tetap</td><td>Tetap</td><td>Tidak melakukan stock-out kedua</td></tr>
+          <tr><td>Shipped / stock-effective</td><td>Turun</td><td>Turun satu kali</td><td>Konsumsi reservation dan tulis movement</td></tr>
+          <tr><td>Cancel sebelum stock-out</td><td>Turun</td><td>Tetap</td><td>Release reservation</td></tr>
+          <tr><td>Cancel setelah stock-out</td><td>Tetap</td><td>Tetap</td><td>Masuk review; tunggu return fisik</td></tr>
+          <tr><td>Return diterima</td><td>Tetap</td><td>Naik satu kali</td><td>Tulis receiving movement dan reconcile</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section">
+      <div class="head"><div class="no">07 · Gate</div><h2>Syarat sebelum live 19 Oktober</h2></div>
+      <div class="card">
+        <ul class="check">
+          <li>Control &amp; Acceptance Matrix sudah direview secara teknis.</li>
+          <li>Shadow mode tidak menulis transaksi atau mengubah stok.</li>
+          <li>System of record serta status stock-effective sudah disepakati.</li>
+          <li>Concurrent last-unit Web vs Marketplace sudah lulus.</li>
+          <li>Duplicate, retry, dan out-of-order event sudah lulus.</li>
+          <li>Cancel, release, dan return sudah tervalidasi.</li>
+          <li>DC Sales hanya menampilkan order milik warehouse tersebut.</li>
+          <li>Selected SKU, cutoff time, owner exception, dan rollback sudah ditetapkan.</li>
+        </ul>
+      </div>
+      <div class="stop"><strong>NO-GO:</strong> pilot ditunda bila masih ada double deduction, unexplained oversell, variance yang tidak dapat dijelaskan, movement ke DC lain, atau event gagal tanpa retry/owner.</div>
+    </section>
+
+    <section class="section">
+      <div class="head"><div class="no">08 · Setelah pilot</div><h2>Kapan buffer boleh dihapus</h2></div>
+      <div class="decision">
+        <article class="card"><h3>Belum boleh</h3><p>Jika reservation bersama belum aktif, Web Sales belum memicu reconciliation, atau masih ada stock mismatch yang tidak jelas.</p></article>
+        <article class="card"><h3>Boleh bertahap</h3><p>Setelah selected SKU stabil, semua variance dapat dijelaskan, retry aman, dan minimal satu siklus cancellation/return selesai.</p></article>
+      </div>
+      <p style="margin-top:20px"><strong>Urutan berikutnya:</strong> perluas SKU Bali → full Bali stabil → rollout Jakarta → baru desain final Main DC/ATS dan protected allocation.</p>
+    </section>
+
+    <footer class="footer">Flow ringkas untuk review internal · StockWizz × Jubelio · Bali Phase 1 · 2 Oktober 2026</footer>
+  </main>
+</body>
+</html>

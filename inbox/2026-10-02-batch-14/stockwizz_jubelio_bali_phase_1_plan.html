@@ -1,0 +1,621 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Rencana Phase 1 integrasi Jubelio, StockWizz, Web Sales, dan migrasi Bali Ecommerce dari Shop ke Distribution Center.">
+  <title>StockWizz × Jubelio — Bali Phase 1</title>
+  <style>
+    :root {
+      --ink: #171717;
+      --ink-soft: #474747;
+      --muted: #74746f;
+      --paper: #f6f5f0;
+      --surface: #fff;
+      --line: #deddd6;
+      --sand: #e9e5da;
+      --sage: #dfe8df;
+      --sage-deep: #405d4a;
+      --blue: #dfe8ed;
+      --blue-deep: #294f61;
+      --amber: #f5e8c9;
+      --amber-deep: #795d18;
+      --red: #f3ded8;
+      --red-deep: #863d2e;
+      --black: #101010;
+      --radius: 18px;
+      --shadow: 0 12px 38px rgba(23, 23, 23, .07);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: "Euclid Circular B", "Avenir Next", Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 16px;
+      line-height: 1.62;
+    }
+    a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+    a:hover { color: var(--sage-deep); }
+    img { max-width: 100%; }
+    .shell { display: grid; grid-template-columns: 280px minmax(0, 1fr); min-height: 100vh; }
+    aside {
+      position: sticky; top: 0; height: 100vh; overflow: auto;
+      padding: 32px 24px; background: var(--black); color: white;
+      border-right: 1px solid rgba(255,255,255,.09);
+    }
+    .brand { display: flex; align-items: center; margin-bottom: 42px; }
+    .brand img { width: 150px; filter: invert(1); }
+    .eyebrow { margin: 0 0 9px; font-size: 11px; line-height: 1.35; letter-spacing: .15em; text-transform: uppercase; font-weight: 750; color: var(--muted); }
+    aside .eyebrow { color: #aaa9a2; }
+    aside h2 { font-size: 22px; line-height: 1.2; margin: 0 0 10px; }
+    aside p { color: #c8c7c0; font-size: 13px; margin: 0 0 25px; }
+    nav a { display: block; padding: 8px 0; color: #d8d7d0; text-decoration: none; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,.065); }
+    nav a:hover { color: #fff; padding-left: 5px; }
+    .aside-meta { margin-top: 28px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,.12); color: #aaa9a2; font-size: 11px; }
+    main { min-width: 0; }
+    .hero {
+      min-height: 680px; display: flex; align-items: end; position: relative; overflow: hidden;
+      padding: 78px clamp(30px, 7vw, 112px); color: white;
+      background: linear-gradient(135deg, #1c2421 0%, #35463d 52%, #807663 100%);
+    }
+    .hero::after {
+      content: ""; position: absolute; width: 600px; height: 600px; right: -80px; top: 30px;
+      background: url("/sensatia-mark.svg") center/contain no-repeat; opacity: .09; filter: invert(1);
+    }
+    .hero-content { position: relative; z-index: 1; max-width: 950px; }
+    .hero .kicker { display: inline-flex; gap: 10px; align-items: center; font-size: 12px; letter-spacing: .16em; text-transform: uppercase; }
+    .dot { width: 7px; height: 7px; border-radius: 50%; background: #d9e7d7; box-shadow: 0 0 0 6px rgba(217,231,215,.13); }
+    h1 { max-width: 920px; margin: 25px 0 24px; font-size: clamp(48px, 7vw, 90px); line-height: .97; letter-spacing: -.055em; font-weight: 560; }
+    .hero .lead { max-width: 780px; margin: 0; font-size: clamp(18px, 2vw, 24px); line-height: 1.42; color: #f0f0ea; }
+    .hero-meta { display: flex; flex-wrap: wrap; gap: 13px; margin-top: 42px; }
+    .hero-meta span { padding: 8px 13px; border: 1px solid rgba(255,255,255,.28); border-radius: 999px; font-size: 12px; background: rgba(255,255,255,.06); }
+    .content { max-width: 1180px; margin: 0 auto; padding: 80px clamp(24px, 6vw, 86px) 120px; }
+    section { scroll-margin-top: 24px; margin: 0 0 90px; }
+    .section-head { display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: 25px; margin-bottom: 32px; align-items: start; }
+    .section-no { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); padding-top: 8px; }
+    h2 { margin: 0; font-size: clamp(32px, 4vw, 54px); line-height: 1.05; letter-spacing: -.035em; font-weight: 570; }
+    h3 { margin: 34px 0 14px; font-size: 24px; line-height: 1.25; letter-spacing: -.02em; }
+    h4 { margin: 20px 0 8px; font-size: 17px; }
+    p { margin: 0 0 18px; }
+    .intro { font-size: 20px; color: var(--ink-soft); max-width: 850px; }
+    .grid { display: grid; gap: 18px; }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 25px; box-shadow: var(--shadow); }
+    .card h3, .card h4 { margin-top: 0; }
+    .card p:last-child, .card ul:last-child { margin-bottom: 0; }
+    .metric { min-height: 180px; display: flex; flex-direction: column; justify-content: space-between; }
+    .metric .number { font-size: 54px; line-height: 1; letter-spacing: -.05em; }
+    .metric .label { color: var(--muted); font-size: 13px; }
+    .callout { border-left: 4px solid var(--sage-deep); padding: 22px 24px; background: var(--sage); border-radius: 0 14px 14px 0; margin: 25px 0; }
+    .callout.warn { border-color: var(--amber-deep); background: var(--amber); }
+    .callout.danger { border-color: var(--red-deep); background: var(--red); }
+    .callout.info { border-color: var(--blue-deep); background: var(--blue); }
+    .callout strong { display: block; margin-bottom: 5px; }
+    .badge { display: inline-flex; align-items: center; gap: 7px; border-radius: 999px; padding: 5px 9px; font-size: 11px; line-height: 1; letter-spacing: .04em; text-transform: uppercase; font-weight: 750; white-space: nowrap; }
+    .badge::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+    .confirmed { background: var(--sage); color: var(--sage-deep); }
+    .operational { background: var(--blue); color: var(--blue-deep); }
+    .proposed { background: var(--amber); color: var(--amber-deep); }
+    .gap { background: var(--red); color: var(--red-deep); }
+    .legend { display: flex; flex-wrap: wrap; gap: 9px; margin: 25px 0; }
+    .flow { display: grid; grid-template-columns: repeat(5, minmax(120px, 1fr)); gap: 10px; align-items: stretch; margin: 28px 0; }
+    .flow .step { position: relative; padding: 18px 16px; background: white; border: 1px solid var(--line); border-radius: 14px; font-size: 13px; }
+    .flow .step:not(:last-child)::after { content: "→"; position: absolute; right: -11px; top: 50%; transform: translate(50%, -50%); width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; color: white; background: var(--ink); z-index: 2; }
+    table { width: 100%; border-collapse: separate; border-spacing: 0; margin: 23px 0; font-size: 14px; background: white; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+    th { padding: 14px 15px; text-align: left; background: #eae8e0; font-size: 11px; line-height: 1.35; letter-spacing: .065em; text-transform: uppercase; }
+    td { padding: 14px 15px; vertical-align: top; border-top: 1px solid var(--line); }
+    tr:first-child td { border-top: 0; }
+    tbody tr:hover { background: #faf9f5; }
+    code { font-family: "SFMono-Regular", Consolas, monospace; background: #eceae3; border-radius: 5px; padding: 2px 5px; font-size: .88em; overflow-wrap: anywhere; }
+    pre { margin: 22px 0; padding: 22px; overflow: auto; color: #f5f5ef; background: #1b211e; border-radius: 15px; font-size: 13px; line-height: 1.7; box-shadow: var(--shadow); }
+    pre code { padding: 0; background: transparent; }
+    ul, ol { padding-left: 21px; margin: 12px 0 20px; }
+    li { margin: 7px 0; }
+    .timeline { position: relative; margin: 32px 0; }
+    .timeline::before { content: ""; position: absolute; left: 17px; top: 8px; bottom: 8px; width: 1px; background: #aca99f; }
+    .event { position: relative; display: grid; grid-template-columns: 36px 138px minmax(0, 1fr); gap: 17px; padding: 0 0 29px; }
+    .event:last-child { padding-bottom: 0; }
+    .event-dot { width: 13px; height: 13px; margin: 7px 0 0 11px; border: 3px solid var(--paper); border-radius: 50%; background: var(--sage-deep); box-shadow: 0 0 0 1px var(--sage-deep); z-index: 1; }
+    .event time { font-size: 13px; font-weight: 700; padding-top: 2px; }
+    .event h4 { margin: 0 0 5px; }
+    .event p { margin: 0; color: var(--ink-soft); }
+    .decision { display: grid; grid-template-columns: 1fr auto 1fr; gap: 18px; align-items: center; margin: 30px 0; }
+    .decision .side { padding: 25px; border-radius: 16px; min-height: 220px; }
+    .decision .current { background: var(--sand); }
+    .decision .target { color: white; background: #35463d; }
+    .decision .arrow { font-size: 34px; }
+    .checklist { list-style: none; padding: 0; }
+    .checklist li { position: relative; padding: 11px 0 11px 34px; border-bottom: 1px solid var(--line); }
+    .checklist li::before { content: "✓"; position: absolute; left: 0; top: 11px; display: grid; place-items: center; width: 21px; height: 21px; border-radius: 50%; color: white; background: var(--sage-deep); font-size: 12px; font-weight: 800; }
+    .risk-list { counter-reset: risk; list-style: none; padding: 0; }
+    .risk-list li { counter-increment: risk; position: relative; padding: 20px 20px 20px 66px; background: white; border: 1px solid var(--line); border-radius: 14px; margin: 11px 0; }
+    .risk-list li::before { content: counter(risk, decimal-leading-zero); position: absolute; left: 18px; top: 19px; font-size: 13px; color: var(--red-deep); font-weight: 750; }
+    .mini { color: var(--muted); font-size: 12px; }
+    .footer-note { margin-top: 100px; padding-top: 25px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12px; }
+    .print-only { display: none; }
+    @media (max-width: 1020px) {
+      .shell { display: block; }
+      aside { position: relative; height: auto; padding: 24px; }
+      aside nav { display: none; }
+      .brand { margin-bottom: 20px; }
+      .hero { min-height: 580px; }
+      .section-head { grid-template-columns: 1fr; gap: 7px; }
+      .grid-3 { grid-template-columns: 1fr; }
+      .flow { grid-template-columns: 1fr; }
+      .flow .step:not(:last-child)::after { content: "↓"; right: 50%; top: auto; bottom: -12px; transform: translate(50%, 50%); }
+    }
+    @media (max-width: 680px) {
+      .hero { padding: 55px 24px; min-height: 620px; }
+      h1 { font-size: 48px; }
+      .content { padding: 60px 20px 80px; }
+      .grid-2 { grid-template-columns: 1fr; }
+      .decision { grid-template-columns: 1fr; }
+      .decision .arrow { transform: rotate(90deg); text-align: center; }
+      .event { grid-template-columns: 36px 1fr; }
+      .event time { grid-column: 2; }
+      .event > div:last-child { grid-column: 2; }
+      table { display: block; overflow-x: auto; white-space: normal; }
+    }
+    @media print {
+      @page { size: A4; margin: 16mm; }
+      body { background: white; font-size: 10pt; }
+      .shell { display: block; }
+      aside { display: none; }
+      .hero { min-height: 0; padding: 22mm 16mm; break-after: page; }
+      .hero::after { width: 380px; height: 380px; }
+      h1 { font-size: 46pt; }
+      .content { max-width: none; padding: 0; }
+      section { margin: 0 0 16mm; break-inside: auto; }
+      .card, .callout, table, pre, .event, .risk-list li { break-inside: avoid; box-shadow: none; }
+      .section-head { grid-template-columns: 30mm 1fr; }
+      h2 { font-size: 24pt; }
+      a { text-decoration: none; }
+      .print-only { display: block; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside>
+      <div class="brand">
+        <a href="/domains/ecommerce-fulfillment/" aria-label="Kembali ke E-Commerce &amp; Fulfillment">
+          <img src="/sensatia-logo.svg" alt="Sensatia Botanicals">
+        </a>
+      </div>
+      <p class="eyebrow">Integration review</p>
+      <h2>StockWizz × Jubelio<br>Bali Phase 1</h2>
+      <p>Current architecture, keputusan pilot, cutover, reporting, risiko, blocker, dan rekomendasi.</p>
+      <nav aria-label="Daftar isi">
+        <a href="#executive">01 · Ringkasan eksekutif</a>
+        <a href="#scope">02 · Tujuan dan scope</a>
+        <a href="#evidence">03 · Dasar bukti</a>
+        <a href="#current">04 · Current state</a>
+        <a href="#architecture">05 · Arsitektur terkonfirmasi</a>
+        <a href="#status">06 · Transaksi dan status</a>
+        <a href="#inventory">07 · Model stok target</a>
+        <a href="#dc-sales">08 · Temuan DC Sales</a>
+        <a href="#cutover">09 · Pilot 5–26 Oktober</a>
+        <a href="#reports">10 · Reporting lama dan baru</a>
+        <a href="#implementation">11 · Langkah implementasi</a>
+        <a href="#acceptance">12 · Hasil dan kelulusan</a>
+        <a href="#risks">13 · Risiko</a>
+        <a href="#technical">14 · Titik perubahan</a>
+        <a href="#blockers">15 · Blockers</a>
+        <a href="#recommendations">16 · Saran</a>
+      </nav>
+      <div class="aside-meta">Review date · 2 Oktober 2026<br>Timezone · WITA (UTC+8)<br>Status · Analysis only, no code changed</div>
+    </aside>
+
+    <main>
+      <header class="hero">
+        <div class="hero-content">
+          <div class="kicker"><span class="dot"></span> Bali Ecommerce pilot plan</div>
+          <h1>Satu transaksi.<br>Satu status.<br>Satu stok Bali.</h1>
+          <p class="lead">Rencana Phase 1 untuk memindahkan transaksi Jubelio dari input manual Shop ke Distribution Center Bali Ecommerce, menyatukan sumber stok Web Sales, dan menghapus buffer setelah rekonsiliasi terbukti stabil.</p>
+          <div class="hero-meta">
+            <span>Live pilot: 19 Oktober 2026</span>
+            <span>Shadow mode: 5 Oktober 2026</span>
+            <span>Bali only</span>
+            <span>Prepared for Widi &amp; Colin</span>
+          </div>
+        </div>
+      </header>
+
+      <div class="content">
+        <section id="executive">
+          <div class="section-head"><div class="section-no">01 · Executive</div><h2>Ringkasan eksekutif</h2></div>
+          <p class="intro">Fondasi integrasi Jubelio dan warehouse sudah tersedia, tetapi kondisi sekarang belum menjadi satu sumber stok. Bali Ecommerce masih mencatat transaksi Jubelio secara manual sebagai Shop Sale, sementara Web Sales memakai alur lain. Pilot yang aman harus memindahkan order baru ke Bali DC dengan batas waktu yang eksplisit, menjaga order lama pada ledger asalnya, dan merekonsiliasi stok per SKU tanpa pengurangan ganda.</p>
+          <div class="grid grid-3">
+            <article class="card metric"><div><span class="badge operational">Target operasional</span><h3>Order &amp; status penuh</h3></div><p class="label">Semua order Jubelio dan setiap perubahan status masuk ke StockWizz serta dapat diaudit.</p></article>
+            <article class="card metric"><div><span class="badge proposed">Selected-SKU pilot</span><div class="number">19 Oct</div></div><p class="label">12 Oktober dipakai untuk rehearsal dan technical gate; live terbatas ditargetkan 19 Oktober 2026.</p></article>
+            <article class="card metric"><div><span class="badge operational">Target stok</span><div class="number">1 pool</div></div><p class="label">Jubelio dan Web Sales memakai warehouse Bali yang sama; buffer dan allocation dihentikan setelah stabil.</p></article>
+          </div>
+          <div class="callout danger"><strong>Temuan paling mendesak</strong>Tab Sales pada setiap Distribution Center saat ini dapat menampilkan seluruh <code>websales</code> karena query tidak memfilter <code>_fulfillment_warehouse_id</code>. Order Web Bali yang terlihat di Padang Galak bukan bukti adanya penjualan Padang Galak. Kondisi ini berisiko membuat DC yang salah melakukan claim, pack, atau pengurangan stok.</div>
+          <div class="callout"><strong>Keputusan yang disarankan</strong>Lanjutkan dengan cutover Bali terbatas. Gunakan alur <code>websales</code> dan <code>warehousestock</code> yang sudah ada, lalu tambahkan guard Bali-only, shadow mode, mapping status, ownership cutoff, reservation, idempotency, dan reconciliation yang dapat dipulihkan.</div>
+        </section>
+
+        <section id="scope">
+          <div class="section-head"><div class="section-no">02 · Direction</div><h2>Tujuan, target, dan batas Phase 1</h2></div>
+          <div class="grid grid-3">
+            <article class="card"><span class="badge operational">Outcome 01</span><h3>Jubelio → StockWizz Bali DC</h3><p>Semua order baru dan perubahan status Jubelio tercatat, ditugaskan hanya ke Bali Ecommerce DC, dan diproses melalui workflow Distribution Center.</p></article>
+            <article class="card"><span class="badge operational">Outcome 02</span><h3>Stok balance</h3><p>Jubelio, Web Sales, cancel, return diterima, adjustment, dan refill menghasilkan saldo sellable yang dapat dijelaskan oleh ledger dan reconciliation.</p></article>
+            <article class="card"><span class="badge operational">Outcome 03</span><h3>Buffer dihapus</h3><p>Bali memakai 100% inventory pool yang sama. Allocation dibuat efektif 100%, lalu field lama dihapus setelah tidak lagi dibaca proses mana pun.</p></article>
+          </div>
+          <h3>Definisi “balance”</h3>
+          <p>Balance bukan sekadar dua field database mempunyai angka yang sama. StockWizz menyimpan physical on-hand serta reservasi Web Sales yang belum diketahui Jubelio. Perbandingan yang benar adalah <strong>target sellable per SKU</strong> setelah seluruh event selesai diproses.</p>
+          <table>
+            <thead><tr><th>Masuk Phase 1</th><th>Di luar Phase 1</th></tr></thead>
+            <tbody><tr><td>Cutover Bali Shop → DC; Jubelio sales transactions; status lifecycle; Web Sales Bali; stock reconciliation; removal buffer/allocation; perbaikan isolasi DC Sales.</td><td>Rollout Jakarta; proximity routing antargudang; Padang Galak sebagai sales fulfillment DC; penyatuan jaringan DC nasional.</td></tr></tbody>
+          </table>
+          <p><strong>Padang Galak tetap supply-only.</strong> Ia memasok retail/shop dan Bali Ecommerce, tetapi tidak menjadi pemilik Web Sales pada pilot ini.</p>
+        </section>
+
+        <section id="evidence">
+          <div class="section-head"><div class="section-no">03 · Evidence</div><h2>Apa yang sudah pasti dan apa yang belum</h2></div>
+          <div class="legend">
+            <span class="badge confirmed">Confirmed from code</span>
+            <span class="badge operational">Confirmed operationally</span>
+            <span class="badge proposed">Proposal / inference</span>
+            <span class="badge gap">Open gap</span>
+          </div>
+          <div class="grid grid-2">
+            <article class="card"><h3>Basis pemeriksaan kode</h3><p><code>sensatia-stockwiz-app</code> commit <code>bb859acc</code> (1 Oktober 2026) dan <code>sensatia-web-api</code> commit <code>5193005</code> (17 September 2026). Kedua checkout bersih saat ditinjau.</p><p class="mini">Review statis tidak membuktikan commit tersebut sudah terpasang di production.</p></article>
+            <article class="card"><h3>Basis operasional</h3><p>Klarifikasi langsung pengguna, screenshot Shop Sales Bali, screenshot DC Sales Padang Galak, dan ringkasan meeting bagian 2 dengan Colin.</p><p class="mini">Ringkasan meeting bersifat tematik dan memuat salah transkripsi nama; ia dipakai sebagai bukti arah diskusi, bukan kutipan literal.</p></article>
+          </div>
+          <div class="callout info"><strong>Perubahan tanggal dan scope</strong>Ringkasan meeting menyebut 10 Oktober dan rencana awal menetapkan 12 Oktober sebagai pilot. Setelah mempertimbangkan arahan Pak Michael mengenai Control &amp; Acceptance Matrix, technical review, shadow evidence, dan selected-SKU approach, rencana direvisi: <strong>12 Oktober menjadi rehearsal/go-no-go gate</strong> dan <strong>19 Oktober 2026 menjadi target selected-SKU live pilot</strong>.</div>
+        </section>
+
+        <section id="current">
+          <div class="section-head"><div class="section-no">04 · Current state</div><h2>Mengapa buffer ada sekarang</h2></div>
+          <div class="decision">
+            <div class="side current"><p class="eyebrow">Sekarang</p><h3>Retail → Shops → Bali Ecommerce → Sales</h3><p>Transaksi Jubelio dimasukkan manual, disimpan sebagai <code>shopsales</code>, lalu mengurangi <code>shopstock</code>. Field Jubelio Order ID sudah ada tetapi masih opsional.</p></div>
+            <div class="arrow">→</div>
+            <div class="side target"><p class="eyebrow" style="color:#cbd7cd">Target Phase 1</p><h3>Distribution Center → Bali Ecommerce → Sales</h3><p>Webhook membuat <code>websales</code>, status disinkronkan, fulfillment terjadi di Bali, dan physical movement memakai <code>warehousestock</code>.</p></div>
+          </div>
+          <p>Bali Ecommerce juga menangani Web Sales dari stok fisik yang sama. Namun kode saat ini mencatat Web Sales pada <code>webstock</code>, sementara manual Jubelio memakai <code>shopstock</code>. Dua saldo ini tidak memiliki reservasi bersama sehingga buffer dipakai agar unit fisik yang sama tidak terjual dua kali.</p>
+          <pre><code>Stok fisik Bali Ecommerce
+├── Jubelio manual → shopsales → shopstock
+├── Website        → websales  → webstock
+└── Buffer         → pengaman terhadap dua ledger yang belum saling mengetahui</code></pre>
+          <p>Buffer operasional tersebut belum tentu sama dengan <code>jubelio.allocationPercent</code>. Allocation adalah pengali jumlah yang dipublikasikan ke Jubelio; buffer adalah praktik operasi untuk melindungi stok fisik.</p>
+        </section>
+
+        <section id="architecture">
+          <div class="section-head"><div class="section-no">05 · Architecture</div><h2>Arsitektur yang terkonfirmasi dari kode</h2></div>
+          <table>
+            <thead><tr><th>Jalur</th><th>Rekaman transaksi</th><th>Sumber stok / waktu mutasi</th></tr></thead>
+            <tbody>
+              <tr><td>Retail / legacy e-commerce</td><td><code>shopsales</code>, <code>_shop_id</code>, ID marketplace</td><td><code>shopstock</code> dan <code>shopstockhistory</code> saat checkout</td></tr>
+              <tr><td>Website</td><td><code>websales</code>, <code>_site_id</code></td><td><code>webstock</code> saat finalisasi; jika di-claim DC, pack juga mengurangi <code>warehousestock</code></td></tr>
+              <tr><td>Jubelio</td><td><code>websales</code>, <code>saleSource='jubelio'</code>, <code>_sale_id='jub-{id}'</code></td><td>Tidak mengurangi webstock saat intake; warehouse dikurangi saat packed, fallback shipped</td></tr>
+              <tr><td>Distribution Center</td><td>Assignment <code>_fulfillment_warehouse_id</code></td><td><code>warehousestock</code> dan warehouse-scoped <code>stockhistory</code></td></tr>
+              <tr><td>Channel</td><td><code>ecomchannel</code>, <code>ecomChannelId</code>, store/platform</td><td>Channel penjualan terpisah dari lokasi fulfillment</td></tr>
+            </tbody>
+          </table>
+          <div class="flow" aria-label="Alur Jubelio saat ini">
+            <div class="step"><strong>1. Jubelio</strong><br>Order dibuat / berubah</div>
+            <div class="step"><strong>2. Webhook</strong><br>Signature dan payload</div>
+            <div class="step"><strong>3. websales</strong><br>SKU, channel, warehouse</div>
+            <div class="step"><strong>4. Pack / ship</strong><br>DC workflow</div>
+            <div class="step"><strong>5. Warehouse</strong><br>Stock movement &amp; sync</div>
+          </div>
+
+          <h3>Trace Jubelio end-to-end</h3>
+          <ol>
+            <li><strong>Webhook.</strong> Endpoint <code>POST /api/web/jubelio/webhook/salesorder</code> berada di web API. Signature memakai SHA256 dari raw body ditambah secret. Bila secret tidak dikonfigurasi, handler yang ditinjau masih menerima webhook.</li>
+            <li><strong>Identity.</strong> Order dicari dengan pasangan site dan <code>jub-{salesorderId}</code>. Unique index dicoba dibuat, tetapi kegagalannya tidak menghentikan pemrosesan.</li>
+            <li><strong>SKU mapping.</strong> <code>item_code</code> dicocokkan ke barcode StockWizz. SKU yang tidak cocok menjadi placeholder dan pack diblokir sampai rematch.</li>
+            <li><strong>Persistence.</strong> Jubelio dibuat sebagai <code>websales</code> status <code>new</code>. Metadata channel dan warehouse ditambahkan pada tahap berikutnya; crash di antaranya dapat meninggalkan order tanpa routing lengkap.</li>
+            <li><strong>Routing.</strong> Kode memuat semua DC, mengurutkan berdasarkan lokasi dan stok, lalu memilih salah satu. <code>fulfillmentWarehouseId</code> channel hanya fallback, sehingga belum menjadi guard Bali-only.</li>
+            <li><strong>Claim.</strong> Claim memilih warehouse dan memeriksa stok, tetapi jalur yang ditinjau belum membuat reservasi bersama.</li>
+            <li><strong>Pack.</strong> Warehouse stock dikurangi, history ditulis, dan marker deduction disimpan. Operasi tersebut terpisah sehingga crash atau request bersamaan tetap perlu guard idempotent.</li>
+            <li><strong>Ship.</strong> Fallback deduction dipakai bila marker belum ada. Ship belum memiliki guard unmapped dan state-transition seketat pack.</li>
+            <li><strong>AWB &amp; outbound sync.</strong> Setelah pack, StockWizz mengambil shipment/AWB dan mencoba stock sync. Target saat ini adalah <code>on-hand × allocationPercent</code>; belum memperhitungkan reservasi Web Sales.</li>
+          </ol>
+        </section>
+
+        <section id="status">
+          <div class="section-head"><div class="section-no">06 · Lifecycle</div><h2>Semua transaksi dan semua perubahan status</h2></div>
+          <p class="intro">StockWizz perlu menyimpan status vendor apa adanya untuk audit, lalu memetakannya ke status operasional yang konsisten. Pengurangan stok harus mengikuti event yang benar-benar stock-effective di Jubelio, bukan dipilih dari nama status saja.</p>
+          <div class="grid grid-2">
+            <article class="card"><h3>Raw source status</h3><p>Simpan <code>jubelioStatus</code>, <code>jubelioChannelStatus</code>, timestamp event, payload reference, dan event/idempotency key.</p></article>
+            <article class="card"><h3>Normalized StockWizz status</h3><p>Gunakan lifecycle yang disepakati, misalnya <code>new</code>, <code>processing</code>, <code>packed</code>, <code>shipped</code>, <code>cancelled</code>, dan <code>completed</code>.</p></article>
+          </div>
+          <table>
+            <thead><tr><th>Jubelio status / event</th><th>Usulan SW status</th><th>Efek stok</th></tr></thead>
+            <tbody>
+              <tr><td>Created, Pending, Paid, Confirmed</td><td><code>new</code> / <code>processing</code></td><td>Buat atau pertahankan reservasi; belum stock out</td></tr>
+              <tr><td>Ready to ship / Packed</td><td><code>packed</code></td><td>Tidak stock out bila Jubelio juga belum mengurangi on-hand</td></tr>
+              <tr><td>Shipped atau event vendor yang terbukti stock-effective</td><td><code>shipped</code></td><td>Kurangi warehouse tepat satu kali</td></tr>
+              <tr><td>Cancelled sebelum stock out</td><td><code>cancelled</code></td><td>Lepaskan reservasi</td></tr>
+              <tr><td>Cancelled setelah stock out</td><td><code>cancelled_review</code></td><td>Jangan tambah stok sebelum return diterima fisik</td></tr>
+              <tr><td>Completed</td><td><code>completed</code></td><td>Tidak ada stock out tambahan</td></tr>
+            </tbody>
+          </table>
+          <div class="callout warn"><strong>Harus divalidasi lewat sandbox</strong>Status aktual yang mengurangi inventory Jubelio belum terbukti dari payload runtime atau kontrak vendor. Hipotesis “shipped” masuk akal, tetapi tidak boleh dijadikan aturan production sebelum membandingkan webhook event dengan perubahan on-hand per Jubelio location.</div>
+          <h3>Aturan konsistensi wajib</h3>
+          <ul class="checklist">
+            <li>Satu order line hanya mempunyai satu movement sale-out dengan key stabil, misalnya <code>jubelio:{salesorderId}:{itemId}:sale-out</code>.</li>
+            <li>Webhook duplikat tidak boleh membuat sale atau movement kedua.</li>
+            <li>Webhook terlambat tidak boleh menurunkan lifecycle atau menghapus flag review.</li>
+            <li>Status history bersifat append-only dan mencakup event inbound maupun tindakan manual.</li>
+            <li>Reconciliation cron memperbaiki missing order dan missing status pada existing order.</li>
+          </ul>
+          <p><span class="badge confirmed">Current behavior</span> History yang ada terutama ditambah oleh pack, ship, dan cancel manual. Update webhook existing order melakukan <code>$set</code> tanpa histori inbound lengkap. Reconcile cron membuat order yang hilang, tetapi melewati existing order sehingga belum memulihkan perubahan status yang hilang.</p>
+        </section>
+
+        <section id="inventory">
+          <div class="section-head"><div class="section-no">07 · Inventory</div><h2>Satu sumber stok untuk Jubelio dan Web Sales</h2></div>
+          <p class="intro">Warehouse Bali menjadi physical ledger. Semua kanal membuat reservasi pada ledger yang sama; pack atau stock-effective event mengubah reservasi menjadi movement, cancel melepas reservasi, dan return menambah stok hanya setelah barang diterima.</p>
+          <pre><code>available Bali = warehousestock on-hand
+                 − reservasi Jubelio aktif
+                 − reservasi Web Sales aktif
+                 − safety stock operasional
+
+Target akhir pilot:
+allocationPercent = 100%
+safety / buffer   = 0</code></pre>
+          <h3>Mengapa Web Sales tidak boleh selalu mengirim adjustment <code>-qty</code></h3>
+          <p>Setiap event Web Sales memang harus memicu sinkronisasi ke Jubelio, tetapi aksinya adalah <strong>recalculate target lalu reconcile</strong>. Delta buta pada setiap tahap akan mengurangi stok dua kali.</p>
+          <table>
+            <thead><tr><th>Event Web Sales</th><th>StockWizz</th><th>Jubelio reconciliation</th></tr></thead>
+            <tbody>
+              <tr><td>Paid / confirmed</td><td>Buat reservation Bali</td><td>Target turun sesuai active Web reservation</td></tr>
+              <tr><td>Packed</td><td>Pertahankan reservation</td><td>Biasanya delta nol</td></tr>
+              <tr><td>Shipped / stock-effective</td><td>On-hand turun dan reservation dikonsumsi</td><td>Target biasanya tetap; tidak ada pengurangan kedua</td></tr>
+              <tr><td>Cancel sebelum shipped</td><td>Lepaskan reservation</td><td>Target naik</td></tr>
+              <tr><td>Return diterima</td><td>On-hand naik</td><td>Target naik</td></tr>
+            </tbody>
+          </table>
+          <div class="callout info"><strong>Contoh satu unit</strong>Awal: on-hand 100, reservation 0, target Jubelio 100. Saat Web Sales paid: reservation 1, target 99. Saat shipped: on-hand 99 dan reservation 0, target tetap 99. Tidak ada adjustment kedua.</div>
+          <p>Untuk Jubelio-origin order, reservation milik marketplace jangan dikurangi lagi bila Jubelio sudah memperhitungkannya. Pada stock-effective status, StockWizz mengurangi warehouse satu kali lalu membandingkan target dengan observed on-hand Jubelio. Adjustment hanya sebesar selisih.</p>
+          <h3>Refill</h3>
+          <p>Refill tetap berasal dari StockWizz menuju Jubelio seperti implementasi yang sudah tersedia. Setiap refill harus masuk warehouse ledger lebih dahulu, dikirim ke Jubelio location yang dipetakan, lalu direkonsiliasi. Retry menggunakan key stabil dan menyimpan hasil terakhir agar keberhasilan yang responsnya terlambat tidak dikirim ulang sebagai delta baru.</p>
+        </section>
+
+        <section id="dc-sales">
+          <div class="section-head"><div class="section-no">08 · Product finding</div><h2>Mengapa Sales tampil di semua DC</h2></div>
+          <div class="callout danger"><strong>Confirmed bug</strong><code>buildWebSalesDcQuery</code> tidak memasukkan filter <code>_fulfillment_warehouse_id</code>. Endpoint memang menerima warehouse dari URL, tetapi query daftar dan CSV tetap mengambil semua <code>websales</code>.</div>
+          <p>Ada dua masalah: query global membuat semua status tampil di semua DC; selain itu, desain lama mengizinkan order <code>new</code> yang belum di-claim terlihat di semua DC. Keduanya bertentangan dengan keputusan bahwa Web Sales hanya dipenuhi Bali pada Phase 1.</p>
+          <table>
+            <thead><tr><th>Lokasi</th><th>Perilaku target</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Bali Ecommerce DC</strong></td><td>Menampilkan Web Sales dan Jubelio yang secara eksplisit ditugaskan ke Bali.</td></tr>
+              <tr><td><strong>Padang Galak DC</strong></td><td>Tidak menampilkan Web Sales Bali. Sales kosong atau tab disembunyikan selama berfungsi supply-only.</td></tr>
+              <tr><td><strong>DC lain</strong></td><td>Hanya order yang ditugaskan secara eksplisit ke warehouse tersebut.</td></tr>
+              <tr><td><strong>Unassigned</strong></td><td>Masuk Integration Exceptions / admin queue, bukan tampil sebagai sale pada semua DC.</td></tr>
+            </tbody>
+          </table>
+          <pre><code>Daftar dan CSV harus memakai aturan yang sama:
+_fulfillment_warehouse_id == warehouseId halaman</code></pre>
+          <p>Web Sales lama tanpa assignment perlu di-backfill ke Bali atau memakai fallback terkontrol berdasarkan website dan cutoff. Membiarkan semua DC mengklaim order tersebut menyembunyikan ownership dan memungkinkan pengurangan stok dari lokasi yang salah.</p>
+        </section>
+
+        <section id="cutover">
+          <div class="section-head"><div class="section-no">09 · Pilot stages</div><h2>Rencana bertahap 5–26 Oktober 2026</h2></div>
+          <div class="timeline">
+            <div class="event"><div class="event-dot"></div><time>Senin, 5 Oct</time><div><h4>Jubelio Order ID wajib</h4><p>Semua manual sale Jubelio di Retail Bali wajib mempunyai ID yang valid dan unik. Ini menjadi bridge antara transaksi legacy dan event shadow.</p></div></div>
+            <div class="event"><div class="event-dot"></div><time>Senin, 5 Oct</time><div><h4>Webhook shadow mode dimulai</h4><p>Verifikasi signature, simpan raw event, jalankan matching dan metrics; jangan membuat transaksi aktif atau mengubah stok/status operasional.</p></div></div>
+            <div class="event"><div class="event-dot"></div><time>5–11 Oct</time><div><h4>Rehearsal dan reconciliation</h4><p>Cocokkan order, periksa duplicate/missing/out-of-order, validasi status stock-effective, uji SKU/bundle, dan siapkan warehouse Bali.</p></div></div>
+            <div class="event"><div class="event-dot"></div><time>Senin, 12 Oct</time><div><h4>Rehearsal dan technical gate</h4><p>Simulasikan cutover end-to-end, review Bali Pilot Control &amp; Acceptance Matrix, tutup temuan kritis, dan tetapkan keputusan conditional go/no-go.</p></div></div>
+            <div class="event"><div class="event-dot"></div><time>13–16 Oct</time><div><h4>Fix, retest, dan final go/no-go</h4><p>Uji concurrent last-unit, duplicate/retry, out-of-order, cancellation, return, dan reconciliation. Final go/no-go dilakukan 16 Oktober.</p></div></div>
+            <div class="event"><div class="event-dot"></div><time>Senin, 19 Oct</time><div><h4>Selected-SKU live pilot</h4><p>Hanya SKU yang disetujui masuk ke flow baru <code>websales</code> dan Bali DC. SKU di luar pilot tetap menggunakan jalur legacy sampai diperluas secara resmi.</p></div></div>
+            <div class="event"><div class="event-dot"></div><time>19–25 Oct</time><div><h4>Stabilisasi live</h4><p>Reconciliation harian, monitoring exceptions, dan pembuktian bahwa Web serta Marketplace tidak dapat commit unit fisik yang sama.</p></div></div>
+            <div class="event"><div class="event-dot"></div><time>Senin, 26 Oct</time><div><h4>Expansion review</h4><p>Evaluasi perluasan SKU dan pengurangan buffer/allocation bertahap. Bali Ecommerce Shop belum diretire sampai hasil pilot stabil.</p></div></div>
+          </div>
+
+          <h3>Pembagian per pilot</h3>
+          <table>
+            <thead><tr><th>Tahap</th><th>Scope</th><th>Stock impact</th><th>Gate untuk lanjut</th><th>Hasil</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Pilot 0 · Shadow</strong><br>5–11 Oct</td><td>Seluruh event Jubelio yang relevan; matching ke manual sale; canonical logging.</td><td>Tidak ada operational write atau movement.</td><td>Event dapat dimatch, duplicate dikenali, status order dapat diurutkan, dan stock-effective event teridentifikasi.</td><td>Shadow report dan kandidat selected SKU.</td></tr>
+              <tr><td><strong>Pilot 1 · Rehearsal</strong><br>12–16 Oct</td><td>Selected SKU pada sandbox atau simulasi terkontrol; seluruh skenario yang diminta Pak Michael.</td><td>Tidak mengubah stok production; gunakan expected movement dan reconciliation evidence.</td><td>Technical review matrix lulus; zero double deduction pada test; cancel/release dan retry tervalidasi.</td><td>Go/no-go dan runbook live.</td></tr>
+              <tr><td><strong>Pilot 2 · Live terbatas</strong><br>19–25 Oct</td><td>Kelompok SKU berisiko rendah yang disetujui; Bali Web dan Marketplace saja.</td><td>Live movement pada Bali warehouse untuk scope pilot; non-pilot tetap legacy.</td><td>Zero unexplained oversell; seluruh variance dapat dijelaskan; tidak ada movement ke DC lain.</td><td>Bukti live satu stock pool untuk selected SKU.</td></tr>
+              <tr><td><strong>Pilot 3 · Expansion</strong><br>Mulai 26 Oct</td><td>Perluasan SKU bertahap berdasarkan hasil Pilot 2.</td><td>Buffer diturunkan dan allocation menuju 100% hanya pada scope yang lulus.</td><td>Stabil melewati volume nyata dan minimal satu siklus cancel/return.</td><td>Kesiapan full Bali, lalu template rollout Jakarta.</td></tr>
+              <tr><td><strong>Fase 4 · Main DC / ATS</strong><br>Setelah Bali &amp; Jakarta</td><td>PG/Main DC, Retail/B2B priority, protected allocation, dan ATS final.</td><td>Ditentukan pada desain fase berikutnya.</td><td>Bali dan Jakarta sudah stabil.</td><td>One physical stock source lintas channel.</td></tr>
+            </tbody>
+          </table>
+
+          <h3>Bali Pilot Control &amp; Acceptance Matrix</h3>
+          <p>Matrix ini menjadi dokumen gate sebelum live pilot. Setiap baris wajib memiliki system of record, aturan commit/release, perilaku retry, movement yang diharapkan, dan bukti reconciliation.</p>
+          <table>
+            <thead><tr><th>Event / state</th><th>System of record</th><th>Commit / release</th><th>Expected movement</th><th>Idempotency / retry</th><th>Evidence</th></tr></thead>
+            <tbody>
+              <tr><td>Order created / paid</td><td>Jubelio untuk source event; StockWizz untuk operational reservation</td><td>Commit saat status bisnis yang disetujui tercapai</td><td>Buat reservation, belum mengurangi physical on-hand</td><td>Canonical order + line key; retry tidak membuat reservation kedua</td><td>Raw event, normalized status, reservation ledger</td></tr>
+              <tr><td>Packed / picked</td><td>StockWizz fulfillment</td><td>Reservation tetap aktif</td><td>Tidak stock-out bila Jubelio belum stock-effective</td><td>Repeated pack menghasilkan no-op</td><td>Pack event dan expected-versus-actual movement</td></tr>
+              <tr><td>Shipped / stock-effective</td><td>Jubelio status + StockWizz movement ledger</td><td>Reservation dikonsumsi</td><td>On-hand turun tepat satu kali</td><td>Stable sale-out key; duplicate/retry no-op</td><td>Before/after per SKU dan Jubelio observed on-hand</td></tr>
+              <tr><td>Cancel sebelum stock-out</td><td>Jubelio source status; StockWizz reservation</td><td>Release reservation</td><td>Tidak ada stock-in karena physical belum berkurang</td><td>Repeated cancel no-op</td><td>Release entry dan restored ATS</td></tr>
+              <tr><td>Cancel setelah stock-out</td><td>StockWizz exception/return process</td><td>Tidak otomatis release ke sellable</td><td>Tidak menambah stok sampai return diterima</td><td>Return reference unik</td><td>Exception, receipt, QA/released state</td></tr>
+              <tr><td>Return diterima</td><td>StockWizz warehouse ledger</td><td>Release ke sellable setelah barang diterima/disetujui</td><td>On-hand naik satu kali</td><td>Stable return movement key</td><td>Receiving record dan reconciliation result</td></tr>
+              <tr><td>Refill</td><td>StockWizz warehouse ledger</td><td>Availability bertambah setelah local movement</td><td>Recalculate desired Jubelio target</td><td>Stable target/version; safe retry</td><td>Local ledger, outbound request, observed result</td></tr>
+            </tbody>
+          </table>
+
+          <h3>Shadow mode yang diperlukan</h3>
+          <div class="grid grid-2">
+            <article class="card"><h4>Harus dilakukan</h4><ul><li>Verifikasi signature.</li><li>Simpan raw payload, received time, action, status, channel status, ID dan <code>created_at</code>.</li><li>Cocokkan dengan <code>shopsales.jubelioOrderId</code>.</li><li>Pakai unique event key.</li><li>Laporkan missing, duplicate, unmatched, dan urutan status.</li></ul></article>
+            <article class="card"><h4>Dilarang pada shadow</h4><ul><li>Tidak memanggil create/update operational order.</li><li>Tidak mengubah <code>websales</code> atau <code>shopsales</code>.</li><li>Tidak mengubah <code>shopstock</code>, <code>webstock</code>, atau <code>warehousestock</code>.</li><li>Tidak mengubah status operasional.</li></ul></article>
+          </div>
+          <div class="callout danger"><strong>Shadow mode belum ada pada kode yang ditinjau</strong><code>JUBELIO_WEBHOOK_LIGHT</code> tetap membuat atau memperbarui <code>websales</code>. Opsi <code>dryRun</code> hanya ada pada reconcile cron. Menyalakan webhook tanpa guard shadow dapat membuat dua representasi untuk order yang sama sebelum cutover.</div>
+
+          <h3>Aturan order lama dan baru</h3>
+          <p>Gunakan waktu order dibuat di Jubelio, bukan waktu webhook diterima. Timestamp live cutoff awal yang disarankan adalah <code>2026-10-19T00:00:00+08:00</code>, tetapi jam final dan daftar SKU pilot masih harus disepakati.</p>
+          <table>
+            <thead><tr><th>Kondisi</th><th>Perlakuan setelah cutover</th></tr></thead>
+            <tbody>
+              <tr><td>ID sudah terkait <code>websales</code> baru</td><td>Update idempotent; jangan buat record/movement kedua.</td></tr>
+              <tr><td>ID terkait manual <code>shopsales</code></td><td>Simpan status/audit pada legacy owner; jangan kurangi warehouse.</td></tr>
+              <tr><td>Tidak ditemukan, <code>created_at &lt; cutoff</code></td><td>Masuk exception queue; jangan auto-deduct.</td></tr>
+              <tr><td>Tidak ditemukan, <code>created_at ≥ cutoff</code></td><td>Buat <code>websales</code>, assign Bali DC, jalankan lifecycle baru.</td></tr>
+            </tbody>
+          </table>
+          <div class="callout info"><strong>Contoh penting</strong>Order dibuat 11 Oktober, diinput manual, lalu shipped 13 Oktober. Status shipped tetap diterima, tetapi order tetap milik <code>shopstock</code>. Tidak boleh ada stock-out baru pada <code>warehousestock</code>.</div>
+        </section>
+
+        <section id="reports">
+          <div class="section-head"><div class="section-no">10 · Reporting</div><h2>Data lama dan data baru tetap satu cerita</h2></div>
+          <p class="intro">Report gabungan harus membaca dua sumber tanpa memindahkan atau menggandakan histori. Ownership cutoff menentukan ledger utama; canonical Jubelio salesorder ID menentukan dedup.</p>
+          <pre><code>Pre-cutover  → shopsales Bali → inventory owner: shopstock
+Post-cutover → websales Bali  → inventory owner: warehousestock
+
+Unified Ecommerce Report
+  → normalize
+  → deduplicate by canonical salesorder ID
+  → satu order tampil satu kali</code></pre>
+          <h3>Field audit minimum</h3>
+          <p><code>canonicalOrderId</code>, <code>recordSource</code>, <code>inventoryOwner</code>, legacy/web sale ID, <code>orderCreatedAt</code>, <code>shippedAt</code>, last status time, channel, warehouse, raw Jubelio status, normalized StockWizz status, dan <code>cutoverClass</code>.</p>
+          <table>
+            <thead><tr><th>Jenis report</th><th>Dasar tanggal</th><th>Perlakuan legacy</th></tr></thead>
+            <tbody>
+              <tr><td>Order intake</td><td>Jubelio <code>orderCreatedAt</code></td><td>Order 11 Oct tetap masuk periode sebelum cutoff.</td></tr>
+              <tr><td>Daily shipped</td><td><code>shippedAt</code> / stock-effective event</td><td>Tampil pada tanggal shipment, satu row berlabel legacy.</td></tr>
+              <tr><td>Status audit</td><td>Timestamp setiap webhook event</td><td>Semua event tampil sebagai timeline.</td></tr>
+              <tr><td>Accounting sales</td><td>Tanggal pengakuan finance</td><td>Satu row; source legacy tetap dipertahankan.</td></tr>
+              <tr><td>Inventory movement</td><td>Timestamp ledger movement</td><td>Order lama menunjuk Shop Stock; order baru Warehouse Stock.</td></tr>
+              <tr><td>Stock balance</td><td>Snapshot + ledger per location</td><td>Jangan menjumlahkan tiga ledger seolah stok fisik berbeda.</td></tr>
+            </tbody>
+          </table>
+          <p><span class="badge confirmed">Current gap</span> Export e-commerce saat ini menggabungkan <code>websales</code> dan <code>shopsales</code> dengan concat dan sort. Belum ada cutoff ownership atau canonical dedup.</p>
+          <div class="grid grid-3">
+            <article class="card"><h3>Bali Ecommerce Orders</h3><p>Unified view lintas cutoff untuk pencarian, audit, dan accounting.</p></article>
+            <article class="card"><h3>Bali DC Active Sales</h3><p>Hanya pekerjaan <code>dc_websales</code> sesudah cutoff yang ditugaskan ke Bali.</p></article>
+            <article class="card"><h3>Integration Exceptions</h3><p>Missing ID, duplicate, unmatched legacy, webhook gap, out-of-order, dan stock mismatch.</p></article>
+          </div>
+        </section>
+
+        <section id="implementation">
+          <div class="section-head"><div class="section-no">11 · Delivery</div><h2>Langkah implementasi paling aman</h2></div>
+          <ol class="risk-list">
+            <li><strong>Kunci scope Bali.</strong> Tetapkan satu warehouse Bali, Jubelio location, website, channel/store, dan cutoff. Routing, geo refine, rematch, claim, pack, dan ship harus menolak warehouse di luar allowlist pilot.</li>
+            <li><strong>Siapkan ID dan shadow mode sebelum 5 Oktober.</strong> Jadikan Jubelio Order ID wajib serta unik untuk manual sale Bali; simpan raw webhook tanpa operational writes; buat dashboard matching harian.</li>
+            <li><strong>Perbaiki ownership UI.</strong> Filter list dan CSV dengan warehouse. Backfill Web Sales unassigned ke Bali. Sembunyikan Sales Padang Galak bila tetap supply-only.</li>
+            <li><strong>Bangun lifecycle status yang aman.</strong> Mapping raw → normalized, append-only history, sequence/timestamp guard, stock-effective flag, serta aturan cancel/return.</li>
+            <li><strong>Tambahkan reservation dan idempotent movement.</strong> Gunakan key stabil per order/item/action dan transaksi atau recovery mechanism agar stock, history, status, dan marker tidak terpisah.</li>
+            <li><strong>Migrasikan saldo sekali.</strong> Rehearsal pada salinan data; cocokkan SKU, transfer, pending orders, dan physical count. Snapshot sebelum cutover. Setelah movement baru berjalan, jangan recopy snapshot Shop Stock.</li>
+            <li><strong>Aktifkan intake post-cutoff.</strong> Manual input berhenti untuk order baru. Legacy update tetap diterima tanpa warehouse deduction. Semua unknown pre-cutoff masuk exceptions.</li>
+            <li><strong>Satukan Web Sales.</strong> Mapping website → Bali warehouse, satu reservation ledger, dan reconciliation untuk semua event yang mengubah sellable stock.</li>
+            <li><strong>Stabilkan, lalu hapus buffer/allocation.</strong> Ubah allocation ke 100% untuk compatibility, observasi, turunkan buffer, lalu hapus field setelah seluruh pembaca berhenti memakainya.</li>
+            <li><strong>Rollout Jakarta setelah exit criteria Bali lulus.</strong> Ulangi snapshot, scope, cutover, dedup, dan reconciliation. Routing multi-DC tetap fase berikutnya.</li>
+          </ol>
+
+          <h3>Urutan go-live selected-SKU pada 19 Oktober</h3>
+          <table>
+            <thead><tr><th>Urutan</th><th>Aksi</th><th>Bukti selesai</th></tr></thead>
+            <tbody>
+              <tr><td>1</td><td>Freeze singkat input baru dan ambil snapshot</td><td>Saldo fisik, Shop/Web/Warehouse, pending order dan transfer tersimpan</td></tr>
+              <tr><td>2</td><td>Final reconciliation legacy mapping</td><td>Semua active pre-cutoff order memiliki canonical Jubelio ID atau exception owner</td></tr>
+              <tr><td>3</td><td>Aktifkan create mode post-cutoff</td><td>Test order masuk sebagai <code>websales</code> Bali saja</td></tr>
+              <tr><td>4</td><td>Nonaktifkan manual create untuk order baru</td><td>Retail Bali menolak duplicate/post-cutoff Jubelio ID</td></tr>
+              <tr><td>5</td><td>Validasi lifecycle + stock event</td><td>Satu order, satu movement, satu history yang lengkap</td></tr>
+              <tr><td>6</td><td>Unfreeze dengan monitoring ketat</td><td>Exceptions, status lag, dan stock mismatch dipantau per SKU</td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="acceptance">
+          <div class="section-head"><div class="section-no">12 · Outcome</div><h2>Hasil yang diharapkan dan kriteria kelulusan</h2></div>
+          <div class="grid grid-2">
+            <article class="card"><h3>Hasil operasional</h3><ul class="checklist"><li>Operator tidak menginput order Jubelio baru dua kali.</li><li>Bali melihat pekerjaan yang memang milik Bali.</li><li>Padang Galak tidak lagi terlihat mempunyai Web Sales.</li><li>Order lama tetap dapat ditelusuri sampai selesai.</li><li>Exceptions memiliki owner dan tindakan jelas.</li></ul></article>
+            <article class="card"><h3>Hasil inventory</h3><ul class="checklist"><li>Satu order menghasilkan satu movement yang benar.</li><li>Opening + movement menjelaskan closing per SKU.</li><li>Jubelio dan StockWizz balance pada target sellable.</li><li>Web Sales tidak menyebabkan double adjustment.</li><li>Refill dan retry dapat diaudit.</li></ul></article>
+          </div>
+          <h3>Test matrix minimum</h3>
+          <p>Duplicate dan out-of-order webhook; missing webhook dan recovery cron; order bersamaan; crash di tengah multi-item movement; cancel sebelum dan sesudah stock-out; refund sesudah ship; return fisik; SKU unmapped; bundle, gift, dan rematch; stok kosong; Web Sales bersamaan dengan marketplace; kegagalan API Jubelio; retry dengan respons sebelumnya tidak diketahui; dan verifikasi tidak ada perubahan stok Jakarta.</p>
+          <div class="callout"><strong>Exit criteria Bali</strong>Semua order sumber dapat dipetakan ke satu canonical record; status yang hilang dapat dipulihkan; tidak ada unexplained mismatch per SKU; tidak ada movement ke DC lain; tidak ada error sinkron tertinggal tanpa retry/owner; dan observasi mencakup periode sibuk serta setidaknya satu siklus cancel/return.</div>
+        </section>
+
+        <section id="risks">
+          <div class="section-head"><div class="section-no">13 · Risks</div><h2>Risiko yang harus ditutup</h2></div>
+          <table>
+            <thead><tr><th>Prioritas</th><th>Risiko</th><th>Dampak</th></tr></thead>
+            <tbody>
+              <tr><td><span class="badge gap">Critical</span></td><td>Routing dapat memilih semua DC; channel warehouse hanya fallback.</td><td>Pilot Bali menyentuh Padang Galak/Jakarta/Pulogadung.</td></tr>
+              <tr><td><span class="badge gap">Critical</span></td><td>Validasi, movement, history, status, dan marker adalah operasi terpisah.</td><td>Double deduction atau partial movement saat request bersamaan/crash.</td></tr>
+              <tr><td><span class="badge gap">Critical</span></td><td>Webhook shadow belum ada; field manual ID belum wajib/unik.</td><td>Dua representasi order sebelum cutover.</td></tr>
+              <tr><td><span class="badge gap">High</span></td><td>Web Sales belum memicu Jubelio sync dan belum memakai reservation bersama.</td><td>Oversell atau mismatch setelah buffer dilepas.</td></tr>
+              <tr><td><span class="badge gap">High</span></td><td>Stock push terjadi setelah local commit dan belum mempunyai outbox durable.</td><td>Local success, external failure, lalu retry berpotensi salah.</td></tr>
+              <tr><td><span class="badge gap">High</span></td><td>Reconcile cron melewati existing order.</td><td>Missing status tidak dipulihkan.</td></tr>
+              <tr><td><span class="badge proposed">Verify</span></td><td>Bundle/component/gift dan stored sale lines dapat memakai SKU berbeda.</td><td>SKU fisik tidak tersinkron atau dihitung dua kali.</td></tr>
+              <tr><td><span class="badge proposed">Verify</span></td><td>Legacy stock cron dan migration rerun dapat menulis ulang saldo lama.</td><td>Warehouse kembali ke snapshot yang sudah usang.</td></tr>
+            </tbody>
+          </table>
+          <h3>Rollback</h3>
+          <p>Sebelum movement DC baru berjalan, snapshot dapat dipakai sebagai dasar pemulihan. Setelah ada movement post-cutover, jangan menimpa ledger dengan Shop Stock lama. Hentikan intake pada scope bermasalah, rekonsiliasi movement setelah cutoff, lalu buat reversal atau correction yang tercatat.</p>
+        </section>
+
+        <section id="technical">
+          <div class="section-head"><div class="section-no">14 · Change map</div><h2>Titik perubahan minimum</h2></div>
+          <table>
+            <thead><tr><th>Area</th><th>Komponen utama</th><th>Perubahan terarah</th></tr></thead>
+            <tbody>
+              <tr><td>Migrasi &amp; klasifikasi</td><td><code>migrateDcShopstockToWarehouseLedger.js</code><br><code>operationalLocations.js</code></td><td>Batasi seluruh fase ke Bali; cegah recopy sesudah cutover; Bali pindah ke DC, Jakarta tetap current state.</td></tr>
+              <tr><td>Routing</td><td><code>jubelioFulfillment.js</code><br><code>jubelio.js</code><br><code>web/sales.js</code></td><td>Allowlist pilot, locked assignment, guard pada geo refine/claim/pack/ship.</td></tr>
+              <tr><td>Inventory</td><td><code>web/sales.js</code><br><code>stock.js</code><br><code>warehouseStock.js</code></td><td>Reservation bersama, idempotent movement, transaksi/recovery, server state guards.</td></tr>
+              <tr><td>Website</td><td><code>orders.js</code> dan availability readers</td><td>Sumber stok dari Bali warehouse tanpa menghilangkan payment, voucher, points, dan receipt.</td></tr>
+              <tr><td>Sinkronisasi</td><td>Kedua <code>jubelioStockSync.js</code></td><td>Trigger semua channel, desired-state reconciliation, outbox/retry, per-SKU serialization.</td></tr>
+              <tr><td>Audit &amp; recovery</td><td>Webhook/reconcile <code>jubelio.js</code><br>status-history helper</td><td>Shadow mode, inbound history, order sequence, repair existing orders.</td></tr>
+              <tr><td>Reporting</td><td>E-commerce export, daily revenue, DC list/CSV</td><td>Ownership cutoff, canonical dedup, filter warehouse, exception view.</td></tr>
+              <tr><td>Legacy control</td><td>Retail checkout, Shopee webhook, old cron</td><td>Wajib/unik Jubelio ID, single writer, disable overlap, audit active schedules.</td></tr>
+            </tbody>
+          </table>
+          <h3>Referensi kode utama</h3>
+          <ul>
+            <li><code>sensatia-web-api/helpers/jubelio.js</code> — webhook create/update, routing metadata, cancel, reconciliation.</li>
+            <li><code>sensatia-web-api/helpers/jubelioFulfillment.js</code> — channel matching dan pemilihan warehouse.</li>
+            <li><code>sensatia-web-api/helpers/jubelioStockSync.js</code> — calculation dan adjustment Jubelio.</li>
+            <li><code>sensatia-web-api/helpers/orders.js</code> — website order, webstock, dan Jubelio-source branch.</li>
+            <li><code>sensatia-stockwiz-app/server/helpers/web/sales.js</code> — DC list, claim, pack, ship, cancel, CSV.</li>
+            <li><code>sensatia-stockwiz-app/server/helpers/shop/shopSales.js</code> — manual Retail sale dan Shop Stock.</li>
+            <li><code>sensatia-stockwiz-app/server/helpers/cronjobs/migrateDcShopstockToWarehouseLedger.js</code> — migration capability.</li>
+          </ul>
+        </section>
+
+        <section id="blockers">
+          <div class="section-head"><div class="section-no">15 · Blockers</div><h2>Blocker sebelum pilot dinyalakan</h2></div>
+          <ol class="risk-list">
+            <li><strong>Jam cutoff dan daftar selected SKU belum disepakati.</strong> Target live direkomendasikan 19 Oktober, tetapi jam WITA, SKU, channel, dan batas order yang masuk pilot harus dikunci.</li>
+            <li><strong>Shadow mode belum tersedia.</strong> Ini wajib selesai sebelum rencana start 5 Oktober; mode light/dry-run yang ada tidak memenuhi definisi shadow.</li>
+            <li><strong>Status stock-effective Jubelio belum terbukti.</strong> Perlu payload nyata dan observasi perubahan on-hand per location di sandbox.</li>
+            <li><strong>Identitas Bali belum final end-to-end.</strong> Shop ID, warehouse ID, website, channel/store, dan Jubelio location harus menjadi satu mapping yang eksplisit. Scope Nusa Dua legacy juga perlu diputuskan.</li>
+            <li><strong>DC Sales belum terisolasi.</strong> Query daftar dan CSV global harus diperbaiki; order unassigned lama harus di-backfill ke Bali atau exception.</li>
+            <li><strong>Reservation bersama dan Web Sales reconciliation belum ada.</strong> Buffer tidak aman dihapus sebelum keduanya berfungsi.</li>
+            <li><strong>Idempotency movement dan durable retry belum cukup.</strong> Pack/ship bersamaan, partial failure, dan unknown external response harus mempunyai recovery yang teruji.</li>
+            <li><strong>Runtime production belum diaudit.</strong> Commit terpasang, webhook secret, unique indexes, active schedulers, legacy Shopee/Tokopedia webhook, dan konfigurasi environment belum dikonfirmasi.</li>
+            <li><strong>Opening balance belum disepakati.</strong> Perlu snapshot serta physical count per SKU; <code>shopstock</code>, <code>webstock</code>, dan <code>warehousestock</code> tidak boleh langsung dijumlahkan.</li>
+            <li><strong>Owner dan threshold operasional belum ditetapkan.</strong> Siapa menangani exception, batas mismatch, SLA retry, durasi observasi, dan kondisi rollback harus tercatat sebelum go-live.</li>
+          </ol>
+        </section>
+
+        <section id="recommendations">
+          <div class="section-head"><div class="section-no">16 · Recommendation</div><h2>Saran saya</h2></div>
+          <div class="callout"><strong>Gunakan 12 Oktober sebagai rehearsal gate dan 19 Oktober sebagai selected-SKU ownership cutoff.</strong>Order atau SKU di luar pilot tetap hidup pada ledger legacy; order selected SKU setelah cutoff dimiliki Bali warehouse. Ini menjaga lifecycle lama sekaligus membatasi blast radius.</div>
+          <ol class="risk-list">
+            <li><strong>Jangan paksa start shadow pada 5 Oktober bila mode-nya belum benar.</strong> Lebih baik mundurkan shadow beberapa jam/hari daripada menjalankan webhook yang diam-diam menulis <code>websales</code> dan menciptakan duplikasi. Bila bukti shadow tidak cukup pada 16 Oktober, live pilot 19 Oktober ikut bergeser.</li>
+            <li><strong>Bekukan scope teknis Phase 1 pada Bali-only.</strong> Matikan proximity rerouting untuk pilot. Padang Galak tetap supply-only dan Jakarta tidak disentuh.</li>
+            <li><strong>Jadikan canonical Jubelio salesorder ID sebagai tulang punggung.</strong> ID tersebut menghubungkan manual sale, shadow event, post-cutover sale, report, dedup, dan reconciliation.</li>
+            <li><strong>Selaraskan stock-effective event berdasarkan bukti sandbox.</strong> Catat status, on-hand sebelum/sesudah, warehouse location, dan timing. Baru setelah itu pilih transisi yang memicu warehouse movement.</li>
+            <li><strong>Perbaiki DC Sales lebih awal.</strong> Ini quick win dengan dampak operasional besar: menghilangkan kebingungan, mencegah claim salah, dan membuat ownership terlihat jelas sebelum pilot.</li>
+            <li><strong>Pakai desired-state reconciliation untuk seluruh kanal.</strong> Web Sales memicu recalculation, bukan delta buta. Tambahkan reservation ledger dan outbox/retry sebelum buffer nol.</li>
+            <li><strong>Turunkan buffer bertahap setelah observasi.</strong> Allocation dapat dibuat 100% lebih dahulu untuk compatibility. Buffer baru menjadi nol setelah mismatch stabil, retry terbukti, dan satu siklus cancel/return selesai.</li>
+            <li><strong>Buat dashboard pilot harian.</strong> Tampilkan intake count, unmatched/duplicate, status lag, stock mismatch per SKU, failed sync, dan pending exceptions dengan owner.</li>
+            <li><strong>Dokumentasikan keputusan cutover satu halaman.</strong> Cantumkan timestamp, mapping IDs, order ownership rule, siapa menekan go/no-go, siapa menjalankan rollback, dan channel komunikasi operasi.</li>
+            <li><strong>Rollout Jakarta hanya dengan template Bali yang sudah lulus.</strong> Copy guard, checklist, dashboard, dan rehearsal; jangan sekaligus memperluas routing nasional.</li>
+          </ol>
+          <div class="card" style="background:#171717;color:#fff;border-color:#171717;margin-top:32px">
+            <p class="eyebrow" style="color:#aaa9a2">Recommended decision</p>
+            <h3 style="font-size:32px">Go untuk shadow dan rehearsal. Selected-SKU live pada 19 Oktober hanya setelah matrix dan critical gate lulus.</h3>
+            <p style="color:#d4d3cd">Fondasi yang ada layak dipakai ulang. Mengaktifkan konfigurasi atau menjalankan migration script saat ini belum cukup untuk menjamin Bali-only routing, status penuh, satu inventory pool, dan penghapusan buffer yang aman.</p>
+          </div>
+        </section>
+
+        <footer class="footer-note">
+          <p><strong>Catatan.</strong> Dokumen ini adalah hasil review arsitektur dan perencanaan. Tidak ada kode StockWizz, database, webhook, scheduler, atau konfigurasi production yang diubah. Branding menggunakan identitas visual Sensatia setelah pembaruan brand 2025. Logo digunakan untuk dokumen internal sesuai permintaan.</p>
+          <p>Prepared 2 Oktober 2026 · Bali / WITA · StockWizz × Jubelio Phase 1</p>
+        </footer>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

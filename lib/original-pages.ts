@@ -44,6 +44,8 @@ const sourceFiles: Record<string, string> = {
   "stockwiz-future-strategy-options": "2026-09-11-batch-01/stockwiz-future-strategy-options.html",
   "stockwiz-option-3-implementation-blueprint": "2026-09-11-batch-01/stockwiz-option-3-implementation-blueprint.html",
   "stockwiz-stabilization-remediation-playbook": "2026-09-11-batch-01/stockwiz-stabilization-remediation-playbook.html",
+  "stockwizz-jubelio-bali-pilot-flow": "2026-10-02-batch-14/stockwizz_jubelio_bali_pilot_flow.html",
+  "stockwizz-jubelio-bali-phase-1-plan": "2026-10-02-batch-14/stockwizz_jubelio_bali_phase_1_plan.html",
   "stockwizz-retail-performance-management-blueprint": "2026-09-28-batch-12/sensatia_perancangan_kinerja_retail.html",
   "stockwizz-putu-mei-assessment": "2026-09-14-batch-02/stockwizz_putu_mei_assessment.html",
 };
